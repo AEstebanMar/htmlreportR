@@ -21,10 +21,13 @@
 #' @export
 
 row_to_header <- function(df, row = 1, update_rows = TRUE) {
+	if (row < 1 || row > nrow(df)) {
+		stop("row is out of bounds")
+	}
 	colnames(df) <- df[row, ]
 	res <- df[-row, ]
 	if (update_rows) {
-		rownames(res) <- 1:nrow(res)
+		rownames(res) <- seq(1, nrow(res))
 	}
 	return(res)
 }
