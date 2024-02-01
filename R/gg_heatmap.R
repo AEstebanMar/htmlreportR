@@ -2,9 +2,9 @@
 #' element_blank element_text scale_fill_gradient2 geom_text
 #' Function to draw heatmap, filling with provided parameter
 #' 
-#' `parse_column_names` takes an input data frame and creates a heatmap
+#' `parse_column_names` takes an input input_table frame and creates a heatmap
 #' between two of its columns, filling blocks with provided parameter.
-#' @param data Table containing input data.
+#' @param input_table Table containing input input_table.
 #' @param x_axis,y_axis Names of columns to use for x and y axes.
 #' @param fill A string. Parameter with which the heatmap will be drawn.
 #' Default: "Freq", for "frequency".
@@ -25,7 +25,7 @@
 #' @examples
 #' none yet
 #' @export
-gg_heatmap <- function(data,
+gg_heatmap <- function(input_table,
                        x_axis = "x_axis",
                        y_axis= "y_axis",
                        fill = "Freq",
@@ -41,15 +41,14 @@ gg_heatmap <- function(data,
                        na_col = "grey50"){
 
     if(transpose){
-      data <- t(data)
+      input_table <- t(input_table)
     }
-    if(!all(c(x_axis, y_axis, fill) %in% colnames(data))){
-      data <- reshape2::melt(as.matrix(data))
-      colnames(data) <- c(x_axis, y_axis, fill)
+    if(!all(c(x_axis, y_axis, fill) %in% colnames(input_table))){
+      input_table <- reshape2::melt(as.matrix(input_table)) 
+      colnames(input_table) <- c(x_axis, y_axis, fill)
     }
-    str(data)
-    pp <- ggplot2::ggplot(data, ggplot2::aes_(x = as.name(x_axis), 
-          y = as.name(y_axis), fill = as.name(fill))) +
+    pp <- ggplot2::ggplot(input_table, ggplot2::aes(x = .data[[x_axis]] , 
+          y = .data[[y_axis]], fill = .data[[fill]] )) +
     ggplot2::geom_tile(show.legend = TRUE) +
     ggplot2::theme_minimal() +
     ggplot2::theme(panel.grid.major = ggplot2::element_blank())+
