@@ -1,10 +1,10 @@
 Package: htmlreportR
-Title: What the Package Does (One Line, Title Case)
+Title: HTML reporting toolkit
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    person("Alvaro", "Esteban-Martos", , "alvaroesteban@uma.es", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-9791-7779"))
+Description: This package is a compilation of HTML reporting and R plotting functions developed in our lab. Distributing them in a package form ensures minimal redundancy and maximum versatility.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
