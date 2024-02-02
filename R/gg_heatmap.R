@@ -1,14 +1,13 @@
-#' @importFrom ggplot2 ggplot aes_string geom_tile theme_minimal theme 
-#' element_blank element_text scale_fill_gradient2 geom_text
 #' Function to draw heatmap, filling with provided parameter
 #' 
-#' `parse_column_names` takes an input input_table frame and creates a heatmap
+#' `gg_heatmap` takes a table (preferably in tidy format) and creates a heatmap
 #' between two of its columns, filling blocks with provided parameter.
 #' @param input_table Table containing input input_table.
 #' @param x_axis,y_axis Names of columns to use for x and y axes.
 #' @param fill A string. Parameter with which the heatmap will be drawn.
 #' Default: "Freq", for "frequency".
-#' @param text_plot Text to fill heatmap cells
+#' @param text_plot A string. Name of input_table column with text to
+#' fill heatmap cells.
 #' @param text_size A numeric. Font size of text_plot.
 #' @param text_colour A string. Font colour of text_plot.
 #' @param xlabel,ylabel Booleans.
@@ -25,6 +24,9 @@
 #' @examples
 #' none yet
 #' @export
+#' @importFrom ggplot2 ggplot aes_string geom_tile theme_minimal theme 
+#' element_blank element_text scale_fill_gradient2 geom_text
+
 gg_heatmap <- function(input_table,
                        x_axis = "x_axis",
                        y_axis= "y_axis",
@@ -70,7 +72,7 @@ gg_heatmap <- function(input_table,
       pp <- pp + ggplot2::theme(axis.title.y = ggplot2::element_blank())
     }
     if(!is.null(text_plot)){
-      pp <- pp + ggplot2::geom_text(ggplot2::aes(label=as.name(text_plot)), 
+      pp <- pp + ggplot2::geom_text(mapping = ggplot2::aes(label=.data[[text_plot]]), data = input_table, 
         colour = text_colour, size = text_size) 
     }
     return(pp)
