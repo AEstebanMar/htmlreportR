@@ -1,17 +1,34 @@
 #! /usr/bin/env Rscript
 
+options(warn=1)
+if( Sys.getenv('HTMLREPORTER_MODE') == 'DEVELOPMENT' ){
+  # Obtain this script directory
+  full.fpath <- normalizePath(unlist(strsplit(commandArgs()[grep('^--file=', 
+                  commandArgs())], '='))[2])
+
+  main_path_script <- dirname(full.fpath)
+  root_path <- file.path(main_path_script, '..', '..')
+  # Load custom libraries
+  devtools::load_all(file.path(root_path, 'R'))
+
+  template_folder <- file.path(root_path, 'inst', 'templates')
+}else{
+  require('htmlreportR')
+}
+
+
 
 option_list <- list(
-  optparse::make_option(c("-i", "--input_tables"), type="character", default=NULL,
-    help="Tab-separated tables to read as input. Files must by comma-separated.
-    	  Tables must have a header"),
+  optparse::make_option(c("-d", "--data_files"), type="character", default=NULL,
+    help="Comma sepparated text files with data to use on graphs or tables within report"),
     optparse::make_option(c("-t", "--template"), type="character", default=NULL,
-    help="Rmarkdown template to render"),
- optparse::make_option(c("-o", "--output_dir"), type="character", default=NULL,
-    help="Directory where provided template will be rendered")
+    help="Report template"),
+ optparse::make_option(c("-o", "--output_file"), type="character", default=NULL,
+    help="HTML file path to render the template"),
+ optparse::make_option(c("--title"), type="character", default="htmlreportR",
+    help="Title of the html report")
   )
 
 opt <- optparse::parse_args(optparse::OptionParser(option_list=option_list))
 
-table_list <- strsplit(opt$input_tables, ",")[[1]]
-data <- lapply(table_list, read.table, header = FALSE)
+main_htmlreportR(opt)

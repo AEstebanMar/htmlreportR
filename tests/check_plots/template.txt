@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HTMLreportR template example</title>
+</head>
+<body>
+
+<h1>gg_heatmap ouput example</h1>
+<!--begin.rcode  echo = FALSE, results='hide', warning = FALSE, error = FALSE
+var <- "test oneliner R code"
+
+
+
+data[["data_toc_sample.txt"]] <- build_header(data[["data_toc_sample.txt"]])
+data[["data_toc_sample.txt"]] <- as_numeric_if(data[["data_toc_sample.txt"]])
+log_df_non_inf <- function(df){
+	log(df + 1)
+}
+
+png(file.path(tmp_dir, "test.png"))
+ gg_heatmap(data[["data_toc_sample.txt"]][,1:5], transform_f = log_df_non_inf)
+
+dev.off()
+
+
+end.rcode-->
+<img src=
+<!--begin.rcode  echo = FALSE, results='asis', warning = FALSE, error = FALSE
+cat(paste0('"',knitr::image_uri(file.path(tmp_dir, "test.png")),'"' ))
+end.rcode-->
+>
+
+
+
+
+
+
+
+
+<!--begin.rcode  echo = FALSE, results='hide', warning = FALSE, error = FALSE
+
+png(file.path(tmp_dir, "test.png"))
+ gg_heatmap(data[["data_toc_sample.txt"]][,1:5], transform_f = log_df_non_inf)
+ last_plot <- recordPlot()
+dev.off()
+
+plot_raw <- serialize(last_plot, NULL)
+plot_to_paste <- base64enc::base64encode(plot_raw)
+
+end.rcode-->
+
+<img src=
+<!--begin.rcode  echo = FALSE, results='asis', warning = FALSE, error = FALSE
+cat(paste0('"data:image/png;base64,',plot_to_paste,'"' ))
+end.rcode-->
+>
+
+
+
+
+</body>

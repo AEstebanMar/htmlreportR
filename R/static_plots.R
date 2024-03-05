@@ -15,9 +15,6 @@
 #'   * `FALSE`:              Axes will NOT be labeled in plot.
 #' @param x_angle A numeric. x axis label angle.
 #' @param dendro Print dendrogram. Unused.
-#' @param transpose A boolean.
-#'   * `TRUE`:                Input will be transposed.
-#'   * `FALSE` (the default): Input will NOT be transposed.
 #' @param col A vector of colour code strings.
 #' @param na_col A vector of colour code strings.
 #' @returns A heatmap.
@@ -38,13 +35,14 @@ gg_heatmap <- function(input_table,
                        ylabel = TRUE,
                        x_angle = 25,
                      #  dendro = NULL,
-                       transpose = FALSE,
+                       transform_f = NULL,
                        col = c("#0000D5","#FFFFFF","#D50000"),
                        na_col = "grey50"){
 
-    if(transpose){
-      input_table <- t(input_table)
+    if(!is.null(transform_f)){
+      input_table <- transform_f(input_table)
     }
+
     if(!all(c(x_axis, y_axis, fill) %in% colnames(input_table))){
       input_table <- reshape2::melt(as.matrix(input_table)) 
       colnames(input_table) <- c(x_axis, y_axis, fill)
