@@ -13,9 +13,12 @@ main_htmlreportR <- function(options){
 	tmp_dir <- file.path(dirname(output_file), "tmp")
 	dir.create(tmp_dir)
 
-	html_report <- new("htmlReport", title = options$title, hash_vars = data_files, tmp_dir = tmp_dir)
+	html_report <- new("htmlReport", 
+		title = options$title, 
+		hash_vars = data_files, 
+		tmp_dir = tmp_dir)
 
 	html_report <- build(html_report, options$template)
-	write(html_report, output_file)
+	write_report(html_report, output_file)
 
 }
