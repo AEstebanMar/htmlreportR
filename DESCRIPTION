@@ -4,6 +4,8 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Alvaro", "Esteban-Martos", , "alvaroesteban@uma.es", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9791-7779"))
+    person("Jose", "Cordoba-Caballero", , "josecordoba@uma.es", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-1821-5742"))
 Description: This package is a compilation of HTML reporting and R plotting functions developed in our lab. Distributing them in a package form ensures minimal redundancy and maximum versatility.
 License: MIT + file LICENSE
 Encoding: UTF-8
