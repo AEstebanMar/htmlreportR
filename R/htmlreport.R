@@ -14,6 +14,7 @@ setClass("htmlReport",
 )
 
 
+`%+%` <- function(a, b) paste0(c(a, b), collapse="")
 
 setGeneric("build", function(plotter, template) standardGeneric("build"))
 setMethod("build", "htmlReport", function(plotter, template) {
