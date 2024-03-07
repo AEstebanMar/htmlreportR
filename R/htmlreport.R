@@ -58,8 +58,8 @@ setMethod("write_report", "htmlReport", function(plotter, output_path) {
 })
 
 
-setGeneric("static_ggplot_main", function(plotter, id_plot, header = FALSE, plotting_function = NULL) standardGeneric("static_ggplot_main"))
-setMethod("static_ggplot_main", "htmlReport", function(plotter, id_plot, header = FALSE, plotting_function = NULL) {
+setGeneric("static_ggplot_main", function(plotter, id_plot, header = FALSE, plotting_function = NULL, ...) standardGeneric("static_ggplot_main"))
+setMethod("static_ggplot_main", "htmlReport", function(plotter, id_plot, header = FALSE, plotting_function = NULL, ...) {
 	data_frame <- plotter@hash_vars[[id_plot]]
 
 	if (header) data_frame <- build_header(data_frame) 
@@ -67,10 +67,10 @@ setMethod("static_ggplot_main", "htmlReport", function(plotter, id_plot, header 
 	ggplot_obj <- ggplot2::ggplot(data_frame)
 	if (is.null(plotting_function )) return(ggplot_obj)
 
-	ggplot_obj <- plotting_function(ggplot_obj)
+	ggplot_obj <- plotting_function(ggplot_obj, ...)
 
-  return(ggplot_obj)
-})
+get_plot(plotter, ggplot_obj)
+	})
 
 setGeneric("get_plot", function(plotter, plot_obj) standardGeneric("get_plot"))
 setMethod("get_plot", "htmlReport", function(plotter, plot_obj) {
