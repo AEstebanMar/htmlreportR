@@ -95,8 +95,6 @@ plotting_function = NULL) {
 									fields = fields,
 									func = func)
 	data_frame <- get_data_for_plot(plotter, options)$data_frame
-	save(list = ls(),file = "/mnt/home/users/bio_267_uma/josecordoba/software/htmlreportR/tests/check_plots/test.Rdata")
-
 	if(is.null(plotting_function)) return(data_frame)
 	plot_obj <- plotting_function(data_frame)
 	get_plot(plotter, plot_obj)
