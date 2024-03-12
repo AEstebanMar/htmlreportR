@@ -169,7 +169,7 @@ test_that("testing the table formatting in the class htmlReport",{
 						row_names = TRUE,
 						smp_attr = c(1),
 						var_attr = c(1))
-		}
+		
 
 		container <- list("table_orig" = data.frame( "V1" = c("h0","r1", "r2", "r3"), 
 							     					 "V2" = c("h1", "-","smp_attr1", "smp_attr2"),
