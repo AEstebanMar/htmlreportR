@@ -1,7 +1,8 @@
-
+#' @importFrom methods new
+#' @importFrom utils read.table
 main_htmlreportR <- function(options){
 	table_list <- strsplit(options$data_files, ",")[[1]]
-	data_files <- lapply(table_list, read.table, header = FALSE)
+	data_files <- lapply(table_list, utils::read.table, header = FALSE)
 	names(data_files) <- sapply(table_list, basename)
 
 	if (is.null(options$output_file)){

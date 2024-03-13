@@ -1,4 +1,10 @@
 #' Build HTML report from template
+#' @param plotter An object of class "htmlReport".
+#' @param template A character string specifying the file path of the template.
+#' @export
+setGeneric("build", function(plotter, template) standardGeneric("build"))
+
+#' Build HTML report from template
 #'
 #' This function builds an HTML report from a 
 #' given template file for an object of class "htmlReport".
@@ -17,13 +23,14 @@
 #' 
 #' @examples
 #' # Create an htmlReport object
+#' \dontrun{
 #' plotter <- new("htmlReport")
 #' 
 #' # Build the report from a template
 #' plotter <- build(plotter, "template.html")
-#' 
+#' }
+#' @importFrom knitr knit opts_chunk
 #' @export
-setGeneric("build", function(plotter, template) standardGeneric("build"))
 setMethod("build", "htmlReport", function(plotter, template) {
 	templ <- paste(readLines(template), collapse="\n")
 	knitr::opts_chunk$set(echo = FALSE, 
@@ -42,6 +49,31 @@ setMethod("build", "htmlReport", function(plotter, template) {
 
 
 
+#' Generate static plot for HTML report
+#' @param plotter An object of class "htmlReport".
+#' @param id A character string specifying the 
+#' identifier for the plot included in hash_vars.
+#' @param header Logical, indicating whether the dataset has a header row.
+#' @param row_names Logical, indicating whether to include row names.
+#' @param transpose Logical, indicating whether to transpose the dataset.
+#' @param smp_attr A list of attributes for samples.
+#' @param var_attr A list of attributes for variables.
+#' @param fields A character vector specifying the fields to include in the plot
+#' @param func A function to preprocess data before plotting.
+#' @param plotting_function A function used for generating the plot.
+#' @export
+setGeneric("static_plot_main", function(
+plotter, 
+id, 
+header = FALSE, 
+row_names = FALSE,
+transpose = FALSE,
+smp_attr = NULL,
+var_attr = NULL,
+fields = NULL,
+func = NULL,
+plotting_function = NULL
+) standardGeneric("static_plot_main"))
 #' Generate static plot for HTML report
 #'
 #' This function generates a static plot for inclusion in an 
@@ -70,19 +102,7 @@ setMethod("build", "htmlReport", function(plotter, template) {
 #' plotting function, and then adds the plot 
 #' to the HTML report object.
 #' 
-#' 
-setGeneric("static_plot_main", function(
-plotter, 
-id, 
-header = FALSE, 
-row_names = FALSE,
-transpose = FALSE,
-smp_attr = NULL,
-var_attr = NULL,
-fields = NULL,
-func = NULL,
-plotting_function = NULL
-) standardGeneric("static_plot_main"))
+#' @export
 setMethod("static_plot_main", "htmlReport", function(
 plotter, 
 id, 
@@ -111,6 +131,31 @@ plotting_function = NULL) {
 
 
 #' Generate static ggplot for HTML report
+#' @param plotter An object of class "htmlReport".
+#' @param id A character string specifying the 
+#' identifier for the element of hash_vars that is taken.
+#' @param header Logical, indicating whether the dataset has a header row.
+#' @param row_names Logical, indicating whether to include row names.
+#' @param transpose Logical, indicating whether to transpose the dataset.
+#' @param smp_attr A list of attributes for samples.
+#' @param var_attr A list of attributes for variables.
+#' @param fields A character vector specifying  fields to include in the ggplot.
+#' @param func A function to preprocess data before plotting.
+#' @param plotting_function A function used for generating the ggplot.
+#' @export
+setGeneric("static_ggplot_main", function(
+plotter, 
+id, 
+header = FALSE, 
+row_names = FALSE,
+transpose = FALSE,
+smp_attr = NULL,
+var_attr = NULL,
+fields = NULL,
+func = NULL,
+plotting_function = NULL) standardGeneric("static_ggplot_main"))
+
+#' Generate static ggplot for HTML report
 #'
 #' This function generates a static ggplot for inclusion in an 
 #' HTML report for an object of class "htmlReport".
@@ -136,19 +181,8 @@ plotting_function = NULL) {
 #' calls the \code{static_plot_main} function 
 #' to generate the plot and include it in the HTML report object.
 #' 
-#' 
+#' @importFrom ggplot2 ggplot
 #' @export
-setGeneric("static_ggplot_main", function(
-plotter, 
-id, 
-header = FALSE, 
-row_names = FALSE,
-transpose = FALSE,
-smp_attr = NULL,
-var_attr = NULL,
-fields = NULL,
-func = NULL,
-plotting_function = NULL) standardGeneric("static_ggplot_main"))
 setMethod("static_ggplot_main", "htmlReport", function(
 plotter, 
 id, 
@@ -197,6 +231,8 @@ setGeneric("make_head", function(plotter) standardGeneric("make_head"))
 setMethod("make_head", "htmlReport", function(plotter) {
 	title <- plotter@title
 	plotter <- plotter %+% c("\t<title>", title, "</title>\n<head>\n")
+
+	
 	plotter <- plotter %+% "</head>\n"
   return(plotter)
 })
@@ -231,6 +267,14 @@ setMethod("build_body", "htmlReport", function(plotter, body_text) {
 })
 
 #' Write HTML Report
+#' @param plotter An object of class \code{htmlReport}.
+#' @param output_path A character string specifying 
+#' @export
+setGeneric("write_report", function(
+	plotter, 
+	output_path) standardGeneric("write_report"))
+
+#' Write HTML Report
 #'
 #' This method writes the HTML report generated by an 
 #' \code{htmlReport} object to a specified output file path.
@@ -250,9 +294,6 @@ setMethod("build_body", "htmlReport", function(plotter, body_text) {
 #' }
 #'
 #' @export
-setGeneric("write_report", function(
-	plotter, 
-	output_path) standardGeneric("write_report"))
 setMethod("write_report", "htmlReport", function(plotter, output_path) {
 	writeLines(plotter@all_report, output_path)
 	unlink(plotter@tmp_dir, recursive = TRUE)
@@ -277,19 +318,21 @@ setMethod("write_report", "htmlReport", function(plotter, output_path) {
 #' # plot_obj is a valid plot object
 #' get_plot(plotter, plot_obj)
 #' }
+#' @importFrom knitr opts_current
+#' @importFrom grDevices png dev.off
 setGeneric("get_plot", function(plotter, plot_obj) standardGeneric("get_plot"))
 setMethod("get_plot", "htmlReport", function(plotter, plot_obj) {
 	#This code writes the plot to a temporal png, 
 	#then it load the png in base64 encoding and then 
 	
 	file_png <- file.path(plotter@tmp_dir, "tmp_fig.png")
-  png(file_png, 
+  grDevices::png(file_png, 
 		width = knitr::opts_current$get("fig.width"),
 		height = knitr::opts_current$get("fig.height"),
 		units = "in",
 		res = 200)
 	  plot(plot_obj)
-	dev.off()
+	grDevices::dev.off()
 	enc_img <- embed_file(file_png)
 	cat(paste0("\n<img src=", enc_img, " />"))
 	
@@ -322,7 +365,7 @@ setMethod("get_data_for_plot", "htmlReport", function(plotter, options) {
 		all_data <- get_data(plotter, options)
 		all_data <- c(all_data,
 								list(samples = colnames(all_data$data_frame),
-										variables = rownames(all_data$data_frame)))
+									 variables = rownames(all_data$data_frame)))
 		return(all_data)
 })
 
@@ -413,7 +456,7 @@ setMethod("extract_data", "htmlReport", function(
   	numeric_columns <- grepl("^\\d*\\.?\\d+$", data_frame[1,])
   	if(length(numeric_columns) > 0)
 			data_frame[,numeric_columns] <- lapply(data_frame[,numeric_columns],
-																						 as.numeric)
+												 as.numeric)
 
 		return(list(data_frame = data_frame,
 								smp_attr = smp_attr,

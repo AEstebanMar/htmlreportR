@@ -15,3 +15,10 @@ setClass("htmlReport",
 
 
 
+#self.js_libraries = []
+#        self.css_files = []
+#        self.js_cdn = []
+#        self.css_cdn = []
+#       self.mermaid = T/F
+
+#bootstrap & mermelada
