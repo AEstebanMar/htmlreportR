@@ -3,41 +3,33 @@
 \name{add_header_row_names}
 \alias{add_header_row_names}
 \title{Add Header and Row Names to Data Frame for HTML Report table}
-\usage{
-add_header_row_names(plotter, data_frame, options)
-}
 \arguments{
-\item{plotter}{The plotter object associated with the HTML report.}
-
 \item{data_frame}{The data frame to be modified.}
 
-\item{options}{A list of options controlling the
-modification of column and row names.}
+\item{options}{A list of options controlling the modification of column and row names.}
 }
 \value{
 The modified data frame with updated column and/or row names.
 }
 \description{
-This function modifies a data frame to include specific column and row names
+This function modifies a data frame to include specific column and row names.
 }
 \details{
-This function checks the options provided and manipulates the
-column and row names of the input data frame accordingly. If the 'header'
-option is set to true, it assigns the first row of the data frame as column
-names and removes that row from the data frame. If the 'row_names'
-option is true, it assigns the first column of the data frame as row names
-and removes that column from the data frame. If either option is not true,
-it assigns sequential numbers as column or row names, respectively.
+Add Header and Row Names to Data Frame for HTML Report table
+
+This function checks the options provided and manipulates the column and row names of the input data frame accordingly. If the 'header' option is set to true, it assigns the first row of the data frame as column names and removes that row from the data frame. If the 'row_names' option is true, it assigns the first column of the data frame as row names and removes that column from the data frame. If either option is not true, it assigns sequential numbers as column or row names, respectively.
 }
 \examples{
 # Create sample data frame
 \dontrun{
+# Assuming plotter is an object of class htmlReport
 df <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
 
 # Define options
 options <- list(header = TRUE, row_names = TRUE)
 
 # Apply the function
-modified_df <- add_header_row_names(plotter, df, options)
+modified_df <- plotter$add_header_row_names(df, options)
 } 
+
 }

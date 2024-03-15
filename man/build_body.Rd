@@ -3,12 +3,7 @@
 \name{build_body}
 \alias{build_body}
 \title{Build HTML Report Body}
-\usage{
-build_body(plotter, body_text)
-}
 \arguments{
-\item{plotter}{An object of class \code{htmlReport}.}
-
 \item{body_text}{A character string containing the body text
 to be appended to the HTML report.}
 }
@@ -17,14 +12,17 @@ An updated \code{htmlReport} object with the specified
 body text appended to its body.
 }
 \description{
-This method builds the body of an HTML report by
-appending the specified body text to an \code{htmlReport} object.
+This method builds the body of an HTML report
+by appending the specified body text to an \code{htmlReport} object.
+}
+\details{
+Build HTML Report Body
 }
 \examples{
 \dontrun{
 # Assuming plotter is an object of class htmlReport
 body_text <- "<p>This is the body text of the report.</p>"
-plotter <- build_body(plotter, body_text)
+plotter$build_body(body_text)
 }
 
 }

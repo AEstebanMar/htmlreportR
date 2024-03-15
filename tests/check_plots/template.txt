@@ -4,12 +4,20 @@
 <h2>Heatmap example</h2>
 
 <!--begin.rcode 
-    mod_table <- build_header(plotter@hash_vars[["data_toc_sample.txt"]])
 
     mod_func <- function(data_frame){
        mod_table <- reshape2::melt(as.matrix(data_frame)) 
        colnames(mod_table) <- c("x_axis", "y_axis", "Freq")
-       mod_table <-  as_numeric_if(mod_table)
+       n_columns <-  check_numeric_fields(mod_table)
+
+       mod_table[,n_columns] <- lapply(mod_table[,n_columns], 
+        function(col) {
+             if (!is.factor(col)){
+                as.numeric(col) 
+             } else {
+                col
+             }
+       })
        mod_table$Freq <- log(mod_table$Freq + 1)
        return(mod_table)
     }
@@ -17,7 +25,7 @@
        text_colour <-  "black"
        na_col <-  "grey50"
 
-	static_ggplot_main(plotter, "data_toc_sample.txt", header = T, func = mod_func, smp_attr = c(17),plotting_function = function(ggplot_obj) {
+	   plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, smp_attr = c(17),plotting_function = function(ggplot_obj) {
     
        ggplot_obj + ggplot2::aes(x = x_axis, y = y_axis, fill =Freq) +
        ggplot2::geom_tile(show.legend = TRUE) +
@@ -26,9 +34,6 @@
        ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 25, face = "bold", hjust = 1), axis.text.y = ggplot2::element_text(face = "bold")) +
        ggplot2::scale_fill_gradient2(low = col[1], mid= col[2], high = col[3], na.value = na_col, guide = "colourbar", aesthetics = "fill")
 	})
-
-	
-    
 
 end.rcode-->
 

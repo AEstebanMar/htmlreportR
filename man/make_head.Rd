@@ -3,23 +3,20 @@
 \name{make_head}
 \alias{make_head}
 \title{Make HTML Report Head}
-\usage{
-make_head(plotter)
-}
-\arguments{
-\item{plotter}{An object of class \code{htmlReport}.}
-}
 \value{
-An updated \code{htmlReport} object with the
-title added to its head section.
+An updated \code{htmlReport} object with the title added to its head section.
 }
 \description{
-This method generates the head section of an
-HTML report by adding the title to an \code{htmlReport} object.
+This method generates the head section of an HTML report by adding the title to an \code{htmlReport} object.
+}
+\details{
+Make HTML Report Head
 }
 \examples{
 \dontrun{
 # Assuming plotter is an object of class htmlReport
-plotter <- make_head(plotter)
+plotter <- htmlReport$new()
+plotter$make_head()
 }
+
 }

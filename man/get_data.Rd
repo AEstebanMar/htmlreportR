@@ -3,28 +3,36 @@
 \name{get_data}
 \alias{get_data}
 \title{Retrieve Data from htmlReport Object}
-\usage{
-get_data(plotter, options)
-}
 \arguments{
-\item{plotter}{An object of class \code{htmlReport}.}
-
 \item{options}{A list containing options for data retrieval.}
 }
 \value{
+A list containing the retrieved data and additional information.
+
 A list containing the retrieved data and additional information.
 }
 \description{
 This method retrieves data from an
 \code{htmlReport} object based on specified options.
+
+This method retrieves data from an \code{htmlReport} object based on specified options.
+}
+\details{
+Retrieve Data from htmlReport Object
 }
 \examples{
 \dontrun{
 # Assuming plotter is an object of class htmlReport
 df <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
-plotter <- new("htmlReport", hash_vars = list(data_id = df))
 options <- list(id = "data_id", transpose = FALSE)
-data <- get_data(plotter, options)
+data <- plotter$get_data(options)
+}
+
+\dontrun{
+# Assuming plotter is an object of class htmlReport
+df <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
+options <- list(id = "data_id", transpose = FALSE)
+data <- plotter$get_data(options)
 }
 
 }

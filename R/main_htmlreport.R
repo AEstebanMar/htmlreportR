@@ -11,15 +11,14 @@ main_htmlreportR <- function(options){
 	  output_file <- options$output_file
 	}
 
-	tmp_dir <- file.path(dirname(output_file), "tmp")
-	dir.create(tmp_dir)
+	tmp_folder <- file.path(dirname(output_file), "tmp")
+	dir.create(tmp_folder)
 
-	html_report <- new("htmlReport", 
-		title = options$title, 
-		hash_vars = data_files, 
-		tmp_dir = tmp_dir)
-
-	html_report <- build(html_report, options$template)
-	write_report(html_report, output_file)
+	plotter <- htmlReport$new(title_doc = options$title, 
+						      container = data_files, 
+		                      tmp_folder = tmp_folder)
+	
+	plotter$build(options$template)
+	plotter$write_report(output_file)
 
 }

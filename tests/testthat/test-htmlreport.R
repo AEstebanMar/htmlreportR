@@ -3,7 +3,7 @@
 #add_header_row_names 
 
 test_that("testing header and rownames addition", {
-		plotter <- new("htmlReport")
+		plotter <- htmlReport$new()
 		table_orig <- as.data.frame(matrix(c("0", "h1", "h2", "r1", "1", "3", "r2", "2", "4"), nrow = 3, byrow = TRUE))
 
 		frmt_exp <- as.data.frame(matrix(c("0", "h1", "h2", "r1", "1", "3", "r2", "2", "4"), nrow = 3, byrow = TRUE,dimnames = list(c(1,2,3),c(1,2,3))))
@@ -16,10 +16,10 @@ test_that("testing header and rownames addition", {
         user_options_with_header <- list("header" = TRUE, "row_names" = FALSE)
 	    user_options_with_header_row_names <- list("header" = TRUE, "row_names" = TRUE)
 
-	    formatted_table <- add_header_row_names(plotter, table_orig, user_options)
-	    formatted_table_row_names <- add_header_row_names(plotter, table_orig, user_options_with_row_names)
-	    formatted_table_header <- add_header_row_names(plotter, table_orig, user_options_with_header)
-	    formatted_table_header_row_names <- add_header_row_names(plotter, table_orig, user_options_with_header_row_names)
+	    formatted_table <- plotter$add_header_row_names(table_orig, user_options)
+	    formatted_table_row_names <- plotter$add_header_row_names(table_orig, user_options_with_row_names)
+	    formatted_table_header <- plotter$add_header_row_names(table_orig, user_options_with_header)
+	    formatted_table_header_row_names <- plotter$add_header_row_names(table_orig, user_options_with_header_row_names)
 
 	    expect_equal(frmt_exp, formatted_table)
 	    expect_equal(frmt_row_names_exp, formatted_table_row_names)
@@ -31,7 +31,7 @@ test_that("testing header and rownames addition", {
 #extract_data
 
 test_that("testing the sample and variable attributes formatting", {
-		plotter <- new("htmlReport")
+		plotter <- htmlReport$new()
 
 		table_orig <-data.frame( "V1" = c("h0","r1", "r2"), 
 							     "V2" = c("h1", 1,2), 
@@ -39,8 +39,8 @@ test_that("testing the sample and variable attributes formatting", {
 							     row.names = c(1,2,3))
 
 		frmt_exp <- list(data_frame = data.frame( "V1" = c("h0","r1", "r2"), 
-											     "V2" = c("h1", 1,2), 
-											     "V3" = c("h2", 3,4), 
+											     "V2" = c("h1", "1","2"), 
+											     "V3" = c("h2", "3","4"), 
 											     row.names = c(1,2,3)),
 						 smp_attr= NULL,
 						 var_attr = NULL)
@@ -71,17 +71,17 @@ test_that("testing the sample and variable attributes formatting", {
 								 						      row.names = c(1)))
 
 
-	   	user_options <- list("header" = FALSE, "row_names" = FALSE, smp_attr = NULL, var_attr = NULL)
-	   	user_options_smp_attr <- list("header" = FALSE, "row_names" = FALSE, smp_attr = c(1), var_attr = NULL)
-	   	user_options_var_attr <- list("header" = FALSE, "row_names" = FALSE, smp_attr = NULL, var_attr = c(1))
-	   	user_options_smp_var_attr <- list("header" = FALSE, "row_names" = FALSE, smp_attr = c(1), var_attr = c(1))
+	   	user_options <- list("header" = FALSE, "row_names" = FALSE, smp_attr = NULL, var_attr = NULL, text = TRUE)
+	   	user_options_smp_attr <- list("header" = FALSE, "row_names" = FALSE, smp_attr = c(1), var_attr = NULL, text = TRUE)
+	   	user_options_var_attr <- list("header" = FALSE, "row_names" = FALSE, smp_attr = NULL, var_attr = c(1), text = c(2,3))
+	   	user_options_smp_var_attr <- list("header" = FALSE, "row_names" = FALSE, smp_attr = c(1), var_attr = c(1), text = FALSE)
 
 
 
-	   	formatted_table <- extract_data(plotter, table_orig, user_options)
-	    formatted_table_smp_attr <- extract_data(plotter, table_orig, user_options_smp_attr)
-	    formatted_table_var_attr <- extract_data(plotter, table_orig, user_options_var_attr)
-   	    formatted_table_smp_var_attr <- extract_data(plotter, table_orig, user_options_smp_var_attr)
+	   	formatted_table <- plotter$extract_data(table_orig, user_options)
+	    formatted_table_smp_attr <- plotter$extract_data(table_orig, user_options_smp_attr)
+	    formatted_table_var_attr <- plotter$extract_data(table_orig, user_options_var_attr)
+   	    formatted_table_smp_var_attr <- plotter$extract_data(table_orig, user_options_smp_var_attr)
 
 
 	    expect_equal(formatted_table, frmt_exp)
@@ -100,7 +100,8 @@ test_that("testing the table formatting in the class htmlReport",{
 						header = TRUE,
 						row_names = TRUE,
 						smp_attr = c(1),
-						var_attr = c(1))
+						var_attr = c(1), 
+						text = FALSE)
 		mod_function <- function(data_frame){
 			row_names <- rownames(data_frame)
 			mod_df <- as.data.frame(lapply(data_frame, as.character))
@@ -113,7 +114,8 @@ test_that("testing the table formatting in the class htmlReport",{
 							     					 "V3" = c("h2", "var_attr1", 1,2), 
 							     					 "V4" = c("h3", "var_attr2",3,4), 
 							     					 row.names = c(1,2,3,4)))
-		plotter <- new("htmlReport", hash_vars = container)
+		plotter <- htmlReport$new(container = container)
+
 
 
 		formatted_data_exp <- list(data_frame = data.frame("h2" = c(1,2),
@@ -143,16 +145,16 @@ test_that("testing the table formatting in the class htmlReport",{
 							   var_attr = data.frame("r2" = c("smp_attr1"),
 								    				 "r3" = c("smp_attr2"),
 													 row.names = c("h1")))
-		formatted_data <- get_data(plotter, options)
+		formatted_data <- plotter$get_data(options)
 	    expect_equal(formatted_data, formatted_data_exp)
 	    
 	    options$func <- mod_function
-	    formatted_data_mod <- get_data(plotter, options)
+	    formatted_data_mod <- plotter$get_data(options)
 	    expect_equal(formatted_data_mod, formatted_data_exp_mod)
 	    
 	    options$func <- NULL
 	    options$transpose <- TRUE
-	    formatted_data_transposed <- get_data(plotter, options)
+	    formatted_data_transposed <- plotter$get_data(options)
 	    expect_equal(formatted_data_transposed, formatted_data_transposed_exp)
 })
 
@@ -168,7 +170,8 @@ test_that("testing the table formatting in the class htmlReport",{
 						header = TRUE,
 						row_names = TRUE,
 						smp_attr = c(1),
-						var_attr = c(1))
+						var_attr = c(1),
+						text = FALSE)
 		
 
 		container <- list("table_orig" = data.frame( "V1" = c("h0","r1", "r2", "r3"), 
@@ -176,7 +179,7 @@ test_that("testing the table formatting in the class htmlReport",{
 							     					 "V3" = c("h2", "var_attr1", 1,2), 
 							     					 "V4" = c("h3", "var_attr2",3,4), 
 							     					 row.names = c(1,2,3,4)))
-		plotter <- new("htmlReport", hash_vars = container)
+		plotter <- htmlReport$new(container = container)
 
 
 		formatted_data_exp <- list(data_frame = data.frame("h2" = c(1,2),
@@ -190,7 +193,7 @@ test_that("testing the table formatting in the class htmlReport",{
 								   samples = c("h2", "h3"),
 								   variables = c("r2", "r3"))
 		
-		formatted_data <- get_data_for_plot(plotter, options)
+		formatted_data <- plotter$get_data_for_plot(options)
 	    expect_equal(formatted_data, formatted_data_exp)
 })
 ####### HTML REPORTING

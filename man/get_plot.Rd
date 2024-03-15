@@ -3,26 +3,23 @@
 \name{get_plot}
 \alias{get_plot}
 \title{Get Plot from htmlReport Object}
-\usage{
-get_plot(plotter, plot_obj)
-}
 \arguments{
-\item{plotter}{An object of class \code{htmlReport}.}
-
-\item{plot_obj}{A plot object like ggplot}
+\item{plot_obj}{A plot object like ggplot.}
 }
 \value{
 Displays the plot within the HTML report.
 }
 \description{
-This method generates and retrieves a plot from an \code{htmlReport}
-This code writes the plot to a temporal png,
-then it load the png in base64 encoding and then
+This method generates and retrieves a plot from an \code{htmlReport} object. This code writes the plot to a temporal png, then it loads the png in base64 encoding and then displays the plot within the HTML report.
+}
+\details{
+Get Plot from htmlReport Object
 }
 \examples{
 \dontrun{
 # Assuming plotter is an object of class htmlReport
 # plot_obj is a valid plot object
-get_plot(plotter, plot_obj)
+plotter$get_plot(plot_obj)
 }
+
 }

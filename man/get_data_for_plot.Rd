@@ -3,28 +3,23 @@
 \name{get_data_for_plot}
 \alias{get_data_for_plot}
 \title{Get Data for Plotting from htmlReport Object}
-\usage{
-get_data_for_plot(plotter, options)
-}
 \arguments{
-\item{plotter}{An object of class \code{htmlReport}.}
-
 \item{options}{A list containing options for data retrieval.}
 }
 \value{
-A list containing the retrieved data,
-attributes, samples, and variables.
+A list containing the retrieved data, attributes, samples, and variables.
 }
 \description{
-This method retrieves data suitable for plotting from an
-\code{htmlReport} object based on specified options.
+This method retrieves data suitable for plotting from an \code{htmlReport} object based on specified options.
+}
+\details{
+Get Data for Plotting from htmlReport Object
 }
 \examples{
 \dontrun{
 # Assuming plotter is an object of class htmlReport
 df <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
-plotter <- new("htmlReport", hash_vars = list(data_id = df))
 options <- list(id = "data_id", transpose = FALSE)
-data <- get_data_for_plot(plotter, options)
+data <- plotter$get_data_for_plot(options)
 }
 }
