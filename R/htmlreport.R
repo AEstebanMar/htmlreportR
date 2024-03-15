@@ -376,14 +376,15 @@ htmlReport$methods(extract_data = function(data_frame, 	options) {
     if (length(options$fields > 0))
     data_frame <- data_frame[,options$fields, drop = FALSE]
 
-    numeric_fields <- NULL
+	
+	numeric_fields <- seq(1,ncol(data_frame))		
 	if (is.numeric(options$text)) {
-		numeric_fields <- options$text
-	} else if (options$text == FALSE) {
-		numeric_fields <- seq(1,ncol(data_frame))		
+		numeric_fields <- numeric_fields[-options$text]
+	} else if (options$text == TRUE){
+		numeric_fields <- c()
 	}
-	if (!is.null(numeric_fields))
-		data_frame[,numeric_fields] <- as.data.frame(lapply(
+
+	data_frame[,numeric_fields] <- as.data.frame(lapply(
 				data_frame[,numeric_fields], as.numeric))
 
 		return(list(data_frame = data_frame,
