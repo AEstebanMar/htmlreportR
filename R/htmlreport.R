@@ -217,7 +217,7 @@ htmlReport$methods(make_head = function() {
 	if (mermaid) 
 		js_cdn <<- c(js_cdn,
 		"<script type=\"module\"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; </script>")
-		
+
 	concat(get_css_cdn())
 	concat(get_js_cdn())
 	concat("</head>\n")
@@ -283,7 +283,7 @@ htmlReport$methods(get_plot = function(plot_obj) {
 		plot(plot_obj)
 	grDevices::dev.off()
 	enc_img <- embed_file(file_png)
-	cat(paste0("\n<img src=", enc_img, " />"))
+	paste0("\n<img src=", enc_img, " />")
 })
 
 
@@ -500,8 +500,5 @@ htmlReport$methods(get_css_cdn= function() {
 
 htmlReport$methods(mermaid_chart = function(chart_sintaxis){
 	mermaid <<- TRUE
-	mermaid_string <- paste0("<pre class=\"mermaid\">\n",
-							 chart_sintaxis,
-							 "\n</pre>")
-	cat(mermaid_string)
+	paste0("<pre class=\"mermaid\">\n", chart_sintaxis, "\n</pre>")
 })

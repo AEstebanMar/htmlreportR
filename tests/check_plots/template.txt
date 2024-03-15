@@ -38,7 +38,7 @@
 
 <!--begin.rcode
 
-   plotter$mermaid_chart('
+   cat(plotter$mermaid_chart('
 ---
 config:
   theme: dark
@@ -88,7 +88,6 @@ flowchart LR
     EE & LL --> L
     L --> M      
     
-    ')
-
+    '))
 end.rcode-->
 
