@@ -34,6 +34,61 @@
        ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 25, face = "bold", hjust = 1), axis.text.y = ggplot2::element_text(face = "bold")) +
        ggplot2::scale_fill_gradient2(low = col[1], mid= col[2], high = col[3], na.value = na_col, guide = "colourbar", aesthetics = "fill")
 	})
+   end.rcode-->
+
+<!--begin.rcode
+
+   plotter$mermaid_chart('
+---
+config:
+  theme: dark
+---
+flowchart LR
+    1A[Option Parsing]
+    1B[/opt/]
+    subgraph Input preparison
+        A[Target generation] 
+        B[Read count table]
+        C[Read External DE data]
+        D[Read Library size files] 
+    end
+    E["`**main_degenes_Hunter**`"]
+    EE[/final_results/]
+    LL[main_report.Rmd]
+    subgraph Writting
+        F[write.table]
+        H>filtered_count_data.txt]
+        G>control_treatment.txt]
+        I>hunter_results_table.txt]
+        J["`**write_df_list_as_tables** (Normalized_counts)`"]
+        K["`**write_df_list_as_tables** (allgenes)`"]
+        L["`**write_expression_report**`"]
+        M>"DEG_report.html"]   
+        
+    end
+
+    1A --> 1B
+    1B -- target_file
+          Treatment_columns
+          Control_columns --> A
+
+    1B --input_file--> B
+    1B --external_DEA_file--> C
+    1B --library_sizes-->D
+    1B --> E
+    A & B & C & D --> E
+    E  ==> EE
+    1B -- output_files --> Writting
+    EE --> F 
+    EE --all_data_normalized---> J
+    EE --"all_counts_for_plotting"---> K
+    F  --"raw_filter"--> H
+    F  --"sample_group"--> G
+    F  --"DE_all_genes"--> I
+    EE & LL --> L
+    L --> M      
+    
+    ')
 
 end.rcode-->
 

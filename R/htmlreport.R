@@ -207,8 +207,19 @@ htmlReport$methods(write_report = function(output_path) {
 #' 
 NULL
 htmlReport$methods(make_head = function() {
-	concat(c("\t<title>", title, "</title>\n<head>\n"))
-
+	concat(c("\t<title>", title, "</title>",
+			"\n<head>\n", 
+			"<meta charset=\"utf-8\">\n",
+			"<meta http-equiv=\"CACHE-CONTROL\" CONTENT=\"NO-CACHE\">\n",
+            "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n",
+            "<meta http-equiv=\"Content-Language\" content=\"en-us\" />\n",
+            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n\n"))
+	if (mermaid) 
+		js_cdn <<- c(js_cdn,
+		"<script type=\"module\"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; </script>")
+		
+	concat(get_css_cdn())
+	concat(get_js_cdn())
 	concat("</head>\n")
 })
 
@@ -462,6 +473,35 @@ htmlReport$methods(concat = function(text_vec) {
 
 
 
-htmlReport$methods(test_f = function(){
-css_files <<- "test"
+
+
+htmlReport$methods(get_js_cdn= function() {
+	parsed_js_cdn <- sapply(js_cdn, function(jc) {
+		if (grepl("^http", jc)) {
+				return(paste0("<script type=\"text/javascript\" src=\"",jc,"\"></script>"))
+		}
+		return(jc)
+	})
+	parsed_js_cdn <- c(parsed_js_cdn, "\n")
+	paste(parsed_js_cdn, collapse = "\n")
+})
+
+htmlReport$methods(get_css_cdn= function() {
+	parsed_css_cdn <- sapply(css_cdn, function(cc) {
+		if (grepl("^http", cc)) {
+				return(paste0("<link rel=\"stylesheet\" type=\"text/css\" href=\"",cc,"\"/>"))
+		}
+		return(cc)
+	})
+	parsed_css_cdn <- c(parsed_css_cdn, "\n")
+	paste(parsed_css_cdn, collapse = "\n")
+})
+
+
+htmlReport$methods(mermaid_chart = function(chart_sintaxis){
+	mermaid <<- TRUE
+	mermaid_string <- paste0("<pre class=\"mermaid\">\n",
+							 chart_sintaxis,
+							 "\n</pre>")
+	cat(mermaid_string)
 })
