@@ -23,6 +23,8 @@
 \item{plotting_function}{A function used for generating the plot.}
 
 \item{text}{Logical, indicating whether to convert table to text or a vector indicating the numeric fields.}
+
+\item{custom_format}{Logical, indicating if id correspond to a table or a custom object}
 }
 \description{
 This function generates a static plot for inclusion in an HTML

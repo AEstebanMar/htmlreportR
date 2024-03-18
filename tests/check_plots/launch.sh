@@ -2,3 +2,5 @@
 
 source init_htmlreportR
 ../../inst/scripts/html_report.R -d data_toc_sample.txt -t template.txt
+
+./launch_report_library.R 

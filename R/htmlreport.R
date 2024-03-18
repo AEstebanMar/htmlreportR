@@ -68,6 +68,7 @@ htmlReport$methods(
 #' @param func A function to preprocess data before plotting.
 #' @param plotting_function A function used for generating the plot.
 #' @param text Logical, indicating whether to convert table to text or a vector indicating the numeric fields.
+#' @param custom_format Logical, indicating if id correspond to a table or a custom object
 #' 
 #' @details
 #' This function generates a static plot based on the provided data and plot specifications. 
@@ -85,7 +86,9 @@ htmlReport$methods(static_plot_main = function(id,
 											   fields = NULL,
 											   func = NULL,
 											   plotting_function = NULL,
-											   text = FALSE) {
+											   text = FALSE,
+											   custom_format = FALSE,
+											   ...) {
 
 	options <- list(id = id,
 					header = header,
@@ -96,10 +99,14 @@ htmlReport$methods(static_plot_main = function(id,
 					fields = fields,
 					func = func,
 					text = text)
+	if (custom_format) {
+		data_frame <- hash_vars[[id]]
+	} else {
+		data_frame <- get_data_for_plot(options)$data_frame
+	}
 
-	data_frame <- get_data_for_plot(options)$data_frame
 	if(is.null(plotting_function)) return(data_frame)
-	plot_obj <- plotting_function(data_frame)
+	plot_obj <- plotting_function(data_frame, ...)
 	get_plot(plot_obj)
 })
 
@@ -217,6 +224,10 @@ htmlReport$methods(make_head = function() {
 	if (mermaid) 
 		js_cdn <<- c(js_cdn,
 		"<script type=\"module\"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; </script>")
+
+	css_cdn <<- c(css_cdn, 
+		'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+
 
 	concat(get_css_cdn())
 	concat(get_js_cdn())
@@ -502,3 +513,4 @@ htmlReport$methods(mermaid_chart = function(chart_sintaxis){
 	mermaid <<- TRUE
 	paste0("<pre class=\"mermaid\">\n", chart_sintaxis, "\n</pre>")
 })
+
