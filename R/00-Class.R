@@ -22,6 +22,8 @@ htmlReport <- setRefClass("htmlReport",
           js_cdn <<- ""
           css_cdn <<- ""
           mermaid <<- FALSE
+          dir.create(tmp_folder)
+
 
       }
     ) #end methods

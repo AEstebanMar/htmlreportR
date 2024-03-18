@@ -12,7 +12,6 @@ main_htmlreportR <- function(options){
 	}
 
 	tmp_folder <- file.path(dirname(output_file), "tmp")
-	dir.create(tmp_folder)
 
 	plotter <- htmlReport$new(title_doc = options$title, 
 						      container = data_files, 
