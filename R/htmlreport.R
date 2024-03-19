@@ -87,8 +87,7 @@ htmlReport$methods(static_plot_main = function(id,
 											   func = NULL,
 											   plotting_function = NULL,
 											   text = FALSE,
-											   custom_format = FALSE,
-											   ...) {
+											   custom_format = FALSE) {
 
 	options <- list(id = id,
 					header = header,
@@ -106,7 +105,7 @@ htmlReport$methods(static_plot_main = function(id,
 	}
 
 	if(is.null(plotting_function)) return(data_frame)
-	plot_obj <- plotting_function(data_frame, ...)
+	plot_obj <- plotting_function(data_frame)
 	get_plot(plot_obj)
 })
 
@@ -228,9 +227,15 @@ htmlReport$methods(make_head = function() {
 	css_cdn <<- c(css_cdn, 
 		'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
 
+	css_files <<- c(css_files, "htmlReport.css")
+	js_files <<- c(js_files, "htmlReport.js")
 
 	concat(get_css_cdn())
 	concat(get_js_cdn())
+
+	load_js()
+	load_css()
+
 	concat("</head>\n")
 })
 
@@ -339,7 +344,7 @@ htmlReport$methods(get_data_for_plot = function(options) {
 #' # Assuming plotter is an object of class htmlReport
 #' df <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
 #' options <- list(id = "data_id", transpose = FALSE)
-#' data <- plotter$get_data(options)
+#' data <- plotter$get_data(df, options)
 #' }
 #'
 NULL
@@ -361,7 +366,7 @@ htmlReport$methods(get_data = function(options) {
 
 #' Retrieve Data from htmlReport Object
 #'
-#' @name get_data
+#' @name extract_data
 #' @title Retrieve Data from htmlReport Object
 #' @description This method retrieves data from an \code{htmlReport} object based on specified options.
 #' 
@@ -374,7 +379,7 @@ htmlReport$methods(get_data = function(options) {
 #' # Assuming plotter is an object of class htmlReport
 #' df <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
 #' options <- list(id = "data_id", transpose = FALSE)
-#' data <- plotter$get_data(options)
+#' data <- plotter$extract_data(df, options)
 #' }
 #'
 NULL
@@ -514,3 +519,26 @@ htmlReport$methods(mermaid_chart = function(chart_sintaxis){
 	paste0("<pre class=\"mermaid\">\n", chart_sintaxis, "\n</pre>")
 })
 
+
+
+htmlReport$methods(load_css = function(){
+	for (css_file_name in css_files){
+		if (!file.exists(css_file_name))
+			css_file_name <- file.path(find.package('htmlreportR'), "js", css_file_name)
+
+		css_file <- paste(readLines(css_file_name), collapse="\n")
+		concat(c("<style type=\"text/css\">\n",css_file, "\n</style>\n\n"))
+	}	
+})
+
+
+htmlReport$methods(load_js = function(){
+	for (js_file_name in js_files){
+		if (!file.exists(js_file_name))
+			js_file_name <- file.path(find.package('htmlreportR'), "js", js_file_name)
+
+		js_file <- embed_file(js_file_name)
+
+		concat(c("<script src=\"",js_file, "\" type=\"application/javascript\"></script>\n\n"))
+	}	
+})

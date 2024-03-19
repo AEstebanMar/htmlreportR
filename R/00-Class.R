@@ -9,7 +9,11 @@ htmlReport <- setRefClass("htmlReport",
       css_files = "character",
       js_cdn =  "character",
       css_cdn =  "character",
-      mermaid = "logical"),
+      mermaid = "logical",
+      bs_tables = "character",
+      dt_tables = "character",
+      count_objects = "numeric"
+      ),
 
     methods = list(
       initialize = function(container = list(), title_doc = "", tmp_folder = ""){
@@ -17,11 +21,12 @@ htmlReport <- setRefClass("htmlReport",
           title <<- title_doc
           tmp_dir <<- tmp_folder
           all_report <<- ""
-          js_files <<- ""
-          css_files <<- ""
           js_cdn <<- ""
           css_cdn <<- ""
           mermaid <<- FALSE
+          bs_tables <<- ""
+          dt_tables <<- ""
+          count_objects <<- 0
           dir.create(tmp_folder)
 
 

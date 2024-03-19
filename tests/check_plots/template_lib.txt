@@ -5,8 +5,13 @@
 <!--begin.rcode fig.width = 5, fig.height = 5
 #knitr::opt_chunks$set(fig.width = 5, fig.height = 5)
 
+n_cat <- 4
 
-cat(plotter$static_plot_main("enrichments_mf", custom_format = TRUE, plotting_function =  enrichplot::cnetplot, showCategory=5))
+func_aux <- function(enrich_plot){
+   enrichplot::cnetplot(enrich_plot,showCategory=n_cat)
+}
+
+cat(plotter$static_plot_main("enrichments_mf", custom_format = TRUE, plotting_function = func_aux ))
 
    end.rcode-->
 
