@@ -8,31 +8,17 @@
 }
 \value{
 A list containing the retrieved data and additional information.
-
-A list containing the retrieved data and additional information.
 }
 \description{
 This method retrieves data from an
 \code{htmlReport} object based on specified options.
-
-This method retrieves data from an \code{htmlReport} object based on specified options.
-}
-\details{
-Retrieve Data from htmlReport Object
 }
 \examples{
 \dontrun{
 # Assuming plotter is an object of class htmlReport
 df <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
 options <- list(id = "data_id", transpose = FALSE)
-data <- plotter$get_data(options)
-}
-
-\dontrun{
-# Assuming plotter is an object of class htmlReport
-df <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
-options <- list(id = "data_id", transpose = FALSE)
-data <- plotter$get_data(options)
+data <- plotter$get_data(df, options)
 }
 
 }
