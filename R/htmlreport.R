@@ -166,6 +166,54 @@ htmlReport$methods(
 					 text = text)
 })
 
+#' Parse data frame to HTML
+#'
+#' @name parse_data_frame-htmlReport-method
+#' @title Print data frame in HTML format
+#' @description Parses a data frame included in an object of class "htmlReport"
+#' and HTML table to include it in htmlreportR
+#' @param df Data frame to parse
+#' @param id An integer. Table id in report
+#' @param border An integer. Border thickness
+#' @param row_names A boolean.
+#'   * `TRUE` (the default): Parse data frame row names as a column of
+#'   												 the HTML table.
+#'   * `FALSE` (the default): Do not parse data frame row names.
+#' @returns A table in html format.
+
+htmlReport$methods(
+	parse_data_frame = function(df, table_id, border, row_names = FALSE) {
+											html_df <- paste0("<table id=", table_id,
+																		  " border=", border, " class=table >")
+											html_df <- c(html_df, "<thead>", "<tr>")
+											if (row_names == TRUE) {
+												html_df <- c(html_df, "<th> rownames </th>")
+											}
+											colnames_vector <- sapply(colnames(df),
+																		            function(x) {
+																		            	paste0("<th> ", x, " </th>")
+																								})
+											names(colnames_vector) <- NULL
+											html_df <- c(html_df, colnames_vector,
+																			"</tr>", "</thead>", "<tbody>")
+											for (row_ind in seq(1, nrow(df))) {
+												html_df <- c(html_df, "<tr>")
+												if(row_names == TRUE) {
+													rownames_vector <- paste0("<td> ",
+																										rownames(df)[row_ind],
+																										" </td>")
+													html_df <- c(html_df, rownames_vector)
+												}
+												col_vector <- sapply(df[row_ind, ],
+																			  function(x) {
+																			  	paste0("<td> ", x, "</td>")
+																				})
+												html_df <- c(html_df, col_vector, "</tr>")
+											}
+											html_df <- c(html_df, "</tbody>", "</table>")
+											return(paste(html_df, collapse="\n"))
+										 })
+
 
 
 #' Write HTML Report
