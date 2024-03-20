@@ -36,6 +36,8 @@
 	}))
    end.rcode-->
 
+<h2>Mermaid chart example</h2>
+
 <!--begin.rcode
 
    cat(plotter$mermaid_chart('
@@ -89,5 +91,19 @@ flowchart LR
     L --> M      
     
     '))
+end.rcode-->
+
+<h2>Table parser</h2>
+
+<!--begin.rcode
+    
+    sample_table <- data.frame( "V1" = c("h0","r1", "r2", "r3"), 
+                                "V2" = c("h1", "-","smp_attr1", "smp_attr2"),
+                                "V3" = c("h2", "var_attr1", 1,2), 
+                                "V4" = c("h3", "var_attr2",3,4), 
+                                row.names = c(1,2,3,4))
+
+    cat(plotter$parse_data_frame(sample_table, table_id = "Table_example", border = 1, row_names = TRUE))
+
 end.rcode-->
 
