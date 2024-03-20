@@ -196,6 +196,59 @@ test_that("testing the table formatting in the class htmlReport",{
 		formatted_data <- plotter$get_data_for_plot(options)
 	    expect_equal(formatted_data, formatted_data_exp)
 })
+
+test_that("testing the table formatting in the class htmlReport", {
+	expected_output <-"<table id=Sample border=1 class=table >
+<thead>
+<tr>
+<th> rownames </th>
+<th> V1 </th>
+<th> V2 </th>
+<th> V3 </th>
+<th> V4 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 1 </td>
+<td> h0</td>
+<td> h1</td>
+<td> h2</td>
+<td> h3</td>
+</tr>
+<tr>
+<td> 2 </td>
+<td> r1</td>
+<td> -</td>
+<td> var_attr1</td>
+<td> var_attr2</td>
+</tr>
+<tr>
+<td> 3 </td>
+<td> r2</td>
+<td> smp_attr1</td>
+<td> 1</td>
+<td> 3</td>
+</tr>
+<tr>
+<td> 4 </td>
+<td> r3</td>
+<td> smp_attr2</td>
+<td> 2</td>
+<td> 4</td>
+</tr>
+</tbody>
+</table>"
+	test_data_frame <- data.frame( "V1" = c("h0","r1", "r2", "r3"), 
+                                "V2" = c("h1", "-","smp_attr1", "smp_attr2"),
+                                "V3" = c("h2", "var_attr1", 1,2), 
+                                "V4" = c("h3", "var_attr2",3,4), 
+                                row.names = c(1,2,3,4))
+	plotter <- htmlReport$new()
+	actual_output <- plotter$parse_data_frame(test_data_frame, "Sample", 1, TRUE)
+
+	testthat::expect_equal(actual_output, expected_output)
+})
 ####### HTML REPORTING
 #make_head
 #build_body
