@@ -20,3 +20,6 @@ check_numeric_fields <- function(table_data){
     return(n_columns)   
 } 
 
+paste_tag <- function(vec, tag) {
+    paste0("<", tag, "> ", vec, " </", tag, ">")
+}

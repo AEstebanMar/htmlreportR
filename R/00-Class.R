@@ -12,11 +12,13 @@ htmlReport <- setRefClass("htmlReport",
       mermaid = "logical",
       bs_tables = "character",
       dt_tables = "character",
-      count_objects = "numeric"
+      count_objects = "numeric",
+      custom_buttons = "character",
+      dynamic_js = "character"
       ),
 
     methods = list(
-      initialize = function(container = list(), title_doc = "", tmp_folder = ""){
+      initialize = function(container = list(), title_doc = "", tmp_folder = tempdir(check = TRUE)){
           hash_vars <<- container
           title <<- title_doc
           tmp_dir <<- tmp_folder
@@ -24,10 +26,9 @@ htmlReport <- setRefClass("htmlReport",
           js_cdn <<- ""
           css_cdn <<- ""
           mermaid <<- FALSE
-          bs_tables <<- ""
-          dt_tables <<- ""
           count_objects <<- 0
-          dir.create(tmp_folder)
+          if(!file.exists(tmp_folder))
+            dir.create(tmp_folder)
 
 
       }

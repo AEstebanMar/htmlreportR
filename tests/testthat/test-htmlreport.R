@@ -197,8 +197,43 @@ test_that("testing the table formatting in the class htmlReport",{
 	    expect_equal(formatted_data, formatted_data_exp)
 })
 
+
+test_that("testing the full table formatting in the class htmlReport", {
+
+	expected_output <-"<table id=table_0 border=1  >
+<thead>
+<tr>
+<th> rownames </th>
+<th> h2 </th>
+<th> h3 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> r2 </td>
+<td> 1 </td>
+<td> 3 </td>
+</tr>
+<tr>
+<td> r3 </td>
+<td> 2 </td>
+<td> 4 </td>
+</tr>
+</tbody>
+</table>"
+	container <- list(test_data_frame = data.frame( "V1" = c("h0","r1", "r2", "r3"), 
+                                "V2" = c("h1", "-","smp_attr1", "smp_attr2"),
+                                "V3" = c("h2", "var_attr1", 1,2), 
+                                "V4" = c("h3", "var_attr2",3,4), 
+                                row.names = c(1,2,3,4)))
+	plotter <- htmlReport$new(container = container)
+	actual_output <- plotter$table("test_data_frame", header = TRUE, row_names = TRUE, smp_attr = c(1), var_attr = c(1))
+
+	testthat::expect_equal(actual_output, expected_output)
+})
+
 test_that("testing the table formatting in the class htmlReport", {
-	expected_output <-"<table id=Sample border=1 class=table >
+	expected_output <-"<table id=Sample border=1  >
 <thead>
 <tr>
 <th> rownames </th>
@@ -211,31 +246,31 @@ test_that("testing the table formatting in the class htmlReport", {
 <tbody>
 <tr>
 <td> 1 </td>
-<td> h0</td>
-<td> h1</td>
-<td> h2</td>
-<td> h3</td>
+<td> h0 </td>
+<td> h1 </td>
+<td> h2 </td>
+<td> h3 </td>
 </tr>
 <tr>
 <td> 2 </td>
-<td> r1</td>
-<td> -</td>
-<td> var_attr1</td>
-<td> var_attr2</td>
+<td> r1 </td>
+<td> - </td>
+<td> var_attr1 </td>
+<td> var_attr2 </td>
 </tr>
 <tr>
 <td> 3 </td>
-<td> r2</td>
-<td> smp_attr1</td>
-<td> 1</td>
-<td> 3</td>
+<td> r2 </td>
+<td> smp_attr1 </td>
+<td> 1 </td>
+<td> 3 </td>
 </tr>
 <tr>
 <td> 4 </td>
-<td> r3</td>
-<td> smp_attr2</td>
-<td> 2</td>
-<td> 4</td>
+<td> r3 </td>
+<td> smp_attr2 </td>
+<td> 2 </td>
+<td> 4 </td>
 </tr>
 </tbody>
 </table>"
@@ -245,7 +280,9 @@ test_that("testing the table formatting in the class htmlReport", {
                                 "V4" = c("h3", "var_attr2",3,4), 
                                 row.names = c(1,2,3,4))
 	plotter <- htmlReport$new()
-	actual_output <- plotter$parse_data_frame(test_data_frame, "Sample", 1, TRUE)
+	options <- list(border = 1,
+		table_rownames = TRUE)
+	actual_output <- plotter$parse_data_frame(test_data_frame, options, "Sample")
 
 	testthat::expect_equal(actual_output, expected_output)
 })

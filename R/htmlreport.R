@@ -166,54 +166,6 @@ htmlReport$methods(
 					 text = text)
 })
 
-#' Parse data frame to HTML
-#'
-#' @name parse_data_frame-htmlReport-method
-#' @title Print data frame in HTML format
-#' @description Parses a data frame included in an object of class "htmlReport"
-#' and HTML table to include it in htmlreportR
-#' @param df Data frame to parse
-#' @param id An integer. Table id in report
-#' @param border An integer. Border thickness
-#' @param row_names A boolean.
-#'   * `TRUE` (the default): Parse data frame row names as a column of
-#'   												 the HTML table.
-#'   * `FALSE` (the default): Do not parse data frame row names.
-#' @returns A table in html format.
-
-htmlReport$methods(
-	parse_data_frame = function(df, table_id, border, row_names = FALSE) {
-											html_df <- paste0("<table id=", table_id,
-																		  " border=", border, " class=table >")
-											html_df <- c(html_df, "<thead>", "<tr>")
-											if (row_names == TRUE) {
-												html_df <- c(html_df, "<th> rownames </th>")
-											}
-											colnames_vector <- sapply(colnames(df),
-																		            function(x) {
-																		            	paste0("<th> ", x, " </th>")
-																								})
-											names(colnames_vector) <- NULL
-											html_df <- c(html_df, colnames_vector,
-																			"</tr>", "</thead>", "<tbody>")
-											for (row_ind in seq(1, nrow(df))) {
-												html_df <- c(html_df, "<tr>")
-												if(row_names == TRUE) {
-													rownames_vector <- paste0("<td> ",
-																										rownames(df)[row_ind],
-																										" </td>")
-													html_df <- c(html_df, rownames_vector)
-												}
-												col_vector <- sapply(df[row_ind, ],
-																			  function(x) {
-																			  	paste0("<td> ", x, "</td>")
-																				})
-												html_df <- c(html_df, col_vector, "</tr>")
-											}
-											html_df <- c(html_df, "</tbody>", "</table>")
-											return(paste(html_df, collapse="\n"))
-										 })
-
 
 
 #' Write HTML Report
@@ -268,12 +220,35 @@ htmlReport$methods(make_head = function() {
             "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n",
             "<meta http-equiv=\"Content-Language\" content=\"en-us\" />\n",
             "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n\n"))
+	
+	css_cdn <<- c(css_cdn, 
+		'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+	
+	if (length(dt_tables) > 0){ # CDN load, this library is difficult to embed in html file
+
+        css_cdn <<- c(css_cdn, 
+            'https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css',
+            'https://cdn.datatables.net/buttons/3.0.0/css/buttons.dataTables.css')
+        js_cdn <<- c(js_cdn,
+            'https://code.jquery.com/jquery-3.7.1.js',
+            'https://cdn.datatables.net/2.0.0/js/dataTables.js',
+            'https://cdn.datatables.net/buttons/3.0.0/js/dataTables.buttons.js',
+            'https://cdn.datatables.net/buttons/3.0.0/js/buttons.dataTables.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
+            'https://cdn.datatables.net/buttons/3.0.0/js/buttons.html5.min.js')
+
+        if ('pdfHtml5' %in% custom_buttons){
+
+            js_cdn <<- c(js_cdn,
+                'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js')
+        }
+	} 
+
 	if (mermaid) 
 		js_cdn <<- c(js_cdn,
 		"<script type=\"module\"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; </script>")
 
-	css_cdn <<- c(css_cdn, 
-		'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
 
 	css_files <<- c(css_files, "htmlReport.css")
 	js_files <<- c(js_files, "htmlReport.js")
@@ -284,10 +259,31 @@ htmlReport$methods(make_head = function() {
 	load_js()
 	load_css()
 
+
+	#DT tables
+    if (length(dt_tables) > 0){
+        embedded_buttons <- paste(sapply(custom_buttons, function(x) paste0("'", x,"'")), collapse = ",")
+        for (dt_table in dt_tables){
+
+	       	dynamic_js <<- c(dynamic_js,
+		                    paste(c("$(document).ready(function () {",
+		                        paste0("\t$(", dt_table,").DataTable({ dom:'Bfrtip', buttons: [", embedded_buttons, "] });"),
+		                    "});"), collapse = "\n"))
+        }
+    }
+
+
+    add_dynamic_js()
+
 	concat("</head>\n")
 })
 
 
+
+htmlReport$methods(add_dynamic_js = function(){
+	string_chunks <- paste(dynamic_js, collapse = "\n")
+	concat(paste(c("<script>", string_chunks, "</script>",""), collapse = "\n"))
+})
 
 #' Build HTML Report Body
 #'
@@ -364,7 +360,7 @@ htmlReport$methods(get_plot = function(plot_obj) {
 #' @examples
 #' \dontrun{
 #' # Assuming plotter is an object of class htmlReport
-#' df <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
+#' data_frame <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
 #' options <- list(id = "data_id", transpose = FALSE)
 #' data <- plotter$get_data_for_plot(options)
 #' }
@@ -390,9 +386,9 @@ htmlReport$methods(get_data_for_plot = function(options) {
 #' @examples
 #' \dontrun{
 #' # Assuming plotter is an object of class htmlReport
-#' df <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
+#' data_frame <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
 #' options <- list(id = "data_id", transpose = FALSE)
-#' data <- plotter$get_data(df, options)
+#' data <- plotter$get_data(data_frame, options)
 #' }
 #'
 NULL
@@ -425,9 +421,9 @@ htmlReport$methods(get_data = function(options) {
 #' @examples
 #' \dontrun{
 #' # Assuming plotter is an object of class htmlReport
-#' df <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
+#' data_frame <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
 #' options <- list(id = "data_id", transpose = FALSE)
-#' data <- plotter$extract_data(df, options)
+#' data <- plotter$extract_data(data_frame, options)
 #' }
 #'
 NULL
@@ -485,13 +481,13 @@ htmlReport$methods(extract_data = function(data_frame, 	options) {
 #' # Create sample data frame
 #' \dontrun{
 #' # Assuming plotter is an object of class htmlReport
-#' df <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
+#' data_frame <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
 #' 
 #' # Define options
 #' options <- list(header = TRUE, row_names = TRUE)
 #' 
 #' # Apply the function
-#' modified_df <- plotter$add_header_row_names(df, options)
+#' modified_data_frame <- plotter$add_header_row_names(data_frame, options)
 #' } 
 #' 
 NULL
@@ -537,7 +533,9 @@ htmlReport$methods(concat = function(text_vec) {
 
 
 
-
+########################################################
+## JAVASCRIPT AND CSS METHODS
+########################################################
 
 htmlReport$methods(get_js_cdn= function() {
 	parsed_js_cdn <- sapply(js_cdn, function(jc) {
@@ -590,3 +588,124 @@ htmlReport$methods(load_js = function(){
 		concat(c("<script src=\"",js_file, "\" type=\"application/javascript\"></script>\n\n"))
 	}	
 })
+
+########  HTML TABLES ############################
+
+
+
+htmlReport$methods(
+	table = function(id, 
+					 header = FALSE, 
+					 row_names = FALSE,
+					 transpose = FALSE,
+					 smp_attr = NULL,
+					 var_attr = NULL,
+					 fields = NULL,
+					 func = NULL,
+					 text = TRUE,
+					 border = 1, 
+					 table_rownames = TRUE,
+ 					 cell_align = c(), 
+					 attrib = list(),
+					 styled = "bs",
+					 buttons_custom = c('copyHtml5', 'excelHtml5', 'csvHtml5')){
+
+		options <- list(id = id,
+						header = header,
+						row_names = row_names,
+						transpose = transpose,
+						smp_attr = smp_attr,
+						var_attr = var_attr,
+						fields = fields,
+						border = border, 
+						cell_align = cell_align,
+						table_rownames = table_rownames,
+						func = func,
+						text = text) 
+	
+		table_attr <- parse_table_attr(attrib)
+		data_frame <- get_data(options)$data_frame
+		## col and rowspan
+		table_id <- paste0("table_", count_objects)
+		if (styled == "dt"){
+			dt_tables <<- c(dt_tables, table_id)
+			custom_buttons <<- buttons_custom 
+		} else if (styled == "bs") {
+			bs_tables <<- c(bs_tables, table_id)
+		}
+		count_objects <<- count_objects + 1
+		parse_data_frame(data_frame = data_frame,
+						options = options, 
+						table_id = table_id,
+						table_attr = table_attr)
+
+	}
+)
+
+htmlReport$methods(
+	parse_table_attr = function(attrib){
+		table_attr <- sapply(names(attrib), function(attr_id) {
+ 		   paste0(attr_id, "= \"", attrib[[attr_id]], "\"")
+ 	 	})
+ 	 	return(paste(table_attr, collapse = " "))
+
+	})
+
+#' Parse data frame to HTML
+#'
+#' @name parse_data_frame-htmlReport-method
+#' @title Print data frame in HTML format
+#' @description Parses a data frame included in an object of class "htmlReport"
+#' and HTML table to include it in htmlreportR
+#' @param data_frame Data frame to parse
+#' @param options list with options
+#' @param table_id An integer. Table id in report
+#' @param row_names A boolean.
+#'   * `TRUE` (the default): Parse data frame row names as a column of
+#'   												 the HTML table.
+#'   * `FALSE` (the default): Do not parse data frame row names.
+#' @returns A table in html format.
+
+htmlReport$methods(
+	parse_data_frame = function(data_frame, 
+								options, 
+								table_id,
+								table_attr = "" 
+								) {
+		html_data_frame <- paste0("<table id=", table_id,
+									  " border=", options$border, " ",table_attr," >")
+		html_data_frame <- c(html_data_frame, "<thead>", "<tr>")
+		if (options$table_rownames == TRUE) {
+			html_data_frame <- c(html_data_frame, "<th> rownames </th>")
+		}
+		colnames_vector <- sapply(colnames(data_frame), paste_tag, tag = "th")
+		names(colnames_vector) <- NULL
+		html_data_frame <- c(html_data_frame, colnames_vector,
+										"</tr>", "</thead>", "<tbody>")
+		for (row_ind in seq(1, nrow(data_frame))) {
+			html_data_frame <- c(html_data_frame, "<tr>")
+			if(options$table_rownames == TRUE) {
+				rownames_vector <- paste_tag(rownames(data_frame)[row_ind], "td")
+				html_data_frame <- c(html_data_frame, rownames_vector)
+			}
+			col_vector <- sapply(data_frame[row_ind, ], paste_tag, "td")
+			html_data_frame <- c(html_data_frame, col_vector, "</tr>")
+		}
+		html_data_frame <- c(html_data_frame, "</tbody>", "</table>")
+		return(paste(html_data_frame, collapse="\n"))
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

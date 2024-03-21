@@ -4,11 +4,11 @@
 \alias{parse_data_frame-htmlReport-method}
 \title{Print data frame in HTML format}
 \arguments{
-\item{df}{Data frame to parse}
+\item{data_frame}{Data frame to parse}
 
-\item{id}{An integer. Table id in report}
+\item{options}{list with options}
 
-\item{border}{An integer. Border thickness}
+\item{table_id}{An integer. Table id in report}
 
 \item{row_names}{A boolean.
 \itemize{

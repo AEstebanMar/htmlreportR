@@ -23,13 +23,13 @@ This function checks the options provided and manipulates the column and row nam
 # Create sample data frame
 \dontrun{
 # Assuming plotter is an object of class htmlReport
-df <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
+data_frame <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
 
 # Define options
 options <- list(header = TRUE, row_names = TRUE)
 
 # Apply the function
-modified_df <- plotter$add_header_row_names(df, options)
+modified_data_frame <- plotter$add_header_row_names(data_frame, options)
 } 
 
 }
