@@ -665,7 +665,7 @@ htmlReport$methods(
 #'   												 the HTML table.
 #'   * `FALSE` (the default): Do not parse data frame row names.
 #' @returns A table in html format.
-
+NULL
 htmlReport$methods(
 	parse_data_frame = function(data_frame, 
 								options, 
@@ -695,17 +695,171 @@ htmlReport$methods(
 		return(paste(html_data_frame, collapse="\n"))
 })
 
+#' Update reference options
+#'
+#' @name update_options-htmlReport-method
+#' @title Update reference options
+#' @description This function updates the options of a option list based on other list 
+#' @param ref list with original options
+#' @param sub list with options to update
+#' @returns A updated options list
+NULL
+htmlReport$methods(
+	update_options = function(ref, sub){
+		for (opt in names(sub)) {
+			ref[opt] <- sub[opt]	
+		}
+		ref
+})
 
 
+# htmlReport$methods(
+# 	canvasXpress_main = function(user_options){
+# 	options <- list(
+#             'id'= NULL,
+#             'func'= NULL,
+#             'config_chart'= NULL,
+#             'fields'= c(),
+#             'smp_attr'= c(),
+#             'var_attr'= c(),
+#             'segregate'= c(),
+#             'show_factors'= c(),
+#             'data_format'= 'one_axis',
+#             'responsive'= TRUE,
+#             'height'= '600px',
+#             'width'= '600px',
+#             'header'= FALSE,
+#             'row_names'= FALSE,
+#             'add_header_row_names'= TRUE,
+#             'transpose'= TRUE,
+#             'x_label'= 'x_axis',
+#             'title'= 'Title',
+#             'config'= list(),
+#             'after_render'= c(),
+#             'treeBy'= 's',
+#             'renamed_samples'= c(),
+#             'renamed_variables'= c(),
+#             'alpha'= 1,
+#             'theme'= 'cx',
+#             'color_scheme'= 'CanvasXpress')
 
+# 	options <- update_options(options, user_options)
+# 	config <- list('toolbarType' = 'under',
+# 		           'xAxisTitle' = options$x_label,
+# 		           'title' = options$title,
+# 		           "objectColorTransparency"= options$alpha,
+# 		           "theme"= options$theme,
+# 		           "colorScheme"= options$color_scheme)
 
+# 	if (options[['tree']] != NULL) 
+# 		config <- set_tree(options, config)
 
+# 	config <- update_options(config, options$config)
 
+# 	 plot_data <- get_data_for_plot(options)
+# 	 values <- plot_data$data_frame
+# 	 smp_attr <- plot_data$smp_attr
+# 	 var_attr <- plot_data$var_attr
+# 	 samples <- plot_data$samples
+# 	 variables <- plot_data$variables 
+       
+#      if (is.null(values) 
+#      	return(Fs("<div width=\"",options$width, "\" height=\"",options$height, "\" > <p>NO DATA<p></div>"))
 
+# 	object_id <- Fs("obj_", count_objects, "_")
+# 	x <- list()
+#     z <- list()
+#     if (!is.null(var_attr)) z <- as.list(as.data.frame(t(var_attr)))
+#     if (!is.null(smp_attr)) x <- as.list(smp_attr)
+# 	config_opt <- options$config_chart(options, config, samples, variables, values, object_id, x, z) # apply custom chart method to configure plot
+#     options <- config_opt$options
+#     config <- config_opt$config
+# 	samples <- config_opt$samples
+#     variables <- config_opt$variables
+#     values <- config_opt$values
+#     object_id <- config_opt$object_id
+#     x <- config_opt$x
+#     y <- config_opt$z
+#     # Build JSON objects and Javascript code
+#     #-----------------------------------------------
+#     count_objects <<- count_objects + 1
+#     data_structure <- list(
+#             'y' = list( 
+#                 'vars' = as.list(variables),
+#                 'smps' = as.list(samples),
+#                 'data' = as.list(values)
+#             ),
+#             'x' = x,
+#             'z' = z)
 
+# 	events <- FALSE  #Possible future use for events for CanvasXpress, currently not used
+#     info <- FALSE   #Possible future use for info for CanvasXpress, currently not used
+#     afterRender = options['after_render']
+#     if (options$mod_data_structure == 'boxplot'){
+#         data_structure['y']['smps'] <- NULL
+#         data_structure['x']['Factor'] <- samples
+#     } else if (options$mod_data_structure == 'circular') {
+#     	data_structure['z']['Ring'] <- options$ring_assignation
+#     } else if (options$mod_data_structure == 'ridgeline'){
+    	       
+#         data_structure['y']['smps'] = c("Sample")
 
+# #        transposed_values_to_flaten = list(map(lambda *x: list(x), *values))
+#         data_structure['y']['data'] = unlist(x)
+#         data_structure['y']['vars'] = sapply(seq(1, length(data_structure['y']['data'])), function(id) Fs("s",id))
+#         reshaped_factor <- sapply(samples, function(sample) sample * length(values))
+#         data_structure['x']['Factor'] <- reshaped_factor
+# #        data_structure.update({ 'z' : {'Factor' : [item for sublist in reshaped_factor for item in sublist]}})
+#     }
 
+# #       self.inject_attributes(data_structure, options, slot="x")
+# #        self.inject_attributes(data_structure, options, slot="z") 
 
+# 	  	extracode <- initialize_extracode(options)
+    
+#         if (length(options$segregate) > 0)
+#         	 extracode += self.segregate_data(f"C{object_id}", options['segregate']) + "\n"
+#         if options.get('group_samples') != None: extracode += f"C{object_id}.groupSamples({options['group_samples']})\n"
+  
+#         plot_data = (
+#             f"var data = {self.decompress_code(self.compress_data(data_structure))};"
+#             f"var conf = {json.dumps(config)};"
+#             f"var events = {json.dumps(events)};"
+#             f"var info = {json.dumps(info)};"
+#             f"var afterRender = {json.dumps(afterRender)};"
+#             f"var C{object_id} = new CanvasXpress(\"{object_id}\", data, conf, events, info, afterRender);\n{extracode}")
+#         self.plots_data.append(plot_data)
+        
+#         responsive = ''
+#         if options['responsive']: responsive = "responsive='true'" 
+#         html = f"<canvas  id=\"{object_id}\" width=\"{options['width']}\" height=\"{options['height']}\" aspectRatio='1:1' {responsive}></canvas>"
+#         return html
+        
+# })
 
+htmlReport$methods(
+	initialize_extracode = function(options){
+		ext_code <- ""
+		if (!is.null(options$extracode))
+        	ext_code <- Fs(c(extcode, "\n"))
+        return(extracode)
+})
 
+htmlReport$methods(
+	set_tree = function(options, config){
+        tree <- tree_from_file(options$tree)
+        if (options$treeBy == 's'){
+            config['smpDendrogramNewick'] <- tree
+            config['samplesClustered'] <- TRUE
+        } else if (options$treeBy == 'v'){
 
+            config['varDendrogramNewick'] <- tree
+            config['variablesClustered'] <- TRUE
+        }
+        config
+})
+
+htmlReport$methods(
+	tree_from_file = function(self, file){
+        sapply(readLines(template), trimws)
+})

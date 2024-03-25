@@ -23,3 +23,7 @@ check_numeric_fields <- function(table_data){
 paste_tag <- function(vec, tag) {
     paste0("<", tag, "> ", vec, " </", tag, ">")
 }
+
+Fs <- function(...) {
+    paste0(...)
+}
