@@ -73,7 +73,7 @@ test_that("testing the sample and variable attributes formatting", {
 
 	   	user_options <- list("header" = FALSE, "row_names" = FALSE, smp_attr = NULL, var_attr = NULL, text = TRUE)
 	   	user_options_smp_attr <- list("header" = FALSE, "row_names" = FALSE, smp_attr = c(1), var_attr = NULL, text = TRUE)
-	   	user_options_var_attr <- list("header" = FALSE, "row_names" = FALSE, smp_attr = NULL, var_attr = c(1), text = c(1))
+	   	user_options_var_attr <- list("header" = FALSE, "row_names" = FALSE, smp_attr = NULL, var_attr = c(1), text = "dynamic")
 	   	user_options_smp_var_attr <- list("header" = FALSE, "row_names" = FALSE, smp_attr = c(1), var_attr = c(1), text = FALSE)
 
 

@@ -78,8 +78,8 @@ htmlReport$methods(
 #' 
 NULL
 htmlReport$methods(static_plot_main = function(id, 
-											   header = FALSE, 
-											   row_names = FALSE,
+											   header = NULL, 
+											   row_names = NULL,
 											   transpose = FALSE,
 											   smp_attr = NULL,
 											   var_attr = NULL,
@@ -140,8 +140,8 @@ htmlReport$methods(static_plot_main = function(id,
 NULL
 htmlReport$methods(
 	static_ggplot_main = function(id, 
-								 header = FALSE, 
-								 row_names = FALSE,
+								 header = NULL, 
+								 row_names = NULL,
 								 transpose = FALSE,
 								 smp_attr = NULL,
 								 var_attr = NULL,
@@ -249,9 +249,14 @@ htmlReport$methods(make_head = function() {
 		js_cdn <<- c(js_cdn,
 		"<script type=\"module\"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; </script>")
 
-
 	css_files <<- c(css_files, "htmlReport.css")
 	js_files <<- c(js_files, "htmlReport.js")
+	
+	if (length(menu_items) > 0 ){
+		css_files <<- c(css_files, "reporteR_menu.css")
+		js_files <<- c(js_files, "reporteR_menu.js")
+	
+	}
 
 	concat(get_css_cdn())
 	concat(get_js_cdn())
@@ -277,6 +282,7 @@ htmlReport$methods(make_head = function() {
 
 	concat("</head>\n")
 })
+
 
 
 
@@ -307,11 +313,33 @@ htmlReport$methods(add_dynamic_js = function(){
 #' 
 NULL
 htmlReport$methods(build_body = function(body_text) {
+	concat("<body>")
+	if (length(menu_items) > 0) build_menu()
+	concat("<div id=\"main\" class=\"content\">")	
 	concat(body_text)
+	concat("</div>\n</body>")
+
+
 })
 
+htmlReport$methods(
+	build_menu = function(){
+		menu_text <- Fs(
+			"<div class=\"menu\">",
+			"\t<div class=\"navbar\">",
+			"\t\t<a href=\"#main\">Main</a>",
 
+			paste(menu_items, collapse = "\n"),
+			"\t</div>",
+			"</div>", collapse = "\n")
+		concat(menu_text)
+})
 
+htmlReport$methods(add_menu_item = function(id, properties){
+	item_text <- Fs("\t\t<a href=\"#", id,"\">",properties$text,"</a>")
+	menu_items <<- c(menu_items, item_text)
+
+})
 
 #' Get Plot from htmlReport Object
 #'
@@ -445,13 +473,16 @@ htmlReport$methods(extract_data = function(data_frame, 	options) {
     	smp_attr <- smp_attr[-options$var_attr,,drop = FALSE]
     } 
     if (length(options$fields > 0))
-    data_frame <- data_frame[,options$fields, drop = FALSE]
+    	data_frame <- data_frame[,options$fields, drop = FALSE]
 
 	
-	numeric_fields <- seq(1,ncol(data_frame))		
-	if (is.numeric(options$text)) {
-		numeric_fields <- numeric_fields[-options$text]
-	} else if (options$text == TRUE){
+	numeric_fields <- seq(1,ncol(data_frame))	
+
+	if (options$text == "dynamic") {
+		numeric_fields <- check_numeric_fields(data_frame)
+	} else if (options$text == FALSE){
+		numeric_fields <- seq(1,ncol(data_frame))	
+	} else {
 		numeric_fields <- c()
 	}
 
@@ -492,17 +523,22 @@ htmlReport$methods(extract_data = function(data_frame, 	options) {
 #' 
 NULL
 htmlReport$methods(add_header_row_names = function(data_frame, options) {	
+		
+	if(!is.null(options$header))
 		if (options$header) {
 			colnames(data_frame) <- data_frame[1,]
 			data_frame <- data_frame[-1,]
 		} 
+	if(!is.null(options$row_names))
 		if (options$row_names) {
 			rownames(data_frame) <- data_frame[,1]
 			data_frame <- data_frame[,-1]
 		}
 
+	if(!is.null(options$header))
 		if (!options$header)
 			colnames(data_frame) <- seq(1,ncol(data_frame))
+	if(!is.null(options$row_names))
 		if (!options$row_names)
 			rownames(data_frame) <- as.character(seq(1,nrow(data_frame)))
 
@@ -863,3 +899,5 @@ htmlReport$methods(
 	tree_from_file = function(self, file){
         sapply(readLines(template), trimws)
 })
+
+

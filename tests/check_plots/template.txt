@@ -1,10 +1,12 @@
 
+
 <h1>This is a sample report</h1>
 <h2>Static plots</h2>
+<div id="heatmap">
 <h2>Heatmap example</h2>
 
 <!--begin.rcode 
-
+    plotter$add_menu_item("heatmap",list(text="Heatmap"))
     mod_func <- function(data_frame){
        mod_table <- reshape2::melt(as.matrix(data_frame)) 
        colnames(mod_table) <- c("x_axis", "y_axis", "Freq")
@@ -35,11 +37,12 @@
        ggplot2::scale_fill_gradient2(low = col[1], mid= col[2], high = col[3], na.value = na_col, guide = "colourbar", aesthetics = "fill")
 	}))
    end.rcode-->
-
+</div>
+<div id="mermaid">
 <h2>Mermaid chart example</h2>
 
 <!--begin.rcode
-
+    plotter$add_menu_item("mermaid",list(text="Mermaid.js"))
    cat(plotter$mermaid_chart('
 ---
 config:
@@ -92,11 +95,13 @@ flowchart LR
     
     '))
 end.rcode-->
+</div>
 
+<div id="datatable">
 <h2>Table parser (Bootstrap)</h2>
 
 <!--begin.rcode
-    
+    plotter$add_menu_item("datatable",list(text="DataTable"))
     plotter$hash_vars[["test_data_frame"]] <- data.frame( "V1" = c("h0","r1", "r2", "r3"), 
                                 "V2" = c("h1", "-","smp_attr1", "smp_attr2"),
                                 "V3" = c("h2", "var_attr1", 1,2), 
@@ -108,7 +113,7 @@ end.rcode-->
 
 end.rcode-->
 
-
+</div>
 
 <h2>Table parser (DataTable)</h2>
 

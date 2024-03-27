@@ -14,7 +14,8 @@ htmlReport <- setRefClass("htmlReport",
       dt_tables = "character",
       count_objects = "numeric",
       custom_buttons = "character",
-      dynamic_js = "character"
+      dynamic_js = "character",
+      menu_items = "list"
       ),
 
     methods = list(
@@ -27,6 +28,7 @@ htmlReport <- setRefClass("htmlReport",
           css_cdn <<- ""
           mermaid <<- FALSE
           count_objects <<- 0
+          menu_items <<- list()
           if(!file.exists(tmp_folder))
             dir.create(tmp_folder)
 
