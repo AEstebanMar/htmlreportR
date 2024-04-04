@@ -252,7 +252,7 @@ htmlReport$methods(make_head = function() {
 	css_files <<- c(css_files, "htmlReport.css")
 	js_files <<- c(js_files, "htmlReport.js")
 	
-	if (length(menu_items) > 0 ){
+	if (index_type == "menu"){
 		css_files <<- c(css_files, "reporteR_menu.css")
 		js_files <<- c(js_files, "reporteR_menu.js")
 	
@@ -313,32 +313,60 @@ htmlReport$methods(add_dynamic_js = function(){
 #' 
 NULL
 htmlReport$methods(build_body = function(body_text) {
-	concat("<body>")
-	if (length(menu_items) > 0) build_menu()
-	concat("<div id=\"main\" class=\"content\">")	
+	concat("<body>\n")
+	if (length(index_items) > 0) create_header_index()
 	concat(body_text)
-	concat("</div>\n</body>")
-
+	concat("</body>\n")
 
 })
 
 htmlReport$methods(
-	build_menu = function(){
-		menu_text <- Fs(
-			"<div class=\"menu\">",
-			"\t<div class=\"navbar\">",
-			"\t\t<a href=\"#main\">Main</a>",
+	create_header_index = function(){
+		index <- "<div>\n"
+		last_level <- 0
+		class_ul <- NULL
+		all_levels <- as.numeric(index_items[,3])
+		max_level <- min(all_levels) 
+		if (index_type == "menu") {
+			index_items[all_levels > max_level, 3] <<- max_level + 1
+			class_ul <- " class=\"submenu\""
+		}
 
-			paste(menu_items, collapse = "\n"),
-			"\t</div>",
-			"</div>", collapse = "\n")
-		concat(menu_text)
+		for (i in seq(nrow(index_items))) {
+			id <- index_items[i, 1]
+			text <- index_items[i, 2]
+			hlevel <- as.numeric(index_items[i, 3])
+			if (hlevel > last_level)
+				index <- Fs(index, "<ul", class_ul, ">\n")
+			if (hlevel < last_level) {
+				diff_lv <- last_level - hlevel
+				index <- Fs(index, paste(rep("</ul>\n", diff_lv), collapse = "\n"), "\n")
+			}
+			index <- Fs(index, "<li><a href=#", id, ">", text, "</a></li>\n")
+			last_level <- hlevel
+		}
+		index <- Fs(index, paste(rep("</ul>\n", last_level-max_level+1), collapse = "\n"), "</div>\n")
+		concat(index)
 })
 
-htmlReport$methods(add_menu_item = function(id, properties){
-	item_text <- Fs("\t\t<a href=\"#", id,"\">",properties$text,"</a>")
-	menu_items <<- c(menu_items, item_text)
+htmlReport$methods(add_index_item = function(id, text, hlevel){
+	if(nrow(index_items) == 0) {
+ 		index_items <<- matrix(c(id, text, hlevel), nrow = 1, ncol = 3)
+	} else {
+		index_items <<- rbind(index_items, c(id, text, hlevel))
+	}
+})
 
+htmlReport$methods(create_title = function(text, id, hlevel = 1, indexable = FALSE, clickable = FALSE, t_id = NULL, clickable_text = "(Click me)"){
+
+	if (indexable) add_index_item(id, text, hlevel)
+
+    header <- Fs("<h", hlevel, " id=\"", id, "\">", text, "</h", hlevel, ">")
+
+    if (clickable && !is.null(t_id))
+        header <- Fs("<h", hlevel, " id=\"", id, "\" class=\"py_accordion\" onclick=\"hide_show_element('", t_id, "')\">", text, " ", clickable_text, "</h", hlevel, ">")
+    
+    return(header)
 })
 
 #' Get Plot from htmlReport Object
@@ -748,130 +776,6 @@ htmlReport$methods(
 		ref
 })
 
-
-# htmlReport$methods(
-# 	canvasXpress_main = function(user_options){
-# 	options <- list(
-#             'id'= NULL,
-#             'func'= NULL,
-#             'config_chart'= NULL,
-#             'fields'= c(),
-#             'smp_attr'= c(),
-#             'var_attr'= c(),
-#             'segregate'= c(),
-#             'show_factors'= c(),
-#             'data_format'= 'one_axis',
-#             'responsive'= TRUE,
-#             'height'= '600px',
-#             'width'= '600px',
-#             'header'= FALSE,
-#             'row_names'= FALSE,
-#             'add_header_row_names'= TRUE,
-#             'transpose'= TRUE,
-#             'x_label'= 'x_axis',
-#             'title'= 'Title',
-#             'config'= list(),
-#             'after_render'= c(),
-#             'treeBy'= 's',
-#             'renamed_samples'= c(),
-#             'renamed_variables'= c(),
-#             'alpha'= 1,
-#             'theme'= 'cx',
-#             'color_scheme'= 'CanvasXpress')
-
-# 	options <- update_options(options, user_options)
-# 	config <- list('toolbarType' = 'under',
-# 		           'xAxisTitle' = options$x_label,
-# 		           'title' = options$title,
-# 		           "objectColorTransparency"= options$alpha,
-# 		           "theme"= options$theme,
-# 		           "colorScheme"= options$color_scheme)
-
-# 	if (options[['tree']] != NULL) 
-# 		config <- set_tree(options, config)
-
-# 	config <- update_options(config, options$config)
-
-# 	 plot_data <- get_data_for_plot(options)
-# 	 values <- plot_data$data_frame
-# 	 smp_attr <- plot_data$smp_attr
-# 	 var_attr <- plot_data$var_attr
-# 	 samples <- plot_data$samples
-# 	 variables <- plot_data$variables 
-       
-#      if (is.null(values) 
-#      	return(Fs("<div width=\"",options$width, "\" height=\"",options$height, "\" > <p>NO DATA<p></div>"))
-
-# 	object_id <- Fs("obj_", count_objects, "_")
-# 	x <- list()
-#     z <- list()
-#     if (!is.null(var_attr)) z <- as.list(as.data.frame(t(var_attr)))
-#     if (!is.null(smp_attr)) x <- as.list(smp_attr)
-# 	config_opt <- options$config_chart(options, config, samples, variables, values, object_id, x, z) # apply custom chart method to configure plot
-#     options <- config_opt$options
-#     config <- config_opt$config
-# 	samples <- config_opt$samples
-#     variables <- config_opt$variables
-#     values <- config_opt$values
-#     object_id <- config_opt$object_id
-#     x <- config_opt$x
-#     y <- config_opt$z
-#     # Build JSON objects and Javascript code
-#     #-----------------------------------------------
-#     count_objects <<- count_objects + 1
-#     data_structure <- list(
-#             'y' = list( 
-#                 'vars' = as.list(variables),
-#                 'smps' = as.list(samples),
-#                 'data' = as.list(values)
-#             ),
-#             'x' = x,
-#             'z' = z)
-
-# 	events <- FALSE  #Possible future use for events for CanvasXpress, currently not used
-#     info <- FALSE   #Possible future use for info for CanvasXpress, currently not used
-#     afterRender = options['after_render']
-#     if (options$mod_data_structure == 'boxplot'){
-#         data_structure['y']['smps'] <- NULL
-#         data_structure['x']['Factor'] <- samples
-#     } else if (options$mod_data_structure == 'circular') {
-#     	data_structure['z']['Ring'] <- options$ring_assignation
-#     } else if (options$mod_data_structure == 'ridgeline'){
-    	       
-#         data_structure['y']['smps'] = c("Sample")
-
-# #        transposed_values_to_flaten = list(map(lambda *x: list(x), *values))
-#         data_structure['y']['data'] = unlist(x)
-#         data_structure['y']['vars'] = sapply(seq(1, length(data_structure['y']['data'])), function(id) Fs("s",id))
-#         reshaped_factor <- sapply(samples, function(sample) sample * length(values))
-#         data_structure['x']['Factor'] <- reshaped_factor
-# #        data_structure.update({ 'z' : {'Factor' : [item for sublist in reshaped_factor for item in sublist]}})
-#     }
-
-# #       self.inject_attributes(data_structure, options, slot="x")
-# #        self.inject_attributes(data_structure, options, slot="z") 
-
-# 	  	extracode <- initialize_extracode(options)
-    
-#         if (length(options$segregate) > 0)
-#         	 extracode += self.segregate_data(f"C{object_id}", options['segregate']) + "\n"
-#         if options.get('group_samples') != None: extracode += f"C{object_id}.groupSamples({options['group_samples']})\n"
-  
-#         plot_data = (
-#             f"var data = {self.decompress_code(self.compress_data(data_structure))};"
-#             f"var conf = {json.dumps(config)};"
-#             f"var events = {json.dumps(events)};"
-#             f"var info = {json.dumps(info)};"
-#             f"var afterRender = {json.dumps(afterRender)};"
-#             f"var C{object_id} = new CanvasXpress(\"{object_id}\", data, conf, events, info, afterRender);\n{extracode}")
-#         self.plots_data.append(plot_data)
-        
-#         responsive = ''
-#         if options['responsive']: responsive = "responsive='true'" 
-#         html = f"<canvas  id=\"{object_id}\" width=\"{options['width']}\" height=\"{options['height']}\" aspectRatio='1:1' {responsive}></canvas>"
-#         return html
-        
-# })
 
 htmlReport$methods(
 	initialize_extracode = function(options){

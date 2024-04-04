@@ -26,7 +26,9 @@ option_list <- list(
  optparse::make_option(c("-o", "--output_file"), type="character", default=NULL,
     help="HTML file path to render the template"),
  optparse::make_option(c("--title"), type="character", default="htmlreportR",
-    help="Title of the html report")
+    help="Title of the html report"),
+ optparse::make_option(c("-m", "--menu"), type="logical", default=FALSE, action = "store_true",
+    help="Index is menu like")
   )
 
 opt <- optparse::parse_args(optparse::OptionParser(option_list=option_list))
