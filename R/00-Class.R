@@ -16,7 +16,8 @@ htmlReport <- setRefClass("htmlReport",
       custom_buttons = "character",
       dynamic_js = "character",
       index_items = "matrix",
-      index_type = "character"
+      index_type = "character",
+      features = "list"
       ),
 
     methods = list(
@@ -31,6 +32,9 @@ htmlReport <- setRefClass("htmlReport",
           count_objects <<- 0
           index_type <<- ""
           if(menu) index_type <<- "menu"
+
+          features <<- list('mermaid' = FALSE, 'dt_tables' = FALSE, 'pdfHtml5' = FALSE, 'canvasXpress' = FALSE, 'pako' = FALSE,
+            'cytoscape'= FALSE, 'pyvis' = FALSE, 'elgrapho' = FALSE, 'sigma' = FALSE)
 
           if(!file.exists(tmp_folder))
             dir.create(tmp_folder)
