@@ -377,6 +377,7 @@ htmlReport$methods(create_title = function(text, id, hlevel = 1, indexable = FAL
 #' @importFrom grDevices png dev.off
 NULL
 htmlReport$methods(get_plot = function(plot_obj) {
+	if (is.character(plot_obj)) return(plot_obj)
 	file_png <- file.path(tmp_dir, "tmp_fig.png")
   	grDevices::png(file_png, 
 		width = knitr::opts_current$get("fig.width"),
@@ -920,3 +921,13 @@ htmlReport$methods(
 })
 
 
+
+
+htmlReport$methods(
+	resizable = function(img){ 
+
+		Fs("<div class=\"resizable_img\">",
+			img,
+			"</div>")
+
+})
