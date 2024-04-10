@@ -503,7 +503,7 @@ htmlReport$methods(extract_data = function(data_frame, 	options) {
 	}
 
 	data_frame[,numeric_fields] <- as.data.frame(lapply(
-				data_frame[,numeric_fields], as.numeric))
+				data_frame[,numeric_fields, drop = FALSE], as.numeric))
 
 		return(list(data_frame = data_frame,
 								smp_attr = smp_attr,

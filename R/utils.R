@@ -16,7 +16,7 @@ split_str <- function(string, split = NULL) {
 
 
 check_numeric_fields <- function(table_data){
-    n_columns <- grepl("^\\d*\\.?\\d+$", table_data[1,])
+    n_columns <- grepl("^-?\\d*\\.?\\d+$", table_data[1,])
     return(n_columns)   
 } 
 
