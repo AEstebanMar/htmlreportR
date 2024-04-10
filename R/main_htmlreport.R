@@ -19,7 +19,8 @@ main_htmlreportR <- function(options){
 	plotter <- htmlReport$new(title_doc = options$title, 
 						      container = data_files, 
 		                      tmp_folder = tmp_folder,
-		                      menu = options$menu)
+		                      menu = options$menu,
+		                      src = options$source_folder)
 	
 	plotter$build(options$template)
 	plotter$write_report(output_file)

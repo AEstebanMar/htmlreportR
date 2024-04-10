@@ -11,9 +11,12 @@ if( Sys.getenv('HTMLREPORTER_MODE') == 'DEVELOPMENT' ){
   # Load custom libraries
   devtools::load_all(file.path(root_path, 'R'))
 
-  template_folder <- file.path(root_path, 'inst', 'templates')
+  source_folder <- file.path(root_path, 'inst')
 }else{
   require('htmlreportR')
+  root_path <- find.package('htmlreportR')
+  source_folder <- file.path(root_path)
+
 }
 
 
@@ -32,5 +35,5 @@ option_list <- list(
   )
 
 opt <- optparse::parse_args(optparse::OptionParser(option_list=option_list))
-
+opt$source_folder <- source_folder
 main_htmlreportR(opt)

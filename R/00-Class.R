@@ -17,11 +17,12 @@ htmlReport <- setRefClass("htmlReport",
       dynamic_js = "character",
       index_items = "matrix",
       index_type = "character",
-      features = "list"
+      features = "list",
+      source_folder = "character"
       ),
 
     methods = list(
-      initialize = function(container = list(), title_doc = "", tmp_folder = tempdir(check = TRUE), menu = FALSE){
+      initialize = function(container = list(), title_doc = "", tmp_folder = tempdir(check = TRUE), menu = FALSE, src = find.package('htmlreportR')){
           hash_vars <<- container
           title <<- title_doc
           tmp_dir <<- tmp_folder
@@ -31,6 +32,7 @@ htmlReport <- setRefClass("htmlReport",
           mermaid <<- FALSE
           count_objects <<- 0
           index_type <<- ""
+          source_folder <<- src
           if(menu) index_type <<- "menu"
 
           features <<- list('mermaid' = FALSE, 'dt_tables' = FALSE, 'pdfHtml5' = FALSE, 'canvasXpress' = FALSE, 'pako' = FALSE,
