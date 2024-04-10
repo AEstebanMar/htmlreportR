@@ -289,3 +289,4 @@ test_that("testing the table formatting in the class htmlReport", {
 ####### HTML REPORTING
 #make_head
 #build_body
+
