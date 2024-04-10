@@ -24,6 +24,12 @@ for the element of hash_vars that is taken.}
 \item{plotting_function}{A function used for generating the ggplot.}
 
 \item{text}{Logical, indicating whether to convert table to text or a vector indicating the numeric fields.}
+
+\item{width}{plot width}
+
+\item{height}{plot height}
+
+\item{size_unit}{units in plot size}
 }
 \description{
 This function generates a static ggplot for

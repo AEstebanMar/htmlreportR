@@ -69,6 +69,9 @@ htmlReport$methods(
 #' @param plotting_function A function used for generating the plot.
 #' @param text Logical, indicating whether to convert table to text or a vector indicating the numeric fields.
 #' @param custom_format Logical, indicating if id correspond to a table or a custom object
+#' @param width plot width
+#' @param height plot height
+#' @param size_unit units in plot size
 #' 
 #' @details
 #' This function generates a static plot based on the provided data and plot specifications. 
@@ -87,7 +90,11 @@ htmlReport$methods(static_plot_main = function(id,
 											   func = NULL,
 											   plotting_function = NULL,
 											   text = FALSE,
-											   custom_format = FALSE) {
+											   custom_format = FALSE,
+											   width = NULL,
+											   height = NULL, 
+											   size_unit = NULL
+											   ) {
 
 	options <- list(id = id,
 					header = header,
@@ -106,7 +113,7 @@ htmlReport$methods(static_plot_main = function(id,
 
 	if(is.null(plotting_function)) return(data_frame)
 	plot_obj <- plotting_function(data_frame)
-	get_plot(plot_obj)
+	get_plot(plot_obj, width = width, height = height, size_unit = size_unit)
 })
 
 
@@ -129,6 +136,9 @@ htmlReport$methods(static_plot_main = function(id,
 #' @param func A function to preprocess data before plotting.
 #' @param plotting_function A function used for generating the ggplot.
 #' @param text Logical, indicating whether to convert table to text or a vector indicating the numeric fields.
+#' @param width plot width
+#' @param height plot height
+#' @param size_unit units in plot size
 #' 
 #' @details
 #' This function generates a static ggplot based on the provided data 
@@ -148,7 +158,10 @@ htmlReport$methods(
 								 fields = NULL,
 								 func = NULL,
 								 plotting_function = NULL,
-								 text = TRUE) {
+								 text = TRUE,
+								 width = NULL,
+								 height = NULL, 
+								 size_unit = NULL) {
 	ggplot_f <- function(data_frame, plotting_function_gg = plotting_function){
 				ggplot_obj <- ggplot2::ggplot(data_frame)
 				plotting_function_gg(ggplot_obj)
@@ -163,7 +176,10 @@ htmlReport$methods(
 					 fields = fields,
 					 func = func, 
 					 plotting_function = ggplot_f,
-					 text = text)
+					 text = text,
+					 width = width, 
+					 height = height, 
+					 size_unit = size_unit)
 })
 
 
@@ -363,6 +379,9 @@ htmlReport$methods(create_title = function(text, id, hlevel = 1, indexable = FAL
 #' @description This method generates and retrieves a plot from an \code{htmlReport} object. This code writes the plot to a temporal png, then it loads the png in base64 encoding and then displays the plot within the HTML report.
 #' 
 #' @param plot_obj A plot object like ggplot.
+#' @param width plot width
+#' @param height plot height
+#' @param size_unit units in plot size
 #'
 #' @return Displays the plot within the HTML report.
 #'
@@ -376,13 +395,17 @@ htmlReport$methods(create_title = function(text, id, hlevel = 1, indexable = FAL
 #' @importFrom knitr opts_current
 #' @importFrom grDevices png dev.off
 NULL
-htmlReport$methods(get_plot = function(plot_obj) {
+htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, size_unit = NULL) {
 	if (is.character(plot_obj)) return(plot_obj)
+	if (is.null(width)) width <- knitr::opts_current$get("fig.width")
+	if (is.null(height)) height <- knitr::opts_current$get("fig.height")
+	if (is.null(size_unit)) size_unit <- "in"
+
 	file_png <- file.path(tmp_dir, "tmp_fig.png")
   	grDevices::png(file_png, 
-		width = knitr::opts_current$get("fig.width"),
-		height = knitr::opts_current$get("fig.height"),
-		units = "in",
+		width = width,
+		height = height,
+		units = size_unit,
 		res = 200)
 		plot(plot_obj)
 	grDevices::dev.off()

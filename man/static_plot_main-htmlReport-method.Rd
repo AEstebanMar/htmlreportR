@@ -25,6 +25,12 @@
 \item{text}{Logical, indicating whether to convert table to text or a vector indicating the numeric fields.}
 
 \item{custom_format}{Logical, indicating if id correspond to a table or a custom object}
+
+\item{width}{plot width}
+
+\item{height}{plot height}
+
+\item{size_unit}{units in plot size}
 }
 \description{
 This function generates a static plot for inclusion in an HTML

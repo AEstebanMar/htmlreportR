@@ -5,6 +5,12 @@
 \title{Get Plot from htmlReport Object}
 \arguments{
 \item{plot_obj}{A plot object like ggplot.}
+
+\item{width}{plot width}
+
+\item{height}{plot height}
+
+\item{size_unit}{units in plot size}
 }
 \value{
 Displays the plot within the HTML report.
