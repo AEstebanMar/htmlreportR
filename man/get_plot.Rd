@@ -11,6 +11,8 @@
 \item{height}{plot height}
 
 \item{size_unit}{units in plot size}
+
+\item{img_properties}{string including html properties of img}
 }
 \value{
 Displays the plot within the HTML report.

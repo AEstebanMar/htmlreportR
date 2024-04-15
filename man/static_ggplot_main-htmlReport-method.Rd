@@ -30,6 +30,8 @@ for the element of hash_vars that is taken.}
 \item{height}{plot height}
 
 \item{size_unit}{units in plot size}
+
+\item{img_properties}{string including html properties of img}
 }
 \description{
 This function generates a static ggplot for

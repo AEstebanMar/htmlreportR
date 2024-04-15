@@ -72,6 +72,7 @@ htmlReport$methods(
 #' @param width plot width
 #' @param height plot height
 #' @param size_unit units in plot size
+#' @param img_properties string including html properties of img
 #' 
 #' @details
 #' This function generates a static plot based on the provided data and plot specifications. 
@@ -93,7 +94,8 @@ htmlReport$methods(static_plot_main = function(id,
 											   custom_format = FALSE,
 											   width = NULL,
 											   height = NULL, 
-											   size_unit = NULL
+											   size_unit = NULL, 
+											   img_properties = ""
 											   ) {
 
 	options <- list(id = id,
@@ -113,7 +115,7 @@ htmlReport$methods(static_plot_main = function(id,
 
 	if(is.null(plotting_function)) return(data_frame)
 	plot_obj <- plotting_function(data_frame)
-	get_plot(plot_obj, width = width, height = height, size_unit = size_unit)
+	get_plot(plot_obj, width = width, height = height, size_unit = size_unit, img_properties = img_properties)
 })
 
 
@@ -139,6 +141,7 @@ htmlReport$methods(static_plot_main = function(id,
 #' @param width plot width
 #' @param height plot height
 #' @param size_unit units in plot size
+#' @param img_properties string including html properties of img
 #' 
 #' @details
 #' This function generates a static ggplot based on the provided data 
@@ -161,7 +164,8 @@ htmlReport$methods(
 								 text = TRUE,
 								 width = NULL,
 								 height = NULL, 
-								 size_unit = NULL) {
+								 size_unit = NULL,
+								 img_properties = "") {
 	ggplot_f <- function(data_frame, plotting_function_gg = plotting_function){
 				ggplot_obj <- ggplot2::ggplot(data_frame)
 				plotting_function_gg(ggplot_obj)
@@ -179,7 +183,9 @@ htmlReport$methods(
 					 text = text,
 					 width = width, 
 					 height = height, 
-					 size_unit = size_unit)
+					 size_unit = size_unit,
+					 img_properties = img_properties
+)
 })
 
 
@@ -382,7 +388,8 @@ htmlReport$methods(create_title = function(text, id, hlevel = 1, indexable = FAL
 #' @param width plot width
 #' @param height plot height
 #' @param size_unit units in plot size
-#'
+#' @param img_properties string including html properties of img
+#' 
 #' @return Displays the plot within the HTML report.
 #'
 #' @examples
@@ -395,12 +402,12 @@ htmlReport$methods(create_title = function(text, id, hlevel = 1, indexable = FAL
 #' @importFrom knitr opts_current
 #' @importFrom grDevices png dev.off
 NULL
-htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, size_unit = NULL) {
+htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, size_unit = NULL, img_properties = "") {
 	if (is.character(plot_obj)) return(plot_obj)
 	if (is.null(width)) width <- knitr::opts_current$get("fig.width")
 	if (is.null(height)) height <- knitr::opts_current$get("fig.height")
 	if (is.null(size_unit)) size_unit <- "in"
-
+	
 	file_png <- file.path(tmp_dir, "tmp_fig.png")
   	grDevices::png(file_png, 
 		width = width,
@@ -409,8 +416,15 @@ htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, si
 		res = 200)
 		plot(plot_obj)
 	grDevices::dev.off()
-	enc_img <- embed_file(file_png)
-	paste0("\n<img src=", enc_img, " />")
+	embed_img(file_png, img_properties)
+})
+
+
+htmlReport$methods(
+	embed_img = function(file_img, img_properties) {
+		enc_img <- embed_file(file_img)
+
+	Fs("\n<img ",  img_properties ," src=", enc_img, " />")
 })
 
 
