@@ -3,6 +3,8 @@
 importFrom(ggplot2,ggplot)
 importFrom(grDevices,dev.off)
 importFrom(grDevices,png)
+importFrom(jsonlite,as_gzjson_b64)
+importFrom(jsonlite,toJSON)
 importFrom(knitr,knit)
 importFrom(knitr,opts_chunk)
 importFrom(knitr,opts_current)

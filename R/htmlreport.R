@@ -274,6 +274,13 @@ htmlReport$methods(make_head = function() {
 	css_files <<- c(css_files, "htmlReport.css")
 	js_files <<- c(js_files, "htmlReport.js")
 	
+	if (features$pako) js_files <<- c(js_files, 'pako.min.js')
+
+	if (features$canvasXpress){
+		js_files <<- c(js_files, 'canvasXpress.min.js')
+        css_files <<- c(css_files, 'canvasXpress.css')
+	}
+
 	if (index_type == "menu"){
 		css_files <<- c(css_files, "reporteR_menu.css")
 		js_files <<- c(js_files, "reporteR_menu.js")
@@ -790,133 +797,157 @@ htmlReport$methods(
 
 
 
-htmlReport$methods(test_over = function(){
-	canvasXpress <- canvasXpress_main$new()
-	canvasXpress$run_config_chart(config_chart = function(cvX){cvX$x <- list(test = "test")})
-	canvasXpress
+htmlReport$methods(
+	canvasXpress_main = function(user_options){
+	options <- list(
+            'id'= NULL,
+            'func'= NULL,
+            'config_chart'= NULL,
+            'fields'= c(),
+            'smp_attr'= c(),
+            'var_attr'= c(),
+            'segregate'= c(),
+            'show_factors'= c(),
+            'data_format'= 'one_axis',
+            'responsive'= TRUE,
+            'height'= '600px',
+            'width'= '600px',
+            'header'= FALSE,
+            'row_names'= FALSE,
+            'add_header_row_names'= TRUE,
+            'transpose'= TRUE,
+            'x_label'= 'x_axis',
+            'title'= 'Title',
+            'config'= list(),
+            'after_render'= c(),
+            'treeBy'= 's',
+            'renamed_samples'= c(),
+            'renamed_variables'= c(),
+            'alpha'= 1,
+            'theme'= 'cx',
+            'color_scheme'= 'CanvasXpress')
+
+	options <- update_options(options, user_options)
+	config <- list('toolbarType' = 'under',
+		           'xAxisTitle' = options$x_label,
+		           'title' = options$title,
+		           "objectColorTransparency"= options$alpha,
+		           "theme"= options$theme,
+		           "colorScheme"= options$color_scheme)
+
+
+## esto va dentro de la clase nueva
+	if (!is.null(options[['tree']])) 
+		config <- set_tree(options, config)
+
+	config <- update_options(config, options$config)
+
+	plot_data <- get_data_for_plot(options)
+	values <- plot_data$data_frame
+	smp_attr <- plot_data$smp_attr
+	var_attr <- plot_data$var_attr
+	samples <- plot_data$samples
+	variables <- plot_data$variables 
+       
+    if (is.null(values))
+     	return(Fs("<div width=\"",options$width, "\" height=\"",options$height, "\" > <p>NO DATA<p></div>"))
+
+	object_id <- Fs("obj_", count_objects, "_")
+    count_objects <<- count_objects + 1
+    
+	canvasXpress <- canvasXpress_obj$new(obj_id = object_id,
+										  smp = samples, 
+										  vars = variables, 
+										  vals = values, 
+										  smp_att = smp_attr,
+										  var_att = var_attr, 
+										  opt = options,
+										  conf = config)
+
+	canvasXpress$run_config_chart(config_chart = options$config_chart)
+
+
+    canvasXpress$inject_attributes(options, slot="x")
+    canvasXpress$inject_attributes(options, slot="z") 
+
+	features[['canvasXpress']] <<- TRUE
+	plot_data <- get_plot_data(object_id, canvasXpress)       
+	   
+	dynamic_js <<- c(dynamic_js, 
+					Fs("$(document).ready(function () {\n",
+						plot_data,
+						 "});\n"))
+    responsive <- ''
+    if (options$responsive) responsive <- "responsive='true'" 
+
+    html <- Fs("<canvas  id=\"", object_id, "\" width=\"", options$width, "\" height=\"", options$height, "\" aspectRatio='1:1' ", responsive, "></canvas>")
+    return(html)
+        
 })
 
-# htmlReport$methods(
-# 	canvasXpress_main = function(user_options){
-# 	options <- list(
-#             'id'= NULL,
-#             'func'= NULL,
-#             'config_chart'= NULL,
-#             'fields'= c(),
-#             'smp_attr'= c(),
-#             'var_attr'= c(),
-#             'segregate'= c(),
-#             'show_factors'= c(),
-#             'data_format'= 'one_axis',
-#             'responsive'= TRUE,
-#             'height'= '600px',
-#             'width'= '600px',
-#             'header'= FALSE,
-#             'row_names'= FALSE,
-#             'add_header_row_names'= TRUE,
-#             'transpose'= TRUE,
-#             'x_label'= 'x_axis',
-#             'title'= 'Title',
-#             'config'= list(),
-#             'after_render'= c(),
-#             'treeBy'= 's',
-#             'renamed_samples'= c(),
-#             'renamed_variables'= c(),
-#             'alpha'= 1,
-#             'theme'= 'cx',
-#             'color_scheme'= 'CanvasXpress')
-
-# 	options <- update_options(options, user_options)
-# 	config <- list('toolbarType' = 'under',
-# 		           'xAxisTitle' = options$x_label,
-# 		           'title' = options$title,
-# 		           "objectColorTransparency"= options$alpha,
-# 		           "theme"= options$theme,
-# 		           "colorScheme"= options$color_scheme)
-
-
-# ## esto va dentro de la clase nueva
-# 	if (options[['tree']] != NULL) 
-# 		config <- set_tree(options, config)
-
-# 	config <- update_options(config, options$config)
-
-# 	 plot_data <- get_data_for_plot(options)
-# 	 values <- plot_data$data_frame
-# 	 smp_attr <- plot_data$smp_attr
-# 	 var_attr <- plot_data$var_attr
-# 	 samples <- plot_data$samples
-# 	 variables <- plot_data$variables 
-       
-#      if (is.null(values))
-#      	return(Fs("<div width=\"",options$width, "\" height=\"",options$height, "\" > <p>NO DATA<p></div>"))
-
-# 	object_id <- Fs("obj_", count_objects, "_")
-
-
-# 	# canvasXpress_main$methods(test_f = function(){print("test")})
-# 	data_structure	<- list(
-#                             'y' = list( 
-#                                   'vars' = as.list(variables),
-#                                   'smps' = as.list(samples),
-#                                   'data' = as.list(values)
-#                             ),
-#                             'x' = x,
-#                             'z' = z)
-
-# 	canvasXpress <- canvasXpress_main$new(obj_id = object_id,
-# 										  smp = samples, 
-# 										  vars = variables, 
-# 										  vals = values, 
-# 										  smp_att = smp_attr,
-# 										  var_att = var_attr)
-
-# 	canvasXpress$run_config_chart(config_chart = config_chart)
-
-#     count_objects <<- count_objects + 1
-
-
-# #     afterRender = options['after_render']
-# #     if (options$mod_data_structure == 'boxplot'){
-# #         data_structure['y']['smps'] <- NULL
-# #         data_structure['x']['Factor'] <- samples
-# #     } else if (options$mod_data_structure == 'circular') {
-# #     	data_structure['z']['Ring'] <- options$ring_assignation
-# #     } else if (options$mod_data_structure == 'ridgeline'){
-    	       
-# #         data_structure['y']['smps'] = c("Sample")
-
-# # #        transposed_values_to_flaten = list(map(lambda *x: list(x), *values))
-# #         data_structure['y']['data'] = unlist(x)
-# #         data_structure['y']['vars'] = sapply(seq(1, length(data_structure['y']['data'])), function(id) Fs("s",id))
-# #         reshaped_factor <- sapply(samples, function(sample) sample * length(values))
-# #         data_structure['x']['Factor'] <- reshaped_factor
-# # #        data_structure.update({ 'z' : {'Factor' : [item for sublist in reshaped_factor for item in sublist]}})
-# #     }
-
-#     canvasXpress$inject_attributes(options, slot="x")
-#     canvasXpress$inject_attributes(options, slot="z") 
-
-#     extracode <- initialize_extracode(options)
-#     if (length(options$segregate) > 0)
-# 		canvasXpress$segregate_data(Fs("C",object_id), option$segregate)
-# 		canvasXpress$add_ext_code("\n") 
-#     if (!is.null(options$group_samples)) 
-#     	canvasXpress$add_ext_code(Fs("C", object_id, ".groupSamples(", options$group_samples, ")\n"))
-    
-  
-
-# 	dynamic_js <<- canvasXpress$get_plot_data()       
-#     responsive <- ''
-#     if (options$responsive) responsive <- "responsive='true'" 
-
-#     html <- Fs("<canvas  id=\"", object_id, "\" width=\"", options$width, "\" height=\"", options$height, "\" aspectRatio='1:1' ", responsive, "></canvas>"
-#     return(html)
-        
-# })
 
 
 
+#' get_plot_data
+#'
+#' @name get_plot_data
+#' @title Get js Plot from canvasxpress_obj Object
+#' 
+#' @param object_id string indicating object id
+#' @param cvXpress vanvasXpress_obj object
+#' 
+#' @return Displays the js code for plot.
+#'
+#' 
+#' @importFrom jsonlite toJSON
+NULL
+htmlReport$methods(
+	get_plot_data = function(object_id, cvXpress){
+		Fs("var data = ",   decompress_code(compress_data(cvXpress$data_structure)), ";\n",
+		   "var conf = ",   jsonlite::toJSON(cvXpress$config, auto_unbox = TRUE), ";\n",
+		   "var events = ", jsonlite::toJSON(cvXpress$events, auto_unbox = TRUE), ";\n",
+           "var info = ",   jsonlite::toJSON(cvXpress$info, auto_unbox = TRUE), ";\n",
+           "var afterRender = ", jsonlite::toJSON(cvXpress$afterRender, auto_unbox = TRUE), ";\n",
+           "var C", object_id, " = new CanvasXpress(\"", object_id, "\", data, conf, events, info, afterRender);\n", cvXpress$extracode)
+	}
+)
+
+#' compress_data
+#'
+#' @name compress_data
+#' @title encode and compress data json
+#' 
+#' @param data string indicating object id
+#' 
+#' @return encoded and compressed json
+#'
+#' 
+#' @importFrom jsonlite as_gzjson_b64 toJSON
+NULL
+htmlReport$methods(
+	compress_data = function(data){
+		if (compress) {
+		    compressed_data <-  gsub("\n","", jsonlite::as_gzjson_b64(data, auto_unbox = TRUE, dataframe = "values"))
+		} else {
+
+			compressed_data <- jsonlite::toJSON(data, auto_unbox = TRUE, dataframe = "values")
+		}
+
+		return(compressed_data)
+	}
+)
+
+
+htmlReport$methods(
+	decompress_code = function(data){
+		string <- data
+		if (compress) {
+		   features[["pako"]] <<- TRUE
+		   string <- Fs("JSON.parse(pako.inflate(atob(\"", data, "\"), { to: 'string' }))")
+		}
+		return(string)
+	}
+)
 htmlReport$methods(
 	set_tree = function(options, config){
         tree <- tree_from_file(options$tree)
@@ -936,6 +967,18 @@ htmlReport$methods(
         sapply(readLines(file), trimws)
 })
 
+
+htmlReport$methods(
+	heatmap = function(options) {
+	config_chart <- function(cvX){
+	 #   samples, variables, values, x, z = cvX$get_data_structure_vars()
+        cvX$config[['graphType']] <- 'Heatmap' 
+	}
+    default_options = list('row_names' = TRUE, 'config_chart' = config_chart)
+    default_options <- update_options(default_options, options)
+    html_string <- canvasXpress_main(default_options)
+    return(html_string)
+})
 
 
 

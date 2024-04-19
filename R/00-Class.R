@@ -18,11 +18,12 @@ htmlReport <- setRefClass("htmlReport",
       index_items = "matrix",
       index_type = "character",
       features = "list",
-      source_folder = "character"
+      source_folder = "character",
+      compress = "logical"
       ),
 
     methods = list(
-      initialize = function(container = list(), title_doc = "", tmp_folder = tempdir(check = TRUE), menu = FALSE, src = find.package('htmlreportR')){
+      initialize = function(container = list(), title_doc = "", tmp_folder = tempdir(check = TRUE), menu = FALSE, src = find.package('htmlreportR'), compress_obj = FALSE){
           hash_vars <<- container
           title <<- title_doc
           tmp_dir <<- tmp_folder
@@ -35,6 +36,7 @@ htmlReport <- setRefClass("htmlReport",
           source_folder <<- src
           if(menu) index_type <<- "menu"
 
+          compress <<- compress_obj
           features <<- list('mermaid' = FALSE, 'dt_tables' = FALSE, 'pdfHtml5' = FALSE, 'canvasXpress' = FALSE, 'pako' = FALSE,
             'cytoscape'= FALSE, 'pyvis' = FALSE, 'elgrapho' = FALSE, 'sigma' = FALSE)
 
