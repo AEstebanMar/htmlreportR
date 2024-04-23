@@ -73,6 +73,7 @@ htmlReport$methods(
 #' @param height plot height
 #' @param size_unit units in plot size
 #' @param img_properties string including html properties of img
+#' @param resizable logical indicating if plot must be resizable
 #' 
 #' @details
 #' This function generates a static plot based on the provided data and plot specifications. 
@@ -95,7 +96,8 @@ htmlReport$methods(static_plot_main = function(id,
 											   width = NULL,
 											   height = NULL, 
 											   size_unit = NULL, 
-											   img_properties = ""
+											   img_properties = "",
+											   resizable = FALSE
 											   ) {
 
 	options <- list(id = id,
@@ -115,7 +117,7 @@ htmlReport$methods(static_plot_main = function(id,
 
 	if(is.null(plotting_function)) return(data_frame)
 	plot_obj <- plotting_function(data_frame)
-	get_plot(plot_obj, width = width, height = height, size_unit = size_unit, img_properties = img_properties)
+	get_plot(plot_obj, width = width, height = height, size_unit = size_unit, img_properties = img_properties, resizable = resizable)
 })
 
 
@@ -142,6 +144,7 @@ htmlReport$methods(static_plot_main = function(id,
 #' @param height plot height
 #' @param size_unit units in plot size
 #' @param img_properties string including html properties of img
+#' @param resizable logical indicating if plot must be resizable
 #' 
 #' @details
 #' This function generates a static ggplot based on the provided data 
@@ -165,7 +168,8 @@ htmlReport$methods(
 								 width = NULL,
 								 height = NULL, 
 								 size_unit = NULL,
-								 img_properties = "") {
+								 img_properties = "", 
+								 resizable = FALSE) {
 	ggplot_f <- function(data_frame, plotting_function_gg = plotting_function){
 				ggplot_obj <- ggplot2::ggplot(data_frame)
 				plotting_function_gg(ggplot_obj)
@@ -184,7 +188,9 @@ htmlReport$methods(
 					 width = width, 
 					 height = height, 
 					 size_unit = size_unit,
-					 img_properties = img_properties
+					 img_properties = img_properties,
+					 resizable = resizable
+
 )
 })
 
@@ -385,6 +391,17 @@ htmlReport$methods(create_title = function(text, id, hlevel = 1, indexable = FAL
     return(header)
 })
 
+
+
+htmlReport$methods(
+	create_collapsable_container = function(id, html_code, visibility='hidden'){
+		init_height <- ""
+		if(visibility == "hidden"){
+			init_height	<- "height:1px"
+		}
+        Fs("<div style=\"visibility:", visibility, "; ", init_height, "\" id=\"", id, "\">\n", html_code, "\n</div>")
+})
+
 #' Get Plot from htmlReport Object
 #'
 #' @name get_plot
@@ -396,6 +413,7 @@ htmlReport$methods(create_title = function(text, id, hlevel = 1, indexable = FAL
 #' @param height plot height
 #' @param size_unit units in plot size
 #' @param img_properties string including html properties of img
+#' @param resizable logical indicating if plot must be resizable
 #' 
 #' @return Displays the plot within the HTML report.
 #'
@@ -409,7 +427,7 @@ htmlReport$methods(create_title = function(text, id, hlevel = 1, indexable = FAL
 #' @importFrom knitr opts_current
 #' @importFrom grDevices png dev.off
 NULL
-htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, size_unit = NULL, img_properties = "") {
+htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, size_unit = NULL, img_properties = "", resizable = FALSE) {
 	if (is.character(plot_obj)) return(plot_obj)
 	if (is.null(width)) width <- knitr::opts_current$get("fig.width")
 	if (is.null(height)) height <- knitr::opts_current$get("fig.height")
@@ -423,15 +441,20 @@ htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, si
 		res = 200)
 		plot(plot_obj)
 	grDevices::dev.off()
-	embed_img(file_png, img_properties)
+	embed_img(file_png, img_properties, resizable = resizable)
 })
 
 
 htmlReport$methods(
-	embed_img = function(file_img, img_properties) {
+	embed_img = function(file_img, img_properties, resizable = FALSE) {
 		enc_img <- embed_file(file_img)
-
-	Fs("\n<img ",  img_properties ," src=", enc_img, " />")
+	if (resizable) {
+		img_properties <- Fs(img_properties, " class='fitting_img' ")
+		make_resizable(Fs("\n<img ",  img_properties ," src=", enc_img, " />"))	
+	} else {
+		Fs("\n<img ",  img_properties ," src=", enc_img, " />")
+	
+	}
 })
 
 
@@ -983,7 +1006,7 @@ htmlReport$methods(
 
 
 htmlReport$methods(
-	resizable = function(img){ 
+	make_resizable = function(img){ 
 
 		Fs("<div class=\"resizable_img\">",
 			img,

@@ -1,5 +1,16 @@
 function hide_show_element(element_id) {
   var x = document.getElementById(element_id);
+  if (x.style.visibility === "hidden") {
+    x.style.visibility = "visible";
+    x.style.height = "auto";
+  } else {
+    x.style.visibility = "hidden";
+    x.style.height = 1;
+  }
+}
+
+function hide_show_element_old(element_id) {
+  var x = document.getElementById(element_id);
   if (x.style.display === "none") {
     x.style.display = "block";
   } else {

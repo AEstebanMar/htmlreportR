@@ -15,18 +15,31 @@
   background-color: #ccc; 
 }
 
-
-.resizable_img {
-  width: 50vw; /* 50% of the viewport width */
-  height: 50vh; /* 50% of the viewport height */
-  overflow: hidden;
-  resize: both; /* Allow resizing both horizontally and vertically */
-  border: 1px solid black; /* Optional: Adds a border for better visibility */
+#mynetwork {
+  width: 1000px;
+  height: 1000px;
+  background-color: #ffffff;
+  border: 1px solid lightgray;
+  position: relative;
+  float: left;
 }
 
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Maintain aspect ratio */
+.resizable_img {  
+  width: 50vw; 
+  height: 50vh; 
+  overflow: hidden; 
+  resize: both; 
+  border: 1px solid black;
 }
 
+.resizable_img_regex {  
+  overflow: hidden; 
+  resize: both; 
+  border: 1px solid black;
+} 
+
+.fitting_img {
+  width: 100%;   
+  height: 100%;   
+  object-fit: contain;
+}
