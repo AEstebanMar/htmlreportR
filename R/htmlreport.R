@@ -926,11 +926,13 @@ htmlReport$methods(
 NULL
 htmlReport$methods(
 	get_plot_data = function(object_id, cvXpress){
+		afterRender = cvXpress$afterRender
+		if(is.null(afterRender)) afterRender = list()
 		Fs("var data = ",   decompress_code(compress_data(cvXpress$data_structure)), ";\n",
 		   "var conf = ",   jsonlite::toJSON(cvXpress$config, auto_unbox = TRUE), ";\n",
 		   "var events = ", jsonlite::toJSON(cvXpress$events, auto_unbox = TRUE), ";\n",
            "var info = ",   jsonlite::toJSON(cvXpress$info, auto_unbox = TRUE), ";\n",
-           "var afterRender = ", jsonlite::toJSON(cvXpress$afterRender, auto_unbox = TRUE), ";\n",
+           "var afterRender = ", jsonlite::toJSON(afterRender, auto_unbox = TRUE), ";\n",
            "var C", object_id, " = new CanvasXpress(\"", object_id, "\", data, conf, events, info, afterRender);\n", cvXpress$extracode)
 	}
 )
@@ -1003,7 +1005,34 @@ htmlReport$methods(
     return(html_string)
 })
 
+#' CanvasXpress density plot
+#'
+#' @name density-htmlReport-method
+#' @title Build CanvasXpress density plot from R data frame
+#' @description Loads data frame and CanvasXpress options for density plot,
+#' then calls canvasXpress_main to build it.
+#' @param options list with options.
+#' @returns HTML code for CanvasXpress density plot of data.
 
+htmlReport$methods(
+	density = function(options) {
+	config_chart <- function(cvX){
+	 #   samples, variables, values, x, z = cvX$get_data_structure_vars()
+        cvX$config[['graphType']] <- "Scatter2D"
+        cvX$config[['hideHistogram']] <- TRUE
+        cvX$config[['showHistogram']] <- ifelse(is.null(options$group),
+        									    TRUE, options$group)
+        cvX$config[['showFilledHistogramDensity']] <- options$fillDensity
+        cvX$config[['showHistogramDensity']] <- TRUE
+        cvX$config[['showHistogramMedian']] <- options$median
+	}
+
+    default_options = list('transpose' = FALSE, 'fillDensity' = FALSE,
+    					   'median' = FALSE, 'config_chart' = config_chart)
+    default_options <- update_options(default_options, options)
+    html_string <- canvasXpress_main(default_options)
+    return(html_string)
+})
 
 htmlReport$methods(
 	make_resizable = function(img){ 
