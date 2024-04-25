@@ -304,3 +304,39 @@ test_that("testing_img_embedding", {
 	res_img <- plotter$embed_img(file, attr)
 	testthat::expect_equal(res_img, exp_img)
 })
+
+test_that("testing density method of htmlReport class", {
+	expected_string <- paste0("<canvas  id=\"obj_0_\" width=\"600px\" ",
+							  "height=\"600px\" aspectRatio='1:1'",
+							  " responsive='true'></canvas>")
+	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data =",
+							" {\"y\":{\"vars\":[\"s2\",\"s3\",\"s4\"],",
+							"\"smps\":[\"h1\",\"h2\",\"h3\"],\"data\"",
+							":[[2,100,8,\"s2\"],[2.5,200,5,\"s3\"],",
+							"[3,300,2,\"s4\"]]},\"x\":[],\"z\":[]};\nvar conf ",
+							"= {\"toolbarType\":\"under\",\"xAxisTitle\":\"",
+							"x_axis\",\"title\":\"Title\",\"",
+							"objectColorTransparency\":1,\"theme\":\"cx\",\"",
+							"colorScheme\":\"CanvasXpress\",\"graphType\":\"",
+							"Scatter2D\",\"hideHistogram\":true,\"",
+							"showHistogram\":true,\"showFilledHistogramDensity",
+							"\":true,\"showHistogramDensity\":true,",
+							"\"showHistogramMedian\":true};\nvar events = ",
+							"false;\nvar info = false;\nvar afterRender = [];",
+							"\nvar Cobj_0_ = new CanvasXpress(\"obj_0_\", ",
+							"data, conf, events, info, afterRender);\n});\n")
+	container <- list(test_data_frame = data.frame(
+								"V1" = c("h0","s2", "s3", "s4"), 
+                                "V2" = c("h1", 2, 2.5, 3),
+                                "V3" = c("h2", 100, 200, 300), 
+                                "V4" = c("h3", 8,5,2), 
+                      row.names = c(1,2,3,4)))
+	plotter <- htmlReport$new(container = container)
+	output_string <- plotter$density(list(id = "test_data_frame", header = TRUE,
+										  text = FALSE, row_names = TRUE,
+										  fillDensity = TRUE, median = TRUE))
+	output_dynamic_js <- plotter$dynamic_js
+	testthat::expect_equal(output_string, expected_string)
+	testthat::expect_equal(output_dynamic_js, expected_dynamic_js)
+	testthat::expect_true(plotter$features$canvasXpress)
+})
