@@ -13,6 +13,8 @@
 \item{size_unit}{units in plot size}
 
 \item{img_properties}{string including html properties of img}
+
+\item{resizable}{logical indicating if plot must be resizable}
 }
 \value{
 Displays the plot within the HTML report.

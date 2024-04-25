@@ -33,6 +33,8 @@
 \item{size_unit}{units in plot size}
 
 \item{img_properties}{string including html properties of img}
+
+\item{resizable}{logical indicating if plot must be resizable}
 }
 \description{
 This function generates a static plot for inclusion in an HTML
