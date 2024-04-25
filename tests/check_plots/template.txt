@@ -146,7 +146,11 @@ end.rcode-->
 
 <!--begin.rcode
 plotter$compress <- TRUE
-cat(plotter$heatmap(list(id = "data_toc_sample.txt", header = TRUE, smp_attr = c(17), text = FALSE,row_names = FALSE, transpose = FALSE, config = list("smpOverlays" = c("category")))))
+cat(plotter$heatmap(list(id = "data_toc_sample.txt", header = TRUE, smp_attr = c(17), text = FALSE, row_names = FALSE, transpose = FALSE, config = list("smpOverlays" = c("category")))))
+end.rcode-->
+
+<!--begin.rcode
+cat(plotter$density(list(id = "density_ridgeline_example.txt", header = TRUE, text = FALSE, row_names = TRUE, fillDensity = TRUE, median = TRUE)))
 end.rcode-->
 
 <br>
