@@ -1021,7 +1021,7 @@ htmlReport$methods(
         cvX$config[['graphType']] <- "Scatter2D"
         cvX$config[['hideHistogram']] <- TRUE
         cvX$config[['showHistogram']] <- ifelse(is.null(options$group),
-        									    TRUE, options$group)
+        									      TRUE, options$group)
         cvX$config[['showFilledHistogramDensity']] <- options$fillDensity
         cvX$config[['showHistogramDensity']] <- TRUE
         cvX$config[['showHistogramMedian']] <- options$median
