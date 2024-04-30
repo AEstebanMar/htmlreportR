@@ -32,7 +32,7 @@
 NULL
 htmlReport$methods(
 	build = function(template) {
-		templ <- paste(readLines(template), collapse="\n")
+		templ <- paste(readLines(template, warn = FALSE), collapse="\n")
 		knitr::opts_chunk$set(echo = FALSE, 
 							  results="asis", 
 							  message=FALSE, 
@@ -691,7 +691,7 @@ htmlReport$methods(load_css = function(){
 		if (!file.exists(css_file_name))
 			css_file_name <- file.path(source_folder, "js", css_file_name)
 
-		css_file <- paste(readLines(css_file_name), collapse="\n")
+		css_file <- paste(readLines(css_file_name, warn = FALSE), collapse="\n")
 		concat(c("<style type=\"text/css\">\n",css_file, "\n</style>\n\n"))
 	}	
 })
@@ -989,7 +989,7 @@ htmlReport$methods(
 
 htmlReport$methods(
 	tree_from_file = function(file){
-        sapply(readLines(file), trimws)
+        sapply(readLines(file, warn = FALSE), trimws)
 })
 
 

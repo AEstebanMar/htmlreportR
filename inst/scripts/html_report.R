@@ -31,7 +31,9 @@ option_list <- list(
  optparse::make_option(c("--title"), type="character", default="htmlreportR",
     help="Title of the html report"),
  optparse::make_option(c("-m", "--menu"), type="logical", default=FALSE, action = "store_true",
-    help="Index is menu like")
+    help="Index is menu like"),
+ optparse::make_option(c("-c", "--compress"), type = "logical", default = FALSE, action = "store_true", 
+    help = "Indicate if figure data must be compressed." )
   )
 
 opt <- optparse::parse_args(optparse::OptionParser(option_list=option_list))

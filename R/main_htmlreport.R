@@ -20,7 +20,8 @@ main_htmlreportR <- function(options){
 						      container = data_files, 
 		                      tmp_folder = tmp_folder,
 		                      menu = options$menu,
-		                      src = options$source_folder)
+		                      src = options$source_folder,
+		                      compress_obj = options$compress)
 	
 	plotter$build(options$template)
 	plotter$write_report(output_file)
