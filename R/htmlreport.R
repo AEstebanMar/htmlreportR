@@ -29,6 +29,7 @@
 #' plotter$build("template.html")
 #' }
 #' @importFrom knitr knit opts_chunk
+
 NULL
 htmlReport$methods(
 	build = function(template) {
@@ -47,9 +48,6 @@ htmlReport$methods(
 	 	concat("\n</HTML>")
 	}
 )
-
-
-
 
 #' Generate static plot for HTML report
 #'
@@ -252,13 +250,15 @@ htmlReport$methods(make_head = function() {
 	css_cdn <<- c(css_cdn, 
 		'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
 	
+	js_cdn <<- c(js_cdn,
+            'https://code.jquery.com/jquery-3.7.1.js')
+	
 	if (features$dt_tables){ # CDN load, this library is difficult to embed in html file
 
         css_cdn <<- c(css_cdn, 
             'https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css',
             'https://cdn.datatables.net/buttons/3.0.0/css/buttons.dataTables.css')
         js_cdn <<- c(js_cdn,
-            'https://code.jquery.com/jquery-3.7.1.js',
             'https://cdn.datatables.net/2.0.0/js/dataTables.js',
             'https://cdn.datatables.net/buttons/3.0.0/js/dataTables.buttons.js',
             'https://cdn.datatables.net/buttons/3.0.0/js/buttons.dataTables.js',
@@ -1029,6 +1029,64 @@ htmlReport$methods(
 
     default_options = list('transpose' = FALSE, 'fillDensity' = FALSE,
     					   'median' = FALSE, 'config_chart' = config_chart)
+    default_options <- update_options(default_options, options)
+    html_string <- canvasXpress_main(default_options)
+    return(html_string)
+})
+
+#' CanvasXpress scatter2D plot
+#'
+#' @name scatter2D-htmlReport-method
+#' @title Build CanvasXpress scatter2D plot from R data frame
+#' @description Loads data frame and CanvasXpress options for density plot,
+#' then calls canvasXpress_main to build it.
+#' @param options list with options.
+#' @returns HTML code for CanvasXpress density plot of data.
+
+htmlReport$methods(
+	scatter2D = function(options) {
+	config_chart <- function(cvX){
+	 #   samples, variables, values, x, z = cvX$get_data_structure_vars()
+
+     cvX$config[['graphType']] <- "Scatter2D"
+	 cvX$config[['xAxis']] <- ifelse(is.null(options$xAxis), samples[1],
+	 														 options$xAxis)
+	 cvX$config[['yAxis']] <- ifelse(is.null(options$yAxis), samples[-1],
+	 														 options$yAxis)
+	 cvX$config[['y_label']] <- ifelse(is.null(options$y_label), "y_axis",
+	 														 options$y_label)
+	 if (!is.null(options$regressionLine)) {
+	 	options$extracode <- Fs("C", cvX$object_id, ".addRegressionLine();")
+	 }
+
+	 if (!is.null(options$pointSize)) {
+	 	cvX$config['sizeBy'] <- options$pointSize
+	 	sampleIndex <- grep(samples, options$pointSize)
+	 	data_structure$z[[options$pointSize]] <- data_structure$y$data[, sampleIndex]
+	 }
+
+	 if(!is.null(options$colorScaleBy)) {
+	 	cvX$config['colorBy'] <- options$colorScaleBy
+	 	sampleIndex <- grep(samples, options$colorScaleBy)
+	 	data_structure$z[[options$colorScaleBy]] <- data_structure$y$data[, sampleIndex]
+	 }
+
+	 if(!is.null(options$add_densities)) {
+	 	cvX$config['hideHistogram'] <- FALSE
+	 	cvX$config['histogramBins'] <- 20
+	 	cvX$config['histogramStat'] <- "count"
+	 	cvX$config['showFilledHistogramDensity'] <- TRUE
+	 	cvX$config['showHistogramDensity'] <- TRUE
+	 	cvX$config['showHistogramMedian'] <- TRUE
+	 	cvX$config['xAxisHistogramHeight'] <- 150
+	 	cvX$config['xAxisHistogramShow'] <- TRUE
+	 	cvX$config['yAxisHistogramHeight'] <- 150
+	 	cvX$config['yAxisHistogramShow'] <- TRUE
+	 }
+	}
+
+    default_options = list('row_names' = FALSE, 'transpose' = FALSE,
+    					   'config_chart' = config_chart)
     default_options <- update_options(default_options, options)
     html_string <- canvasXpress_main(default_options)
     return(html_string)
