@@ -1049,39 +1049,43 @@ htmlReport$methods(
 	 #   samples, variables, values, x, z = cvX$get_data_structure_vars()
 
      cvX$config[['graphType']] <- "Scatter2D"
-	 cvX$config[['xAxis']] <- ifelse(is.null(options$xAxis), samples[1],
+	 cvX$config[['xAxis']] <- ifelse(is.null(options$xAxis), cvX$samples[1],
 	 														 options$xAxis)
-	 cvX$config[['yAxis']] <- ifelse(is.null(options$yAxis), samples[-1],
-	 														 options$yAxis)
-	 cvX$config[['y_label']] <- ifelse(is.null(options$y_label), "y_axis",
+	 if (is.null(options$yAxis)) {
+	 	cvX$config[['yAxis']] <- cvX$samples[-1]
+	 } else {
+	 	cvX$config[['yAxis']] <- options$yAxis
+	 }
+
+	 cvX$config[['yAxisTitle']] <- ifelse(is.null(options$y_label), "y_axis",
 	 														 options$y_label)
 	 if (!is.null(options$regressionLine)) {
 	 	options$extracode <- Fs("C", cvX$object_id, ".addRegressionLine();")
 	 }
 
 	 if (!is.null(options$pointSize)) {
-	 	cvX$config['sizeBy'] <- options$pointSize
-	 	sampleIndex <- grep(samples, options$pointSize)
+	 	cvX$config[['sizeBy']] <- options$pointSize
+	 	sampleIndex <- grep(cvX$samples, options$pointSize)
 	 	data_structure$z[[options$pointSize]] <- data_structure$y$data[, sampleIndex]
 	 }
 
 	 if(!is.null(options$colorScaleBy)) {
-	 	cvX$config['colorBy'] <- options$colorScaleBy
-	 	sampleIndex <- grep(samples, options$colorScaleBy)
+	 	cvX$config[['colorBy']] <- options$colorScaleBy
+	 	sampleIndex <- grep(cvX$samples, options$colorScaleBy)
 	 	data_structure$z[[options$colorScaleBy]] <- data_structure$y$data[, sampleIndex]
 	 }
 
 	 if(!is.null(options$add_densities)) {
-	 	cvX$config['hideHistogram'] <- FALSE
-	 	cvX$config['histogramBins'] <- 20
-	 	cvX$config['histogramStat'] <- "count"
-	 	cvX$config['showFilledHistogramDensity'] <- TRUE
-	 	cvX$config['showHistogramDensity'] <- TRUE
-	 	cvX$config['showHistogramMedian'] <- TRUE
-	 	cvX$config['xAxisHistogramHeight'] <- 150
-	 	cvX$config['xAxisHistogramShow'] <- TRUE
-	 	cvX$config['yAxisHistogramHeight'] <- 150
-	 	cvX$config['yAxisHistogramShow'] <- TRUE
+	 	cvX$config[['hideHistogram']] <- FALSE
+	 	cvX$config[['histogramBins']] <- 20
+	 	cvX$config[['histogramStat']] <- "count"
+	 	cvX$config[['showFilledHistogramDensity']] <- TRUE
+	 	cvX$config[['showHistogramDensity']] <- TRUE
+	 	cvX$config[['showHistogramMedian']] <- TRUE
+	 	cvX$config[['xAxisHistogramHeight']] <- 150
+	 	cvX$config[['xAxisHistogramShow']] <- TRUE
+	 	cvX$config[['yAxisHistogramHeight']] <- 150
+	 	cvX$config[['yAxisHistogramShow']] <- TRUE
 	 }
 	}
 
