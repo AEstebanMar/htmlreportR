@@ -15,9 +15,9 @@ template <- file.path("template_lib.txt")
 
 tmp_folder <- "tmp_lib"
 plotter <- htmlReport$new(title_doc = "Testing lib mode report", 
-						      container = container, 
-		                      tmp_folder = tmp_folder,
-		                      src = source_folder)
+						  container = container, 
+		                  tmp_folder = tmp_folder,
+		                  src = source_folder)
 
 plotter$build(template)
 
