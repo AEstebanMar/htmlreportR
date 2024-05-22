@@ -48,3 +48,63 @@ canvasXpress_obj$methods(
 	})
 
 
+
+
+#################### DATA_STRUCTURE ACCESSORS
+    # data_structure <<- list(
+    #                         'y' = list( 
+    #                               'vars' = variables,
+    #                               'smps' = samples,
+    #                               'data' = values
+    #                         ),
+    #                         'x' = x,
+    #                         'z' = z)
+
+canvasXpress_obj$methods(
+    variables = function (content = NULL) {
+        if (is.null(content)) {
+            return(data_structure$y$vars)
+        } else {
+            data_structure$y$vars <<- content
+        }
+        invisible(return(NULL))
+})
+
+canvasXpress_obj$methods(
+    samples = function (content = NULL) {
+        if (is.null(content)) {
+            return(data_structure$y$smps)
+        } else {
+            data_structure$y$smps <<- content
+        }
+        invisible(return(NULL))
+})
+
+canvasXpress_obj$methods(
+    values = function (content = NULL) {
+        if (is.null(content)) {
+            return(data_structure$y$data)
+        } else {
+            data_structure$y$data <<- content
+        } 
+        invisible(return(NULL))
+})
+canvasXpress_obj$methods(
+    x = function (content = NULL) {
+        if (is.null(content)) {
+            return(data_structure$x)
+        } else {
+            data_structure$x <<- content
+        }
+        invisible(return(NULL))
+})
+
+canvasXpress_obj$methods(
+    z = function (content = NULL) {
+        if (is.null(content)) {
+            return(data_structure$z)
+        } else {
+            data_structure$z <<- content
+        }
+        invisible(return(NULL))
+})

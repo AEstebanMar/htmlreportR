@@ -375,3 +375,51 @@ test_that("testing scatter2D method of htmlReport class", {
 	testthat::expect_equal(output_dynamic_js, expected_dynamic_js)
 	testthat::expect_true(plotter$features$canvasXpress)
 })
+
+# table <- data.frame(            
+# 		V1 = c("tissue",     "nerv", "pcr",  "gen1", "gen2", "gen3",  "gen4"),    
+#         V2 = c("type",       "-",    "-",    "miRNA","miRNA","mRNA",  "mRNA"),
+# 		V3 = c("type2",      "-",    "-",    "tRNA", "tRNA", "ncRNA", "ncRNA"),
+# 		V4 = c("liver",      "no",   "true", "20",   "40",   "100",   "85"),
+# 		V5 = c("brain",      "yes",  "true", "13",   "60",   "85",    "10"),
+# 		V6 = c("cerebellum", "yes",  "false","15",   "30",   "12",    "41"))
+
+test_that("test tree configuration", {
+
+	
+	plotter <- htmlReport$new()
+
+	options <- list("id"= "complex_table",
+            "var_attr"= c(1,2), #Variable attributes
+            "smp_attr"= c(1,2), #Sample attributes
+            "header"= TRUE, 
+            "row_names"= TRUE, 
+            #"transpose"= False, We are not testing this option as most of the functions (table, and the different plot functions) already set the expected behaviour according to the needs 
+            "layout"= "forcedir", #Testing graph layout
+            "x_label"= "x_axis", #Testing plots layout
+            'title'= 'Title',
+            'alpha'= 1,
+            'theme'= 'cx',
+            'color_scheme'= 'CanvasXpress'
+            )
+
+	config <- list('toolbarType' = 'under',
+		           'xAxisTitle' = options$x_label,
+		           'title' = options$title,
+		           "objectColorTransparency"= options$alpha,
+		           "theme"= options$theme,
+		           "colorScheme"= options$color_scheme)
+
+	tree_file <- file.path(plotter$source_folder, "exData", "test_tree.txt")
+	if (!file.exists(tree_file))
+		tree_file <- file.path(plotter$source_folder, "inst", "exData", "test_tree.txt")
+
+    options<- update_options(options, list("tree" = tree_file,
+                             			   "treeBy" = "v"))
+
+    config <- plotter$set_tree(options, config)
+   	testthat::expect_true(config$variablesClustered)
+   	testthat::expect_true(!is.null(config$varDendrogramNewick))
+   	testthat::expect_true(length(config$varDendrogramNewick) > 0)
+
+})

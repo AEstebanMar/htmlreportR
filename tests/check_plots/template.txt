@@ -145,8 +145,43 @@ end.rcode-->
 
 
 <!--begin.rcode
-cat(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header = TRUE, smp_attr = c(17), text = FALSE, row_names = FALSE, transpose = FALSE, config = list("smpOverlays" = c("category")))))
+cat(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header = TRUE, smp_attr = c(17), text = FALSE, row_names = FALSE, transpose = FALSE,config = list("varOverlays" = c("category")))))
 end.rcode-->
+
+
+<!--begin.rcode
+    cat(plotter$heatmap(list(id = "sparse_matrix", title = "Heatmap (loaded dendrogram)", header = TRUE, text = FALSE, row_names = TRUE, tree = "/mnt/home/users/bio_267_uma/josecordoba/software/htmlreportR/tests/check_plots/dendrogram.dnd")))
+end.rcode-->
+
+
+<!--begin.rcode
+
+cluster_table <- plotter$get_data(list(id = "data_toc_sample.txt", row_names = NULL, header = TRUE, transpose = FALSE,
+ text = "dynamic"))$data_frame
+rownames(cluster_table) <- seq(0, nrow(cluster_table) -1)
+test_tree <- hclust(dist(cluster_table[,(1:length(cluster_table)-1)]))
+
+cluster_table$clust <- cutree(test_tree,8)
+data_toc_sample_nw <- ape::write.tree(ape::as.phylo(test_tree))
+rownames(cluster_table) <- as.character(sample(100))
+plotter$hash_vars$cluster_table <- cluster_table
+
+cat(plotter$heatmap(list(id = "cluster_table", 
+                         title = "Heatmap", 
+                         tree =data_toc_sample_nw, 
+                         header = NULL, 
+                         smp_attr = c(17, 18), 
+                         text = "dynamic", 
+                         row_names = NULL, 
+                         transpose = FALSE, 
+                         config = list("varOverlays" = c("category", "clust")))))
+
+end.rcode-->
+
+
+
+
+
 
 <!--begin.rcode
 cat(plotter$density(list(id = "density_ridgeline_example.txt", title = "Density plot", header = TRUE, text = FALSE, row_names = TRUE, fillDensity = TRUE, median = TRUE)))

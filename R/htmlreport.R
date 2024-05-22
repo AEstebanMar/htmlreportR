@@ -843,12 +843,13 @@ htmlReport$methods(
             'title'= 'Title',
             'config'= list(),
             'after_render'= c(),
-            'treeBy'= 's',
+            'treeBy'= 'v',
             'renamed_samples'= c(),
             'renamed_variables'= c(),
             'alpha'= 1,
             'theme'= 'cx',
-            'color_scheme'= 'CanvasXpress')
+            'color_scheme'= 'CanvasXpress',
+            "tree" = NULL)
 
 	options <- update_options(options, user_options)
 	config <- list('toolbarType' = 'under',
@@ -860,8 +861,9 @@ htmlReport$methods(
 
 
 ## esto va dentro de la clase nueva
-	if (!is.null(options[['tree']])) 
+	if (!is.null(options$tree)) {
 		config <- set_tree(options, config)
+	}
 
 	config <- update_options(config, options$config)
 
@@ -975,12 +977,14 @@ htmlReport$methods(
 )
 htmlReport$methods(
 	set_tree = function(options, config){
-        tree <- tree_from_file(options$tree)
+		tree <- options$tree
+		if(file.exists(options$tree))
+        	tree <- tree_from_file(options$tree)
+        
         if (options$treeBy == 's'){
             config[['smpDendrogramNewick']] <- tree
             config[['samplesClustered']] <- TRUE
         } else if (options$treeBy == 'v'){
-
             config[['varDendrogramNewick']] <- tree
             config[['variablesClustered']] <- TRUE
         }
@@ -989,15 +993,17 @@ htmlReport$methods(
 
 htmlReport$methods(
 	tree_from_file = function(file){
-        sapply(readLines(file, warn = FALSE), trimws)
+        paste(sapply(readLines(file, warn = FALSE), trimws), collapse = "")
 })
 
 
 htmlReport$methods(
 	heatmap = function(options) {
 	config_chart <- function(cvX){
-	 #   samples, variables, values, x, z = cvX$get_data_structure_vars()
         cvX$config[['graphType']] <- 'Heatmap' 
+		xcopy <- cvX$x()
+		cvX$x(cvX$z())
+		cvX$z(xcopy)
 	}
     default_options = list('row_names' = TRUE, 'config_chart' = config_chart)
     default_options <- update_options(default_options, options)
@@ -1017,7 +1023,6 @@ htmlReport$methods(
 htmlReport$methods(
 	density = function(options) {
 	config_chart <- function(cvX){
-	 #   samples, variables, values, x, z = cvX$get_data_structure_vars()
         cvX$config[['graphType']] <- "Scatter2D"
         cvX$config[['hideHistogram']] <- TRUE
         cvX$config[['showHistogram']] <- ifelse(is.null(options$group),
@@ -1049,10 +1054,10 @@ htmlReport$methods(
 	 #   samples, variables, values, x, z = cvX$get_data_structure_vars()
 
      cvX$config[['graphType']] <- "Scatter2D"
-	 cvX$config[['xAxis']] <- ifelse(is.null(options$xAxis), cvX$samples[1],
+	 cvX$config[['xAxis']] <- ifelse(is.null(options$xAxis), cvX$samples()[1],
 	 														 options$xAxis)
 	 if (is.null(options$yAxis)) {
-	 	cvX$config[['yAxis']] <- cvX$samples[-1]
+	 	cvX$config[['yAxis']] <- cvX$samples()[-1]
 	 } else {
 	 	cvX$config[['yAxis']] <- options$yAxis
 	 }
@@ -1063,18 +1068,19 @@ htmlReport$methods(
 	 	options$extracode <- Fs("C", cvX$object_id, ".addRegressionLine();")
 	 }
 
+ 	zmod <- cvX$z()
 	 if (!is.null(options$pointSize)) {
 	 	cvX$config[['sizeBy']] <- options$pointSize
-	 	sampleIndex <- grep(cvX$samples, options$pointSize)
-	 	data_structure$z[[options$pointSize]] <- data_structure$y$data[, sampleIndex]
+	 	sampleIndex <- grep(cvX$samples(), options$pointSize)
+	 	zmod[[options$pointSize]] <- cvX$values()[, sampleIndex]
 	 }
 
 	 if(!is.null(options$colorScaleBy)) {
 	 	cvX$config[['colorBy']] <- options$colorScaleBy
-	 	sampleIndex <- grep(cvX$samples, options$colorScaleBy)
-	 	data_structure$z[[options$colorScaleBy]] <- data_structure$y$data[, sampleIndex]
+	 	sampleIndex <- grep(cvX$samples(), options$colorScaleBy)
+	 	zmod[[options$colorScaleBy]] <- cvX$values()[, sampleIndex]
 	 }
-
+	 cvX$z(zmod)
 	 if(!is.null(options$add_densities)) {
 	 	cvX$config[['hideHistogram']] <- FALSE
 	 	cvX$config[['histogramBins']] <- 20
