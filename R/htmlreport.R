@@ -542,18 +542,18 @@ htmlReport$methods(extract_data = function(data_frame, 	options) {
 	smp_attr <- NULL #length(NULL) ==> 0
     var_attr <- NULL
     
-    if (length(options$smp_attr) > 0){
-    	smp_attr <- data_frame[,options$smp_attr, drop = FALSE]
-    	data_frame <- data_frame[,-options$smp_attr, drop = FALSE]
-    } 
     if (length(options$var_attr) > 0){
-    	var_attr <- data_frame[options$var_attr,, drop = FALSE]
-    	data_frame <- data_frame[-options$var_attr,, drop = FALSE]
+    	var_attr <- data_frame[,options$var_attr, drop = FALSE]
+    	data_frame <- data_frame[,-options$var_attr, drop = FALSE]
+    } 
+    if (length(options$smp_attr) > 0){
+    	smp_attr <- data_frame[options$smp_attr,, drop = FALSE]
+    	data_frame <- data_frame[-options$smp_attr,, drop = FALSE]
     }
     
     if (length(options$smp_attr) > 0 && 
     		length(options$var_attr) > 0){
-    	smp_attr <- smp_attr[-options$var_attr,,drop = FALSE]
+    	var_attr <- var_attr[-options$smp_attr,,drop = FALSE]
     } 
     if (length(options$fields > 0))
     	data_frame <- data_frame[,options$fields, drop = FALSE]
@@ -993,7 +993,7 @@ htmlReport$methods(
 
 htmlReport$methods(
 	tree_from_file = function(file){
-        paste(sapply(readLines(file, warn = FALSE), trimws), collapse = "")
+        paste(readLines(file, warn = FALSE), collapse ="")
 })
 
 
@@ -1001,9 +1001,6 @@ htmlReport$methods(
 	heatmap = function(options) {
 	config_chart <- function(cvX){
         cvX$config[['graphType']] <- 'Heatmap' 
-		xcopy <- cvX$x()
-		cvX$x(cvX$z())
-		cvX$z(xcopy)
 	}
     default_options = list('row_names' = TRUE, 'config_chart' = config_chart)
     default_options <- update_options(default_options, options)

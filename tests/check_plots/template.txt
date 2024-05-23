@@ -28,7 +28,7 @@ cat(plotter$create_title("Heatmap example", "heatmap_t", hlevel = 3, indexable =
        text_colour <-  "black"
        na_col <-  "grey50"
 
-	   cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, smp_attr = c(17),plotting_function = function(ggplot_obj) {
+	   cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, var_attr = c(17),plotting_function = function(ggplot_obj) {
     
        ggplot_obj + ggplot2::aes(x = x_axis, y = y_axis, fill =Freq) +
        ggplot2::geom_tile(show.legend = TRUE) +
@@ -43,7 +43,7 @@ end.rcode-->
 <!--begin.rcode 
 cat(plotter$create_title("Heatmap example resizable", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
 
-cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, smp_attr = c(17), width = 1200, height = 500, size_unit = "px", resizable = TRUE, plotting_function = function(ggplot_obj) {
+cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, var_attr = c(17), width = 1200, height = 500, size_unit = "px", resizable = TRUE, plotting_function = function(ggplot_obj) {
     
        ggplot_obj + ggplot2::aes(x = x_axis, y = y_axis, fill =Freq) +
        ggplot2::geom_tile(show.legend = TRUE) +
@@ -58,7 +58,7 @@ end.rcode-->
 <!--begin.rcode 
 cat(plotter$create_title("Heatmap example custom size", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
 
-cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, smp_attr = c(17), width = 1200, height = 500, size_unit = "px", img_properties = "width='1200' height='500'", plotting_function = function(ggplot_obj) {
+cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, var_attr = c(17), width = 1200, height = 500, size_unit = "px", img_properties = "width='1200' height='500'", plotting_function = function(ggplot_obj) {
     
        ggplot_obj + ggplot2::aes(x = x_axis, y = y_axis, fill =Freq) +
        ggplot2::geom_tile(show.legend = TRUE) +
@@ -133,9 +133,9 @@ cat(plotter$create_title("Bootstrap type", "tables_bs", hlevel = 3, indexable = 
 
     #plotter$add_menu_item("datatable",list(text="DataTable"))
     plotter$hash_vars[["test_data_frame"]] <- data.frame( "V1" = c("h0","r1", "r2", "r3"), 
-                                "V2" = c("h1", "-","smp_attr1", "smp_attr2"),
-                                "V3" = c("h2", "var_attr1", 1,2), 
-                                "V4" = c("h3", "var_attr2",3,4), 
+                                "V2" = c("h1", "-","var_attr1", "var_attr2"),
+                                "V3" = c("h2", "smp_attr1", 1,2), 
+                                "V4" = c("h3", "smp_attr2",3,4), 
                                 row.names = c(1,2,3,4))
 
     cat(plotter$table("test_data_frame", header = TRUE, row_names = TRUE, smp_attr = c(1), var_attr = c(1), attrib = list('class' = 'table table-striped')))
@@ -145,7 +145,7 @@ end.rcode-->
 
 
 <!--begin.rcode
-cat(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header = TRUE, smp_attr = c(17), text = FALSE, row_names = FALSE, transpose = FALSE,config = list("varOverlays" = c("category")))))
+cat(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header = TRUE, var_attr = c(17), text = FALSE, row_names = FALSE, transpose = FALSE,config = list("varOverlays" = c("category")))))
 end.rcode-->
 
 
@@ -170,7 +170,7 @@ cat(plotter$heatmap(list(id = "cluster_table",
                          title = "Heatmap", 
                          tree =data_toc_sample_nw, 
                          header = NULL, 
-                         smp_attr = c(17, 18), 
+                         var_attr = c(17, 18), 
                          text = "dynamic", 
                          row_names = NULL, 
                          transpose = FALSE, 

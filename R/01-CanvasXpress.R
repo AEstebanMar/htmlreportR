@@ -28,8 +28,8 @@ canvasXpress_obj <- setRefClass("canvasXpress",
         if (!is.null(smps)) samples(smps)
         values(vals)
         object_id <<- obj_id 
-        if (!is.null(var_att)) z(as.list(as.data.frame(t(var_att))))
-        if (!is.null(smp_att)) x(as.list(smp_att))
+        if (!is.null(var_att)) z(as.list(var_att))
+        if (!is.null(smp_att)) x(as.list(as.data.frame(t(smp_att))))
         if (!is.null(options$after_render)) afterRender <<- options$after_render
         events <<- FALSE #Possible future use for events for CanvasXpress, currently not used
         info <<- FALSE #Possible future use for events for CanvasXpress, currently not used
