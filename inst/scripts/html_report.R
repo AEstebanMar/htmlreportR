@@ -24,16 +24,22 @@ if( Sys.getenv('HTMLREPORTER_MODE') == 'DEVELOPMENT' ){
 option_list <- list(
   optparse::make_option(c("-d", "--data_files"), type="character", default=NULL,
     help="Comma sepparated text files with data to use on graphs or tables within report"),
-    optparse::make_option(c("-t", "--template"), type="character", default=NULL,
+  optparse::make_option(c("-t", "--template"), type="character", default=NULL,
     help="Report template"),
  optparse::make_option(c("-o", "--output_file"), type="character", default=NULL,
     help="HTML file path to render the template"),
  optparse::make_option(c("--title"), type="character", default="htmlreportR",
     help="Title of the html report"),
- optparse::make_option(c("-m", "--menu"), type="logical", default=FALSE, action = "store_true",
-    help="Index is menu like"),
- optparse::make_option(c("-c", "--compress"), type = "logical", default = FALSE, action = "store_true", 
-    help = "Indicate if figure data must be compressed." )
+ optparse::make_option(c("-u", "--uncompressed_data"), type = "logical", default = TRUE, action = "store_false", 
+    help = "Indicate if figure data must be uncompressed." ),
+ optparse::make_option(c("-c", "--css_files"), type="character", default=NULL,
+    help="Path to css files that must be included. Use ',' as path separator for each file"),
+  optparse::make_option(c("-j", "--js_files"), type="character", default=NULL,
+    help="Path to javascript files that must be included. Use ',' as path separator for each file"),
+ optparse::make_option(c("-C", "--css_cdn"), type="character", default=NULL,
+    help="URL to css CDNs that must be included. Use ',' as path separator for each file"),
+ optparse::make_option(c("-J", "--js_cnd"), type="character", default=NULL,
+    help="URL to javascript CDNs that must be included. Use ',' as path separator for each file")
   )
 
 opt <- optparse::parse_args(optparse::OptionParser(option_list=option_list))

@@ -446,7 +446,7 @@ htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, si
 
 
 htmlReport$methods(
-	embed_img = function(file_img, img_properties, resizable = FALSE) {
+	embed_img = function(file_img, img_properties = "", resizable = FALSE) {
 		enc_img <- embed_file(file_img)
 	if (resizable) {
 		img_properties <- Fs(img_properties, " class='fitting_img' ")

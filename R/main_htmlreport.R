@@ -19,9 +19,12 @@ main_htmlreportR <- function(options){
 	plotter <- htmlReport$new(title_doc = options$title, 
 						      container = data_files, 
 		                      tmp_folder = tmp_folder,
-		                      menu = options$menu,
 		                      src = options$source_folder,
-		                      compress_obj = options$compress)
+		                      compress_obj = options$uncompressed_data,
+		                      files_css = opt$css_files,
+		                      files_js = opt$js_files,
+		                      cdn_css = opt$css_cdn,
+		                      cdn_js = opt$js_cdn)
 	
 	plotter$build(options$template)
 	plotter$write_report(output_file)
