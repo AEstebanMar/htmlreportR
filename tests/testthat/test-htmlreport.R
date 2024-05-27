@@ -334,7 +334,7 @@ test_that("testing density method of htmlReport class", {
                                 "V3" = c("h2", 100, 200, 300), 
                                 "V4" = c("h3", 8,5,2), 
                       row.names = c(1,2,3,4)))
-	plotter <- htmlReport$new(container = container)
+	plotter <- htmlReport$new(container = container, compress = FALSE)
 	output_string <- plotter$density(list(id = "test_data_frame", header = TRUE,
 										  text = FALSE, row_names = TRUE,
 										  fillDensity = TRUE, median = TRUE))
@@ -369,7 +369,7 @@ test_that("testing scatter2D method of htmlReport class", {
                                 "V3" = c("h2", 100, 200, 300), 
                                 "V4" = c("h3", 8,5,2), 
                       row.names = c(1,2,3,4)))
-	plotter <- htmlReport$new(container = container)
+	plotter <- htmlReport$new(container = container, compress = FALSE)
 	output_string <- plotter$density(list(id = "test_data_frame", title = "A",
 										  header = TRUE, row_names = TRUE,
 										  text = FALSE, text = FALSE))
