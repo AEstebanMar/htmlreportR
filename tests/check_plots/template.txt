@@ -2,7 +2,7 @@
 
 
 
-<!--begin.rcode 
+<!--begin.rcode Static_ggplot
 
 cat(plotter$create_title("Sample report", "sample_report", hlevel = 1, indexable = FALSE, clickable = FALSE, t_id = NULL))
 cat(plotter$create_title("Static plots", "static_plot", hlevel = 2, indexable = TRUE, clickable = FALSE, t_id = NULL))
@@ -40,7 +40,7 @@ cat(plotter$create_title("Heatmap example", "heatmap_t", hlevel = 3, indexable =
 end.rcode-->
 
 
-<!--begin.rcode 
+<!--begin.rcode Resizable_ggplot_heatmap
 cat(plotter$create_title("Heatmap example resizable", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
 
 cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, var_attr = c(17), width = 1200, height = 500, size_unit = "px", resizable = TRUE, plotting_function = function(ggplot_obj) {
@@ -55,7 +55,7 @@ cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_fun
 end.rcode-->
 
 
-<!--begin.rcode 
+<!--begin.rcode Custom_size_ggplot_heatmap
 cat(plotter$create_title("Heatmap example custom size", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
 
 cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, var_attr = c(17), width = 1200, height = 500, size_unit = "px", img_properties = "width='1200' height='500'", plotting_function = function(ggplot_obj) {
@@ -70,7 +70,7 @@ cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_fun
 end.rcode-->
 
 
-<!--begin.rcode
+<!--begin.rcode Mermaid_examples
 cat(plotter$create_title("Mermaid chart examples", "mermaid", hlevel = 2, indexable = TRUE, clickable = TRUE, t_id = "mermaid_chart"))
    cat(plotter$create_collapsable_container(id = "mermaid_chart", html_code =plotter$mermaid_chart('
 ---
@@ -127,7 +127,7 @@ flowchart LR
 end.rcode-->
 
 
-<!--begin.rcode
+<!--begin.rcode table_bootstrap
 cat(plotter$create_title("Tables", "tables", hlevel = 2, indexable = TRUE, clickable = FALSE, t_id = NULL))
 cat(plotter$create_title("Bootstrap type", "tables_bs", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL))
 
@@ -144,17 +144,17 @@ cat(plotter$create_title("Bootstrap type", "tables_bs", hlevel = 3, indexable = 
 end.rcode-->
 
 
-<!--begin.rcode
-cat(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header = TRUE, var_attr = c(17), text = FALSE, row_names = FALSE, transpose = FALSE,config = list("varOverlays" = c("category")))))
+<!--begin.rcode cvX_heatmap
+cat(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header = TRUE, var_attr = c(17), text = FALSE, row_names = FALSE, transpose = FALSE, config = list("varOverlays" = c("category")))))
 end.rcode-->
 
 
-<!--begin.rcode
+<!--begin.rcode cvX_heatmap_tree
     cat(plotter$heatmap(list(id = "sparse_matrix", title = "Heatmap (loaded dendrogram)", header = TRUE, text = FALSE, row_names = TRUE, tree = "/mnt/home/users/bio_267_uma/josecordoba/software/htmlreportR/tests/check_plots/dendrogram.dnd")))
 end.rcode-->
 
 
-<!--begin.rcode
+<!--begin.rcode cvX_cluster_heatmap
 
 cluster_table <- plotter$get_data(list(id = "data_toc_sample.txt", row_names = NULL, header = TRUE, transpose = FALSE,
  text = "dynamic"))$data_frame
@@ -183,7 +183,7 @@ end.rcode-->
 
 
 
-<!--begin.rcode
+<!--begin.rcode cvX_density
 cat(plotter$density(list(id = "density_ridgeline_example.txt", title = "Density plot", header = TRUE, text = FALSE, row_names = TRUE, fillDensity = TRUE, median = TRUE)))
 end.rcode-->
 
@@ -194,14 +194,22 @@ end.rcode-->
 <br>
 <br>
 
-<!--begin.rcode
+<!--begin.rcode cvX_datatable
     cat(plotter$create_title("DataTable type", "tables_dt", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL))
 
     cat(plotter$table("test_data_frame", header = TRUE, row_names = TRUE, smp_attr = c(1), var_attr = c(1), styled = "dt"))
 
 end.rcode-->
 
-<!--begin.rcode
+<!--begin.rcode cvX_scatter2D
     cat(plotter$scatter2D(list(id = "x_y.txt", title = "Simple Scatter", row_names = FALSE, header = TRUE, x_label = "Num genes", y_label = "FPKM", alpha = 0.3, theme = "tableau", text = FALSE)))
     cat(plotter$scatter2D(list(id = "x_y.txt", title = "Scatter with densities", row_names = FALSE, header = TRUE, x_label = "Num genes", y_label = "FPKM", add_densities = TRUE, text = FALSE)))
+end.rcode-->
+
+<!--begin.rcode cvX_barplot
+
+    cat(plotter$barplot(list(id = "barplot1.txt", title = "Vertical barplot with three series", row_names = TRUE, header = TRUE, text = FALSE, config = list('graphOrientation' = 'vertical', 'xAxisTitle' = 'Values'))))
+    cat(plotter$barplot(list(id = "barplot2.txt", title = "Horizontal barplot", row_names = TRUE, header = TRUE, height = 300, text = FALSE)))
+    cat(plotter$barplot(list(id = "barplot2.txt", title = "Barplot with intensities", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, colorScale = TRUE)))
+    # cat(plotter$barplot(list(id = "barplot3.txt", title = "Tiny barplot", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, width = 300, var_attr = c(1,2), smp_attr = c(1,2), segregate = list('var' = 'nerv', 'smp'= 'type2'), config = list('layoutCollapse' = 'false', 'layoutType' = 'rows', 'graphOrientation' = 'vertical' ))))
 end.rcode-->
