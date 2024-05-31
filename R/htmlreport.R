@@ -615,7 +615,7 @@ htmlReport$methods(add_header_row_names = function(data_frame, options) {
 	if(!is.null(options$row_names))
 		if (options$row_names) {
 			rownames(data_frame) <- data_frame[,1]
-			data_frame <- data_frame[,-1]
+			data_frame <- data_frame[,-1, drop = FALSE]
 		}
 
 	if(!is.null(options$header))
@@ -1029,11 +1029,40 @@ htmlReport$methods(
         cvX$config[['showHistogramMedian']] <- options$median
 	}
 
-    default_options = list('transpose' = FALSE, 'fillDensity' = FALSE,
+    default_options <- list('transpose' = FALSE, 'fillDensity' = FALSE,
     					   'median' = FALSE, 'config_chart' = config_chart)
     default_options <- update_options(default_options, options)
     html_string <- canvasXpress_main(default_options)
     return(html_string)
+})
+
+#' CanvasXpress barplot
+#'
+#' @name barplot-htmlReport-method
+#' @title Build CanvasXpress barplot from R data frame
+#' @description Loads data frame and CanvasXpress options for barplot,
+#' then calls canvasXpress_main to build it.
+#' @param options list with options.
+#' @returns HTML code for CanvasXpress density plot of data.
+
+htmlReport$methods(
+	barplot = function(options) {
+	config_chart <- function(cvX) {
+		cvX$config[['graphType']] <- 'Bar'
+		xmod <- cvX$x()
+		saveRDS(cvX, '~/dev_R/htmlreportR/tests/check_plots/cvX.rds')
+		if(isTRUE(options$colorScale)) {
+			xmod[options$x_label] <- cvX$values()[1 ,]
+			cvX$config[['colorBy']] <- options[['x_label']]
+		}
+		cvX$x(xmod)
+	}
+
+	default_options <- list('row_names' = TRUE,
+							'config_chart' = config_chart)
+	default_options <- update_options(default_options, options)
+	html_string <- canvasXpress_main(default_options)
+	return(html_string)
 })
 
 #' CanvasXpress scatter2D plot
