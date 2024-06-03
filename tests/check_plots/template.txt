@@ -149,11 +149,6 @@ cat(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header =
 end.rcode-->
 
 
-<!--begin.rcode cvX_heatmap_tree
-    cat(plotter$heatmap(list(id = "sparse_matrix", title = "Heatmap (loaded dendrogram)", header = TRUE, text = FALSE, row_names = TRUE, tree = "/mnt/home/users/bio_267_uma/josecordoba/software/htmlreportR/tests/check_plots/dendrogram.dnd")))
-end.rcode-->
-
-
 <!--begin.rcode cvX_cluster_heatmap
 
 cluster_table <- plotter$get_data(list(id = "data_toc_sample.txt", row_names = NULL, header = TRUE, transpose = FALSE,
