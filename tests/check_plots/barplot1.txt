@@ -1,0 +1,5 @@
+tissue	liver	brain	lung
+gen1	20	13	60
+gen2	40	60	90
+gen3	100	85	10
+gen4	1	85	10

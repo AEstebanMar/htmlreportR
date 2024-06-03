@@ -1,8 +1,8 @@
 
 
 
-canvasXpress_obj$methods(run_config_chart = function(config_chart){
-					config_chart(.self)
+canvasXpress_obj$methods(run_config_chart = function(config_chart, options){
+					config_chart(.self, options)
 })
 
 

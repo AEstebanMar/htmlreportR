@@ -1,0 +1,5 @@
+gen_id	spleen
+gen1	2
+gen2	5
+gen3	12
+gen4	50

@@ -838,7 +838,7 @@ htmlReport$methods(
             'header'= FALSE,
             'row_names'= FALSE,
             'add_header_row_names'= TRUE,
-            'transpose'= TRUE,
+            'transpose'= TRUE, 
             'x_label'= 'x_axis',
             'title'= 'Title',
             'config'= list(),
@@ -889,7 +889,7 @@ htmlReport$methods(
 										  opt = options,
 										  conf = config)
 
-	canvasXpress$run_config_chart(config_chart = options$config_chart)
+	canvasXpress$run_config_chart(config_chart = options$config_chart, options = options)
 
 
     canvasXpress$inject_attributes(options, slot="x")
@@ -954,10 +954,10 @@ NULL
 htmlReport$methods(
 	compress_data = function(data){
 		if (compress) {
-		    compressed_data <-  gsub("\n","", jsonlite::as_gzjson_b64(data, auto_unbox = TRUE, dataframe = "values"))
+		    compressed_data <-  gsub("\n","", jsonlite::as_gzjson_b64(data, auto_unbox = FALSE, dataframe = "values"))
 		} else {
 
-			compressed_data <- jsonlite::toJSON(data, auto_unbox = TRUE, dataframe = "values")
+			compressed_data <- jsonlite::toJSON(data, auto_unbox = FALSE, dataframe = "values", rownames = FALSE)
 		}
 
 		return(compressed_data)
@@ -998,12 +998,12 @@ htmlReport$methods(
 
 
 htmlReport$methods(
-	heatmap = function(options) {
-	config_chart <- function(cvX){
+	heatmap = function(opt) {
+	config_chart <- function(cvX, options){
         cvX$config[['graphType']] <- 'Heatmap' 
 	}
     default_options = list('row_names' = TRUE, 'config_chart' = config_chart)
-    default_options <- update_options(default_options, options)
+    default_options <- update_options(default_options, opt)
     html_string <- canvasXpress_main(default_options)
     return(html_string)
 })
@@ -1018,8 +1018,8 @@ htmlReport$methods(
 #' @returns HTML code for CanvasXpress density plot of data.
 
 htmlReport$methods(
-	density = function(options) {
-	config_chart <- function(cvX){
+	density = function(opt) {
+	config_chart <- function(cvX, options){
         cvX$config[['graphType']] <- "Scatter2D"
         cvX$config[['hideHistogram']] <- TRUE
         cvX$config[['showHistogram']] <- ifelse(is.null(options$group),
@@ -1031,7 +1031,7 @@ htmlReport$methods(
 
     default_options <- list('transpose' = FALSE, 'fillDensity' = FALSE,
     					   'median' = FALSE, 'config_chart' = config_chart)
-    default_options <- update_options(default_options, options)
+    default_options <- update_options(default_options, opt)
     html_string <- canvasXpress_main(default_options)
     return(html_string)
 })
@@ -1046,21 +1046,20 @@ htmlReport$methods(
 #' @returns HTML code for CanvasXpress density plot of data.
 
 htmlReport$methods(
-	barplot = function(options) {
-	config_chart <- function(cvX) {
+	barplot = function(opt) {
+	config_chart <- function(cvX, options) {
 		cvX$config[['graphType']] <- 'Bar'
 		xmod <- cvX$x()
-		saveRDS(cvX, '~/dev_R/htmlreportR/tests/check_plots/cvX.rds')
 		if(isTRUE(options$colorScale)) {
-			xmod[options$x_label] <- cvX$values()[1 ,]
-			cvX$config[['colorBy']] <- options[['x_label']]
+			xmod[[options$x_label]] <- unlist(cvX$values()[1,]) #el unlist es para que el subset de 1 fila devuelva un vector
+			cvX$config[['colorBy']] <- options$x_label
 		}
 		cvX$x(xmod)
 	}
 
 	default_options <- list('row_names' = TRUE,
 							'config_chart' = config_chart)
-	default_options <- update_options(default_options, options)
+	default_options <- update_options(default_options, opt)
 	html_string <- canvasXpress_main(default_options)
 	return(html_string)
 })
@@ -1075,8 +1074,8 @@ htmlReport$methods(
 #' @returns HTML code for CanvasXpress density plot of data.
 
 htmlReport$methods(
-	scatter2D = function(options) {
-	config_chart <- function(cvX){
+	scatter2D = function(opt) {
+	config_chart <- function(cvX, options){
 	 #   samples, variables, values, x, z = cvX$get_data_structure_vars()
 
      cvX$config[['graphType']] <- "Scatter2D"
@@ -1123,7 +1122,7 @@ htmlReport$methods(
 
     default_options = list('row_names' = FALSE, 'transpose' = FALSE,
     					   'config_chart' = config_chart)
-    default_options <- update_options(default_options, options)
+    default_options <- update_options(default_options, opt)
     html_string <- canvasXpress_main(default_options)
     return(html_string)
 })
