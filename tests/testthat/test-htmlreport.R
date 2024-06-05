@@ -464,8 +464,8 @@ test_that("test tree configuration", {
                              			   "treeBy" = "v"))
 
     config <- plotter$set_tree(options, config)
-   	testthat::expect_true(config$variablesClustered)
    	testthat::expect_true(!is.null(config$varDendrogramNewick))
    	testthat::expect_true(length(config$varDendrogramNewick) > 0)
-
+   	testthat::expect_true(config$varDendrogramUseHeight)
+   	testthat::expect_false(config$varDendrogramHang)
 })

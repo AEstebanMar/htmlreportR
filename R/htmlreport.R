@@ -983,10 +983,13 @@ htmlReport$methods(
         
         if (options$treeBy == 's'){
             config[['smpDendrogramNewick']] <- tree
-            config[['samplesClustered']] <- TRUE
+            config[['smpDendrogramUseHeight']] <- TRUE
+            config[['smpDendrogramHang']] <- FALSE
         } else if (options$treeBy == 'v'){
             config[['varDendrogramNewick']] <- tree
-            config[['variablesClustered']] <- TRUE
+            config[['varDendrogramUseHeight']] <- TRUE
+            config[['varDendrogramHang']] <- FALSE
+
         }
         config
 })
