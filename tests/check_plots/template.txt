@@ -209,3 +209,13 @@ end.rcode-->
     cat(plotter$barplot(list(id = "barplot2.txt", title = "Barplot with intensities", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, colorScale = TRUE, config = list('graphOrientation' = 'vertical'))))
     cat(plotter$barplot(list(id = "barplot3.txt", title = "Tiny barplot", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, width = 300, var_attr = c(1,2), smp_attr = c(1,2), segregate = list('var' = 'nerv', 'smp'= 'type2'), config = list('layoutCollapse' = 'false', 'layoutType' = 'rows', 'graphOrientation' = 'vertical' ))))
 end.rcode-->
+
+<p>We can also define functions to transform data before plotting<p>
+<!--begin.rcode cvX_lineplot
+    mod_data <- function(df) {
+        df[2,2] <- 1000
+        return(df)
+    }
+    cat(plotter$line(list(id = "barplot1.txt", title = "plain line plot", header = TRUE, text = FALSE)))
+    cat(plotter$line(list(id = "barplot1.txt", title = "modified line plot", header = TRUE, text = FALSE, func = mod_data, config = list('graphOrientation' = 'vertical'))))
+end.rcode-->
