@@ -7,10 +7,10 @@
 \item{options}{list with options.}
 }
 \value{
-HTML code for CanvasXpress density plot of data.
+HTML code for CanvasXpress scatter2D plot of data.
 }
 \description{
-Loads data frame and CanvasXpress options for density plot,
+Loads data frame and CanvasXpress options for scatter2D plot,
 then calls canvasXpress_main to build it.
 }
 \details{
