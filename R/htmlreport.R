@@ -1046,7 +1046,7 @@ htmlReport$methods(
 #' @description Loads data frame and CanvasXpress options for barplot,
 #' then calls canvasXpress_main to build it.
 #' @param options list with options.
-#' @returns HTML code for CanvasXpress density plot of data.
+#' @returns HTML code for CanvasXpress bar plot of data.
 
 htmlReport$methods(
 	barplot = function(opt) {
@@ -1071,10 +1071,10 @@ htmlReport$methods(
 #'
 #' @name scatter2D-htmlReport-method
 #' @title Build CanvasXpress scatter2D plot from R data frame
-#' @description Loads data frame and CanvasXpress options for density plot,
+#' @description Loads data frame and CanvasXpress options for scatter2D plot,
 #' then calls canvasXpress_main to build it.
 #' @param options list with options.
-#' @returns HTML code for CanvasXpress density plot of data.
+#' @returns HTML code for CanvasXpress scatter2D plot of data.
 
 htmlReport$methods(
 	scatter2D = function(opt) {
@@ -1128,6 +1128,27 @@ htmlReport$methods(
     default_options <- update_options(default_options, opt)
     html_string <- canvasXpress_main(default_options)
     return(html_string)
+})
+
+#' CanvasXpress line plot
+#'
+#' @name line-htmlReport-method
+#' @title Build CanvasXpress line plot from R data frame
+#' @description Loads data frame and CanvasXpress options for line plot,
+#' then calls canvasXpress_main to build it.
+#' @param options list with options.
+#' @returns HTML code for CanvasXpress line plot of data.
+
+htmlReport$methods(
+	line = function(opt) {
+	config_chart <- function(cvX, options) {
+		cvX$config[['graphType']] <- 'Line'
+	}
+	default_options <- list('row_names' = TRUE,
+							'config_chart' = config_chart)
+	default_options <- update_options(default_options, opt)
+	html_string <- canvasXpress_main(default_options)
+	return(html_string)
 })
 
 htmlReport$methods(
