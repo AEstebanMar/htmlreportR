@@ -422,6 +422,42 @@ test_that("testing barplot method of htmlReport class", {
 	testthat::expect_true(plotter$features$canvasXpress)
 })
 
+test_that("testing line method of htmlReport class", {
+	expected_string <- paste0("<canvas  id=\"obj_0_\" width=\"600px\" ",
+							  "height=\"600px\" aspectRatio='1:1' ",
+							  "responsive='true'></canvas>")
+	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data",
+								  " = {\"y\":{\"vars\":[\"h0, s2, s3, s4\",",
+								  "\"h1\",\"h2\",\"h3\"],\"smps\":[\"1\",\"2",
+								  "\",\"3\"],\"data\":[[\"h0, s2, s3, s4\",\"",
+								  "h0, s2, s3, s4\",\"h0, s2, s3, s4\"],[\"1\"",
+								  ",\"2\",\"3\"],[\"4\",\"5\",\"6\"],[\"7\",\"",
+								  "8\",\"9\"]]},\"x\":[],\"z\":[]};\nvar conf ",
+								  "= {\"toolbarType\":\"under\",\"xAxisTitle\"",
+								  ":\"x_axis\",\"title\":\"A\",\"",
+								  "objectColorTransparency\":1,\"theme\":\"cx",
+								  "\",\"colorScheme\":\"CanvasXpress\",\"",
+								  "graphType\":\"Line\"};\nvar events = false;",
+								  "\nvar info = false;\nvar afterRender = [];",
+								  "\nvar Cobj_0_ = new CanvasXpress(\"obj_0_\"",
+								  ", data, conf, events, info, afterRender);\n",
+								  "});\n")
+	container <- list(test_data_frame = data.frame(
+					  			"V1" = c("h0, s2, s3, s4"),
+					  			"V2" = c("h1", 1, 2, 3),
+					  			"V3" = c("h2", 4, 5, 6),
+					  			"V4" = c("h3", 7, 8, 9),
+					  row.names = c(1, 2, 3, 4)))
+	plotter <- htmlReport$new(container = container, compress = FALSE)
+	output_string <- plotter$line(list(id = "test_data_frame", title = "A",
+									   header = TRUE, row_names = FALSE,
+									   text = "dynamic"))
+	output_dynamic_js <- plotter$dynamic_js
+	testthat::expect_equal(output_string, expected_string)
+	testthat::expect_equal(output_dynamic_js, expected_dynamic_js)
+	testthat::expect_true(plotter$features$canvasXpress)
+})
+
 # table <- data.frame(            
 # 		V1 = c("tissue",     "nerv", "pcr",  "gen1", "gen2", "gen3",  "gen4"),    
 #         V2 = c("type",       "-",    "-",    "miRNA","miRNA","mRNA",  "mRNA"),
