@@ -450,7 +450,7 @@ htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, si
   	if(is.function(plot_obj)){
   		plot_obj()
   	} else {
-		plot_obj
+		plot(plot_obj)
   	}
 	grDevices::dev.off()
 	embed_img(file_png, img_properties, resizable = resizable)
