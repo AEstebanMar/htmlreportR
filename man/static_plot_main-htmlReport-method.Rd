@@ -35,6 +35,8 @@
 \item{img_properties}{string including html properties of img}
 
 \item{resizable}{logical indicating if plot must be resizable}
+
+\item{classic_R_plot}{logical indicating if is using classic plot() R function}
 }
 \description{
 This function generates a static plot for inclusion in an HTML

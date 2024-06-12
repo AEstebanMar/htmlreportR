@@ -7,7 +7,7 @@
 \item{options}{list with options.}
 }
 \value{
-HTML code for CanvasXpress density plot of data.
+HTML code for CanvasXpress bar plot of data.
 }
 \description{
 Loads data frame and CanvasXpress options for barplot,

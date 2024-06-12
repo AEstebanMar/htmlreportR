@@ -72,6 +72,7 @@ htmlReport$methods(
 #' @param size_unit units in plot size
 #' @param img_properties string including html properties of img
 #' @param resizable logical indicating if plot must be resizable
+#' @param classic_R_plot logical indicating if is using classic plot() R function
 #' 
 #' @details
 #' This function generates a static plot based on the provided data and plot specifications. 
@@ -95,7 +96,8 @@ htmlReport$methods(static_plot_main = function(id,
 											   height = NULL, 
 											   size_unit = NULL, 
 											   img_properties = "",
-											   resizable = FALSE
+											   resizable = FALSE,
+											   classic_R_plot = FALSE
 											   ) {
 
 	options <- list(id = id,
@@ -113,8 +115,14 @@ htmlReport$methods(static_plot_main = function(id,
 		data_frame <- get_data_for_plot(options)$data_frame
 	}
 
-	if(is.null(plotting_function)) return(data_frame)
-	plot_obj <- plotting_function(data_frame)
+	if(is.null(plotting_function)) {
+		return(data_frame)
+	}else if (classic_R_plot) {
+		aux_func <- function(data_frame){eval(parse(text = paste(deparse(plotting_function), collapse ="\n")))}
+		plot_obj <- aux_func(data_frame)
+	}else {
+		plot_obj <- plotting_function(data_frame)
+	}
 	get_plot(plot_obj, width = width, height = height, size_unit = size_unit, img_properties = img_properties, resizable = resizable)
 })
 
@@ -439,7 +447,11 @@ htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, si
 		height = height,
 		units = size_unit,
 		res = 200)
-		plot(plot_obj)
+  	if(is.function(plot_obj)){
+  		plot_obj()
+  	} else {
+		plot_obj
+  	}
 	grDevices::dev.off()
 	embed_img(file_png, img_properties, resizable = resizable)
 })
