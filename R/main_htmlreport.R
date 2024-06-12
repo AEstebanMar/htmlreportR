@@ -21,10 +21,10 @@ main_htmlreportR <- function(options){
 		                      tmp_folder = tmp_folder,
 		                      src = options$source_folder,
 		                      compress_obj = options$uncompressed_data,
-		                      files_css = opt$css_files,
-		                      files_js = opt$js_files,
-		                      cdn_css = opt$css_cdn,
-		                      cdn_js = opt$js_cdn)
+		                      files_css = options$css_files,
+		                      files_js = options$js_files,
+		                      cdn_css = options$css_cdn,
+		                      cdn_js = options$js_cdn)
 	
 	plotter$build(options$template)
 	plotter$write_report(output_file)
