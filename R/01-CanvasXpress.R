@@ -38,10 +38,10 @@ canvasXpress_obj <- setRefClass("canvasXpress",
         initialize_extracode(options)
 
         if (length(options$segregate) > 0)
-            add_ext_code(segregate_data(Fs("C", object_id), options$segregate))
+            add_ext_code(segregate_data(paste0("C", object_id), options$segregate))
       
         if (!is.null(options$group_samples)) 
-            add_ext_code(Fs("C", object_id, ".groupSamples(", options$group_samples, ")"))
+            add_ext_code(paste0("C", object_id, ".groupSamples(", options$group_samples, ")"))
         }
     ) #end methods
 ) #end class

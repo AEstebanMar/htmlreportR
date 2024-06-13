@@ -367,15 +367,15 @@ htmlReport$methods(
 			text <- index_items[i, 2]
 			hlevel <- as.numeric(index_items[i, 3])
 			if (hlevel > last_level)
-				index <- Fs(index, "<ul", class_ul, ">\n")
+				index <- paste0(index, "<ul", class_ul, ">\n")
 			if (hlevel < last_level) {
 				diff_lv <- last_level - hlevel
-				index <- Fs(index, paste(rep("</ul>\n", diff_lv), collapse = "\n"), "\n")
+				index <- paste0(index, paste(rep("</ul>\n", diff_lv), collapse = "\n"), "\n")
 			}
-			index <- Fs(index, "<li><a href=#", id, ">", text, "</a></li>\n")
+			index <- paste0(index, "<li><a href=#", id, ">", text, "</a></li>\n")
 			last_level <- hlevel
 		}
-		index <- Fs(index, paste(rep("</ul>\n", last_level-max_level+1), collapse = "\n"), "</div>\n")
+		index <- paste0(index, paste(rep("</ul>\n", last_level-max_level+1), collapse = "\n"), "</div>\n")
 		concat(index)
 })
 
@@ -391,10 +391,10 @@ htmlReport$methods(create_title = function(text, id, hlevel = 1, indexable = FAL
 
 	if (indexable) add_index_item(id, text, hlevel)
 
-    header <- Fs("<h", hlevel, " id=\"", id, "\">", text, "</h", hlevel, ">")
+    header <- paste0("<h", hlevel, " id=\"", id, "\">", text, "</h", hlevel, ">")
 
     if (clickable && !is.null(t_id))
-        header <- Fs("<h", hlevel, " id=\"", id, "\" class=\"py_accordion\" onclick=\"hide_show_element('", t_id, "')\">", text, " ", clickable_text, "</h", hlevel, ">")
+        header <- paste0("<h", hlevel, " id=\"", id, "\" class=\"py_accordion\" onclick=\"hide_show_element('", t_id, "')\">", text, " ", clickable_text, "</h", hlevel, ">")
     
     return(header)
 })
@@ -407,7 +407,7 @@ htmlReport$methods(
 		if(visibility == "hidden"){
 			init_height	<- "height:1px"
 		}
-        Fs("<div style=\"visibility:", visibility, "; ", init_height, "\" id=\"", id, "\">\n", html_code, "\n</div>")
+        paste0("<div style=\"visibility:", visibility, "; ", init_height, "\" id=\"", id, "\">\n", html_code, "\n</div>")
 })
 
 #' Get Plot from htmlReport Object
@@ -461,10 +461,10 @@ htmlReport$methods(
 	embed_img = function(file_img, img_properties = "", resizable = FALSE) {
 		enc_img <- embed_file(file_img)
 	if (resizable) {
-		img_properties <- Fs(img_properties, " class='fitting_img' ")
-		make_resizable(Fs("\n<img ",  img_properties ," src=", enc_img, " />"))	
+		img_properties <- paste0(img_properties, " class='fitting_img' ")
+		make_resizable(paste0("\n<img ",  img_properties ," src=", enc_img, " />"))	
 	} else {
-		Fs("\n<img ",  img_properties ," src=", enc_img, " />")
+		paste0("\n<img ",  img_properties ," src=", enc_img, " />")
 	
 	}
 })
@@ -887,9 +887,9 @@ htmlReport$methods(
 	variables <- plot_data$variables 
        
     if (is.null(values))
-     	return(Fs("<div width=\"",options$width, "\" height=\"",options$height, "\" > <p>NO DATA<p></div>"))
+     	return(paste0("<div width=\"",options$width, "\" height=\"",options$height, "\" > <p>NO DATA<p></div>"))
 
-	object_id <- Fs("obj_", count_objects, "_")
+	object_id <- paste0("obj_", count_objects, "_")
     count_objects <<- count_objects + 1
     
 	canvasXpress <- canvasXpress_obj$new(obj_id = object_id,
@@ -911,13 +911,13 @@ htmlReport$methods(
 	plot_data <- get_plot_data(object_id, canvasXpress)       
 	   
 	dynamic_js <<- c(dynamic_js, 
-					Fs("$(document).ready(function () {\n",
+					paste0("$(document).ready(function () {\n",
 						plot_data,
 						 "});\n"))
     responsive <- ''
     if (options$responsive) responsive <- "responsive='true'" 
 
-    html <- Fs("<canvas  id=\"", object_id, "\" width=\"", options$width, "\" height=\"", options$height, "\" aspectRatio='1:1' ", responsive, "></canvas>")
+    html <- paste0("<canvas  id=\"", object_id, "\" width=\"", options$width, "\" height=\"", options$height, "\" aspectRatio='1:1' ", responsive, "></canvas>")
     return(html)
         
 })
@@ -942,7 +942,7 @@ htmlReport$methods(
 	get_plot_data = function(object_id, cvXpress){
 		afterRender = cvXpress$afterRender
 		if(is.null(afterRender)) afterRender = list()
-		Fs("var data = ",   decompress_code(compress_data(cvXpress$data_structure)), ";\n",
+		paste0("var data = ",   decompress_code(compress_data(cvXpress$data_structure)), ";\n",
 		   "var conf = ",   jsonlite::toJSON(cvXpress$config, auto_unbox = TRUE), ";\n",
 		   "var events = ", jsonlite::toJSON(cvXpress$events, auto_unbox = TRUE), ";\n",
            "var info = ",   jsonlite::toJSON(cvXpress$info, auto_unbox = TRUE), ";\n",
@@ -982,7 +982,7 @@ htmlReport$methods(
 		string <- data
 		if (compress) {
 		   features[["pako"]] <<- TRUE
-		   string <- Fs("JSON.parse(pako.inflate(atob(\"", data, "\"), { to: 'string' }))")
+		   string <- paste0("JSON.parse(pako.inflate(atob(\"", data, "\"), { to: 'string' }))")
 		}
 		return(string)
 	}
@@ -1105,7 +1105,7 @@ htmlReport$methods(
 	 cvX$config[['yAxisTitle']] <- ifelse(is.null(options$y_label), "y_axis",
 	 														 options$y_label)
 	 if (!is.null(options$regressionLine)) {
-	 	options$extracode <- Fs("C", cvX$object_id, ".addRegressionLine();")
+	 	options$extracode <- paste0("C", cvX$object_id, ".addRegressionLine();")
 	 }
 
  	zmod <- cvX$z()
@@ -1166,7 +1166,7 @@ htmlReport$methods(
 htmlReport$methods(
 	make_resizable = function(img){ 
 
-		Fs("<div class=\"resizable_img\">",
+		paste0("<div class=\"resizable_img\">",
 			img,
 			"</div>")
 

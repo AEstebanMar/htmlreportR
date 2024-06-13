@@ -24,10 +24,6 @@ paste_tag <- function(vec, tag) {
     paste0("<", tag, "> ", vec, " </", tag, ">")
 }
 
-Fs <- function(...) {
-    paste0(...)
-}
-
 update_options <- function(ref, sub){
         for (opt in names(sub)) {
             ref[opt] <- sub[opt]    

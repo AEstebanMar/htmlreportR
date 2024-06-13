@@ -32,19 +32,19 @@ canvasXpress_obj$methods(
         string  <- ""
         for (data_type in names(segregate)) {
         	data_names <- segregate[[data_type]]
-        	data_names <- sapply(data_names, function(name) Fs("'", name, "'"))
+        	data_names <- sapply(data_names, function(name) paste0("'", name, "'"))
         	names_string <- paste(data_names, collapse = ",")
             if (data_type == 'var'){
-                add_ext_code(Fs(obj_id, ".segregateVariables([", names_string, "]);\n"))
+                add_ext_code(paste0(obj_id, ".segregateVariables([", names_string, "]);\n"))
             } else if (data_type == 'smp') {
-                add_ext_code(Fs(obj_id, ".segregateSamples([", names_string, "]);\n"))
+                add_ext_code(paste0(obj_id, ".segregateSamples([", names_string, "]);\n"))
             }
         }
  })
 
 canvasXpress_obj$methods(
 	add_ext_code = function(ext_code){
-		extracode <<- Fs(extracode, ext_code, "\n")
+		extracode <<- paste0(extracode, ext_code, "\n")
 	})
 
 
