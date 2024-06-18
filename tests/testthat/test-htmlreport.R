@@ -375,10 +375,11 @@ test_that("testing scatter2D method of htmlReport class", {
                       row.names = c(1, 2, 3, 4)))
 	plotter <- htmlReport$new(container = container, compress = FALSE)
 	output_string <- plotter$scatter2D(list(id = "test_data_frame", title = "A",
-										  header = TRUE, row_names = TRUE,
-										  text = "dynamic", text = FALSE,
-										  var_attr = c(1, 2), config = list(
-										  colorBy = "f1", shapeBy = "f2")))
+										  	header = TRUE, row_names = TRUE,
+										  	text = "dynamic",
+										  	var_attr = c(1, 2),
+										  	config = list(colorBy = "f1",
+										  				  shapeBy = "f2")))
 	output_dynamic_js <- plotter$dynamic_js
 	testthat::expect_equal(output_string, expected_string)
 	testthat::expect_equal(output_dynamic_js, expected_dynamic_js)
