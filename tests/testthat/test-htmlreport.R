@@ -345,34 +345,40 @@ test_that("testing density method of htmlReport class", {
 })
 
 test_that("testing scatter2D method of htmlReport class", {
-	expected_string <- paste0("<canvas  id=\"obj_0_\" width=\"600px\" ",
-							   "height=\"600px\" aspectRatio='1:1' ",
-							   "responsive='true'></canvas>")
+	expected_string <- paste0("<canvas  id=\"obj_0_\" width=\"600px\" height=",
+							  "\"600px\" aspectRatio='1:1' responsive='true'>",
+							  "</canvas>")
 	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data =",
 								  " {\"y\":{\"vars\":[\"s2\",\"s3\",\"s4\"],",
-								  "\"smps\":[\"h1\",\"h2\",\"h3\"],\"data\":",
-								  "[[2,100,8],[2.5,200,5],[3,300,2]]},\"x\":",
-								  "[],\"z\":[]};\nvar conf = {\"toolbarType\"",
-								  ":\"under\",\"xAxisTitle\":\"x_axis\",\"",
-								  "title\":\"A\",\"objectColorTransparency\":",
-								  "1,\"theme\":\"cx\",\"colorScheme\":\"",
-								  "CanvasXpress\",\"graphType\":\"Scatter2D",
-								  "\",\"xAxis\":\"h1\",\"yAxis\":[\"h2\",\"",
-								  "h3\"],\"yAxisTitle\":\"y_axis\"};\nvar ",
-								  "events = false;\nvar info = false;\nvar",
-								  " afterRender = [];\nvar Cobj_0_ = new ",
-								  "CanvasXpress(\"obj_0_\", data, conf,",
-								  " events, info, afterRender);\n});\n")
+								  "\"smps\":[\"v1\",\"v2\",\"v3\"],\"data\":[[",
+								  "10,15,12],[5,6,8],[9,10,11]]},\"x\":[],\"z",
+								  "\":{\"f1\":[\"high\",\"low\",\"average\"],",
+								  "\"f2\":[\"big\",\"small\",\"medium\"]}};\n",
+								  "var conf = {\"toolbarType\":\"under\",\"xA",
+								  "xisTitle\":\"x_axis\",\"title\":\"A\",\"ob",
+								  "jectColorTransparency\":1,\"theme\":\"cx\",",
+								  "\"colorScheme\":\"CanvasXpress\",\"colorBy",
+								  "\":\"f1\",\"shapeBy\":\"f2\",\"graphType\":",
+								  "\"Scatter2D\",\"xAxis\":\"v1\",\"yAxis\":[",
+								  "\"v2\",\"v3\"],\"yAxisTitle\":\"y_axis\"};",
+								  "\nvar events = false;\nvar info = false;\n",
+								  "var afterRender = [];\nvar Cobj_0_ = new C",
+								  "anvasXpress(\"obj_0_\", data, conf, events",
+								  ", info, afterRender);\n});\n")
 	container <- list(test_data_frame = data.frame(
 								"V1" = c("h0","s2", "s3", "s4"), 
-                                "V2" = c("h1", 2, 2.5, 3),
-                                "V3" = c("h2", 100, 200, 300), 
-                                "V4" = c("h3", 8, 5, 2), 
+                                "V2" = c("f1", "high", "low", "average"),
+                                "V3" = c("f2", "big", "small", "medium"), 
+                                "V4" = c("v1", 10, 5, 9),
+                                "V5" = c("v2", 15, 6, 10),
+                                "V6" = c("v3", 12, 8, 11), 
                       row.names = c(1, 2, 3, 4)))
 	plotter <- htmlReport$new(container = container, compress = FALSE)
 	output_string <- plotter$scatter2D(list(id = "test_data_frame", title = "A",
 										  header = TRUE, row_names = TRUE,
-										  text = FALSE, text = FALSE))
+										  text = "dynamic", text = FALSE,
+										  var_attr = c(1, 2), config = list(
+										  colorBy = "f1", shapeBy = "f2")))
 	output_dynamic_js <- plotter$dynamic_js
 	testthat::expect_equal(output_string, expected_string)
 	testthat::expect_equal(output_dynamic_js, expected_dynamic_js)
@@ -467,7 +473,6 @@ test_that("testing line method of htmlReport class", {
 # 		V6 = c("cerebellum", "yes",  "false","15",   "30",   "12",    "41"))
 
 test_that("test tree configuration", {
-
 	
 	plotter <- htmlReport$new()
 
