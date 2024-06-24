@@ -201,6 +201,11 @@ end.rcode-->
     cat(plotter$scatter2D(list(id = "x_y.txt", title = "Simple Scatter", row_names = FALSE, header = TRUE, x_label = "Num genes", y_label = "FPKM", alpha = 0.3, theme = "tableau", text = FALSE)))
     cat(plotter$scatter2D(list(id = "x_y.txt", title = "Scatter with densities", row_names = FALSE, header = TRUE, x_label = "Num genes", y_label = "FPKM", add_densities = TRUE, text = FALSE)))
     cat(plotter$scatter2D(list(id = "x_y_factor.txt", title = "Scatter with factors", row_names = FALSE, header = TRUE, x_label = "Num genes", y_label = "FPKM", text = "dynamic", var_attr = c(1, 2), config = list(colorBy = "patient", shapeBy = "group"))))
+    cat(plotter$scatter2D(list(id = "barplot3.txt", title = "Scatter with custom point info", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, width = 300, var_attr = c(1, 2), smp_attr = c(1, 2), xAxis = "brain", yAxis = "lung", x_label = "Brain", y_label = "Lung",
+                               config = list("hoverTemplate" = "Type of gene: {type} <br>
+                                                                Other type of gene: {type2} <br>
+                                                                Lung Expr: {lung} <br>
+                                                                Brain Expr: {brain} "))))
 end.rcode-->
 
 <!--begin.rcode cvX_barplot
