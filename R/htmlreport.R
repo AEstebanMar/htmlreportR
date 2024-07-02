@@ -97,7 +97,7 @@ htmlReport$methods(static_plot_main = function(id,
 											   size_unit = NULL, 
 											   img_properties = "",
 											   resizable = FALSE,
-											   classic_R_plot = FALSE
+											   plot_type = "plot"
 											   ) {
 
 	options <- list(id = id,
@@ -117,13 +117,13 @@ htmlReport$methods(static_plot_main = function(id,
 
 	if(is.null(plotting_function)) {
 		return(data_frame)
-	}else if (classic_R_plot) {
+	}else if (plot_type == "autoplot") {
 		aux_func <- function(data_frame){eval(parse(text = paste(deparse(plotting_function), collapse ="\n")))}
 		plot_obj <- aux_func(data_frame)
 	}else {
 		plot_obj <- plotting_function(data_frame)
 	}
-	get_plot(plot_obj, width = width, height = height, size_unit = size_unit, img_properties = img_properties, resizable = resizable)
+	get_plot(plot_obj, width = width, height = height, size_unit = size_unit, img_properties = img_properties, resizable = resizable, plot_type = plot_type)
 })
 
 
@@ -435,7 +435,7 @@ htmlReport$methods(
 #' @importFrom knitr opts_current
 #' @importFrom grDevices png dev.off
 NULL
-htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, size_unit = NULL, img_properties = "", resizable = FALSE) {
+htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, size_unit = NULL, img_properties = "", resizable = FALSE, plot_type = "plot") {
 	if (is.character(plot_obj)) return(plot_obj)
 	if (is.null(width)) width <- knitr::opts_current$get("fig.width")
 	if (is.null(height)) height <- knitr::opts_current$get("fig.height")
@@ -447,11 +447,14 @@ htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, si
 		height = height,
 		units = size_unit,
 		res = 200)
-  	if(is.function(plot_obj)){
+
+  	if(is.function(plot_obj) && plot_type == "autoplot"){
   		plot_obj()
-  	} else {
+  	} else if (plot_type == "plot"){
 		plot(plot_obj)
-  	}
+  	} else if (plot_type == "print") {
+  		print(plot_obj)
+  	} 
 	grDevices::dev.off()
 	embed_img(file_png, img_properties, resizable = resizable)
 })

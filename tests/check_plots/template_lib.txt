@@ -20,5 +20,5 @@ cat(plotter$static_plot_main("enrichments_mf", custom_format = TRUE, plotting_fu
 func_plot <- function(){
    plot(data_frame)
 }
-cat(plotter$static_plot_main("plot_data", custom_format = TRUE, plotting_function = func_plot, classic_R_plot = TRUE))
+cat(plotter$static_plot_main("plot_data", custom_format = TRUE, plotting_function = func_plot, plot_type = "autoplot"))
    end.rcode-->
