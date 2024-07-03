@@ -295,12 +295,6 @@ htmlReport$methods(make_head = function() {
         css_files <<- c(css_files, 'canvasXpress.css')
 	}
 
-	if (index_type == "menu"){
-		css_files <<- c(css_files, "reporteR_menu.css")
-		js_files <<- c(js_files, "reporteR_menu.js")
-	
-	}
-
 	concat(get_css_cdn())
 	concat(get_js_cdn())
 
@@ -344,6 +338,11 @@ htmlReport$methods(add_dynamic_js = function(){
 NULL
 htmlReport$methods(build_body = function(body_text) {
 	concat("<body>\n")
+	if (index_type == "menu") {
+		add_index_item("top", "Main", 1, top = TRUE)
+		concat("<div class='skip'></div>")
+	}
+	
 	if (length(index_items) > 0) create_header_index()
 	concat(body_text)
 	concat("</body>\n")
@@ -352,22 +351,26 @@ htmlReport$methods(build_body = function(body_text) {
 
 htmlReport$methods(
 	create_header_index = function(){
-		index <- "<div>\n"
 		last_level <- 0
-		class_ul <- NULL
+		class_ul <- ""
 		all_levels <- as.numeric(index_items[,3])
 		max_level <- min(all_levels) 
 		if (index_type == "menu") {
-			index_items[all_levels > max_level, 3] <<- max_level + 1
-			class_ul <- " class=\"submenu\""
+			index_items[all_levels > max_level, 3] <<- max_level
+			div_id <- " id=\"floating-menu\""
+			index <- ""
+		} else {
+			index <- "<h1>Table of contents</h1>"
+			div_id <- ""
 		}
+		index <- paste0("<div", div_id," >\n")
 
 		for (i in seq(nrow(index_items))) {
 			id <- index_items[i, 1]
 			text <- index_items[i, 2]
 			hlevel <- as.numeric(index_items[i, 3])
 			if (hlevel > last_level)
-				index <- paste0(index, "<ul", class_ul, ">\n")
+				index <- paste0(index, "<ul>\n")
 			if (hlevel < last_level) {
 				diff_lv <- last_level - hlevel
 				index <- paste0(index, paste(rep("</ul>\n", diff_lv), collapse = "\n"), "\n")
@@ -379,11 +382,13 @@ htmlReport$methods(
 		concat(index)
 })
 
-htmlReport$methods(add_index_item = function(id, text, hlevel){
+htmlReport$methods(add_index_item = function(id, text, hlevel, top = FALSE){
 	if(nrow(index_items) == 0) {
  		index_items <<- matrix(c(id, text, hlevel), nrow = 1, ncol = 3)
-	} else {
+	} else if (!top){
 		index_items <<- rbind(index_items, c(id, text, hlevel))
+	} else if (top) {
+		index_items <<-rbind(c(id, text, hlevel), index_items)
 	}
 })
 

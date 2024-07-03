@@ -39,7 +39,9 @@ option_list <- list(
  optparse::make_option(c("-C", "--css_cdn"), type="character", default=NULL,
     help="URL to css CDNs that must be included. Use ',' as path separator for each file"),
  optparse::make_option(c("-J", "--js_cnd"), type="character", default=NULL,
-    help="URL to javascript CDNs that must be included. Use ',' as path separator for each file")
+    help="URL to javascript CDNs that must be included. Use ',' as path separator for each file"),
+ optparse::make_option(c("-m", "--menu"), type="character", default="contents_list",
+    help="Indicate if indexed content must be a contents list (contents_list) or a menu (menu)")
   )
 
 opt <- optparse::parse_args(optparse::OptionParser(option_list=option_list))

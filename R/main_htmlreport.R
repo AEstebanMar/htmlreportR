@@ -24,7 +24,8 @@ main_htmlreportR <- function(options){
 		                      files_css = options$css_files,
 		                      files_js = options$js_files,
 		                      cdn_css = options$css_cdn,
-		                      cdn_js = options$js_cdn)
+		                      cdn_js = options$js_cdn,
+		                      type_index = options$menu)
 	
 	plotter$build(options$template)
 	plotter$write_report(output_file)
