@@ -339,8 +339,8 @@ NULL
 htmlReport$methods(build_body = function(body_text) {
 	concat("<body>\n")
 	if (index_type == "menu") {
-		add_index_item("top", "Main", 1, top = TRUE)
-		concat("<div class='skip'></div>")
+		add_index_item("top_skip", "Main", min(as.numeric(index_items[,3])), top = TRUE)
+		concat("<div id = 'top_skip'></div>")
 	}
 	
 	if (length(index_items) > 0) create_header_index()
@@ -353,10 +353,9 @@ htmlReport$methods(
 	create_header_index = function(){
 		last_level <- 0
 		class_ul <- ""
-		all_levels <- as.numeric(index_items[,3])
-		max_level <- min(all_levels) 
+		max_level <- min(as.numeric(index_items[,3]))
 		if (index_type == "menu") {
-			index_items[all_levels > max_level, 3] <<- max_level
+			index_items <<- index_items[as.numeric(index_items[,3]) == max_level, , drop = FALSE]
 			div_id <- " id=\"floating-menu\""
 			index <- ""
 		} else {

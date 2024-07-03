@@ -65,7 +65,7 @@
     display: inline; 
 }
 #floating-menu li a {
-
+    background-color: white;
     display: inline-block;
     color: black;
     text-align: center;
@@ -80,11 +80,11 @@
     color: black; /* Ensure visited links are also blue */
 }
 #floating-menu li a:hover {
-    box-shadow: 5px 5px 5px grey;
+    box-shadow: 2px 2px 2px grey;
 
     background-color: rgba(0, 0, 0, 0.1); 
 }
 
-.skip {
+#top_skip {
     margin-top: 100px; /* or padding-top: 100px; */
 }
