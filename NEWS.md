@@ -1,3 +1,3 @@
-# htmlreportR (development version)
+# htmlreportR 1.0.0
 
 * Initial CRAN submission.
