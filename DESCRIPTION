@@ -1,12 +1,14 @@
 Package: htmlreportR
-Title: HTML reporting toolkit
-Version: 0.0.0.9000
+Title: HTML reporting made simpleR
+Version: 1.0.0
 Authors@R: 
-    person("Alvaro", "Esteban-Martos", , "alvaroesteban@uma.es", role = c("aut", "cre"),
+    person(given = "Alvaro", family = "Esteban Martos", email = "alvaroesteban@uma.es", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9791-7779"))
-    person("Jose", "Cordoba-Caballero", , "josecordoba@uma.es", role = c("aut", "cre"),
+    person(given = "José", family = "Córdoba Caballero", email = "josecordoba@uma.es", role = "aut",
            comment = c(ORCID = "0000-0002-1821-5742"))
-Description: This package is a compilation of HTML reporting and R plotting functions developed in our lab. Distributing them in a package form ensures minimal redundancy and maximum versatility.
+    person(given = "James", family = "Perkins", role = c("aut"), email = "jimrperkins@gmail.com",
+           comment = c(ORCID = "0000-0003-4108-096X"))
+Description: An HTML reporting system with JS and CSS customization options. It also provides wrapper functions which make using CanvasXpress in R much more intuitive and simple.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
