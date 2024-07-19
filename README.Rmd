@@ -19,9 +19,17 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/AEstebanMar/htmlreportR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AEstebanMar/htmlreportR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of htmlreportR is to ...
+htmlreportR provides a new way to build html files from R. It allows the usage of custom css
+templates and JavaScript libraries, and comes with integrated CanvasXpress plotting capability.
+By default, reports are saved in compressed format.
 
 ## Installation
+
+Standard installation:
+
+``` r
+install.packages("htmlreportR")
+```
 
 You can install the development version of htmlreportR from [GitHub](https://github.com/) with:
 
