@@ -1039,6 +1039,7 @@ htmlReport$methods(
 #' @param options list with options.
 #' @returns HTML code for CanvasXpress density plot of data.
 
+NULL
 htmlReport$methods(
 	density = function(opt) {
 	config_chart <- function(cvX, options){
@@ -1067,6 +1068,7 @@ htmlReport$methods(
 #' @param options list with options.
 #' @returns HTML code for CanvasXpress bar plot of data.
 
+NULL
 htmlReport$methods(
 	barplot = function(opt) {
 	config_chart <- function(cvX, options) {
@@ -1095,6 +1097,7 @@ htmlReport$methods(
 #' @param options list with options.
 #' @returns HTML code for CanvasXpress scatter2D plot of data.
 
+NULL
 htmlReport$methods(
 	scatter2D = function(opt) {
 	config_chart <- function(cvX, options){
@@ -1158,6 +1161,7 @@ htmlReport$methods(
 #' @param options list with options.
 #' @returns HTML code for CanvasXpress line plot of data.
 
+NULL
 htmlReport$methods(
 	line = function(opt) {
 	config_chart <- function(cvX, options) {
