@@ -13,14 +13,14 @@ Authors@R:
       person(given = "Jesús", family = "Pérez García", email = "jesuspg94@uma.es", role = "aut",
              comment = c(ORCID = "0009-0006-9388-7465"))
      )
-Description: An HTML reporting system with JS and CSS customization options. It also provides wrapper functions which make using CanvasXpress in R much more intuitive and simple.
-License: MIT + file LICENSE
+Description: Write interactive html reports in a heavily compressed format with embedded R code. Allows JS and CSS customization, and provides wrapper functions for CanvasXpress plots. Based on https://github.com/seoanezonjic/py_report_html, its sister project.
+License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Depends:
     R (>= 3.5.0)
-Imports:    
+Imports: 
     methods,
     ggplot2,
     knitr,
