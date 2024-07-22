@@ -21,8 +21,8 @@
 #' template with the existing report content in the "htmlReport" object.
 #' 
 #' @examples
-#' # Create an htmlReport object
 #' \dontrun{
+#' # Create an htmlReport object
 #' plotter <- htmlReport$new()
 #' 
 #' # Build the report from a template
