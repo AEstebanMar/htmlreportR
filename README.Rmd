@@ -19,9 +19,13 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/AEstebanMar/htmlreportR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AEstebanMar/htmlreportR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-htmlreportR provides a new way to build html files from R. It allows the usage of custom css
-templates and JavaScript libraries, and comes with integrated CanvasXpress plotting capability.
-By default, reports are saved in compressed format.
+Create compressed, interactive 'HTML' (Hypertext Markup Language) reports with embedded 'Python' code, custom 'JS' (JavaScript) and 'CSS' (Cascading Style Sheets), and wrappers for
+  'CanvasXpress' plots, networks and more. Based on https://github.com/seoanezonjic/py_report_html, its sister project.
+htmlreportR provides a streamlined, R-friendly way to build interactive HTML reports with custom JS and CSS import
+capabilities. It also contains wrapper functions for R CanvasXpress, performing all the formatting heavy-lifting
+so users can focus on the actual report.
+
+htmlreportR has not been built from scratch. It is based on its Python equivalent and sister project, available at https://github.com/seoanezonjic/py_report_html for a Python equivalent.
 
 ## Installation
 
@@ -40,25 +44,27 @@ devtools::install_github("AEstebanMar/htmlreportR")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+There are two use cases for htmlreportR: script mode and package mode.
 
+###Script mode
+
+Simply call the html_report.R script, distributed with this package. Simply
+provide a comma-separated list of files and a template to render, and you're done!
+
+
+```{r, engine = 'bash', eval = FALSE}
+scripts/html_report.R -d data1.txt,data2.txt -t template.txt
+```
+
+###Library mode
+
+If you wish to use htmlreportR directly from R, you can! Here's how:
 ```{r example}
 library(htmlreportR)
-## basic example code
+container <- list(data1 = data1.txt, data2 = data2.txt,
+                  additional_field = "You can include anything in the container
+                  and it will be available in plotter$hash_vars")
+plotter <- htmlReport$new(title_doc = "Your report title", 
+                          container = container, tmp_folder = "tmp_lib",
+                          src = "path/to/htmlreportR/scripts")
 ```
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
