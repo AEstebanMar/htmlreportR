@@ -10,7 +10,7 @@
 #' @returns \value{None}
 #' @export
 #' @examples
-#' \dontrun{}
+#' \dontrun{
 #' options <- list(title = "main_htmlreportR example",
 #'				   data_files = "path/to/file1", "path/to/fileN",
 #'				   output_file = "path/to/output",
@@ -21,6 +21,7 @@
 #'				   cdn_js = "path/to/cdn_jss",
 #'				   menu = "menu")
 #' main_htmlreportR (options)
+#' }
 
 main_htmlreportR <- function(options){
 	data_files <- list()
