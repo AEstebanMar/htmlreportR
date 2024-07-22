@@ -46,22 +46,22 @@ devtools::install_github("AEstebanMar/htmlreportR")
 
 There are two use cases for htmlreportR: script mode and package mode.
 
-###Script mode
+### Script mode
 
 Simply call the html_report.R script, distributed with this package. Simply
 provide a comma-separated list of files and a template to render, and you're done!
 
 
-```{r, engine = 'bash', eval = FALSE}
-scripts/html_report.R -d data1.txt,data2.txt -t template.txt
+```{r script_example, engine = 'bash', eval = FALSE}
+./scripts/html_report.R -d data1.txt,data2.txt -t template.txt
 ```
 
-###Library mode
+### Library mode
 
 If you wish to use htmlreportR directly from R, you can! Here's how:
-```{r example}
+```{r library_example, eval = FALSE}
 library(htmlreportR)
-container <- list(data1 = data1.txt, data2 = data2.txt,
+container <- list(data1 = data_frame_1, data2 = data_frame_2,
                   additional_field = "You can include anything in the container
                   and it will be available in plotter$hash_vars")
 plotter <- htmlReport$new(title_doc = "Your report title", 
