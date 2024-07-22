@@ -1,5 +1,5 @@
 Package: htmlreportR
-Title: HTML reporting made simpleR
+Title: HTML reporting made simple(R)
 Version: 1.0.0
 Authors@R: 
     person(given = "Alvaro", family = "Esteban Martos", email = "alvaroesteban@uma.es", role = c("aut", "cre"),
