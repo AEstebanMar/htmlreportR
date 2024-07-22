@@ -11,17 +11,12 @@
 Create compressed, interactive ‘HTML’ (Hypertext Markup Language)
 reports with embedded ‘Python’ code, custom ‘JS’ (JavaScript) and ‘CSS’
 (Cascading Style Sheets), and wrappers for ‘CanvasXpress’ plots,
-networks and more. Based on
-<https://github.com/seoanezonjic/py_report_html>, its sister project.
-htmlreportR provides a streamlined, R-friendly way to build interactive
-HTML reports with custom JS and CSS import capabilities. It also
-contains wrapper functions for R CanvasXpress, performing all the
-formatting heavy-lifting so users can focus on the actual report.
-
-htmlreportR has not been built from scratch. It is based on its Python
-equivalent and sister project, available at
-<https://github.com/seoanezonjic/py_report_html> for a Python
-equivalent.
+networks and more. Based on <https://pypi.org/project/py-report-html>,
+its sister project. htmlreportR provides a streamlined, R-friendly way
+to build interactive HTML reports with custom JS and CSS import
+capabilities. It also contains wrapper functions for R CanvasXpress,
+performing all the formatting heavy-lifting so users can focus on the
+actual report.
 
 ## Installation
 
