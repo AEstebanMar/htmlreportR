@@ -2,7 +2,7 @@ Package: htmlreportR
 Title: HTML Reporting Made Simple(R)
 Version: 1.0.0
 Authors@R: 
-    c(person(given = "Alvaro", family = "Esteban Martos", email = "alvaroesteban@uma.es", role = c("aut", "cph", "cre"),
+    c(person(given = "Álvaro", family = "Esteban Martos", email = "alvaroesteban@uma.es", role = c("aut", "cph", "cre"),
              comment = c(ORCID = "0000-0001-9791-7779")),
       person(given = "José", family = "Córdoba Caballero", email = "josecordoba@uma.es", role = c("aut", "cph"),
              comment = c(ORCID = "0000-0002-1821-5742")),
