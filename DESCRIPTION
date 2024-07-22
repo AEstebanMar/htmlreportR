@@ -6,8 +6,13 @@ Authors@R:
              comment = c(ORCID = "0000-0001-9791-7779")),
       person(given = "José", family = "Córdoba Caballero", email = "josecordoba@uma.es", role = "aut",
              comment = c(ORCID = "0000-0002-1821-5742")),
-      person(given = "James", family = "Perkins", role = c("aut"), email = "jimrperkins@gmail.com",
-             comment = c(ORCID = "0000-0003-4108-096X")))
+      person(given = "James", family = "Perkins", email = "jimrperkins@gmail.com", role = "aut",
+             comment = c(ORCID = "0000-0003-4108-096X")),
+      person(given = "Pedro", family = "Seoane Zonjic", email = "seoanezonjic@uma.es", role = "aut",
+             comment = c(ORCID = "0000-0002-3020-1415")),
+      person(given = "Jesús", family = "Pérez García", email = "jesuspg94@uma.es", role = "aut",
+             comment = c(ORCID = "0009-0006-9388-7465"))
+     )
 Description: An HTML reporting system with JS and CSS customization options. It also provides wrapper functions which make using CanvasXpress in R much more intuitive and simple.
 License: MIT + file LICENSE
 Encoding: UTF-8
