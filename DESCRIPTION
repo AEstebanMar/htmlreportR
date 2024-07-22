@@ -1,19 +1,19 @@
 Package: htmlreportR
-Title: HTML reporting made simple(R)
+Title: HTML Reporting Made Simple(R)
 Version: 1.0.0
 Authors@R: 
-    c(person(given = "Alvaro", family = "Esteban Martos", email = "alvaroesteban@uma.es", role = c("aut", "cre"),
+    c(person(given = "Alvaro", family = "Esteban Martos", email = "alvaroesteban@uma.es", role = c("aut", "cph", "cre"),
              comment = c(ORCID = "0000-0001-9791-7779")),
-      person(given = "José", family = "Córdoba Caballero", email = "josecordoba@uma.es", role = "aut",
+      person(given = "José", family = "Córdoba Caballero", email = "josecordoba@uma.es", role = c("aut", "cph"),
              comment = c(ORCID = "0000-0002-1821-5742")),
-      person(given = "James", family = "Perkins", email = "jimrperkins@gmail.com", role = "aut",
+      person(given = "James", family = "Perkins", email = "jimrperkins@gmail.com", role = c("aut", "cph"),
              comment = c(ORCID = "0000-0003-4108-096X")),
-      person(given = "Pedro", family = "Seoane Zonjic", email = "seoanezonjic@uma.es", role = "aut",
+      person(given = "Pedro", family = "Seoane Zonjic", email = "seoanezonjic@uma.es", role = c("aut", "cph"),
              comment = c(ORCID = "0000-0002-3020-1415")),
-      person(given = "Jesús", family = "Pérez García", email = "jesuspg94@uma.es", role = "aut",
+      person(given = "Jesús", family = "Pérez García", email = "jesuspg94@uma.es", role = c("aut", "cph"),
              comment = c(ORCID = "0009-0006-9388-7465"))
      )
-Description: Write interactive html reports in a heavily compressed format with embedded R code. Allows JS and CSS customization, and provides wrapper functions for CanvasXpress plots. Based on https://github.com/seoanezonjic/py_report_html, its sister project.
+Description: Create compressed, interactive 'HTML' (Hypertext Markup Language) reports with embedded 'Python' code, custom 'JS' (JavaScript) and 'CSS' (Cascading Style Sheets), and wrappers for 'CanvasXpress' plots, networks and more. Based on https://github.com/seoanezonjic/py_report_html, its sister project.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
