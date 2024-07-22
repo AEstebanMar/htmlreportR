@@ -14,7 +14,7 @@ Authors@R:
              comment = c(ORCID = "0009-0006-9388-7465"))
      )
 Description: Create compressed, interactive 'HTML' (Hypertext Markup Language) reports with embedded 'Python' code, custom 'JS' (JavaScript) and 'CSS' (Cascading Style Sheets), and wrappers for 'CanvasXpress' plots, networks and more. Based on https://github.com/seoanezonjic/py_report_html, its sister project.
-License: GPL (>= 3)
+License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
