@@ -1,5 +1,8 @@
 #' @importFrom methods new
 #' @importFrom utils read.table
+#' @return
+#' @export
+#' @examples
 main_htmlreportR <- function(options){
 	data_files <- list()
 	if (!is.null(options$data_files)){
