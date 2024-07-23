@@ -7,7 +7,7 @@
 # building an htmlReport instance named plotter which contains loaded files.
 #' @param options list containing all necessary elements to build an
 #' htmlReport instance.
-#' @returns \\value{None}
+#' @returns None
 #' @export
 #' @examples
 #' \dontrun{

@@ -11,7 +11,7 @@ main_htmlreportR(options)
 htmlReport instance.}
 }
 \value{
-\\value{None}
+None
 }
 \description{
 Main htmlreportR script mode function. Renders a template,
