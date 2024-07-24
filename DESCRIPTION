@@ -15,22 +15,24 @@ Authors@R:
      )
 Description: Create compressed, interactive 'HTML' (Hypertext Markup Language) reports with embedded 'Python' code, custom 'JS' (JavaScript) and 'CSS' (Cascading Style Sheets), and wrappers for
 	'CanvasXpress' plots, networks and more. Based on <https://pypi.org/project/py-report-html/>, its sister project.
-License: GPL (>= 3) + file LICENSE
+License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Depends:
-    R (>= 3.5.0)
-Imports: 
-    methods,
-    ggplot2,
-    knitr,
-    xfun,
-    grDevices,
-    utils,
-    jsonlite
-Suggests: 
-    testthat (>= 3.0.0)
+Depends: R (>= 3.5.0)
+Imports: methods, ggplot2, knitr, xfun, grDevices, utils, jsonlite
+Suggests: testthat (>= 3.0.0)
 Config/testthat/edition: 3
 URL: https://github.com/AEstebanMar/htmlreportR
 BugReports: https://github.com/AEstebanMar/htmlreportR/issues
+NeedsCompilation: no
+Packaged: 2024-07-23 10:03:44 UTC; aestebanm
+Author: Álvaro Esteban Martos [aut, cph, cre]
+    (<https://orcid.org/0000-0001-9791-7779>),
+  José Córdoba Caballero [aut, cph]
+    (<https://orcid.org/0000-0002-1821-5742>),
+  James Perkins [aut, cph] (<https://orcid.org/0000-0003-4108-096X>),
+  Pedro Seoane Zonjic [aut, cph]
+    (<https://orcid.org/0000-0002-3020-1415>),
+  Jesús Pérez García [aut, cph] (<https://orcid.org/0009-0006-9388-7465>)
+Maintainer: Álvaro Esteban Martos <alvaroesteban@uma.es>
