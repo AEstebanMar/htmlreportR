@@ -15,10 +15,11 @@
 #'				   data_files = "path/to/file1", "path/to/fileN",
 #'				   output_file = "path/to/output",
 #'				   source_folder = "path/to/package/scripts",
-#'				   compress_obj = TRUE, css_files = "path/to/custom/css",
+#'				   compress_obj = TRUE,
+#'				   css_files = "path/to/custom/css",
 #'				   js_files = "path/to/custom/js",
 #'				   cdn_css = "path/to/cdn_css",
-#'				   cdn_js = "path/to/cdn_jss",
+#'				   cdn_js = "path/to/cdn_js",
 #'				   menu = "menu")
 #' main_htmlreportR (options)
 #' }
