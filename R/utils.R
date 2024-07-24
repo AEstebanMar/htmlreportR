@@ -1,4 +1,5 @@
 #' @importFrom xfun base64_uri
+#' @importFrom mime guess_type
 #' @noRd
 embed_file <- function(input) {
     if(file.exists(input)) {
