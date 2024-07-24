@@ -291,7 +291,7 @@ htmlReport$methods(make_head = function() {
 	if (features$pako) js_files <<- c(js_files, 'pako.min.js')
 
 	if (features$canvasXpress){
-		js_files <<- c(js_files, 'canvasXpress.min.js')
+		js_files <<- c(js_files, 'canvasXpress.min.js.gz')
         css_files <<- c(css_files, 'canvasXpress.css')
 	}
 
@@ -973,12 +973,16 @@ NULL
 htmlReport$methods(
 	compress_data = function(data){
 		if (compress) {
-		    compressed_data <-  gsub("\n","", jsonlite::as_gzjson_b64(data, auto_unbox = FALSE, dataframe = "values"))
+			json <- jsonlite::toJSON(data, auto_unbox = FALSE,
+									 dataframe = "values")
+			buf <- memCompress(json, "gzip")
+			b64 <- xfun::base64_encode(buf)
+		    compressed_data <-  gsub("\n", "", b64)
 		} else {
-
-			compressed_data <- jsonlite::toJSON(data, auto_unbox = FALSE, dataframe = "values", rownames = FALSE)
+			compressed_data <- jsonlite::toJSON(data, auto_unbox = FALSE,
+												dataframe = "values",
+												rownames = FALSE)
 		}
-
 		return(compressed_data)
 	}
 )
