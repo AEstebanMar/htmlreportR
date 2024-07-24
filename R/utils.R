@@ -1,7 +1,19 @@
 #' @importFrom xfun base64_uri
 #' @noRd
-embed_file <- function(file) {
-    xfun::base64_uri(file)
+embed_file <- function(input) {
+    if(file.exists(input)) {
+        if("gz" %in% strsplit(input, "\\.")[[1]]) {
+            size <- file.info(input)$size
+            file <- readBin(input, "raw", size)
+            rawContent <- memDecompress(file, type = "gzip")
+            b64 <- xfun::base64_encode(rawContent)
+            type <- mime::guess_type(input)
+            b64_uri <- paste0("data:", type, ";base64,", b64)
+        }else{
+            b64_uri <- xfun::base64_uri(input)
+        }
+    }
+    return(b64_uri)
 }
 
 #' @noRd
