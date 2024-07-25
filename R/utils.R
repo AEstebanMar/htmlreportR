@@ -13,6 +13,8 @@ embed_file <- function(input) {
         }else{
             b64_uri <- xfun::base64_uri(input)
         }
+    } else {
+        b64_uri <- xfun::base64_encode(input)
     }
     return(b64_uri)
 }
