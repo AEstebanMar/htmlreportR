@@ -1,5 +1,5 @@
 Package: htmlreportR
-Title: HTML Reporting Made Simple(R)
+Title: 'HTML' Reporting Made Simple(R)
 Version: 1.0.0
 Authors@R: 
     c(person(given = "Álvaro", family = "Esteban Martos", email = "alvaroesteban@uma.es", role = c("aut", "cph", "cre"),
@@ -13,7 +13,7 @@ Authors@R:
       person(given = "Jesús", family = "Pérez García", email = "jesuspg94@uma.es", role = c("aut", "cph"),
              comment = c(ORCID = "0009-0006-9388-7465"))
      )
-Description: Create compressed, interactive 'HTML' (Hypertext Markup Language) reports with embedded 'Python' code, custom 'JS' (JavaScript) and 'CSS' (Cascading Style Sheets), and wrappers for
+Description: Create compressed, interactive 'HTML' (Hypertext Markup Language) reports with embedded 'Python' code, custom 'JS' ('JavaScript') and 'CSS' (Cascading Style Sheets), and wrappers for
 	'CanvasXpress' plots, networks and more. Based on <https://pypi.org/project/py-report-html/>, its sister project.
 License: GPL (>= 3)
 Encoding: UTF-8
