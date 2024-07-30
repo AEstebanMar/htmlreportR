@@ -19,7 +19,8 @@
 #' renders the template using Knitr, and constructs 
 #' the HTML report by combining the rendered 
 #' template with the existing report content in the "htmlReport" object.
-#' 
+#' @returns A new instance of the htmlreportR class
+#' @export
 #' @examples
 #' \dontrun{
 #' # Create an htmlReport object
@@ -210,8 +211,8 @@ htmlReport$methods(
 #' 
 #' @param output_path A character string specifying the output file path for the HTML report.
 #' 
-#' @return Writes the HTML report to the specified output file path and removes temporary files.
-#' 
+#' @returns Writes the HTML report to the specified output file path and removes temporary files.
+#' @export
 #' @examples
 #' \dontrun{
 #' # Assuming plotter is an object of class htmlReport
@@ -236,8 +237,8 @@ htmlReport$methods(write_report = function(output_path) {
 #' @title Make HTML Report Head
 #' @description This method generates the head section of an HTML report by adding the title to an \code{htmlReport} object.
 #' 
-#' @return An updated \code{htmlReport} object with the title added to its head section.
-#' 
+#' @returns An updated \code{htmlReport} object with the title added to its head section.
+#' @export
 #' @examples
 #' \dontrun{
 #' # Assuming plotter is an object of class htmlReport
@@ -325,9 +326,9 @@ htmlReport$methods(add_dynamic_js = function(){
 #' @param body_text A character string containing the body text 
 #' to be appended to the HTML report.
 #'
-#' @return An updated \code{htmlReport} object with the specified 
+#' @returns An updated \code{htmlReport} object with the specified 
 #' body text appended to its body.
-#'
+#' @export
 #' @examples
 #' \dontrun{
 #' # Assuming plotter is an object of class htmlReport
@@ -427,8 +428,8 @@ htmlReport$methods(
 #' @param img_properties string including html properties of img
 #' @param resizable logical indicating if plot must be resizable
 #' 
-#' @return Displays the plot within the HTML report.
-#'
+#' @returns Displays the plot within the HTML report.
+#' @export
 #' @examples
 #' \dontrun{
 #' # Assuming plotter is an object of class htmlReport
@@ -485,8 +486,8 @@ htmlReport$methods(
 #' 
 #' @param options A list containing options for data retrieval.
 #'
-#' @return A list containing the retrieved data, attributes, samples, and variables.
-#'
+#' @returns A list containing the retrieved data, attributes, samples, and variables.
+#' @export
 #' @examples
 #' \dontrun{
 #' # Assuming plotter is an object of class htmlReport
@@ -510,8 +511,8 @@ htmlReport$methods(get_data_for_plot = function(options) {
 #' @name get_data
 #' @param options A list containing options for data retrieval.
 #'
-#' @return A list containing the retrieved data and additional information.
-#'   
+#' @returns A list containing the retrieved data and additional information.
+#' @export  
 #'
 #' @examples
 #' \dontrun{
@@ -546,8 +547,8 @@ htmlReport$methods(get_data = function(options) {
 #' 
 #' @param options A list containing options for data retrieval.
 #' 
-#' @return A list containing the retrieved data and additional information.
-#'   
+#' @returns A list containing the retrieved data and additional information.
+#' @export  
 #' @examples
 #' \dontrun{
 #' # Assuming plotter is an object of class htmlReport
@@ -608,8 +609,8 @@ htmlReport$methods(extract_data = function(data_frame, 	options) {
 #'
 #' @details This function checks the options provided and manipulates the column and row names of the input data frame accordingly. If the 'header' option is set to true, it assigns the first row of the data frame as column names and removes that row from the data frame. If the 'row_names' option is true, it assigns the first column of the data frame as row names and removes that column from the data frame. If either option is not true, it assigns sequential numbers as column or row names, respectively.
 #' 
-#' @return The modified data frame with updated column and/or row names.
-#' 
+#' @returns The modified data frame with updated column and/or row names.
+#' @export
 #' @examples
 #' # Create sample data frame
 #' \dontrun{
@@ -657,8 +658,8 @@ htmlReport$methods(add_header_row_names = function(data_frame, options) {
 #' 
 #' @param value An object of any type that can be coerced to character.
 #' 
-#' @return An object of class "htmlReport" with an updated @all_report which includes at the end the "value" string.
-#' 
+#' @returns An object of class "htmlReport" with an updated @all_report which includes at the end the "value" string.
+#' @export
 #' @examples
 #' \dontrun{
 #' # Assuming plotter is an object of class htmlReport
@@ -940,7 +941,7 @@ htmlReport$methods(
 #' @param object_id string indicating object id
 #' @param cvXpress vanvasXpress_obj object
 #' 
-#' @return Displays the js code for plot.
+#' @returns Displays the js code for plot.
 #'
 #' 
 #' @importFrom jsonlite toJSON
@@ -965,7 +966,7 @@ htmlReport$methods(
 #' 
 #' @param data string indicating object id
 #' 
-#' @return encoded and compressed json
+#' @returns encoded and compressed json
 #'
 #' 
 #' @importFrom jsonlite as_gzjson_b64 toJSON

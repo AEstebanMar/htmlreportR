@@ -6,6 +6,9 @@
 \arguments{
 \item{template}{A character string specifying the file path of the template.}
 }
+\value{
+A new instance of the htmlreportR class
+}
 \description{
 This function builds an HTML report from a given
 template file for an object of class "htmlReport".
