@@ -12,11 +12,3 @@ This method generates the head section of an HTML report by adding the title to 
 \details{
 Make HTML Report Head
 }
-\examples{
-\dontrun{
-# Assuming plotter is an object of class htmlReport
-plotter <- htmlReport$new()
-plotter$make_head()
-}
-
-}

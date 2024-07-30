@@ -15,12 +15,3 @@ This method retrieves data from an \code{htmlReport} object based on specified o
 \details{
 Retrieve Data from htmlReport Object
 }
-\examples{
-\dontrun{
-# Assuming plotter is an object of class htmlReport
-data_frame <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
-options <- list(id = "data_id", transpose = FALSE)
-data <- plotter$extract_data(data_frame, options)
-}
-
-}

@@ -20,16 +20,8 @@
 #' the HTML report by combining the rendered 
 #' template with the existing report content in the "htmlReport" object.
 #' @returns A new instance of the htmlreportR class
-#' @export
-#' @examples
-#' \dontrun{
-#' # Create an htmlReport object
-#' plotter <- htmlReport$new()
-#' 
-#' # Build the report from a template
-#' plotter$build("template.html")
-#' }
 #' @importFrom knitr knit opts_chunk
+#'
 
 NULL
 htmlReport$methods(
@@ -212,15 +204,7 @@ htmlReport$methods(
 #' @param output_path A character string specifying the output file path for the HTML report.
 #' 
 #' @returns Writes the HTML report to the specified output file path and removes temporary files.
-#' @export
-#' @examples
-#' \dontrun{
-#' # Assuming plotter is an object of class htmlReport
-#' plotter <- htmlReport$new()
-#' output_path <- "report.html"
-#' plotter$write_report(output_path)
-#' }
-#' 
+#'
 NULL
 htmlReport$methods(write_report = function(output_path) {
 	writeLines(all_report, output_path)
@@ -238,13 +222,6 @@ htmlReport$methods(write_report = function(output_path) {
 #' @description This method generates the head section of an HTML report by adding the title to an \code{htmlReport} object.
 #' 
 #' @returns An updated \code{htmlReport} object with the title added to its head section.
-#' @export
-#' @examples
-#' \dontrun{
-#' # Assuming plotter is an object of class htmlReport
-#' plotter <- htmlReport$new()
-#' plotter$make_head()
-#' }
 #' 
 NULL
 htmlReport$methods(make_head = function() {
@@ -328,13 +305,6 @@ htmlReport$methods(add_dynamic_js = function(){
 #'
 #' @returns An updated \code{htmlReport} object with the specified 
 #' body text appended to its body.
-#' @export
-#' @examples
-#' \dontrun{
-#' # Assuming plotter is an object of class htmlReport
-#' body_text <- "<p>This is the body text of the report.</p>"
-#' plotter$build_body(body_text)
-#' }
 #' 
 NULL
 htmlReport$methods(build_body = function(body_text) {
@@ -429,13 +399,6 @@ htmlReport$methods(
 #' @param resizable logical indicating if plot must be resizable
 #' 
 #' @returns Displays the plot within the HTML report.
-#' @export
-#' @examples
-#' \dontrun{
-#' # Assuming plotter is an object of class htmlReport
-#' # plot_obj is a valid plot object
-#' plotter$get_plot(plot_obj)
-#' }
 #' 
 #' @importFrom knitr opts_current
 #' @importFrom grDevices png dev.off
@@ -487,14 +450,7 @@ htmlReport$methods(
 #' @param options A list containing options for data retrieval.
 #'
 #' @returns A list containing the retrieved data, attributes, samples, and variables.
-#' @export
-#' @examples
-#' \dontrun{
-#' # Assuming plotter is an object of class htmlReport
-#' data_frame <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
-#' options <- list(id = "data_id", transpose = FALSE)
-#' data <- plotter$get_data_for_plot(options)
-#' }
+#' 
 NULL
 htmlReport$methods(get_data_for_plot = function(options) {
 		all_data <- get_data(options)
@@ -512,15 +468,6 @@ htmlReport$methods(get_data_for_plot = function(options) {
 #' @param options A list containing options for data retrieval.
 #'
 #' @returns A list containing the retrieved data and additional information.
-#' @export  
-#'
-#' @examples
-#' \dontrun{
-#' # Assuming plotter is an object of class htmlReport
-#' data_frame <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
-#' options <- list(id = "data_id", transpose = FALSE)
-#' data <- plotter$get_data(data_frame, options)
-#' }
 #'
 NULL
 htmlReport$methods(get_data = function(options) {
@@ -548,14 +495,6 @@ htmlReport$methods(get_data = function(options) {
 #' @param options A list containing options for data retrieval.
 #' 
 #' @returns A list containing the retrieved data and additional information.
-#' @export  
-#' @examples
-#' \dontrun{
-#' # Assuming plotter is an object of class htmlReport
-#' data_frame <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
-#' options <- list(id = "data_id", transpose = FALSE)
-#' data <- plotter$extract_data(data_frame, options)
-#' }
 #'
 NULL
 htmlReport$methods(extract_data = function(data_frame, 	options) {	
@@ -610,20 +549,7 @@ htmlReport$methods(extract_data = function(data_frame, 	options) {
 #' @details This function checks the options provided and manipulates the column and row names of the input data frame accordingly. If the 'header' option is set to true, it assigns the first row of the data frame as column names and removes that row from the data frame. If the 'row_names' option is true, it assigns the first column of the data frame as row names and removes that column from the data frame. If either option is not true, it assigns sequential numbers as column or row names, respectively.
 #' 
 #' @returns The modified data frame with updated column and/or row names.
-#' @export
-#' @examples
-#' # Create sample data frame
-#' \dontrun{
-#' # Assuming plotter is an object of class htmlReport
-#' data_frame <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
-#' 
-#' # Define options
-#' options <- list(header = TRUE, row_names = TRUE)
-#' 
-#' # Apply the function
-#' modified_data_frame <- plotter$add_header_row_names(data_frame, options)
-#' } 
-#' 
+#'
 NULL
 htmlReport$methods(add_header_row_names = function(data_frame, options) {	
 		
@@ -659,12 +585,7 @@ htmlReport$methods(add_header_row_names = function(data_frame, options) {
 #' @param value An object of any type that can be coerced to character.
 #' 
 #' @returns An object of class "htmlReport" with an updated @all_report which includes at the end the "value" string.
-#' @export
-#' @examples
-#' \dontrun{
-#' # Assuming plotter is an object of class htmlReport
-#' plotter$concat("<h1>First Report</h1>")
-#'}
+#'
 NULL
 htmlReport$methods(concat = function(text_vec) {
 	all_report <<- paste(c(all_report, text_vec), collapse = "")

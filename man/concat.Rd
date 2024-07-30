@@ -15,9 +15,3 @@ This function defines a custom addition operator for combining two strings.
 \details{
 Custom addition operator for combining htmlReport objects
 }
-\examples{
-\dontrun{
-# Assuming plotter is an object of class htmlReport
-plotter$concat("<h1>First Report</h1>")
-}
-}

@@ -18,11 +18,3 @@ by appending the specified body text to an \code{htmlReport} object.
 \details{
 Build HTML Report Body
 }
-\examples{
-\dontrun{
-# Assuming plotter is an object of class htmlReport
-body_text <- "<p>This is the body text of the report.</p>"
-plotter$build_body(body_text)
-}
-
-}

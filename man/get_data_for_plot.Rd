@@ -15,11 +15,3 @@ This method retrieves data suitable for plotting from an \code{htmlReport} objec
 \details{
 Get Data for Plotting from htmlReport Object
 }
-\examples{
-\dontrun{
-# Assuming plotter is an object of class htmlReport
-data_frame <- data.frame(A = c(1, 2, 3), B = c(4, 5, 6), C = c(7, 8, 9))
-options <- list(id = "data_id", transpose = FALSE)
-data <- plotter$get_data_for_plot(options)
-}
-}

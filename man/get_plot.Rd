@@ -25,11 +25,3 @@ This method generates and retrieves a plot from an \code{htmlReport} object. Thi
 \details{
 Get Plot from htmlReport Object
 }
-\examples{
-\dontrun{
-# Assuming plotter is an object of class htmlReport
-# plot_obj is a valid plot object
-plotter$get_plot(plot_obj)
-}
-
-}
