@@ -35,7 +35,7 @@ There are two use cases for htmlreportR: script mode and package mode.
 ### Script mode
 
 Simply call the html\_report.R script, distributed with this package.
-Simply provide a comma-separated list of files and a template to render,
+Provide a comma-separated list of files and a template to render,
 and you’re done\!
 
 ``` bash
