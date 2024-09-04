@@ -899,6 +899,9 @@ htmlReport$methods(
 									 dataframe = "values")
 			buf <- memCompress(json, "gzip")
 			b64 <- xfun::base64_encode(buf)
+			# b64 encoding has a character limit. Binary trings larger than
+			# that are subdivided with \n. Removing them later is safe,
+			# makes the html code more readable. Thus, we remove them here.
 		    compressed_data <-  gsub("\n", "", b64)
 		} else {
 			compressed_data <- jsonlite::toJSON(data, auto_unbox = FALSE,
