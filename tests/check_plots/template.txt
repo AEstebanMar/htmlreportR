@@ -210,10 +210,10 @@ end.rcode-->
 
 <!--begin.rcode cvX_barplot
 
-    cat(plotter$barplot(list(id = "barplot1.txt", title = "Vertical barplot with multiple series", row_names = TRUE, header = TRUE, text = FALSE, config = list('graphOrientation' = 'vertical', 'xAxisTitle' = 'Values'))))
-    cat(plotter$barplot(list(id = "barplot2.txt", title = "Horizontal barplot", row_names = TRUE, header = TRUE, height = 300, text = FALSE)))
-    cat(plotter$barplot(list(id = "barplot2.txt", title = "Barplot with intensities", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, colorScale = TRUE, config = list('graphOrientation' = 'vertical'))))
-    cat(plotter$barplot(list(id = "barplot3.txt", title = "Tiny barplot", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, width = 300, var_attr = c(1,2), smp_attr = c(1,2), segregate = list('var' = 'nerv', 'smp'= 'type2'), config = list('layoutCollapse' = 'false', 'layoutType' = 'rows', 'graphOrientation' = 'vertical' ))))
+    cat(plotter$prettify_div(plotter$barplot(list(id = "barplot1.txt", title = "Vertical barplot with multiple series", row_names = TRUE, header = TRUE, text = FALSE, config = list('graphOrientation' = 'vertical', 'xAxisTitle' = 'Values'))), preset = "magic"))
+    cat(plotter$prettify_div(plotter$barplot(list(id = "barplot2.txt", title = "Horizontal barplot", row_names = TRUE, header = TRUE, height = 300, text = FALSE)), preset = "magic"))
+    cat(plotter$prettify_div(plotter$barplot(list(id = "barplot2.txt", title = "Barplot with intensities", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, colorScale = TRUE, config = list('graphOrientation' = 'vertical'))), preset = "magic"))
+    cat(plotter$prettify_div(plotter$barplot(list(id = "barplot3.txt", title = "Tiny barplot", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, width = 300, var_attr = c(1,2), smp_attr = c(1,2), segregate = list('var' = 'nerv', 'smp'= 'type2'), config = list('layoutCollapse' = 'false', 'layoutType' = 'rows', 'graphOrientation' = 'vertical' ))), preset = "magic"))
 end.rcode-->
 
 <p>We can also define functions to transform data before plotting<p>
@@ -222,6 +222,14 @@ end.rcode-->
         df[2,2] <- 1000
         return(df)
     }
-    cat(plotter$line(list(id = "barplot1.txt", title = "plain line plot", header = TRUE, text = FALSE)))
-    cat(plotter$line(list(id = "barplot1.txt", title = "modified line plot", header = TRUE, text = FALSE, func = mod_data, config = list('graphOrientation' = 'vertical'))))
+    cat(plotter$prettify_div(plotter$line(list(id = "barplot1.txt", title = "plain line plot", header = TRUE, text = FALSE)), preset = "magic"))
+    cat(plotter$prettify_div(plotter$line(list(id = "barplot1.txt", title = "modified line plot", header = TRUE, text = FALSE, func = mod_data, config = list('graphOrientation' = 'vertical'))), preset = "magic"))
+end.rcode-->
+
+<h2> You can edit the properties of divs with an interface function <h2>
+<!--begin.rcode Pretty_divs
+    cat(plotter$prettify_div("This is a simple div"))
+    cat(plotter$prettify_div("This is a right-justified div", display = "flex", justify = "right"))
+    cat(plotter$prettify_div("This is a preset div", preset = "magic",
+                             overflow = "preset will override other arguments"))
 end.rcode-->

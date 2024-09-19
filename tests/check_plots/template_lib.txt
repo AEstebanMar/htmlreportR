@@ -22,3 +22,11 @@ func_plot <- function(){
 }
 cat(plotter$static_plot_main("plot_data", custom_format = TRUE, plotting_function = func_plot, plot_type = "autoplot"))
    end.rcode-->
+
+<h2> You can edit the properties of divs with an interface function <h2>
+<!--begin.rcode Pretty_divs
+    cat(plotter$prettify_div("This is a simple div"))
+    cat(plotter$prettify_div("This is a right-justified div", display = "flex", justify = "right"))
+    cat(plotter$prettify_div("This is a preset div", preset = "magic",
+                             overflow = "preset will override other arguments"))
+end.rcode-->
