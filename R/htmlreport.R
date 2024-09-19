@@ -1111,3 +1111,54 @@ htmlReport$methods(
 			"</div>")
 
 })
+
+#' pretiffy_div
+#'
+#' @name prettify_div
+#' @title Encapsulates input code in div of specified characteristics
+#' 
+#' @param data string indicating object id
+#' 
+#' @returns encoded and compressed json
+#'
+#'
+NULL
+htmlReport$methods(
+	prettify_div = function(code, overflow = NULL, display = NULL,
+							direction = NULL, justify = NULL, preset = ""){
+		if(!is.null(overflow)) {
+			overflow <- paste0("overflow: ", overflow)
+		}
+		if(!is.null(direction)) {
+			if(is.null(display)) {
+				warning("Specified direction with incompatible display argument.
+						Setting to \"flex\"")
+				display <- "flex"
+			} else {
+				direction <- paste0(display, "-direction: ", direction)
+			}
+		}
+		if(!is.null(display)) {
+			display <- paste0("display: ", display)
+		}
+		if(!is.null(justify)) {
+			justify <- paste0("justify-content: ", justify)
+		}
+		div_params <- list(overflow = overflow, display = display,
+						   direction = direction, justify = justify)
+		if(preset == "magic") {
+			div_params$overflow <- "overflow: hidden"
+			div_params$display <- "display: flex"
+			div_params$direction <- "flex-direction: row"
+			div_params$justify <- "justify-content: center"
+		}
+		div_params <- div_params[lengths(div_params) > 0]
+		if(any(unlist(lapply(div_params, function(x) !is.null(x))))) {
+			params <- paste(div_params, collapse = "; ")
+			div <- paste0("<div style =\"", params, "\">")
+		} else {
+			div <- "<div>"
+		}
+		return(paste(div, code, "</div>", sep = "\n"))
+	}
+)
