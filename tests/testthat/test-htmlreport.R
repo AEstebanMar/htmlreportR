@@ -511,3 +511,31 @@ test_that("test tree configuration", {
    	testthat::expect_true(config$varDendrogramUseHeight)
    	testthat::expect_false(config$varDendrogramHang)
 })
+
+test_that("Prettify_div works with default parameters", {
+	plotter <- htmlReport$new()
+	expected_string <- "<div>\nI am simple\n</div>"
+	output_string <- plotter$prettify_div("I am simple")
+	testthat::expect_equal(output_string, expected_string)
+})
+
+test_that("Prettify_div works with custom parameters", {
+	plotter <- htmlReport$new()
+	expected_string <- paste0("<div style =\"overflow: show; display: ",
+							  "contract; contract-direction: column; ",
+							  "justify-content: left\">\nI am complex\n</div>")
+	output_string <- plotter$prettify_div("I am complex", overflow = "show",
+										  display = "contract",
+										  direction = "column",
+										  justify = "left")
+	testthat::expect_equal(output_string, expected_string)
+})
+
+test_that("Prettify_div works with magic preset", {
+	plotter <- htmlReport$new()
+	expected_string <- paste0("<div style =\"overflow: hidden; display: ",
+							  "flex; flex-direction: row; ",
+							  "justify-content: center\">\nI am magic\n</div>")
+	output_string <- plotter$prettify_div("I am magic", preset = "magic")
+	testthat::expect_equal(output_string, expected_string)
+})
