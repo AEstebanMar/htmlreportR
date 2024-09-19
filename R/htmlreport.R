@@ -1114,7 +1114,7 @@ htmlReport$methods(
 
 #' pretiffy_div
 #'
-#' @name prettify_div
+#' @name prettify_div-htmlReport-method
 #' @title Encapsulates input code in div of specified characteristics
 #' 
 #' @param data string indicating object id
