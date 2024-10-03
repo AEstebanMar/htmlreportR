@@ -923,6 +923,7 @@ htmlReport$methods(
 		return(string)
 	}
 )
+
 htmlReport$methods(
 	set_tree = function(options, config){
 		tree <- options$tree
@@ -966,9 +967,19 @@ htmlReport$methods(
 			series <- NULL
 			group <- NULL
 			segregate <- NULL
-			if(is.null(options$group)) {
-				series <- 'Factor'
-				} else {
+			wide <- options$format == "wide"
+			long_null_group <- options$format == "long" & is.null(options$group)
+			if(wide | long_null_group) {
+				reshaped <- cvX$reshape(samples = cvX$samples(), x = cvX$x(),
+									    variables = cvX$variables(),
+									    values = cvX$values())
+				cvX$samples(reshaped$samples)
+				cvX$x(reshaped$x)
+				cvX$variables(reshaped$variables)
+				cvX$values(reshaped$values)
+				series <- "Factor"
+			}
+			if(!is.null(options$group)) {
 				series <- options$group[1]
 				group <- options$group[2]
 				segregate <- options$group[3]	
