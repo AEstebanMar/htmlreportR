@@ -962,7 +962,7 @@ htmlReport$methods(
 htmlReport$methods(
 	boxplot = function(opt) {
 		config_chart <- function(cvX, options){
-			config['graphType'] <- 'Boxplot'
+			cvX$config[['graphType']] <- 'Boxplot'
 			series <- NULL
 			group <- NULL
 			segregate <- NULL
@@ -974,32 +974,33 @@ htmlReport$methods(
 				segregate <- options$group[3]	
 				}
 			if(is.null(cvX$config['colorBy'])) {
-				cvX$config['colorBy'] <- series
+				cvX$config[['colorBy']] <- series
 			}
 			if(is.null(cvX$config['groupingFactors'])) {
-				cvx$config['groupingFactors'] <- c(series, group)
+				cvX$config[['groupingFactors']] <- c(series, group)
 			}
-			if(!is.null(group) & is.null(cvx$config$segregateSamplesBy)) {
+			if(!is.null(group) & is.null(cvX$config$segregateSamplesBy)) {
 				if(segregate) {
-					config$segregateSamplesBy <- segregate
+					cvX$config[['segregateSamplesBy']] <- segregate
 				} else if(group){
-					config$segregateSamplesBy <- group
+					cvX$config[['segregateSamplesBy']] <- group
 				}
 			}
 			if(is.null(options$extracode) & is.null(opt$group)) {
-				options['extracode'] <- paste0("C", cvX$object_id,
+				options[['extracode']] <- paste0("C", cvX$object_id,
 										".groupSamples([\"Factor\"]);")
 			}
-			if(isTrue(options$add_violin)) {
-				config$showBoxplotIfViolin <- TRUE
-				config$showBoxplotOriginalData <- TRUE
-				config$showViolinBoxplot <- TRUE
-				config$jitter <- TRUE
+			if(isTRUE(options$add_violin)) {
+				cvX$config[['showBoxplotIfViolin']] <- TRUE
+				cvX$config[['showBoxplotOriginalData']] <- TRUE
+				cvX$config[['showViolinBoxplot']] <- TRUE
+				cvX$config[['jitter']] <- TRUE
 			}
 		}
-		default_options <- list('row_names' = TRUE, 'header' = TRUE, 'format' = 'long')
+		default_options <- list('row_names' = TRUE, 'header' = TRUE, 'config_chart' = config_chart)
 		default_options <- update_options(default_options, opt)
 		html_string <- canvasXpress_main(default_options)
+		return(html_string)
 })
 
 #' CanvasXpress density plot

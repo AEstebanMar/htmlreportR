@@ -239,7 +239,7 @@ end.rcode-->
                              overflow = "preset will override other arguments"))
 end.rcode-->
 
-# <!--begin.rcode Boxplot of long format table
-#     cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot.txt', header = TRUE, row_names = FALSE, text = "dynamic")),
-#                              preset = "magic"))
-# end.rcode-->
+<!--begin.rcode Boxplot of long format table
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot.txt', header = TRUE, row_names = TRUE, text = FALSE)),
+                             preset = "magic"))
+end.rcode-->
