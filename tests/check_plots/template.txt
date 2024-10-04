@@ -45,235 +45,235 @@ cat(plotter$create_title("Heatmap example", "heatmap_t", hlevel = 3, indexable =
 end.rcode-->
 
 
-# <!--begin.rcode Resizable_ggplot_heatmap
-# cat(plotter$create_title("Heatmap example resizable", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
+<!--begin.rcode Resizable_ggplot_heatmap
+cat(plotter$create_title("Heatmap example resizable", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
 
-# cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, var_attr = c(17), width = 1200, height = 500, size_unit = "px", resizable = TRUE, plotting_function = function(ggplot_obj) {
+cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, var_attr = c(17), width = 1200, height = 500, size_unit = "px", resizable = TRUE, plotting_function = function(ggplot_obj) {
     
-#        ggplot_obj + ggplot2::aes(x = x_axis, y = y_axis, fill =Freq) +
-#        ggplot2::geom_tile(show.legend = TRUE) +
-#        ggplot2::theme_minimal() +
-#        ggplot2::theme(panel.grid.major = ggplot2::element_blank()) +
-#        ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 25, face = "bold", hjust = 1), axis.text.y = ggplot2::element_text(face = "bold")) +
-#        ggplot2::scale_fill_gradient2(low = col[1], mid= col[2], high = col[3], na.value = na_col, guide = "colourbar", aesthetics = "fill")
-#     }))
-# end.rcode-->
+       ggplot_obj + ggplot2::aes(x = x_axis, y = y_axis, fill =Freq) +
+       ggplot2::geom_tile(show.legend = TRUE) +
+       ggplot2::theme_minimal() +
+       ggplot2::theme(panel.grid.major = ggplot2::element_blank()) +
+       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 25, face = "bold", hjust = 1), axis.text.y = ggplot2::element_text(face = "bold")) +
+       ggplot2::scale_fill_gradient2(low = col[1], mid= col[2], high = col[3], na.value = na_col, guide = "colourbar", aesthetics = "fill")
+    }))
+end.rcode-->
 
 
-# <!--begin.rcode Custom_size_ggplot_heatmap
-# cat(plotter$create_title("Heatmap example custom size", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
+<!--begin.rcode Custom_size_ggplot_heatmap
+cat(plotter$create_title("Heatmap example custom size", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
 
-# cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, var_attr = c(17), width = 1200, height = 500, size_unit = "px", img_properties = "width='1200' height='500'", plotting_function = function(ggplot_obj) {
+cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, var_attr = c(17), width = 1200, height = 500, size_unit = "px", img_properties = "width='1200' height='500'", plotting_function = function(ggplot_obj) {
     
-#        ggplot_obj + ggplot2::aes(x = x_axis, y = y_axis, fill =Freq) +
-#        ggplot2::geom_tile(show.legend = TRUE) +
-#        ggplot2::theme_minimal() +
-#        ggplot2::theme(panel.grid.major = ggplot2::element_blank()) +
-#        ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 25, face = "bold", hjust = 1), axis.text.y = ggplot2::element_text(face = "bold")) +
-#        ggplot2::scale_fill_gradient2(low = col[1], mid= col[2], high = col[3], na.value = na_col, guide = "colourbar", aesthetics = "fill")
-#     }))
-# end.rcode-->
+       ggplot_obj + ggplot2::aes(x = x_axis, y = y_axis, fill =Freq) +
+       ggplot2::geom_tile(show.legend = TRUE) +
+       ggplot2::theme_minimal() +
+       ggplot2::theme(panel.grid.major = ggplot2::element_blank()) +
+       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 25, face = "bold", hjust = 1), axis.text.y = ggplot2::element_text(face = "bold")) +
+       ggplot2::scale_fill_gradient2(low = col[1], mid= col[2], high = col[3], na.value = na_col, guide = "colourbar", aesthetics = "fill")
+    }))
+end.rcode-->
 
 
-# <!--begin.rcode Mermaid_examples
-# cat(plotter$create_title("Mermaid chart examples", "mermaid", hlevel = 2, indexable = TRUE, clickable = TRUE, t_id = "mermaid_chart"))
-#    cat(plotter$create_collapsable_container(id = "mermaid_chart", html_code =plotter$mermaid_chart('
-# ---
-# config:
-#   theme: dark
-# ---
-# flowchart LR
-#     1A[Option Parsing]
-#     1B[/opt/]
-#     subgraph Input preparison
-#         A[Target generation] 
-#         B[Read count table]
-#         C[Read External DE data]
-#         D[Read Library size files] 
-#     end
-#     E["`**main_degenes_Hunter**`"]
-#     EE[/final_results/]
-#     LL[main_report.Rmd]
-#     subgraph Writting
-#         F[write.table]
-#         H>filtered_count_data.txt]
-#         G>control_treatment.txt]
-#         I>hunter_results_table.txt]
-#         J["`**write_df_list_as_tables** (Normalized_counts)`"]
-#         K["`**write_df_list_as_tables** (allgenes)`"]
-#         L["`**write_expression_report**`"]
-#         M>"DEG_report.html"]   
+<!--begin.rcode Mermaid_examples
+cat(plotter$create_title("Mermaid chart examples", "mermaid", hlevel = 2, indexable = TRUE, clickable = TRUE, t_id = "mermaid_chart"))
+   cat(plotter$create_collapsable_container(id = "mermaid_chart", html_code =plotter$mermaid_chart('
+---
+config:
+  theme: dark
+---
+flowchart LR
+    1A[Option Parsing]
+    1B[/opt/]
+    subgraph Input preparison
+        A[Target generation] 
+        B[Read count table]
+        C[Read External DE data]
+        D[Read Library size files] 
+    end
+    E["`**main_degenes_Hunter**`"]
+    EE[/final_results/]
+    LL[main_report.Rmd]
+    subgraph Writting
+        F[write.table]
+        H>filtered_count_data.txt]
+        G>control_treatment.txt]
+        I>hunter_results_table.txt]
+        J["`**write_df_list_as_tables** (Normalized_counts)`"]
+        K["`**write_df_list_as_tables** (allgenes)`"]
+        L["`**write_expression_report**`"]
+        M>"DEG_report.html"]   
         
-#     end
+    end
 
-#     1A --> 1B
-#     1B -- target_file
-#           Treatment_columns
-#           Control_columns --> A
+    1A --> 1B
+    1B -- target_file
+          Treatment_columns
+          Control_columns --> A
 
-#     1B --input_file--> B
-#     1B --external_DEA_file--> C
-#     1B --library_sizes-->D
-#     1B --> E
-#     A & B & C & D --> E
-#     E  ==> EE
-#     1B -- output_files --> Writting
-#     EE --> F 
-#     EE --all_data_normalized---> J
-#     EE --"all_counts_for_plotting"---> K
-#     F  --"raw_filter"--> H
-#     F  --"sample_group"--> G
-#     F  --"DE_all_genes"--> I
-#     EE & LL --> L
-#     L --> M      
+    1B --input_file--> B
+    1B --external_DEA_file--> C
+    1B --library_sizes-->D
+    1B --> E
+    A & B & C & D --> E
+    E  ==> EE
+    1B -- output_files --> Writting
+    EE --> F 
+    EE --all_data_normalized---> J
+    EE --"all_counts_for_plotting"---> K
+    F  --"raw_filter"--> H
+    F  --"sample_group"--> G
+    F  --"DE_all_genes"--> I
+    EE & LL --> L
+    L --> M      
     
-#     ')))
+    ')))
 
-# end.rcode-->
-
-
-# <!--begin.rcode table_bootstrap
-# cat(plotter$create_title("Tables", "tables", hlevel = 2, indexable = TRUE, clickable = FALSE, t_id = NULL))
-# cat(plotter$create_title("Bootstrap type", "tables_bs", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL))
-
-#     #plotter$add_menu_item("datatable",list(text="DataTable"))
-#     plotter$hash_vars[["test_data_frame"]] <- data.frame( "V1" = c("h0","r1", "r2", "r3"), 
-#                                 "V2" = c("h1", "-","var_attr1", "var_attr2"),
-#                                 "V3" = c("h2", "smp_attr1", 1,2), 
-#                                 "V4" = c("h3", "smp_attr2",3,4), 
-#                                 row.names = c(1,2,3,4))
-
-#     cat(plotter$table("test_data_frame", header = TRUE, row_names = TRUE, smp_attr = c(1), var_attr = c(1), attrib = list('class' = 'table table-striped')))
+end.rcode-->
 
 
-# end.rcode-->
+<!--begin.rcode table_bootstrap
+cat(plotter$create_title("Tables", "tables", hlevel = 2, indexable = TRUE, clickable = FALSE, t_id = NULL))
+cat(plotter$create_title("Bootstrap type", "tables_bs", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL))
+
+    #plotter$add_menu_item("datatable",list(text="DataTable"))
+    plotter$hash_vars[["test_data_frame"]] <- data.frame( "V1" = c("h0","r1", "r2", "r3"), 
+                                "V2" = c("h1", "-","var_attr1", "var_attr2"),
+                                "V3" = c("h2", "smp_attr1", 1,2), 
+                                "V4" = c("h3", "smp_attr2",3,4), 
+                                row.names = c(1,2,3,4))
+
+    cat(plotter$table("test_data_frame", header = TRUE, row_names = TRUE, smp_attr = c(1), var_attr = c(1), attrib = list('class' = 'table table-striped')))
 
 
-# <!--begin.rcode cvX_heatmap
-# cat(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header = TRUE, var_attr = c(17), text = FALSE, row_names = FALSE, transpose = FALSE, config = list("varOverlays" = c("category")))))
-# end.rcode-->
+end.rcode-->
 
 
-# <!--begin.rcode cvX_cluster_heatmap
-
-# cluster_table <- plotter$get_data(list(id = "data_toc_sample.txt", row_names = NULL, header = TRUE, transpose = FALSE,
-#  text = "dynamic"))$data_frame
-# rownames(cluster_table) <- seq(0, nrow(cluster_table) -1)
-# test_tree <- hclust(dist(cluster_table[,(1:length(cluster_table)-1)]))
-
-# cluster_table$clust <- cutree(test_tree,8)
-# data_toc_sample_nw <- ape::write.tree(ape::as.phylo(test_tree))
-# rownames(cluster_table) <- as.character(sample(100))
-# plotter$hash_vars$cluster_table <- cluster_table
-
-# cat(plotter$heatmap(list(id = "cluster_table", 
-#                          title = "Heatmap", 
-#                          tree =data_toc_sample_nw, 
-#                          header = NULL, 
-#                          var_attr = c(17, 18), 
-#                          text = "dynamic", 
-#                          row_names = NULL, 
-#                          transpose = FALSE, 
-#                          config = list("varOverlays" = c("category", "clust")))))
+<!--begin.rcode cvX_heatmap
+cat(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header = TRUE, var_attr = c(17), text = FALSE, row_names = FALSE, transpose = FALSE, config = list("varOverlays" = c("category")))))
+end.rcode-->
 
 
-# end.rcode-->
+<!--begin.rcode cvX_cluster_heatmap
+
+cluster_table <- plotter$get_data(list(id = "data_toc_sample.txt", row_names = NULL, header = TRUE, transpose = FALSE,
+ text = "dynamic"))$data_frame
+rownames(cluster_table) <- seq(0, nrow(cluster_table) -1)
+test_tree <- hclust(dist(cluster_table[,(1:length(cluster_table)-1)]))
+
+cluster_table$clust <- cutree(test_tree,8)
+data_toc_sample_nw <- ape::write.tree(ape::as.phylo(test_tree))
+rownames(cluster_table) <- as.character(sample(100))
+plotter$hash_vars$cluster_table <- cluster_table
+
+cat(plotter$heatmap(list(id = "cluster_table", 
+                         title = "Heatmap", 
+                         tree =data_toc_sample_nw, 
+                         header = NULL, 
+                         var_attr = c(17, 18), 
+                         text = "dynamic", 
+                         row_names = NULL, 
+                         transpose = FALSE, 
+                         config = list("varOverlays" = c("category", "clust")))))
 
 
+end.rcode-->
 
 
 
 
-# <!--begin.rcode cvX_density
-# cat(plotter$density(list(id = "density_ridgeline_example.txt", title = "Density plot", header = TRUE, text = FALSE, row_names = TRUE, fillDensity = TRUE, median = TRUE)))
-# end.rcode-->
 
-# <br>
-# <br>
-# <br>
-# <br>
-# <br>
-# <br>
 
-# <!--begin.rcode cvX_datatable
-#     cat(plotter$create_title("DataTable type", "tables_dt", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL))
+<!--begin.rcode cvX_density
+cat(plotter$density(list(id = "density_ridgeline_example.txt", title = "Density plot", header = TRUE, text = FALSE, row_names = TRUE, fillDensity = TRUE, median = TRUE)))
+end.rcode-->
 
-#     cat(plotter$table("test_data_frame", header = TRUE, row_names = TRUE, smp_attr = c(1), var_attr = c(1), styled = "dt"))
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-# end.rcode-->
+<!--begin.rcode cvX_datatable
+    cat(plotter$create_title("DataTable type", "tables_dt", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL))
 
-# <!--begin.rcode cvX_scatter2D
-#     cat(plotter$scatter2D(list(id = "x_y.txt", title = "Simple Scatter", row_names = FALSE, header = TRUE, x_label = "Num genes", y_label = "FPKM", alpha = 0.3, theme = "tableau", text = FALSE)))
-#     cat(plotter$scatter2D(list(id = "x_y.txt", title = "Scatter with densities", row_names = FALSE, header = TRUE, x_label = "Num genes", y_label = "FPKM", add_densities = TRUE, text = FALSE)))
-#     cat(plotter$scatter2D(list(id = "x_y_factor.txt", title = "Scatter with factors", row_names = FALSE, header = TRUE, x_label = "Num genes", y_label = "FPKM", text = "dynamic", var_attr = c(1, 2), config = list(colorBy = "patient", shapeBy = "group"))))
-#     cat(plotter$scatter2D(list(id = "barplot3.txt", title = "Scatter with custom point info", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, width = 300, var_attr = c(1, 2), smp_attr = c(1, 2), xAxis = "brain", yAxis = "lung", x_label = "Brain", y_label = "Lung",
-#                                config = list("hoverTemplate" = "Type of gene: {type} <br>
-#                                                                 Other type of gene: {type2} <br>
-#                                                                 Lung Expr: {lung} <br>
-#                                                                 Brain Expr: {brain} "))))
-# end.rcode-->
+    cat(plotter$table("test_data_frame", header = TRUE, row_names = TRUE, smp_attr = c(1), var_attr = c(1), styled = "dt"))
 
-# <!--begin.rcode cvX_barplot
+end.rcode-->
 
-#     cat(plotter$prettify_div(plotter$barplot(list(id = "barplot1.txt", title = "Vertical barplot with multiple series", row_names = TRUE, header = TRUE, text = FALSE, config = list('graphOrientation' = 'vertical', 'xAxisTitle' = 'Values'))), preset = "magic"))
-#     cat(plotter$prettify_div(plotter$barplot(list(id = "barplot2.txt", title = "Horizontal barplot", row_names = TRUE, header = TRUE, height = 300, text = FALSE)), preset = "magic"))
-#     cat(plotter$prettify_div(plotter$barplot(list(id = "barplot2.txt", title = "Barplot with intensities", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, colorScale = TRUE, config = list('graphOrientation' = 'vertical'))), preset = "magic"))
-#     cat(plotter$prettify_div(plotter$barplot(list(id = "barplot3.txt", title = "Tiny barplot", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, width = 300, var_attr = c(1,2), smp_attr = c(1,2), segregate = list('var' = 'nerv', 'smp'= 'type2'), config = list('layoutCollapse' = 'false', 'layoutType' = 'rows', 'graphOrientation' = 'vertical' ))), preset = "magic"))
-# end.rcode-->
+<!--begin.rcode cvX_scatter2D
+    cat(plotter$scatter2D(list(id = "x_y.txt", title = "Simple Scatter", row_names = FALSE, header = TRUE, x_label = "Num genes", y_label = "FPKM", alpha = 0.3, theme = "tableau", text = FALSE)))
+    cat(plotter$scatter2D(list(id = "x_y.txt", title = "Scatter with densities", row_names = FALSE, header = TRUE, x_label = "Num genes", y_label = "FPKM", add_densities = TRUE, text = FALSE)))
+    cat(plotter$scatter2D(list(id = "x_y_factor.txt", title = "Scatter with factors", row_names = FALSE, header = TRUE, x_label = "Num genes", y_label = "FPKM", text = "dynamic", var_attr = c(1, 2), config = list(colorBy = "patient", shapeBy = "group"))))
+    cat(plotter$scatter2D(list(id = "barplot3.txt", title = "Scatter with custom point info", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, width = 300, var_attr = c(1, 2), smp_attr = c(1, 2), xAxis = "brain", yAxis = "lung", x_label = "Brain", y_label = "Lung",
+                               config = list("hoverTemplate" = "Type of gene: {type} <br>
+                                                                Other type of gene: {type2} <br>
+                                                                Lung Expr: {lung} <br>
+                                                                Brain Expr: {brain} "))))
+end.rcode-->
 
-# <p>We can also define functions to transform data before plotting<p>
-# <!--begin.rcode cvX_lineplot
-#     mod_data <- function(df) {
-#         df[2,2] <- 1000
-#         return(df)
-#     }
-#     cat(plotter$prettify_div(plotter$line(list(id = "barplot1.txt", title = "plain line plot", header = TRUE, text = FALSE)), preset = "magic"))
-#     cat(plotter$prettify_div(plotter$line(list(id = "barplot1.txt", title = "modified line plot", header = TRUE, text = FALSE, func = mod_data, config = list('graphOrientation' = 'vertical'))), preset = "magic"))
-# end.rcode-->
+<!--begin.rcode cvX_barplot
 
-# <h2> You can edit the properties of divs with an interface function <h2>
-# <!--begin.rcode Pretty_divs
-#     cat(plotter$prettify_div("This is a simple div"))
-#     cat(plotter$prettify_div("This is a right-justified div", display = "flex", justify = "right"))
-#     cat(plotter$prettify_div("This is a preset div", preset = "magic",
-#                              overflow = "preset will override other arguments"))
-# end.rcode-->
+    cat(plotter$prettify_div(plotter$barplot(list(id = "barplot1.txt", title = "Vertical barplot with multiple series", row_names = TRUE, header = TRUE, text = FALSE, config = list('graphOrientation' = 'vertical', 'xAxisTitle' = 'Values'))), preset = "magic"))
+    cat(plotter$prettify_div(plotter$barplot(list(id = "barplot2.txt", title = "Horizontal barplot", row_names = TRUE, header = TRUE, height = 300, text = FALSE)), preset = "magic"))
+    cat(plotter$prettify_div(plotter$barplot(list(id = "barplot2.txt", title = "Barplot with intensities", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, colorScale = TRUE, config = list('graphOrientation' = 'vertical'))), preset = "magic"))
+    cat(plotter$prettify_div(plotter$barplot(list(id = "barplot3.txt", title = "Tiny barplot", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, width = 300, var_attr = c(1,2), smp_attr = c(1,2), segregate = list('var' = 'nerv', 'smp'= 'type2'), config = list('layoutCollapse' = 'false', 'layoutType' = 'rows', 'graphOrientation' = 'vertical' ))), preset = "magic"))
+end.rcode-->
+
+<p>We can also define functions to transform data before plotting<p>
+<!--begin.rcode cvX_lineplot
+    mod_data <- function(df) {
+        df[2,2] <- 1000
+        return(df)
+    }
+    cat(plotter$prettify_div(plotter$line(list(id = "barplot1.txt", title = "plain line plot", header = TRUE, text = FALSE)), preset = "magic"))
+    cat(plotter$prettify_div(plotter$line(list(id = "barplot1.txt", title = "modified line plot", header = TRUE, text = FALSE, func = mod_data, config = list('graphOrientation' = 'vertical'))), preset = "magic"))
+end.rcode-->
+
+<h2> You can edit the properties of divs with an interface function <h2>
+<!--begin.rcode Pretty_divs
+    cat(plotter$prettify_div("This is a simple div"))
+    cat(plotter$prettify_div("This is a right-justified div", display = "flex", justify = "right"))
+    cat(plotter$prettify_div("This is a preset div", preset = "magic",
+                             overflow = "preset will override other arguments"))
+end.rcode-->
 
 <!--begin.rcode boxplots
-    # cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot.txt', header = TRUE, row_names = TRUE,
-    #                                               text = "dynamic", format = "wide")), preset = "magic"))
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot.txt', header = TRUE, row_names = TRUE,
+                                                  text = "dynamic", format = "wide")), preset = "magic"))
     cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_one_series.txt', header = TRUE,
                                                   row_names = TRUE, text = "dynamic", format = "long")),
                                                   preset = "magic"))
-    # cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_factor.txt', header = TRUE, row_names = TRUE,
-    #                                               text = "dynamic", format = "wide", smp_attr = 4,
-    #                                               group = "pathway")), preset = "magic"))
-    # cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_one_series_nonames.txt', header = FALSE,
-    #                                               row_names = FALSE, add_header_row_names = TRUE,
-    #                                               text = "dynamic", format = "long")), preset = "magic"))
-    # cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_two_series_nonames.txt', header = FALSE,
-    #                                               row_names = FALSE, add_header_row_names = TRUE,
-    #                                               text = "dynamic", format = "wide")), preset = "magic"))
-    # cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_factor.txt', header = TRUE,
-    #                                               row_names = TRUE, text = "dynamic", format = "wide",
-    #                                               smp_attr = 4, group = "pathway", add_violin = TRUE)),
-    #                                               preset = "magic"))
-    # cat(plotter$prettify_div(plotter$boxplot(list(id = 'rank_distribution.txt', header = TRUE,
-    #                                               row_names = FALSE, text = "dynamic", format = "long",
-    #                                               smp_attr = 1:3, group = c("clust_method", "clust_status"),
-    #                                               height = 500, width= 900)), preset = "magic"))
-    # cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_grid.txt', header = TRUE, row_names = FALSE,
-    #                                               text = "dynamic", format = "long", smp_attr = 1:2,
-    #                                               group = c("genes", "samples"), height = 700, width= 800,
-    #                                               config=list(graphOrientation = "vertical"))),
-    #                                               preset = "magic"))
-    # cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_3factor.txt', header = TRUE, row_names = TRUE,
-    #                                               text = "dynamic", format = "long", smp_attr = 2:6,
-    #                                               group = c("pathway", "dataset", "type"),
-    #                                               config=list(graphOrientation = "vertical", colorBy = "top"))),
-    #                                               preset = "magic"))
-    # cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_wide_2factor.txt', header = TRUE,
-    #                                               row_names = TRUE, smp_attr = 4:5, text = "dynamic",
-    #                                               group = c("pathway", "sequencing"), format = "wide",
-    #                                               add_violin = TRUE)), preset = "magic"))
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_factor.txt', header = TRUE, row_names = TRUE,
+                                                  text = "dynamic", format = "wide", smp_attr = 4,
+                                                  group = "pathway")), preset = "magic"))
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_one_series_nonames.txt', header = FALSE,
+                                                  row_names = FALSE, add_header_row_names = TRUE,
+                                                  text = "dynamic", format = "long")), preset = "magic"))
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_two_series_nonames.txt', header = FALSE,
+                                                  row_names = FALSE, add_header_row_names = TRUE,
+                                                  text = "dynamic", format = "wide")), preset = "magic"))
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_factor.txt', header = TRUE,
+                                                  row_names = TRUE, text = "dynamic", format = "wide",
+                                                  smp_attr = 4, group = "pathway", add_violin = TRUE)),
+                                                  preset = "magic"))
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'rank_distribution.txt', header = TRUE,
+                                                  row_names = FALSE, text = "dynamic", format = "long",
+                                                  smp_attr = 1:3, group = c("clust_method", "clust_status"),
+                                                  height = 500, width= 900)), preset = "magic"))
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_grid.txt', header = TRUE, row_names = FALSE,
+                                                  text = "dynamic", format = "long", smp_attr = 1:2,
+                                                  group = c("genes", "samples"), height = 700, width= 800,
+                                                  config=list(graphOrientation = "vertical"))),
+                                                  preset = "magic"))
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_3factor.txt', header = TRUE, row_names = TRUE,
+                                                  text = "dynamic", format = "long", smp_attr = 2:6,
+                                                  group = c("pathway", "dataset", "type"),
+                                                  config=list(graphOrientation = "vertical", colorBy = "top"))),
+                                                  preset = "magic"))
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_wide_2factor.txt', header = TRUE,
+                                                  row_names = TRUE, smp_attr = 4:5, text = "dynamic",
+                                                  group = c("pathway", "sequencing"), format = "wide",
+                                                  add_violin = TRUE)), preset = "magic"))
 end.rcode-->
