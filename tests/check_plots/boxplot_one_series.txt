@@ -1,0 +1,5 @@
+tissue	liver
+gen1	20
+gen2	40
+gen3	100
+gen4	1

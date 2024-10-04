@@ -1,0 +1,17 @@
+tissue	liver	brain	lung	pathway	sequencing
+gen1	20	13	60	A	bulk
+gen2	22	12	62	B	bulk
+gen3	40	60	90	A	bulk
+gen4	42	62	92	B	bulk
+gen5	100	85	10	A	single
+gen6	102	82	12	B	single
+gen7	1	85	10	A	single
+gen8	2	82	12	B	single
+gen9	25	15	68	B	bulk
+gen10	22	12	62	A	bulk
+gen11	50	65	94	B	bulk
+gen12	52	62	92	A	bulk
+gen13	90	75	20	B	single
+gen14	92	73	23	A	single
+gen15	30	75	20	B	single
+gen16	31	74	24	A	single

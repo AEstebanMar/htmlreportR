@@ -1,0 +1,17 @@
+tissue	lung	pathway	dataset	type	top
+gen1	60	A	DO	paper	top3
+gen2	62	B	DO	paper	top3
+gen3	90	A	EH	paper	top4
+gen4	92	B	EH	paper	top4
+gen5	10	A	DO	abstract	top1
+gen6	12	B	DO	abstract	top1
+gen7	10	A	EH	abstract	top2
+gen8	12	B	EH	abstract	top2
+gen9	68	B	DO	paper	top3
+gen10	62	A	DO	paper	top3
+gen11	94	B	EH	paper	top4
+gen12	92	A	EH	paper	top4
+gen13	20	B	DO	abstract	top1
+gen14	23	A	DO	abstract	top1
+gen15	20	B	EH	abstract	top2
+gen16	24	A	EH	abstract	top2
