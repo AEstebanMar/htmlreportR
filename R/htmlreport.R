@@ -566,10 +566,10 @@ htmlReport$methods(add_header_row_names = function(data_frame, options) {
 
 	if(!is.null(options$header))
 		if (!options$header)
-			colnames(data_frame) <- seq(1,ncol(data_frame))
+			colnames(data_frame) <- paste0("var", seq(1, ncol(data_frame)))
 	if(!is.null(options$row_names))
 		if (!options$row_names)
-			rownames(data_frame) <- as.character(seq(1,nrow(data_frame)))
+			rownames(data_frame) <- paste0("sample", seq(1, nrow(data_frame)))
 
 		return(data_frame)	
 })
@@ -979,21 +979,34 @@ htmlReport$methods(
 				cvX$values(reshaped$values)
 				series <- "Factor"
 			}
-			if(!is.null(options$group)) {
-				series <- options$group[1]
-				group <- options$group[2]
-				segregate <- options$group[3]	
+			if(wide) {
+				if(length(options$group) > 0) {
+					group <- options$group[1]
 				}
+				if(length(options$group) > 1) {
+					segregate <- options$group[2]
+				}
+			} else {
+				if(length(options$group) > 0) {
+					series <- options$group[1]
+				}
+				if(length(options$group) > 1) {
+					group <- options$group[2]
+				}
+				if(length(options$group) > 2) {
+					segregate <- options$group[3]
+				}
+			}
 			if(is.null(cvX$config[['colorBy']])) {
 				cvX$config[['colorBy']] <- series
 			}
 			if(is.null(cvX$config[['groupingFactors']])) {
 				cvX$config[['groupingFactors']] <- c(series, group)
 			}
-			if(!is.null(group) & is.null(cvX$config$segregateSamplesBy)) {
+			if(!is.null(group) & is.null(cvX$config[['segregateSamplesBy']])) {
 				if(!is.null(segregate)) {
 					cvX$config[['segregateSamplesBy']] <- segregate
-				} else if(!is.null(group)){
+				} else {
 					cvX$config[['segregateSamplesBy']] <- group
 				}
 			}
