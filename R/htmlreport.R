@@ -984,16 +984,16 @@ htmlReport$methods(
 				group <- options$group[2]
 				segregate <- options$group[3]	
 				}
-			if(is.null(cvX$config['colorBy'])) {
+			if(is.null(cvX$config[['colorBy']])) {
 				cvX$config[['colorBy']] <- series
 			}
-			if(is.null(cvX$config['groupingFactors'])) {
+			if(is.null(cvX$config[['groupingFactors']])) {
 				cvX$config[['groupingFactors']] <- c(series, group)
 			}
 			if(!is.null(group) & is.null(cvX$config$segregateSamplesBy)) {
-				if(segregate) {
+				if(!is.null(segregate)) {
 					cvX$config[['segregateSamplesBy']] <- segregate
-				} else if(group){
+				} else if(!is.null(group)){
 					cvX$config[['segregateSamplesBy']] <- group
 				}
 			}
