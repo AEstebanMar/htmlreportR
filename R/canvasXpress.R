@@ -112,9 +112,11 @@ canvasXpress_obj$methods(
 canvasXpress_obj$methods(
     reshape = function(samples, variables, x, values) {
         new_samples <- vector(mode = "list", length = length(variables))
-        new_samples[[1]] <- paste0(samples[1], "_", seq(length(variables)))
-        for(i in seq(length(variables)) + 1) {
-            new_samples[[i]] <- paste0(samples[i], "_", seq(length(variables)))
+        new_samples[[1]] <- samples
+        if(length(variables) > 1) {
+            for(i in seq(length(variables) - 1)) {
+                new_samples[[i + 1]] <- paste0(samples, "_", i - 1)
+            }
         }
         new_samples <- unlist(new_samples)
         if(length(x) > 0) {
@@ -126,9 +128,10 @@ canvasXpress_obj$methods(
         } else {
             new_x <- list()
         }
-        series_annot <- rep(variables, length(samples))
+        series_annot <- rep(variables, each = length(samples))
         new_x[['Factor']] <- series_annot
-        new_values <- list(unlist(values))
+        new_values <- list(c(t(values)))
+        names(new_values[[1]]) <- NULL
         res <- list(samples = new_samples, variables = "vals", x = new_x,
                     values = new_values)
         return(res)
