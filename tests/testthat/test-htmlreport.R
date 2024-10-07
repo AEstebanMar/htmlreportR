@@ -466,13 +466,84 @@ test_that("testing line method of htmlReport class", {
 	testthat::expect_true(plotter$features$canvasXpress)
 })
 
-# table <- data.frame(            
-# 		V1 = c("tissue",     "nerv", "pcr",  "gen1", "gen2", "gen3",  "gen4"),    
-#         V2 = c("type",       "-",    "-",    "miRNA","miRNA","mRNA",  "mRNA"),
-# 		V3 = c("type2",      "-",    "-",    "tRNA", "tRNA", "ncRNA", "ncRNA"),
-# 		V4 = c("liver",      "no",   "true", "20",   "40",   "100",   "85"),
-# 		V5 = c("brain",      "yes",  "true", "13",   "60",   "85",    "10"),
-# 		V6 = c("cerebellum", "yes",  "false","15",   "30",   "12",    "41"))
+test_that("testing line method of htmlReport class", {
+	expected_string <- paste0("<canvas  id=\"obj_0_\" width=\"600px\" ",
+							  "height=\"600px\" aspectRatio='1:1' ",
+							  "responsive='true'></canvas>")
+	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data",
+								  " = {\"y\":{\"vars\":[\"h0, s2, s3, s4\",",
+								  "\"h1\",\"h2\",\"h3\"],\"smps\":[\"sample1\"",
+								  ",\"sample2\",\"sample3\"],\"data\":[[\"h0, ",
+								  "s2, s3, s4\",\"h0, s2, s3, s4\",\"h0, s2, ",
+								  "s3, s4\"],[\"1\",\"2\",\"3\"],[\"4\",\"5\"",
+								  ",\"6\"],[\"7\",\"8\",\"9\"]]},\"x\":[],\"z",
+								  "\":[]};\nvar conf = {\"toolbarType\":\"",
+								  "under\",\"xAxisTitle\":\"x_axis\",\"title",
+								  "\":\"A\",\"objectColorTransparency\":1,\"",
+								  "theme\":\"cx\",\"colorScheme\":\"",
+								  "CanvasXpress\",\"graphType\":\"Line\"};\n",
+								  "var events = false;\nvar info = false;\nvar",
+								  " afterRender = [];\nvar Cobj_0_ = new ",
+								  "CanvasXpress(\"obj_0_\", data, conf, ",
+								  "events, info, afterRender);\n});\n")
+	container <- list(test_data_frame = data.frame(
+					  			"V1" = c("h0, s2, s3, s4"),
+					  			"V2" = c("h1", 1, 2, 3),
+					  			"V3" = c("h2", 4, 5, 6),
+					  			"V4" = c("h3", 7, 8, 9),
+					  row.names = c(1, 2, 3, 4)))
+	plotter <- htmlReport$new(container = container, compress = FALSE)
+	output_string <- plotter$line(list(id = "test_data_frame", title = "A",
+									   header = TRUE, row_names = FALSE,
+									   text = "dynamic"))
+	output_dynamic_js <- plotter$dynamic_js
+	testthat::expect_equal(output_string, expected_string)
+	testthat::expect_equal(output_dynamic_js, expected_dynamic_js)
+	testthat::expect_true(plotter$features$canvasXpress)
+})
+
+test_that("testing boxplot method of htmlReport class", {
+	expected_string <- paste0("<canvas  id=\"obj_0_\" width=\"600px\" height=",
+						      "\"600px\" aspectRatio='1:1' responsive='true'>",
+						      "</canvas>")
+	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data =",
+								  " {\"y\":{\"vars\":[\"50\"],\"smps\":[\"",
+								  "gene2\",\"gene3\"],\"data\":[[60,70]]},\"x",
+								  "\":{\"a\":[\"b\",\"a\"],\"DO\":[\"DO\",\"EH",
+								  "\"],\"paper\":[\"paper\",\"abstract\"],\"",
+								  "top3\":[\"top4\",\"top4\"],\"NA\":[null,",
+								  "null]},\"z\":[]};\nvar conf = {\"",
+								  "toolbarType\":\"under\",\"xAxisTitle\":\"",
+								  "x_axis\",\"title\":\"Title\",\"",
+								  "objectColorTransparency\":1,\"theme\":\"cx",
+								  "\",\"colorScheme\":\"CanvasXpress\",\"",
+								  "graphOrientation\":\"vertical\",\"colorBy\"",
+								  ":\"top\",\"graphType\":\"Boxplot\",\"",
+								  "groupingFactors\":[\"pathway\",\"dataset\"]",
+								  ",\"segregateSamplesBy\":\"type\"};\nvar ",
+								  "events = false;\nvar info = false;\nvar ",
+								  "afterRender = [];\nvar Cobj_0_ = new ",
+								  "CanvasXpress(\"obj_0_\", data, conf, events",
+								  ", info, afterRender);\n});\n")
+	df <- data.frame(tissue = paste0("gene", 1:3),
+								  lung = seq(50, 70, by = 10),
+								  pathway = c("a", "b", "a"),
+								  dataset = c("DO", "DO", "EH"),
+								  type = c("paper", "paper", "abstract"),
+								  top = c("top3", "top4", "top4"))
+	container <- list(test_data_frame = df)
+	plotter <- htmlReport$new(container = container, compress = FALSE)
+	output_string <- plotter$boxplot(list(id = 'test_data_frame', header = TRUE,
+									 row_names = TRUE, text = "dynamic",
+									 format = "long", smp_attr = 2:6,
+									 group = c("pathway", "dataset", "type"),
+									 config=list(graphOrientation = "vertical",
+									 colorBy = "top")))
+	output_dynamic_js <- plotter$dynamic_js
+	testthat::expect_equal(output_string, expected_string)
+	testthat::expect_equal(output_dynamic_js, expected_dynamic_js)
+	testthat::expect_true(plotter$features$canvasXpress)
+})
 
 test_that("test tree configuration", {
 	
