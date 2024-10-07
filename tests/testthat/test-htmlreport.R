@@ -6,9 +6,9 @@ test_that("testing header and rownames addition", {
 		plotter <- htmlReport$new()
 		table_orig <- as.data.frame(matrix(c("0", "h1", "h2", "r1", "1", "3", "r2", "2", "4"), nrow = 3, byrow = TRUE))
 
-		frmt_exp <- as.data.frame(matrix(c("0", "h1", "h2", "r1", "1", "3", "r2", "2", "4"), nrow = 3, byrow = TRUE,dimnames = list(c(1,2,3),c(1,2,3))))
-		frmt_row_names_exp <- as.data.frame(matrix(c("h1","h2","1", "3", "2", "4"), nrow = 3, byrow = TRUE, dimnames = list(c("0","r1","r2"),c(1,2))))
-		frmt_header_exp <- as.data.frame(matrix(c("r1","1", "3", "r2","2", "4"), nrow = 2, byrow = TRUE, dimnames = list(c(1,2),c("0","h1","h2"))))
+		frmt_exp <- as.data.frame(matrix(c("0", "h1", "h2", "r1", "1", "3", "r2", "2", "4"), nrow = 3, byrow = TRUE,dimnames = list(c("sample1","sample2","sample3"),c("var1","var2","var3"))))
+		frmt_row_names_exp <- as.data.frame(matrix(c("h1","h2","1", "3", "2", "4"), nrow = 3, byrow = TRUE, dimnames = list(c("0","r1","r2"),c("var1","var2"))))
+		frmt_header_exp <- as.data.frame(matrix(c("r1","1", "3", "r2","2", "4"), nrow = 2, byrow = TRUE, dimnames = list(c("sample1","sample2"),c("0","h1","h2"))))
 	   	frmt_header_row_names_exp <- as.data.frame(matrix(c("1", "3", "2", "4"), nrow = 2, byrow = TRUE, dimnames = list(c("r1","r2"),c("h1","h2"))))
 	   
 	    user_options <- list("header" = FALSE, "row_names" = FALSE)
