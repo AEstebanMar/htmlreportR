@@ -74,8 +74,8 @@ test_that("reshape method", {
         output_reshape <- test$reshape(samples = test$samples(), x = test$x(),
                                        variables = test$variables(),
                                        values = test$values())
-        expect_equal(expected_reshape$samples, output_reshape$samples)
-        expect_equal(expected_reshape$x, output_reshape$x)
-        expect_equal(expected_reshape$variables, output_reshape$variables)
-        expect_equal(expected_reshape$values, output_reshape$values)
+        testthat::expect_equal(expected_reshape$samples, output_reshape$samples)
+        testthat::expect_equal(expected_reshape$x, output_reshape$x)
+        testthat::expect_equal(expected_reshape$variables, output_reshape$variables)
+        testthat::expect_equal(expected_reshape$values, output_reshape$values)
         })
