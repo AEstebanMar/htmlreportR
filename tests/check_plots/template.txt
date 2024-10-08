@@ -240,39 +240,51 @@ end.rcode-->
 end.rcode-->
 
 <!--begin.rcode boxplots
-    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot.txt', header = TRUE, row_names = TRUE,
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE,
+                                                  row_names = TRUE,
                                                   text = "dynamic", format = "wide")), preset = "magic"))
-    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_one_series.txt', header = TRUE,
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_one_series.txt',
+                                                  title = "Boxplot with one series", header = TRUE,
                                                   row_names = TRUE, text = "dynamic", format = "long")),
                                                   preset = "magic"))
-    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_factor.txt', header = TRUE, row_names = TRUE,
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_factor.txt', title = "Factor boxplot",
+                                                  header = TRUE, row_names = TRUE,
                                                   text = "dynamic", format = "wide", smp_attr = 4,
                                                   group = "pathway")), preset = "magic"))
-    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_one_series_nonames.txt', header = FALSE,
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_one_series_nonames.txt',
+                                                  title = "Unnamed series boxplot", header = FALSE,
                                                   row_names = FALSE, add_header_row_names = TRUE,
                                                   text = "dynamic", format = "long")), preset = "magic"))
-    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_two_series_nonames.txt', header = FALSE,
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_two_series_nonames.txt',
+                                                  title = "Two unnamed series boxplot", header = FALSE,
                                                   row_names = FALSE, add_header_row_names = TRUE,
                                                   text = "dynamic", format = "wide")), preset = "magic"))
-    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_factor.txt', header = TRUE,
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_factor.txt', title = "Violin boxplot",
+                                                  header = TRUE,
                                                   row_names = TRUE, text = "dynamic", format = "wide",
                                                   smp_attr = 4, group = "pathway", add_violin = TRUE)),
                                                   preset = "magic"))
-    cat(plotter$prettify_div(plotter$boxplot(list(id = 'rank_distribution.txt', header = TRUE,
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'rank_distribution.txt', title = "Split boxplot",
+                                                  header = TRUE,
                                                   row_names = FALSE, text = "dynamic", format = "long",
                                                   smp_attr = 1:3, group = c("clust_method", "clust_status"),
                                                   height = 500, width= 900)), preset = "magic"))
-    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_grid.txt', header = TRUE, row_names = FALSE,
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_grid.txt',
+                                                  title = "Four-way split vertical boxplot",
+                                                  header = TRUE, row_names = FALSE,
                                                   text = "dynamic", format = "long", smp_attr = 1:2,
                                                   group = c("genes", "samples"), height = 700, width= 800,
                                                   config=list(graphOrientation = "vertical"))),
                                                   preset = "magic"))
-    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_3factor.txt', header = TRUE, row_names = TRUE,
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_3factor.txt',
+                                                  title = "Boxplot with three factors",
+                                                  header = TRUE, row_names = TRUE,
                                                   text = "dynamic", format = "long", smp_attr = 2:6,
                                                   group = c("pathway", "dataset", "type"),
                                                   config=list(graphOrientation = "vertical", colorBy = "top"))),
                                                   preset = "magic"))
-    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_wide_2factor.txt', header = TRUE,
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_wide_2factor.txt',
+                                                  title = "Two factor boxplot from wide table", header = TRUE,
                                                   row_names = TRUE, smp_attr = 4:5, text = "dynamic",
                                                   group = c("pathway", "sequencing"), format = "wide",
                                                   add_violin = TRUE)), preset = "magic"))
