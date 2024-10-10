@@ -214,7 +214,6 @@ end.rcode-->
 end.rcode-->
 
 <!--begin.rcode cvX_barplot
-
     cat(plotter$prettify_div(plotter$barplot(list(id = "barplot1.txt", title = "Vertical barplot with multiple series", row_names = TRUE, header = TRUE, text = FALSE, config = list('graphOrientation' = 'vertical', 'xAxisTitle' = 'Values'))), preset = "magic"))
     cat(plotter$prettify_div(plotter$barplot(list(id = "barplot2.txt", title = "Horizontal barplot", row_names = TRUE, header = TRUE, height = 300, text = FALSE)), preset = "magic"))
     cat(plotter$prettify_div(plotter$barplot(list(id = "barplot2.txt", title = "Barplot with intensities", row_names = TRUE, header = TRUE, text = "dynamic", height = 300, colorScale = TRUE, config = list('graphOrientation' = 'vertical'))), preset = "magic"))
