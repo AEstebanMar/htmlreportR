@@ -18,30 +18,32 @@ file <- readLines(opt$input)
 
 for(line in seq(length(file))) {
 	if(grepl("```\\{r", file[line])) {
-		file[line] <- gsub("```\\{r", "<!--begin.rcode", file[line])
-		file[line] <- gsub("}", "", file[line])
+		test <- replace_paired_mark(string = file[line],
+																pattern = "(```\\{r)(.*)(\\})",
+																replace = c("<!--begin.rcode", ""))
 	} else if (grepl("```", file[line])) {
 		file[line] <- gsub("```", "end.rcode-->", file[line])
 	}
 	if(grepl("#", file[line])) {
-		text <- stringr::str_match(file[line], "(#+)([ \\w]+)")
-		expr <- regexec("#*", file[line])
-		level <- attributes(expr[[1]])$match.length
-		text <- gsub("#", "", file[line])
-		file[line] <- paste0("<h", level, ">", text, "</h", level, ">")
+		text <- stringr::str_match(file[line], "(#+)(.*)")
+		level <- nchar(text[2])
+		replace_1 <- paste0("<h", level, ">")
+		replace_2 <- paste0("</h", level, ">")
+		file[line] <- gsub(pattern = text[1], x = text,
+							  		   replacement = paste0(replace_1, text[1], replace_2))
 	}
 	file[line] <- replace_paired_mark(string = file[line],
-																		pattern = paste0("(.*)(\\*\\*\\*+?)([- \\w",
-																		"]+)(\\*\\*\\*+?)(.*)"),
+																		pattern = paste0("(\\*\\*\\*+?)([- \\w",
+																		"]+)(\\*\\*\\*+?)"),
 																	  replace = c("<strong><em>",
 																	  					  "</em></strong>"))
 	file[line] <- replace_paired_mark(string = file[line],
-																		pattern = paste0("(.*)(\\*\\*+?)([- \\w]+)",
-																	  "(\\*\\*+?)(.*)"),
+																		pattern = paste0("(\\*\\*+?)([- \\w]+)",
+																	  "(\\*\\*+?)"),
 																	  replace = c("<strong>", "</strong>"))
 	file[line] <- replace_paired_mark(string = file[line],
-																		pattern = paste0("(.*)(\\*+?)([- \\w]+)",
-																	  "(\\*\\*+?)(.*)"),
+																		pattern = paste0("(\\*+?)([- \\w]+)",
+																	  "(\\*\\*+?)"),
 																	  replace = c("<em>", "</em>"))
 }
 
