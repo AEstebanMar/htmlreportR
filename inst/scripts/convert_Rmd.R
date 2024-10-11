@@ -24,15 +24,25 @@ for(line in seq(length(file))) {
 		file[line] <- gsub("```", "end.rcode-->", file[line])
 	}
 	if(grepl("#", file[line])) {
+		text <- stringr::str_match(file[line], "(#+)([ \\w]+)")
 		expr <- regexec("#*", file[line])
 		level <- attributes(expr[[1]])$match.length
 		text <- gsub("#", "", file[line])
 		file[line] <- paste0("<h", level, ">", text, "</h", level, ">")
 	}
-	if(grepl("\\*\\*", file[line])) {
-		text <- gsub("\\*\\*", "", file[line])
-		file[line] <- paste0("<strong>", text, "</strong>")
-	}
+	file[line] <- replace_paired_mark(string = file[line],
+																		pattern = paste0("(.*)(\\*\\*\\*+?)([- \\w",
+																		"]+)(\\*\\*\\*+?)(.*)"),
+																	  replace = c("<strong><em>",
+																	  					  "</em></strong>"))
+	file[line] <- replace_paired_mark(string = file[line],
+																		pattern = paste0("(.*)(\\*\\*+?)([- \\w]+)",
+																	  "(\\*\\*+?)(.*)"),
+																	  replace = c("<strong>", "</strong>"))
+	file[line] <- replace_paired_mark(string = file[line],
+																		pattern = paste0("(.*)(\\*+?)([- \\w]+)",
+																	  "(\\*\\*+?)(.*)"),
+																	  replace = c("<em>", "</em>"))
 }
 
 writeLines(file, con = opt$output)
