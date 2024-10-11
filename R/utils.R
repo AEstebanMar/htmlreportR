@@ -48,3 +48,27 @@ update_options <- function(ref, sub){
         }
         ref
 }
+
+#' replace_paired_mark
+#'
+#' Recursively replaces paired marks in a string.
+#'
+#' @importFrom stringr str_match_all str_escape
+#' @param string String to edit
+#' @param pattern Pattern to recursively replace
+#' @param replace Vector containing, in that order, expression that will replace
+#' the first paired element and the second paired element
+#'
+#' @return String where all paired occurences of pattern have been replaced.
+#' @examples
+
+replace_paired_mark <- function(string, pattern, replace) {
+    text <- stringr::str_match_all(string, pattern)[[1]]
+    res <- vector(mode = "character", length = nrow(text))
+    for(i in seq(nrow(text))) {
+        new_text <- gsub(pattern = stringr::str_escape(text[i, 1]), x = text,
+                    replacement = paste0(replace[1], text[i, 3], replace[2]))
+        res[i] <- new_text[i]
+    }
+    return(paste(res, collapse = ""))
+}
