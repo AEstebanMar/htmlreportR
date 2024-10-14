@@ -9,23 +9,24 @@ test_that("Embed file works",{
 })
 
 test_that("Test replace_paired_mark, simple case", {
-	line <- "** This should be in bold **"
+	string <- "** This should be in bold **"
 	pattern <- "(\\*\\*+?)([- \\w]+)(\\*\\*+?)"
 	expected_text <- "<strong> This should be in bold </strong>"
-	output_text <- replace_paired_mark(line, pattern,
+	output_text <- replace_paired_mark(string, pattern,
 									   c("<strong>", "</strong>"))
 	expect_equal(output_text, expected_text)
 	})
 
 test_that("Test replace_paired_mark, worst case scenario", {
-	line <- paste0("### ***This is a worst-case scenario*** with some text in",
+	string <- paste0("### ***This is a worst-case scenario*** with some text in",
 				   " between ***And this another worst case scenario***")
-	expected_text <- paste0("<strong><em> This is a worst case scenario*** with",
-							" some text in between ***And this another",
-							" worst-case scenario</strong></em>")
+	expected_text <- paste0("### <strong><em>This is a worst-case scenario",
+							"</em></strong> with some text in between",
+							" <strong><em>And this another worst case",
+							" scenario</em></strong>")
 	pattern <- "(\\*\\*\\*+?)([- \\w]+)(\\*\\*\\*+?)"
 	replace <- c("<strong><em>", "</em></strong>")
-	output_text <- replace_paired_mark(line, pattern, replace)
+	output_text <- replace_paired_mark(string, pattern, replace)
 	expect_equal(output_text, expected_text)
 	})
 
