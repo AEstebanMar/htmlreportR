@@ -59,8 +59,7 @@ update_options <- function(ref, sub){
 #' @param replace Vector containing, in that order, expression that will replace
 #' the first paired element and the second paired element
 #'
-#' @return String where all paired occurences of pattern have been replaced.
-#' @examples
+#' @return Modified string.
 
 replace_paired_mark <- function(string, pattern, replace) {
     text <- stringr::str_match_all(string, pattern)[[1]]
