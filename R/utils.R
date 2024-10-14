@@ -63,11 +63,9 @@ update_options <- function(ref, sub){
 
 replace_paired_mark <- function(string, pattern, replace) {
     text <- stringr::str_match_all(string, pattern)[[1]]
-    res <- vector(mode = "character", length = nrow(text))
     for(i in seq(nrow(text))) {
-        new_text <- gsub(pattern = stringr::str_escape(text[i, 1]), x = text,
+        string <- gsub(pattern = stringr::str_escape(text[i, 1]), x = string,
                     replacement = paste0(replace[1], text[i, 3], replace[2]))
-        res[i] <- new_text[i]
     }
-    return(paste(res, collapse = ""))
+    return(string)
 }
