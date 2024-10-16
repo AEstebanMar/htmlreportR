@@ -111,12 +111,19 @@ htmlReport$methods(static_plot_main = function(id,
 	if(is.null(plotting_function)) {
 		return(data_frame)
 	}else if (plot_type == "autoplot") {
-		aux_func <- function(data_frame){eval(parse(text = paste(deparse(plotting_function), collapse ="\n")))}
+		# This next line allows the "data_frame" object to exist inside
+		# the scope of the evaluated function, and plot_obj to be a function
+		# instead of the result of calling the plotting function.
+		aux_func <- function(data_frame){
+			eval(parse(text = paste(deparse(plotting_function),
+					   collapse ="\n")))}
 		plot_obj <- aux_func(data_frame)
 	}else {
 		plot_obj <- plotting_function(data_frame)
 	}
-	get_plot(plot_obj, width = width, height = height, size_unit = size_unit, img_properties = img_properties, resizable = resizable, plot_type = plot_type)
+	get_plot(plot_obj, width = width, height = height, size_unit = size_unit,
+			 img_properties = img_properties, resizable = resizable,
+			 plot_type = plot_type)
 })
 
 
@@ -309,12 +316,13 @@ htmlReport$methods(add_dynamic_js = function(){
 NULL
 htmlReport$methods(build_body = function(body_text) {
 	concat("<body>\n")
-	if (index_type == "menu") {
-		add_index_item("top_skip", "Main", min(as.numeric(index_items[,3])), top = TRUE)
-		concat("<div id = 'top_skip'></div>")
+	if (length(index_items) > 0){
+		if (index_type == "menu") {
+			add_index_item("top_skip", "Main", min(as.numeric(index_items[,3])), top = TRUE)
+			concat("<div id = 'top_skip'></div>")
+		}
+		create_header_index()
 	}
-	
-	if (length(index_items) > 0) create_header_index()
 	concat(body_text)
 	concat("</body>\n")
 
@@ -403,7 +411,9 @@ htmlReport$methods(
 #' @importFrom knitr opts_current
 #' @importFrom grDevices png dev.off
 NULL
-htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL, size_unit = NULL, img_properties = "", resizable = FALSE, plot_type = "plot") {
+htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL,
+				   size_unit = NULL, img_properties = "", resizable = FALSE,
+				   plot_type = "plot") {
 	if (is.character(plot_obj)) return(plot_obj)
 	if (is.null(width)) width <- knitr::opts_current$get("fig.width")
 	if (is.null(height)) height <- knitr::opts_current$get("fig.height")
@@ -433,7 +443,8 @@ htmlReport$methods(
 		enc_img <- embed_file(file_img)
 	if (resizable) {
 		img_properties <- paste0(img_properties, " class='fitting_img' ")
-		make_resizable(paste0("\n<img ",  img_properties ," src=", enc_img, " />"))	
+		make_resizable(paste0("\n<img ",  img_properties ," src=", enc_img,
+							  " />"))	
 	} else {
 		paste0("\n<img ",  img_properties ," src=", enc_img, " />")
 	
