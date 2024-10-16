@@ -30,4 +30,12 @@ test_that("Test replace_paired_mark, worst case scenario", {
 	expect_equal(output_text, expected_text)
 	})
 
+test_that("replace_paired_mark does not get confused by escaped newlines", {
+	string <- paste0("\\n\\n### **Some bold text**\\n\\n")
+	expected_text <- paste0("\\n\\n<h3> <strong>Some bold text</strong></h3>\\n\\n")
+	pattern <- "(#+)(.*)"
+	output_text <- replace_paired_mark(string, pattern,
+									   c("<strong>", "</strong>"))
+	expect_equal(output_text, expected_text)
+	})
 
