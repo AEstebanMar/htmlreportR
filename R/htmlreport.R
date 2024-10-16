@@ -1115,7 +1115,8 @@ htmlReport$methods(
 	 cvX$config[['xAxis']] <- ifelse(is.null(options$xAxis), cvX$samples()[1],
 	 														 options$xAxis)
 	 if (is.null(options$yAxis)) {
-	 	cvX$config[['yAxis']] <- cvX$samples()[-1]
+	 	smps <- cvX$samples()
+	 	cvX$config[['yAxis']] <- smps[smps != options$xAxis]
 	 } else {
 	 	cvX$config[['yAxis']] <- options$yAxis
 	 }
@@ -1174,6 +1175,10 @@ htmlReport$methods(
 	line = function(opt) {
 	config_chart <- function(cvX, options) {
 		cvX$config[['graphType']] <- 'Line'
+		if(length(options$smp_attr > 0)) {
+			options$extracode <- paste0("C", cvX$object_id, ".groupSamples([\\\"",
+										options$xAxis, "\\\"]);")
+		}
 	}
 	default_options <- list('row_names' = TRUE,
 							'config_chart' = config_chart)
