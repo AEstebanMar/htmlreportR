@@ -62,10 +62,13 @@ update_options <- function(ref, sub){
 #' @return Modified string.
 
 replace_paired_mark <- function(string, pattern, replace) {
+    if(grepl(pattern, string, perl = TRUE)) {
     text <- stringr::str_match_all(string, pattern)[[1]]
-    for(i in seq(nrow(text))) {
-        string <- gsub(pattern = stringr::str_escape(text[i, 1]), x = string,
-                    replacement = paste0(replace[1], text[i, 3], replace[2]))
+        for(i in seq(nrow(text))) {
+            string <- gsub(pattern = stringr::str_escape(text[i, 1]),
+                           x = string, replacement = paste0(replace[1],
+                                                        text[i, 3], replace[2]))
+        }   
     }
     return(string)
 }
