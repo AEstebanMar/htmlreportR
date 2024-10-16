@@ -26,7 +26,6 @@ htmlReport <- setRefClass("htmlReport",
       initialize = function(container = list(), title_doc = "", type_index = "contents_list",tmp_folder = tempdir(check = TRUE), src = find.package('htmlreportR'), compress_obj = TRUE, files_css = NULL, files_js = NULL,cdn_js = NULL, cdn_css = NULL ){
           hash_vars <<- container
           title <<- title_doc
-          tmp_dir <<- tmp_folder
           all_report <<- ""
           js_cdn <<- ""
           css_cdn <<- ""
@@ -41,12 +40,14 @@ htmlReport <- setRefClass("htmlReport",
 
 
           compress <<- compress_obj
-          features <<- list('mermaid' = FALSE, 'dt_tables' = FALSE, 'pdfHtml5' = FALSE, 'canvasXpress' = FALSE, 'pako' = FALSE,
-            'cytoscape'= FALSE, 'pyvis' = FALSE, 'elgrapho' = FALSE, 'sigma' = FALSE)
-
-          if(!file.exists(tmp_folder))
+          features <<- list('mermaid' = FALSE, 'dt_tables' = FALSE,
+                            'pdfHtml5' = FALSE, 'canvasXpress' = FALSE,
+                            'pako' = FALSE, 'cytoscape'= FALSE, 'pyvis' = FALSE,
+                            'elgrapho' = FALSE, 'sigma' = FALSE)
+          if(!file.exists(tmp_folder)) {
             dir.create(tmp_folder)
-
+          }
+          tmp_dir <<- normalizePath(tmp_folder)
 
       }
     ) #end methods
