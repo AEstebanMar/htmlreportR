@@ -228,6 +228,7 @@ end.rcode-->
     }
     cat(plotter$prettify_div(plotter$line(list(id = "barplot1.txt", title = "plain line plot", header = TRUE, text = FALSE)), preset = "magic"))
     cat(plotter$prettify_div(plotter$line(list(id = "barplot1.txt", title = "modified line plot", header = TRUE, text = FALSE, func = mod_data, config = list('graphOrientation' = 'vertical'))), preset = "magic"))
+    cat(plotter$prettify_div(plotter$line(list(id = 'lineplot.txt', fields = 1:3, smp_attr = 1, header = TRUE, row_names = TRUE, text = 1, config = list(graphOrientation = "vertical"))), preset = "magic"))
 end.rcode-->
 
 <h2> You can edit the properties of divs with an interface function <h2>
