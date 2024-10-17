@@ -483,14 +483,9 @@ htmlReport$methods(get_data_for_plot = function(options) {
 NULL
 htmlReport$methods(get_data = function(options) {
 		data_frame <- hash_vars[[options$id]]
-		#add_header_row_names
 		data_frame <- add_header_row_names(data_frame, options)
-
-		#transpose
 		if (options$transpose) data_frame <- as.data.frame(t(data_frame))
-		#extract data
 		all_data <- extract_data(data_frame, options)
-		#modification function
 		if (!is.null(options$func)) 
 			all_data$data_frame <- options$func(all_data$data_frame)
 		return(all_data)				
@@ -508,27 +503,38 @@ htmlReport$methods(get_data = function(options) {
 #' @returns A list containing the retrieved data and additional information.
 #'
 NULL
-htmlReport$methods(extract_data = function(data_frame, 	options) {	
+htmlReport$methods(extract_data = function(data_frame, options) {	
 	smp_attr <- NULL #length(NULL) ==> 0
     var_attr <- NULL
-    
+
+    if (length(options$fields) > 0) {
+    	# Despite this being intended to work on columns, it works on rows.
+    	# Remember that data frames are transposed when passed to plotting
+    	# functions.
+    	if(0 %in% options$fields) {
+    		tmp_data_frame <- rbind(colnames(data_frame), data_frame)
+	    	colnames(tmp_data_frame) <- NULL
+	    	fields <- options$fields + 1
+	    	tmp_data_frame <- tmp_data_frame[fields, , drop = FALSE]
+	    	colnames(tmp_data_frame) <- tmp_data_frame[1, ]
+	    	data_frame <- tmp_data_frame[-1, ]
+	    	} else {
+	    		data_frame <- data_frame[options$fields, , drop = FALSE]
+	    	}
+    }
     if (length(options$var_attr) > 0){
     	var_attr <- data_frame[,options$var_attr, drop = FALSE]
     	data_frame <- data_frame[,-options$var_attr, drop = FALSE]
     } 
     if (length(options$smp_attr) > 0){
-    	smp_attr <- data_frame[options$smp_attr,, drop = FALSE]
-    	data_frame <- data_frame[-options$smp_attr,, drop = FALSE]
+    	smp_attr <- data_frame[options$smp_attr, , drop = FALSE]
+    	data_frame <- data_frame[-options$smp_attr, , drop = FALSE]
     }
-    
     if (length(options$smp_attr) > 0 && 
     		length(options$var_attr) > 0){
-    	var_attr <- var_attr[-options$smp_attr,,drop = FALSE]
+    	var_attr <- var_attr[-options$smp_attr, ,drop = FALSE]
     } 
-    if (length(options$fields > 0))
-    	data_frame <- data_frame[,options$fields, drop = FALSE]
 
-	
 	numeric_fields <- seq(1,ncol(data_frame))	
 
 	if (options$text == "dynamic") {
@@ -562,7 +568,7 @@ htmlReport$methods(extract_data = function(data_frame, 	options) {
 #' @returns The modified data frame with updated column and/or row names.
 #'
 NULL
-htmlReport$methods(add_header_row_names = function(data_frame, options) {	
+htmlReport$methods(add_header_row_names = function(data_frame, options) {
 		
 	if(!is.null(options$header))
 		if (options$header) {
@@ -1110,13 +1116,12 @@ htmlReport$methods(
 	scatter2D = function(opt) {
 	config_chart <- function(cvX, options){
 	 #   samples, variables, values, x, z = cvX$get_data_structure_vars()
-
      cvX$config[['graphType']] <- "Scatter2D"
 	 cvX$config[['xAxis']] <- ifelse(is.null(options$xAxis), cvX$samples()[1],
 	 														 options$xAxis)
 	 if (is.null(options$yAxis)) {
 	 	smps <- cvX$samples()
-	 	cvX$config[['yAxis']] <- smps[smps != options$xAxis]
+	 	cvX$config[['yAxis']] <- smps[smps != cvX$config$xAxis]
 	 } else {
 	 	cvX$config[['yAxis']] <- options$yAxis
 	 }
@@ -1175,10 +1180,6 @@ htmlReport$methods(
 	line = function(opt) {
 	config_chart <- function(cvX, options) {
 		cvX$config[['graphType']] <- 'Line'
-		if(length(options$smp_attr > 0)) {
-			options$extracode <- paste0("C", cvX$object_id, ".groupSamples([\\\"",
-										options$xAxis, "\\\"]);")
-		}
 	}
 	default_options <- list('row_names' = TRUE,
 							'config_chart' = config_chart)
