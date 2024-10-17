@@ -1,0 +1,5 @@
+tissue	Factor	liver	brain	lung	geneName
+gen1	A	20	13	60	BRCA1
+gen2	B	40	60	90	TAOC1
+gen3	C	100	85	10	BMP1
+gen4	D	1	85	10	MAGEL2
