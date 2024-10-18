@@ -31,33 +31,33 @@ test_that("extract_data properly handles a redundant \"fields\" argument", {
 	plotter <- htmlReport$new()
 	user_options <- list("header" = FALSE, "row_names" = FALSE, smp_attr = NULL,
 						  var_attr = NULL, text = "dynamic", fields = 1:4)
-	input_table <- data.frame("values" = 1:4,
+	input_df <- data.frame("values" = 1:4,
 							  "order" = c("First", "Second", "Third", "Fourth"))
-	rownames(input_table) <- toupper(letters[1:4])
-	output_table <- plotter$extract_data(input_table, user_options)$data_frame
-	expect_equal(output_table, input_table)
+	rownames(input_df) <- toupper(letters[1:4])
+	output_df <- plotter$extract_data(input_df, user_options)$data_frame
+	expect_equal(output_df, input_df)
 	})
 
 test_that("extract_data can handle a 0 in \"fields\" argument", {
 	plotter <- htmlReport$new()
 	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
 						  var_attr = NULL, text = "dynamic", fields = 0:2)
-	input_table <- data.frame(values = 1:4,
+	input_df <- data.frame(values = 1:4,
 							  order = c("First", "Second", "Third", "Fourth"))
-	rownames(input_table) <- toupper(letters[1:4])
-	output_table <- plotter$extract_data(input_table, user_options)$data_frame
-	expect_equal(output_table, input_table)
+	rownames(input_df) <- toupper(letters[1:4])
+	output_df <- plotter$extract_data(input_df, user_options)$data_frame
+	expect_equal(output_df, input_df[1:2, ])
 	})
 
 test_that("fields can reverse order of data frame in extract_data", {
 	plotter <- htmlReport$new()
 	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
 						  var_attr = NULL, text = "dynamic", fields = 4:1)
-	input_table <- data.frame(values = 1:4,
+	input_df <- data.frame(values = 1:4,
 							  order = c("First", "Second", "Third", "Fourth"))
-	rownames(input_table) <- toupper(letters[1:4])
-	output_table <- plotter$extract_data(input_table, user_options)$data_frame
-	expect_equal(output_table, input_table[4:1, ])
+	rownames(input_df) <- toupper(letters[1:4])
+	output_df <- plotter$extract_data(input_df, user_options)$data_frame
+	expect_equal(output_df, input_df[4:1, ])
 	})
 
 test_that("Complex case of extract_data with \"fields\" argument", {
@@ -65,22 +65,49 @@ test_that("Complex case of extract_data with \"fields\" argument", {
 	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
 						  var_attr = NULL, text = "dynamic", fields = c(1, 0,
 						  2:4))
-	input_table <- data.frame(values = c("connective", 1:3),
+	input_df <- data.frame(values = c("connective", 1:3),
 							  order = c("muscle", "First", "Second", "Third"))
-	rownames(input_table) <- c("tissue", toupper(letters[1:3]))
-	output_table <- plotter$extract_data(input_table, user_options)$data_frame
-	expect_equal(output_table, input_table[4:1, ])
+	rownames(input_df) <- c("tissue", toupper(letters[1:3]))
+	output_df <- plotter$extract_data(input_df, user_options)$data_frame
+	expected_df <- rbind(c("values", "order"), input_df[2:4, ])
+	colnames(expected_df) <- c("connective", "muscle")
+	expect_equal(output_df, expected_df)
 	})
 
 test_that("extract_data \"fields\" argument works with var_attr", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = 2,
-						  var_attr = NULL, text = "dynamic", fields = 3)
-	input_table <- data.frame(values = 1:5, order = c("First", "Second",
+	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
+						  var_attr = 1, text = "dynamic", fields = 2)
+	input_df <- data.frame(values = 1:5, order = c("First", "Second",
 						      "Third", "Fourth", "Fifth"))
-	rownames(input_table) <- toupper(letters[1:5])
-	output_table <- plotter$extract_data(input_table, user_options)$data_frame
-	expect_equal(output_table, input_table)
+	rownames(input_df) <- toupper(letters[1:5])
+	output <- plotter$extract_data(input_df, user_options)
+	expected_df <- input_df[2, 2, drop = FALSE]
+	expected_vars <- input_df[2, 1, drop = FALSE]
+	expect_equal(output$data_frame, expected_df)
+	expect_equal(output$var_attr, expected_vars)
+	})
+
+test_that("extract_data \"fields\" argument works with smp_attr", {
+	plotter <- htmlReport$new()
+	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = 1,
+						 var_attr = NULL, text = "dynamic", fields = 2)
+	input_df <- data.frame(values = 1:5, order = c("First", "Second",
+						      "Third", "Fourth", "Fifth"))
+	rownames(input_df) <- toupper(letters[1:5])
+	output_df <- plotter$extract_data(input_df, user_options)$data_frame
+	expect_equal(output_df, input_df)
+	})
+
+test_that("extract_data \"fields\" argument works with var_attr and smp_attr", {
+	plotter <- htmlReport$new()
+	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = 1,
+						  var_attr = 1, text = "dynamic", fields = 2)
+	input_df <- data.frame(values = 1:5, order = c("First", "Second",
+						      "Third", "Fourth", "Fifth"))
+	rownames(input_df) <- toupper(letters[1:5])
+	output_df <- plotter$extract_data(input_df, user_options)$data_frame
+	expect_equal(output_df, input_df)
 	})
 
 
