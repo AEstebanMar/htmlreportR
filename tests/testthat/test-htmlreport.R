@@ -27,12 +27,26 @@ test_that("testing header and rownames addition", {
 	    expect_equal(frmt_header_row_names_exp, formatted_table_header_row_names)
 })
 
+test_that("remake_df simple case", {
+	plotter <- htmlReport$new()
+	input_df <- data.frame("values" = 1:4, "order" = c("First", "Second",
+						   "Third", "Fourth"))
+	fields <- 4:0
+	rows <- 2:0
+	output_df <- plotter$remake_df(data_frame = input_df, fields = fields,
+								rows = rows)
+	expected_df <- data.frame(c(3:1, "values"), as.character(4:1))
+	colnames(expected_df) <- c(4, "rownames(data_frame)")
+	rownames(expected_df) <- c("Third", "Second", "First", "order")
+	expect_equal(output_df, expected_df)
+	})
+
 test_that("extract_data properly handles a redundant \"fields\" argument", {
 	plotter <- htmlReport$new()
 	user_options <- list("header" = FALSE, "row_names" = FALSE, smp_attr = NULL,
 						  var_attr = NULL, text = "dynamic", fields = 1:4)
-	input_df <- data.frame("values" = 1:4,
-							  "order" = c("First", "Second", "Third", "Fourth"))
+	input_df <- data.frame("values" = 1:4, "order" = c("First", "Second",
+						   "Third", "Fourth"))
 	rownames(input_df) <- toupper(letters[1:4])
 	output_df <- plotter$extract_data(input_df, user_options)$data_frame
 	expect_equal(output_df, input_df)
@@ -86,6 +100,7 @@ test_that("extract_data \"fields\" argument works with var_attr", {
 	expected_vars <- input_df[2, 1, drop = FALSE]
 	expect_equal(output$data_frame, expected_df)
 	expect_equal(output$var_attr, expected_vars)
+	expect_null(output$smp_attr)
 	})
 
 test_that("extract_data \"fields\" argument works with smp_attr", {
@@ -95,19 +110,45 @@ test_that("extract_data \"fields\" argument works with smp_attr", {
 	input_df <- data.frame(values = 1:5, order = c("First", "Second",
 						      "Third", "Fourth", "Fifth"))
 	rownames(input_df) <- toupper(letters[1:5])
-	output_df <- plotter$extract_data(input_df, user_options)$data_frame
-	expect_equal(output_df, input_df)
+	output <- plotter$extract_data(input_df, user_options)
+	expected_df <- input_df[2, , drop = FALSE]
+	expected_smps <- input_df[1, ]
+	expect_equal(output$data_frame, expected_df)
+	expect_equal(output$smp_attr, expected_smps)
+	expect_null(output$var_attr)
 	})
 
 test_that("extract_data \"fields\" argument works with var_attr and smp_attr", {
 	plotter <- htmlReport$new()
 	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = 1,
-						  var_attr = 1, text = "dynamic", fields = 2)
-	input_df <- data.frame(values = 1:5, order = c("First", "Second",
-						      "Third", "Fourth", "Fifth"))
+						 var_attr = 3, text = "dynamic", fields = 2)
+	input_df <- data.frame(values = 1:5, alph = letters[1:5], order = c("First",
+		    	   	   	   "Second", "Third", "Fourth", "Fifth"))
 	rownames(input_df) <- toupper(letters[1:5])
-	output_df <- plotter$extract_data(input_df, user_options)$data_frame
-	expect_equal(output_df, input_df)
+	output <- plotter$extract_data(input_df, user_options)
+	expected_df <- input_df[2, -3]
+	expected_vars <- input_df[2, 3, drop = FALSE]
+	expected_smps <- input_df[1, -3]
+	expect_equal(output$data_frame, expected_df)
+	expect_equal(output$var_attr, expected_vars)
+	expect_equal(output$smp_attr, expected_smps)
+	})
+
+test_that("extract_data works with var_attr and smp_attr with no \"fields\"
+		   argument", {
+	plotter <- htmlReport$new()
+	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = 1,
+						 var_attr = 3, text = "dynamic")
+	input_df <- data.frame(values = 1:5, alph = letters[1:5], order = c("First",
+		    	   	   	   "Second", "Third", "Fourth", "Fifth"))
+	rownames(input_df) <- toupper(letters[1:5])
+	output <- plotter$extract_data(input_df, user_options)
+	expected_df <- input_df[-1, -3]
+	expected_vars <- input_df[-1, 3, drop = FALSE]
+	expected_smps <- input_df[1, -3]
+	expect_equal(output$data_frame, expected_df)
+	expect_equal(output$var_attr, expected_vars)
+	expect_equal(output$smp_attr, expected_smps)
 	})
 
 
