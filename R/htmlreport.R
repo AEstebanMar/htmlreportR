@@ -366,7 +366,7 @@ htmlReport$methods(add_index_item = function(id, text, hlevel, top = FALSE){
 	} else if (!top){
 		index_items <<- rbind(index_items, c(id, text, hlevel))
 	} else if (top) {
-		index_items <<-rbind(c(id, text, hlevel), index_items)
+		index_items <<- rbind(c(id, text, hlevel), index_items)
 	}
 })
 
@@ -483,13 +483,37 @@ htmlReport$methods(get_data_for_plot = function(options) {
 NULL
 htmlReport$methods(get_data = function(options) {
 	data_frame <- hash_vars[[options$id]]
-	data_frame <- rbind(colnames(data_frame), data_frame)
-	data_frame <- cbind(rownames(data_frame), data_frame)
-	colnames(data_frame) <- paste0("var", seq(ncol(data_frame)))
-	rownames(data_frame) <- paste0("sample", seq(nrow(data_frame)))
-	if(options$transpose) data_frame <- as.data.frame(t(data_frame))
+	if(!is.null(options$header)){
+		colnames(data_frame) <- paste0("var", seq(ncol(data_frame)))
+	}
+	if(!is.null(options$row_names)) {
+		rownames(data_frame) <- paste0("sample", seq(nrow(data_frame)))
+	}
+	if(options$transpose) {
+		data_frame <- as.data.frame(t(data_frame))
+	}
 	all_data <- extract_data(data_frame, options)
-	data_frame <- add_header_row_names(data_frame, options)
+	all_data$data_frame <- add_header_row_names(all_data$data_frame,
+													    options)
+	if(!is.null(all_data$smp_attr)) {
+		all_data$smp_attr <- add_header_row_names(all_data$smp_attr,
+								  options = list(row_names = options$row_names))
+		colnames(all_data$smp_attr) <- colnames(all_data$data_frame)
+	}
+	if(!is.null(all_data$var_attr)) {
+		all_data$var_attr <- add_header_row_names(all_data$var_attr,
+								  		options = list(header = options$header))
+		rownames(all_data$var_attr) <- rownames(all_data$data_frame)
+	}
+	if(options$text == "dynamic") {
+		numeric_fields <- check_numeric_fields(all_data$data_frame)
+	} else if(options$text == FALSE){
+		numeric_fields <- seq(ncol(all_data$data_frame))
+	} else {
+		numeric_fields <- c()
+	}
+	all_data$data_frame[,numeric_fields] <- as.data.frame(lapply(
+				all_data$data_frame[,numeric_fields, drop = FALSE], as.numeric))
 	if(!is.null(options$func)) 
 		all_data$data_frame <- options$func(all_data$data_frame)
 	return(all_data)				
@@ -548,16 +572,6 @@ htmlReport$methods(extract_data = function(data_frame, options) {
 		rows <- rownames(data_frame) %in% rownames(smp_attr)
 	    data_frame <- data_frame[!rows, , drop = FALSE]
 	}
-	numeric_fields <- seq(ncol(data_frame))	
-	if (options$text == "dynamic") {
-		numeric_fields <- check_numeric_fields(data_frame)
-	} else if (options$text == FALSE){
-		numeric_fields <- seq(ncol(data_frame))
-	} else {
-		numeric_fields <- c()
-	}
-	data_frame[,numeric_fields] <- as.data.frame(lapply(
-				data_frame[,numeric_fields, drop = FALSE], as.numeric))
 	return(list(data_frame = data_frame, smp_attr = smp_attr,
 			    var_attr = var_attr))
 })
@@ -578,15 +592,15 @@ htmlReport$methods(extract_data = function(data_frame, options) {
 NULL
 htmlReport$methods(add_header_row_names = function(data_frame, options) {
 	if(!is.null(options$header)) {
-		if (options$header) {
-			colnames(data_frame) <- data_frame[1,]
-			data_frame <- data_frame[-1,]
+		if(options$header) {
+			colnames(data_frame) <- data_frame[1, ]
+			data_frame <- data_frame[-1, , drop = FALSE]
 		}
 	}
 	if(!is.null(options$row_names)) {
-		if (options$row_names) {
-			rownames(data_frame) <- data_frame[,1]
-			data_frame <- data_frame[,-1, drop = FALSE]
+		if(options$row_names) {
+			rownames(data_frame) <- data_frame[, 1]
+			data_frame <- data_frame[, -1, drop = FALSE]
 		}
 	}
 		
