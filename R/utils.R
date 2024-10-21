@@ -32,7 +32,9 @@ split_str <- function(string, split = NULL) {
 
 #' @noRd
 check_numeric_fields <- function(table_data){
-    n_columns <- grepl("^-?\\d*\\.?\\d+$", table_data[1, ])
+    n_columns <- unlist(lapply(table_data,
+                 function(vector) all(grepl("^-?\\d*\\.?\\d+$", vector))))
+    names(n_columns) <- NULL
     return(n_columns)   
 } 
 
