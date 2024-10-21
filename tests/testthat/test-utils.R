@@ -29,3 +29,9 @@ test_that("Test replace_paired_mark, worst case scenario", {
 	output_text <- replace_paired_mark(string, pattern, replace)
 	expect_equal(output_text, expected_text)
 	})
+
+test_that("Check_numeric_fields simple case"), {
+	input_df <- data.frame(1:4, letters[1:4], toupper(letters[1:4]))
+	output <- check_numeric_fields(input_df)
+	expect_equal(output, c(TRUE, FALSE, FALSE))
+}
