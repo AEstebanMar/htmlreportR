@@ -30,8 +30,15 @@ test_that("Test replace_paired_mark, worst case scenario", {
 	expect_equal(output_text, expected_text)
 	})
 
-test_that("Check_numeric_fields simple case"), {
+test_that("Check_numeric_fields simple case", {
 	input_df <- data.frame(1:4, letters[1:4], toupper(letters[1:4]))
 	output <- check_numeric_fields(input_df)
 	expect_equal(output, c(TRUE, FALSE, FALSE))
-}
+})
+
+test_that("Check_numeric_fields with mixed vectors", {
+	input_df <- data.frame(letters[1:4], toupper(letters[1:4]), 1:4)
+	input_df[1, ] <- 1:3
+	output <- check_numeric_fields(input_df)
+	expect_equal(output, c(FALSE, FALSE, TRUE))
+})
