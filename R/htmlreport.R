@@ -482,13 +482,17 @@ htmlReport$methods(get_data_for_plot = function(options) {
 #'
 NULL
 htmlReport$methods(get_data = function(options) {
-		data_frame <- hash_vars[[options$id]]
-		data_frame <- add_header_row_names(data_frame, options)
-		if (options$transpose) data_frame <- as.data.frame(t(data_frame))
-		all_data <- extract_data(data_frame, options)
-		if (!is.null(options$func)) 
-			all_data$data_frame <- options$func(all_data$data_frame)
-		return(all_data)				
+	data_frame <- hash_vars[[options$id]]
+	data_frame <- rbind(colnames(data_frame), data_frame)
+	data_frame <- cbind(rownames(data_frame), data_frame)
+	colnames(data_frame) <- paste0("var", seq(ncol(data_frame)))
+	rownames(data_frame) <- paste0("sample", seq(nrow(data_frame)))
+	if(options$transpose) data_frame <- as.data.frame(t(data_frame))
+	all_data <- extract_data(data_frame, options)
+	data_frame <- add_header_row_names(data_frame, options)
+	if(!is.null(options$func)) 
+		all_data$data_frame <- options$func(all_data$data_frame)
+	return(all_data)				
 })
 
 
@@ -520,49 +524,35 @@ htmlReport$methods(extract_data = function(data_frame, options) {
     	# Despite this being intended to work on columns, it works on rows.
     	# Remember that data frames are transposed when passed to plotting
     	# functions.
-    	if(0 %in% options$fields) {
-    		data_frame <- remake_df(data_frame, fields = options$fields)
-    		if(length(options$var_attr) > 0) {
-	    		var_attr <- remake_df(var_attr, fields = options$fields)
-	    	}
-	    }else{
-	    	data_frame <- data_frame[options$fields, , drop = FALSE]
-	    }
+	    data_frame <- data_frame[options$fields, , drop = FALSE]
 	    if(length(options$var_attr) > 0) {
 	    	rows <- rownames(var_attr) %in% rownames(data_frame)
 	    	var_attr <- var_attr[rows, , drop = FALSE]
+	    }
+	}
+	if(length(options$rows) > 0) {
+    	# Despite this being intended to work on columns, it works on rows.
+    	# Remember that data frames are transposed when passed to plotting
+    	# functions.
+	    data_frame <- data_frame[, options$rows, drop = FALSE]
+	    if(length(options$smp_attr) > 0) {
+	    	cols <- colnames(smp_attr) %in% colnames(data_frame)
+	    	smp_attr <- smp_attr[, cols, drop = FALSE]
 	    }
 	}
 	if(length(options$var_attr) > 0){
 		cols <- colnames(data_frame) %in% colnames(var_attr)
 	    data_frame <- data_frame[, !cols, drop = FALSE]
 	}
-	if(length(options$rows) > 0) {
-    	# Despite this being intended to work on columns, it works on rows.
-    	# Remember that data frames are transposed when passed to plotting
-    	# functions.
-    	if(0 %in% options$rows) {
-    		data_frame <- remake_df(data_frame, rows = options$rows)
-    		if(length(options$smp_attr) > 0) {
-	    		smp_attr <- remake_df(smp_attr, rows = options$rows)
-	    	}
-	    }else{
-	    	data_frame <- data_frame[, options$rows, drop = FALSE]
-	    }
-	    if(length(options$smp_attr) > 0) {
-	    	cols <- colnames(smp_attr) %in% colnames(data_frame)
-	    	smp_attr <- smp_attr[, cols, drop = FALSE]
-	    }
-	}
 	if(length(options$smp_attr) > 0){
 		rows <- rownames(data_frame) %in% rownames(smp_attr)
 	    data_frame <- data_frame[!rows, , drop = FALSE]
 	}
-	numeric_fields <- seq(1,ncol(data_frame))	
+	numeric_fields <- seq(ncol(data_frame))	
 	if (options$text == "dynamic") {
 		numeric_fields <- check_numeric_fields(data_frame)
 	} else if (options$text == FALSE){
-		numeric_fields <- seq(1,ncol(data_frame))	
+		numeric_fields <- seq(ncol(data_frame))
 	} else {
 		numeric_fields <- c()
 	}
@@ -571,44 +561,6 @@ htmlReport$methods(extract_data = function(data_frame, options) {
 	return(list(data_frame = data_frame, smp_attr = smp_attr,
 			    var_attr = var_attr))
 })
-
-#' Reorder data frame items including row and column names
-#'
-#' @name remake_df
-#' @title Remake a data frame, switching column and/or row names.
-#' @description This method allows you to reorder columns and rows in a data
-#' frame, accessing their names with index 0. "Columns" and "rows" do not
-#' literally match argument names, as this is intended to work on the pre-
-#' transposed data frame.
-#' 
-#' @param data_frame Data frame to modify.
-#' @param fields Order in which new rows will be sorted.
-#' @param rows Order in which new columns will be sorted.
-#' 
-#' @returns A list containing the retrieved data and additional information.
-#'
-
-htmlReport$methods(remake_df = function(data_frame, fields = NULL,
-										rows = NULL) {
-	if(!is.null(fields)) {
-		tmp_data_frame <- rbind(colnames(data_frame), data_frame)
-		colnames(tmp_data_frame) <- NULL
-		fields <- fields + 1
-		tmp_data_frame <- tmp_data_frame[fields, , drop = FALSE]
-		colnames(tmp_data_frame) <- tmp_data_frame[1, ]
-		data_frame <- tmp_data_frame[-1, ]
-	}
-	if(!is.null(rows)) {
-		tmp_data_frame <- cbind(rownames(data_frame), data_frame)
-		rownames(tmp_data_frame) <- NULL
-		rows <- rows + 1
-		tmp_data_frame <- tmp_data_frame[, rows, drop = FALSE]
-		rownames(tmp_data_frame) <- tmp_data_frame[, 1]
-		data_frame <- tmp_data_frame[, -1]
-	}
-	return(data_frame)
-})
-
 
 #' Add Header and Row Names to Data Frame for HTML Report table
 #'
@@ -625,26 +577,20 @@ htmlReport$methods(remake_df = function(data_frame, fields = NULL,
 #'
 NULL
 htmlReport$methods(add_header_row_names = function(data_frame, options) {
-		
-	if(!is.null(options$header))
+	if(!is.null(options$header)) {
 		if (options$header) {
 			colnames(data_frame) <- data_frame[1,]
 			data_frame <- data_frame[-1,]
-		} 
-	if(!is.null(options$row_names))
+		}
+	}
+	if(!is.null(options$row_names)) {
 		if (options$row_names) {
 			rownames(data_frame) <- data_frame[,1]
 			data_frame <- data_frame[,-1, drop = FALSE]
 		}
-
-	if(!is.null(options$header))
-		if (!options$header)
-			colnames(data_frame) <- paste0("var", seq(1, ncol(data_frame)))
-	if(!is.null(options$row_names))
-		if (!options$row_names)
-			rownames(data_frame) <- paste0("sample", seq(1, nrow(data_frame)))
-
-		return(data_frame)	
+	}
+		
+	return(data_frame)	
 })
 
 
