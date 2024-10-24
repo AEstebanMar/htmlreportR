@@ -1,17 +1,13 @@
 
-
-
 canvasXpress_obj$methods(run_config_chart = function(config_chart, options){
 					config_chart(.self, options)
 })
 
-
-
 canvasXpress_obj$methods(
 	inject_attributes = function(options, slot){
       	attributes <- list()
-        attributes_options <- list("x" = "inject_var_attr",
-                                   "z" = "inject_smp_attr")
+        attributes_options <- list("x" = "inject_smp_attr",
+                                   "z" = "inject_var_attr")
         chosen_option <- options[[attributes_options[[slot]]]]
         if (!is.null(chosen_option)){
             data_structure[[slot]] <<- update_options(data_structure[[slot]],
@@ -31,14 +27,12 @@ canvasXpress_obj$methods(
         return(hash_attr)
 })
 
-
 canvasXpress_obj$methods(
 	initialize_extracode = function(options){
 		extracode <<- ""
 		if (!is.null(options$extracode))
         	add_ext_code(extcode)
 })
-
 
 canvasXpress_obj$methods(
 	segregate_data = function(obj_id, segregate){
@@ -59,9 +53,6 @@ canvasXpress_obj$methods(
 	add_ext_code = function(ext_code){
 		extracode <<- paste0(extracode, ext_code, "\n")
 	})
-
-
-
 
 #################### DATA_STRUCTURE ACCESSORS
     # data_structure <<- list(
@@ -102,6 +93,7 @@ canvasXpress_obj$methods(
         } 
         invisible(return(NULL))
 })
+
 canvasXpress_obj$methods(
     x = function (content = NULL) {
         if (is.null(content)) {
