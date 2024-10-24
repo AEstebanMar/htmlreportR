@@ -13,7 +13,9 @@ canvasXpress_obj <- setRefClass("canvasXpress",
       config = "list"
       ),
     methods = list(
-      initialize = function(obj_id = "", vars =NULL, smps = NULL, vals = data.frame(), smp_att = NULL, var_att = NULL, opt = list(), conf = list()){
+      initialize = function(obj_id = "", vars =NULL, smps = NULL,
+                            vals = data.frame(), smp_att = NULL, var_att = NULL,
+                            opt = list(), conf = list()){
         options <<- opt
         data_structure <<- list(
                     'y' = list( 
@@ -27,12 +29,20 @@ canvasXpress_obj <- setRefClass("canvasXpress",
         if (!is.null(vars)) variables(vars)
         if (!is.null(smps)) samples(smps)
         values(vals)
-        object_id <<- obj_id 
-        if (!is.null(var_att)) z(as.list(var_att))
-        if (!is.null(smp_att)) x(as.list(as.data.frame(t(smp_att))))
-        if (!is.null(options$after_render)) afterRender <<- options$after_render
-        events <<- FALSE #Possible future use for events for CanvasXpress, currently not used
-        info <<- FALSE #Possible future use for events for CanvasXpress, currently not used
+        object_id <<- obj_id
+        if(!is.null(smp_att)){
+            z(add_canvas_attributes(smp_att))
+        }
+        if(!is.null(var_att)){
+            x(add_canvas_attributes(var_att))
+        }
+        if(!is.null(options$after_render)){
+            afterRender <<- options$after_render
+        }
+        #Possible future use for events for CanvasXpress, currently not used
+        events <<- FALSE
+        #Possible future use for events for CanvasXpress, currently not used
+        info <<- FALSE 
         config <<- conf
 
         initialize_extracode(options)
