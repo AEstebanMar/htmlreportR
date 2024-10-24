@@ -10,13 +10,26 @@ canvasXpress_obj$methods(run_config_chart = function(config_chart, options){
 canvasXpress_obj$methods(
 	inject_attributes = function(options, slot){
       	attributes <- list()
-        attributes_options <- list("x" = "inject_smp_attr", "z" = "inject_var_attr")
-        chosed_option <- options[[attributes_options[[slot]]]]
-        if (!is.null(chosed_option)){
-            data_structure[[slot]] <<- update_options(data_structure[[slot]], chosed_option)
+        attributes_options <- list("x" = "inject_var_attr",
+                                   "z" = "inject_smp_attr")
+        chosen_option <- options[[attributes_options[[slot]]]]
+        if (!is.null(chosen_option)){
+            data_structure[[slot]] <<- update_options(data_structure[[slot]],
+                                                      chosen_option)
         }
+})
 
- })
+canvasXpress_obj$methods(
+    add_canvas_attributes = function(attr2add){
+        hash_attr <- vector(mode = "list", length = length(attr2add))
+        for(i in seq(length(attr2add))) {
+            attrs <- attr2add[[i]]
+            attr_name <- attrs[1]
+            hash_attr[[i]] <- attrs[-1]
+            names(hash_attr)[i] <- attr_name
+        }
+        return(hash_attr)
+})
 
 
 canvasXpress_obj$methods(
@@ -28,7 +41,7 @@ canvasXpress_obj$methods(
 
 
 canvasXpress_obj$methods(
- 		segregate_data = function(obj_id, segregate){
+	segregate_data = function(obj_id, segregate){
         string  <- ""
         for (data_type in names(segregate)) {
         	data_names <- segregate[[data_type]]
