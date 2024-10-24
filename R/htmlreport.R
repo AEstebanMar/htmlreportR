@@ -465,9 +465,8 @@ htmlReport$methods(
 NULL
 htmlReport$methods(get_data_for_plot = function(options) {
 		all_data <- get_data(options)
-		all_data <- c(all_data,
-					 list(samples = colnames(all_data$data_frame),
-						  variables = rownames(all_data$data_frame)))
+		all_data <- c(all_data, list(samples = colnames(all_data$data_frame),
+						  			 variables = rownames(all_data$data_frame)))
 		return(all_data)
 })
 
@@ -489,21 +488,30 @@ htmlReport$methods(get_data = function(options) {
 	if(!is.null(options$row_names)) {
 		rownames(data_frame) <- paste0("sample", seq(nrow(data_frame)))
 	}
-	if(options$transpose) {
-		data_frame <- as.data.frame(t(data_frame))
-	}
 	all_data <- extract_data(data_frame, options)
 	all_data$data_frame <- add_header_row_names(all_data$data_frame,
-													    options)
+												options)
 	if(!is.null(all_data$smp_attr)) {
-		all_data$smp_attr <- add_header_row_names(all_data$smp_attr,
-								  options = list(row_names = options$row_names))
-		colnames(all_data$smp_attr) <- colnames(all_data$data_frame)
+		smp_attr <- add_header_row_names(all_data$smp_attr,
+										options = list(header = options$header))
+		all_data$smp_attr <- vector(mode = "list", length = ncol(smp_attr))
+		for(i in seq(ncol(smp_attr))) {
+			all_data$smp_attr[[i]] <- c(colnames(smp_attr)[i], smp_attr[, i])
+		}
 	}
 	if(!is.null(all_data$var_attr)) {
-		all_data$var_attr <- add_header_row_names(all_data$var_attr,
-								  		options = list(header = options$header))
-		rownames(all_data$var_attr) <- rownames(all_data$data_frame)
+		var_attr <- add_header_row_names(all_data$var_attr,
+								  options = list(row_names = options$row_names))
+		all_data$var_attr <- vector(mode = "list", length = nrow(var_attr))
+		for(i in seq(nrow(var_attr))) {
+			all_data$var_attr[[i]] <- c(rownames(var_attr)[i], var_attr[i, ])
+		}
+	}
+	if(options$transpose) {
+		all_data$data_frame <- as.data.frame(t(all_data$data_frame))
+		backup <- all_data$smp_attr
+		all_data$smp_attr <- all_data$var_attr
+		all_data$var_attr <- backup
 	}
 	if(options$text == "dynamic") {
 		numeric_fields <- check_numeric_fields(all_data$data_frame)
@@ -512,8 +520,8 @@ htmlReport$methods(get_data = function(options) {
 	} else {
 		numeric_fields <- c()
 	}
-	all_data$data_frame[,numeric_fields] <- as.data.frame(lapply(
-				all_data$data_frame[,numeric_fields, drop = FALSE], as.numeric))
+	all_data$data_frame[, numeric_fields] <- as.data.frame(lapply(
+				all_data$data_frame[, numeric_fields, drop = FALSE], as.numeric))
 	if(!is.null(options$func)) 
 		all_data$data_frame <- options$func(all_data$data_frame)
 	return(all_data)				
@@ -535,42 +543,42 @@ htmlReport$methods(extract_data = function(data_frame, options) {
 	smp_attr <- NULL
     var_attr <- NULL
     if(length(options$var_attr) > 0){
-    	var_attr <- data_frame[, options$var_attr, drop = FALSE]
+    	var_attr <- data_frame[options$var_attr, , drop = FALSE]
     } 
     if(length(options$smp_attr) > 0){
-    	smp_attr <- data_frame[options$smp_attr, , drop = FALSE]
+    	smp_attr <- data_frame[, options$smp_attr, drop = FALSE]
     }
     if(length(options$smp_attr) > 0 && length(options$var_attr) > 0){
-    	var_attr <- var_attr[-options$smp_attr, ,drop = FALSE]
-    	smp_attr <- smp_attr[, -options$var_attr, drop = FALSE]
+    	var_attr <- var_attr[, -options$smp_attr, drop = FALSE]
+    	smp_attr <- smp_attr[-options$var_attr, , drop = FALSE]
     }
     if(length(options$fields) > 0) {
     	# Despite this being intended to work on columns, it works on rows.
     	# Remember that data frames are transposed when passed to plotting
     	# functions.
-	    data_frame <- data_frame[options$fields, , drop = FALSE]
+	    data_frame <- data_frame[, options$fields, drop = FALSE]
 	    if(length(options$var_attr) > 0) {
-	    	rows <- rownames(var_attr) %in% rownames(data_frame)
-	    	var_attr <- var_attr[rows, , drop = FALSE]
+	    	cols <- colnames(var_attr) %in% colnames(data_frame)
+	    	var_attr <- var_attr[, cols, drop = FALSE]
 	    }
 	}
 	if(length(options$rows) > 0) {
     	# Despite this being intended to work on columns, it works on rows.
     	# Remember that data frames are transposed when passed to plotting
     	# functions.
-	    data_frame <- data_frame[, options$rows, drop = FALSE]
+	    data_frame <- data_frame[options$rows, , drop = FALSE]
 	    if(length(options$smp_attr) > 0) {
-	    	cols <- colnames(smp_attr) %in% colnames(data_frame)
-	    	smp_attr <- smp_attr[, cols, drop = FALSE]
+	    	rows <- rownames(smp_attr) %in% rownames(data_frame)
+	    	smp_attr <- smp_attr[rows, , drop = FALSE]
 	    }
 	}
 	if(length(options$var_attr) > 0){
-		cols <- colnames(data_frame) %in% colnames(var_attr)
-	    data_frame <- data_frame[, !cols, drop = FALSE]
+		rows <- rownames(data_frame) %in% rownames(var_attr)
+	    data_frame <- data_frame[!rows, , drop = FALSE]
 	}
 	if(length(options$smp_attr) > 0){
-		rows <- rownames(data_frame) %in% rownames(smp_attr)
-	    data_frame <- data_frame[!rows, , drop = FALSE]
+		cols <- colnames(data_frame) %in% colnames(smp_attr)
+	    data_frame <- data_frame[, !cols, drop = FALSE]
 	}
 	return(list(data_frame = data_frame, smp_attr = smp_attr,
 			    var_attr = var_attr))
@@ -862,12 +870,8 @@ htmlReport$methods(
 										  var_att = var_attr, 
 										  opt = options,
 										  conf = config)
-
-	canvasXpress$run_config_chart(config_chart = options$config_chart, options = options)
-
-
-    canvasXpress$inject_attributes(options, slot="x")
-    canvasXpress$inject_attributes(options, slot="z") 
+	canvasXpress$run_config_chart(config_chart = options$config_chart,
+								  options = options)
 
 	features[['canvasXpress']] <<- TRUE
 	plot_data <- get_plot_data(object_id, canvasXpress)       
@@ -1105,7 +1109,8 @@ htmlReport$methods(
 		cvX$config[['graphType']] <- 'Bar'
 		xmod <- cvX$x()
 		if(isTRUE(options$colorScale)) {
-			xmod[[options$x_label]] <- unlist(cvX$values()[1,]) #el unlist es para que el subset de 1 fila devuelva un vector
+			xmod[[options$x_label]] <- unlist(cvX$values()[1,])
+			#el unlist es para que el subset de 1 fila devuelva un vector
 			cvX$config[['colorBy']] <- options$x_label
 		}
 		cvX$x(xmod)
@@ -1135,29 +1140,32 @@ htmlReport$methods(
      cvX$config[['graphType']] <- "Scatter2D"
 	 cvX$config[['xAxis']] <- ifelse(is.null(options$xAxis), cvX$samples()[1],
 	 														 options$xAxis)
-	 if (is.null(options$yAxis)) {
+	 if(is.null(options$yAxis)) {
 	 	smps <- cvX$samples()
 	 	cvX$config[['yAxis']] <- smps[smps != cvX$config$xAxis]
-	 } else {
+	 }else{
 	 	cvX$config[['yAxis']] <- options$yAxis
 	 }
 
 	 cvX$config[['yAxisTitle']] <- ifelse(is.null(options$y_label), "y_axis",
 	 														 options$y_label)
-	 if (!is.null(options$regressionLine)) {
-	 	options$extracode <- paste0("C", cvX$object_id, ".addRegressionLine();")
+	 if(!is.null(options$regressionLine)) {
+	 	if(options$regressionLine) {
+	 		cvX$config[["showRegressionFit"]]= TRUE
+            cvX$config[["showRegressionFullRange"]]= TRUE
+	 	}
 	 }
 
  	zmod <- cvX$z()
-	 if (!is.null(options$pointSize)) {
+	 if(!is.null(options$pointSize)) {
 	 	cvX$config[['sizeBy']] <- options$pointSize
-	 	sampleIndex <- grep(cvX$samples(), options$pointSize)
+	 	sampleIndex <- grep(options$pointSize, cvX$samples())
 	 	zmod[[options$pointSize]] <- cvX$values()[, sampleIndex]
 	 }
 
 	 if(!is.null(options$colorScaleBy)) {
 	 	cvX$config[['colorBy']] <- options$colorScaleBy
-	 	sampleIndex <- grep(cvX$samples(), options$colorScaleBy)
+	 	sampleIndex <- grep(options$colorScaleBy, cvX$samples())
 	 	zmod[[options$colorScaleBy]] <- cvX$values()[, sampleIndex]
 	 }
 	 cvX$z(zmod)
