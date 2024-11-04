@@ -702,6 +702,7 @@ htmlReport$methods(
 					 smp_attr = NULL,
 					 var_attr = NULL,
 					 fields = NULL,
+					 rows = NULL,
 					 func = NULL,
 					 text = TRUE,
 					 border = 1, 
@@ -718,6 +719,7 @@ htmlReport$methods(
 						smp_attr = smp_attr,
 						var_attr = var_attr,
 						fields = fields,
+						rows = rows,
 						border = border, 
 						cell_align = cell_align,
 						table_rownames = table_rownames,
@@ -735,7 +737,7 @@ htmlReport$methods(
         	features$dt_tables <<- TRUE
         	dynamic_js <<- c(dynamic_js,
 	                    paste(c("$(document).ready(function () {",
-	                        paste0("\t$(", table_id,").DataTable({ dom:'Bfrtip', buttons: [", embedded_buttons, "] });"),
+	                        paste0("\t$(", table_id,").DataTable({ dom:'Bfrtip', buttons: [", embedded_buttons, "], order: [] });"),
 	                    "});"), collapse = "\n"))    
 		}
 		count_objects <<- count_objects + 1
@@ -787,7 +789,7 @@ htmlReport$methods(
 		names(colnames_vector) <- NULL
 		html_data_frame <- c(html_data_frame, colnames_vector,
 										"</tr>", "</thead>", "<tbody>")
-		for (row_ind in seq(1, nrow(data_frame))) {
+		for(row_ind in seq(nrow(data_frame))) {
 			html_data_frame <- c(html_data_frame, "<tr>")
 			if(options$table_rownames == TRUE) {
 				rownames_vector <- paste_tag(rownames(data_frame)[row_ind], "td")
