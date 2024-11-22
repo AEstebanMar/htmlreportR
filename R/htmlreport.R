@@ -727,6 +727,8 @@ htmlReport$methods(
 						text = text) 
 	
 		table_attr <- parse_table_attr(attrib)
+		## var_attr and smp_attr remove data from the data frame, it is not
+		## represented anywhere else. This behaviour needs to be documented
 		data_frame <- get_data(options)$data_frame
 		## col and rowspan
 		table_id <- paste0("table_", count_objects)
