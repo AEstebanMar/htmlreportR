@@ -1,7 +1,7 @@
 
 <!--begin.rcode Static_ggplot
 
-cat(plotter$create_title("Sample report", "sample_report", hlevel = 1, indexable = FALSE, clickable = FALSE, t_id = NULL))
+cat(plotter$create_title("Example report", "example_report", hlevel = 1, indexable = FALSE, clickable = FALSE, t_id = NULL))
 cat(plotter$create_title("Static plots", "static_plot", hlevel = 2, indexable = TRUE, clickable = FALSE, t_id = NULL))
 cat(plotter$create_title("Heatmap example", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
 
@@ -36,146 +36,154 @@ cat(plotter$create_title("Heatmap example", "heatmap_t", hlevel = 3, indexable =
 	}))
 end.rcode-->
 
+<!--begin.rcode Static_baseplot
+    cat(plotter$create_title("Static barplot example", "static_barplot", hlevel = 2, indexable = FALSE))
+    # Make sure the plotting function does not automatically draw the plot, but rather returns
+    # the plot object
+    cat(plotter$prettify_div(plotter$static_plot_main("barplot2.txt", resizable = FALSE, header = TRUE,
+                row_names = TRUE, transpose = TRUE,
+                plotting_function = function(plot_obj){barplot(as.matrix(plot_obj), plot = FALSE)}),
+                preset = "magic"))
+    # There is a way to use static_plot_main even if the plotting function always draws the plot,
+    # but it is messy and perhaps a bit dangerous. Only use this if you absolutely need to. Pay attention
+    # to how we define the plotting function: with no input, and plotting "data_frame"
+    cat(plotter$prettify_div(plotter$static_plot_main("barplot2.txt", resizable = FALSE, header = TRUE,
+                row_names = TRUE, transpose = TRUE, plot_type = "autoplot",
+                plotting_function = function(){barplot(as.matrix(data_frame))}),
+                preset = "magic"))
+end.rcode-->
 
 <!--begin.rcode Resizable_ggplot_heatmap
-cat(plotter$create_title("Heatmap example resizable", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
+    cat(plotter$create_title("Heatmap example resizable", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
 
-cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, smp_attr = 17, width = 1200, height = 500, size_unit = "px",
-                               resizable = TRUE, plotting_function = function(ggplot_obj) {
-    
-       ggplot_obj + ggplot2::aes(x = x_axis, y = y_axis, fill =Freq) +
-       ggplot2::geom_tile(show.legend = TRUE) +
-       ggplot2::theme_minimal() +
-       ggplot2::theme(panel.grid.major = ggplot2::element_blank()) +
-       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 25, face = "bold", hjust = 1), axis.text.y = ggplot2::element_text(face = "bold")) +
-       ggplot2::scale_fill_gradient2(low = col[1], mid= col[2], high = col[3], na.value = na_col, guide = "colourbar", aesthetics = "fill")
-    }))
+    cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, smp_attr = 17, width = 1200, height = 500, size_unit = "px",
+                                   resizable = TRUE, plotting_function = function(ggplot_obj) {
+        
+           ggplot_obj + ggplot2::aes(x = x_axis, y = y_axis, fill =Freq) +
+           ggplot2::geom_tile(show.legend = TRUE) +
+           ggplot2::theme_minimal() +
+           ggplot2::theme(panel.grid.major = ggplot2::element_blank()) +
+           ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 25, face = "bold", hjust = 1), axis.text.y = ggplot2::element_text(face = "bold")) +
+           ggplot2::scale_fill_gradient2(low = col[1], mid= col[2], high = col[3], na.value = na_col, guide = "colourbar", aesthetics = "fill")
+        }))
 end.rcode-->
 
 
 <!--begin.rcode Custom_size_ggplot_heatmap
-cat(plotter$create_title("Heatmap example custom size", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
+    cat(plotter$create_title("Heatmap example custom size", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
 
-cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, smp_attr = 17, width = 1200, height = 500, size_unit = "px",
-                                transpose = FALSE, img_properties = "width='1200' height='500'", plotting_function = function(ggplot_obj) {
-    
-       ggplot_obj + ggplot2::aes(x = x_axis, y = y_axis, fill =Freq) +
-       ggplot2::geom_tile(show.legend = TRUE) +
-       ggplot2::theme_minimal() +
-       ggplot2::theme(panel.grid.major = ggplot2::element_blank()) +
-       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 25, face = "bold", hjust = 1), axis.text.y = ggplot2::element_text(face = "bold")) +
-       ggplot2::scale_fill_gradient2(low = col[1], mid= col[2], high = col[3], na.value = na_col, guide = "colourbar", aesthetics = "fill")
-    }))
+    cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, smp_attr = 17, width = 1200, height = 500, size_unit = "px",
+                                    transpose = FALSE, img_properties = "width='1200' height='500'", plotting_function = function(ggplot_obj) {
+        
+           ggplot_obj + ggplot2::aes(x = x_axis, y = y_axis, fill =Freq) +
+           ggplot2::geom_tile(show.legend = TRUE) +
+           ggplot2::theme_minimal() +
+           ggplot2::theme(panel.grid.major = ggplot2::element_blank()) +
+           ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 25, face = "bold", hjust = 1), axis.text.y = ggplot2::element_text(face = "bold")) +
+           ggplot2::scale_fill_gradient2(low = col[1], mid= col[2], high = col[3], na.value = na_col, guide = "colourbar", aesthetics = "fill")
+        }))
 end.rcode-->
 
 
 <!--begin.rcode Mermaid_examples
-cat(plotter$create_title("Mermaid chart examples", "mermaid", hlevel = 2, indexable = TRUE, clickable = TRUE, t_id = "mermaid_chart"))
-   cat(plotter$create_collapsable_container(id = "mermaid_chart", html_code =plotter$mermaid_chart('
----
-config:
-  theme: dark
----
-flowchart LR
-    1A[Option Parsing]
-    1B[/opt/]
-    subgraph Input preparison
-        A[Target generation] 
-        B[Read count table]
-        C[Read External DE data]
-        D[Read Library size files] 
-    end
-    E["`**main_degenes_Hunter**`"]
-    EE[/final_results/]
-    LL[main_report.Rmd]
-    subgraph Writting
-        F[write.table]
-        H>filtered_count_data.txt]
-        G>control_treatment.txt]
-        I>hunter_results_table.txt]
-        J["`**write_df_list_as_tables** (Normalized_counts)`"]
-        K["`**write_df_list_as_tables** (allgenes)`"]
-        L["`**write_expression_report**`"]
-        M>"DEG_report.html"]   
+    cat(plotter$create_title("Mermaid chart examples", "mermaid", hlevel = 2, indexable = TRUE, clickable = TRUE, t_id = "mermaid_chart"))
+       cat(plotter$create_collapsable_container(id = "mermaid_chart", html_code =plotter$mermaid_chart('
+    ---
+    config:
+      theme: dark
+    ---
+    flowchart LR
+        1A[Option Parsing]
+        1B[/opt/]
+        subgraph Input preparison
+            A[Target generation] 
+            B[Read count table]
+            C[Read External DE data]
+            D[Read Library size files] 
+        end
+        E["`**main_degenes_Hunter**`"]
+        EE[/final_results/]
+        LL[main_report.Rmd]
+        subgraph Writting
+            F[write.table]
+            H>filtered_count_data.txt]
+            G>control_treatment.txt]
+            I>hunter_results_table.txt]
+            J["`**write_df_list_as_tables** (Normalized_counts)`"]
+            K["`**write_df_list_as_tables** (allgenes)`"]
+            L["`**write_expression_report**`"]
+            M>"DEG_report.html"]   
+            
+        end
+
+        1A --> 1B
+        1B -- target_file
+              Treatment_columns
+              Control_columns --> A
+
+        1B --input_file--> B
+        1B --external_DEA_file--> C
+        1B --library_sizes-->D
+        1B --> E
+        A & B & C & D --> E
+        E  ==> EE
+        1B -- output_files --> Writting
+        EE --> F 
+        EE --all_data_normalized---> J
+        EE --"all_counts_for_plotting"---> K
+        F  --"raw_filter"--> H
+        F  --"sample_group"--> G
+        F  --"DE_all_genes"--> I
+        EE & LL --> L
+        L --> M      
         
-    end
-
-    1A --> 1B
-    1B -- target_file
-          Treatment_columns
-          Control_columns --> A
-
-    1B --input_file--> B
-    1B --external_DEA_file--> C
-    1B --library_sizes-->D
-    1B --> E
-    A & B & C & D --> E
-    E  ==> EE
-    1B -- output_files --> Writting
-    EE --> F 
-    EE --all_data_normalized---> J
-    EE --"all_counts_for_plotting"---> K
-    F  --"raw_filter"--> H
-    F  --"sample_group"--> G
-    F  --"DE_all_genes"--> I
-    EE & LL --> L
-    L --> M      
-    
-    ')))
-
+        ')))
 end.rcode-->
 
 
 <!--begin.rcode table_bootstrap
-cat(plotter$create_title("Tables", "tables", hlevel = 2, indexable = TRUE, clickable = FALSE, t_id = NULL))
-cat(plotter$create_title("Bootstrap type", "tables_bs", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL))
-
+    cat(plotter$create_title("Tables", "tables", hlevel = 2, indexable = TRUE, clickable = FALSE, t_id = NULL))
+    cat(plotter$create_title("Bootstrap type", "tables_bs", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL))
     #plotter$add_menu_item("datatable",list(text="DataTable"))
     plotter$hash_vars[["test_data_frame"]] <- data.frame( "V1" = c("h0", "r1", "r2", "r3"), 
                                 "V2" = c("h1", "-","var_attr1", "var_attr2"),
                                 "V3" = c("h2", "smp_attr1", 1, 2), 
                                 "V4" = c("h3", "smp_attr2", 3, 4), 
                                 row.names = 1:4)
-
-    cat(plotter$table("test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2, var_attr = 2, attrib = list('class' = 'table table-striped')))
-
-
+    cat(plotter$table("test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2,
+                      var_attr = 2, attrib = list('class' = 'table table-striped')))
 end.rcode-->
 
 
 <!--begin.rcode cvX_heatmap
-saveRDS(plotter, "plotter.rds")
 cat(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header = TRUE, smp_attr = 17, text = FALSE,
                          row_names = FALSE, transpose = FALSE, config = list("varOverlays" = c("category")))))
 end.rcode-->
 
 
 <!--begin.rcode cvX_cluster_heatmap
-
-cluster_table <- plotter$get_data(list(id = "data_toc_sample.txt", row_names = NULL, header = TRUE, transpose = FALSE,
- text = "dynamic"))$data_frame
-rownames(cluster_table) <- seq(0, nrow(cluster_table) -1)
-test_tree <- hclust(dist(cluster_table[,(1:length(cluster_table)-1)]))
-
-cluster_table$clust <- cutree(test_tree,8)
-data_toc_sample_nw <- ape::write.tree(ape::as.phylo(test_tree))
-rownames(cluster_table) <- as.character(sample(100))
-plotter$hash_vars$cluster_table <- cluster_table
-
-cat(plotter$heatmap(list(id = "cluster_table", 
-                         title = "Heatmap", 
-                         tree =data_toc_sample_nw, 
-                         header = NULL, 
-                         smp_attr = c(17, 18), 
-                         text = "dynamic", 
-                         row_names = NULL, 
-                         transpose = FALSE, 
-                         config = list("varOverlays" = c("category", "clust")))))
-
+    cluster_table <- plotter$get_data(list(id = "data_toc_sample.txt", row_names = NULL, header = TRUE, transpose = FALSE,
+                                      text = "dynamic"))$data_frame
+    rownames(cluster_table) <- seq(0, nrow(cluster_table) -1)
+    test_tree <- hclust(dist(cluster_table[,(1:length(cluster_table)-1)]))
+    cluster_table$clust <- cutree(test_tree,8)
+    data_toc_sample_nw <- ape::write.tree(ape::as.phylo(test_tree))
+    rownames(cluster_table) <- as.character(sample(100))
+    plotter$hash_vars$cluster_table <- cluster_table
+    cat(plotter$heatmap(list(id = "cluster_table", 
+                             title = "Heatmap", 
+                             tree =data_toc_sample_nw, 
+                             header = NULL, 
+                             smp_attr = c(17, 18), 
+                             text = "dynamic", 
+                             row_names = NULL, 
+                             transpose = FALSE, 
+                             config = list("varOverlays" = c("category", "clust")))))
 end.rcode-->
 
 <!--begin.rcode cvX_density
-cat(plotter$density(list(id = "density_ridgeline_example.txt", title = "Density plot", header = TRUE, text = FALSE, row_names = TRUE, fillDensity = TRUE, median = TRUE)))
+    cat(plotter$density(list(id = "density_ridgeline_example.txt", title = "Density plot", header = TRUE,
+                        text = FALSE, row_names = TRUE, fillDensity = TRUE, median = TRUE)))
 end.rcode-->
 
 <br>
@@ -186,21 +194,24 @@ end.rcode-->
 <br>
 
 <!--begin.rcode cvX_datatable
-    cat(plotter$create_title("DataTable type", "tables_dt", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL))
-
-    cat(plotter$table("test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2, var_attr = 2, styled = "dt"))
-
+    cat(plotter$create_title("DataTable type", "tables_dt", hlevel = 3, indexable = TRUE,
+                              clickable = FALSE, t_id = NULL))
+    cat(plotter$table("test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2, var_attr = 2,
+                       styled = "dt"))
 end.rcode-->
 
 <!--begin.rcode cvX_scatter2D
-    cat(plotter$scatter2D(list(id = "x_y.txt", title = "Simple Scatter", row_names = FALSE, header = TRUE, x_label = "Num genes", y_label = "FPKM",
-                               alpha = 0.3, theme = "tableau", text = FALSE)))
-    cat(plotter$scatter2D(list(id = "x_y.txt", title = "Scatter with densities", row_names = FALSE, header = TRUE, x_label = "Num genes",
-                               y_label = "FPKM", add_densities = TRUE, text = FALSE)))
-    # cat(plotter$scatter2D(list(id = "x_y_factor.txt", title = "Scatter with factors", row_names = FALSE, header = TRUE, x_label = "Num genes",
-    #                            y_label = "FPKM", text = "dynamic", smp_attr = 1:2, colorScaleBy = "patient", sizeBy = "group")))
-    cat(plotter$scatter2D(list(id = "barplot3.txt", title = "Scatter with custom point info", row_names = TRUE, header = TRUE, text = "dynamic",
-                               height = 300, width = 300, var_attr = 2:3, smp_attr = 2:3, xAxis = "brain", yAxis = "lung", x_label = "Brain", y_label = "Lung",
+    cat(plotter$scatter2D(list(id = "x_y.txt", title = "Simple Scatter", row_names = FALSE, header = TRUE,
+                               x_label = "Num genes", y_label = "FPKM", alpha = 0.3, theme = "tableau",
+                               text = FALSE)))
+    cat(plotter$scatter2D(list(id = "x_y.txt", title = "Scatter with densities", row_names = FALSE, header = TRUE,
+                               x_label = "Num genes", y_label = "FPKM", add_densities = TRUE, text = FALSE)))
+    cat(plotter$scatter2D(list(id = "x_y_factor.txt", title = "Scatter with factors", row_names = FALSE,
+                               header = TRUE, x_label = "Num genes", y_label = "FPKM", text = "dynamic",
+                               smp_attr = 1:2, colorScaleBy = "patient", sizeBy = "group")))
+    cat(plotter$scatter2D(list(id = "barplot3.txt", title = "Scatter with custom point info", row_names = TRUE,
+                               header = TRUE, text = "dynamic", height = 300, width = 300, var_attr = 2:3,
+                               smp_attr = 2:3, xAxis = "brain", yAxis = "lung", x_label = "Brain", y_label = "Lung",
                                config = list("hoverTemplate" = "Type of gene: {type} <br>
                                                                 Other type of gene: {type2} <br>
                                                                 Lung Expr: {lung} <br>
