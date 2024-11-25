@@ -150,8 +150,8 @@ end.rcode-->
                                 "V3" = c("h2", "smp_attr1", 1, 2), 
                                 "V4" = c("h3", "smp_attr2", 3, 4), 
                                 row.names = 1:4)
-    cat(plotter$table("test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2,
-                      var_attr = 2, attrib = list('class' = 'table table-striped')))
+    cat(plotter$table(list(id = "test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2,
+                      var_attr = 2, attrib = list('class' = 'table table-striped'))))
 end.rcode-->
 
 
@@ -196,8 +196,8 @@ end.rcode-->
 <!--begin.rcode cvX_datatable
     cat(plotter$create_title("DataTable type", "tables_dt", hlevel = 3, indexable = TRUE,
                               clickable = FALSE, t_id = NULL))
-    cat(plotter$table("test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2, var_attr = 2,
-                       styled = "dt"))
+    cat(plotter$table(list(id = "test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2, var_attr = 2,
+                       styled = "dt")))
 end.rcode-->
 
 <!--begin.rcode cvX_scatter2D
@@ -303,3 +303,12 @@ end.rcode-->
                                                   group = c("pathway", "sequencing"), format = "wide",
                                                   add_violin = TRUE)), preset = "magic"))
 end.rcode-->
+
+<!--begin.rcode Custom_loading
+    cat(plotter$create_title("Generate table data using a custom object", "custom_loading", hlevel = 2, indexable = FALSE))
+    plotter$hash_vars$ref_data <- 5
+    generate_table <- function(n) {
+        return(data.frame(seq(n)))
+    }
+    cat(plotter$prettify_div(plotter$table(list(id = "ref_data", get_table_meth = generate_table)), preset = "magic"))
+end.rcode -->
