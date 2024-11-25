@@ -482,11 +482,13 @@ htmlReport$methods(get_data_for_plot = function(options) {
 NULL
 htmlReport$methods(get_data = function(options) {
 	data_frame <- hash_vars[[options$id]]
-	if(!is.null(options$header)){
-		colnames(data_frame) <- paste0("var", seq(ncol(data_frame)))
-	}
-	if(!is.null(options$row_names)) {
-		rownames(data_frame) <- paste0("sample", seq(nrow(data_frame)))
+	if(is.null(options$get_table_meth)) {
+		if(!is.null(options$header)){
+			colnames(data_frame) <- paste0("var", seq(ncol(data_frame)))
+		}
+		if(!is.null(options$row_names)) {
+			rownames(data_frame) <- paste0("sample", seq(nrow(data_frame)))
+		}
 	}
 	all_data <- extract_data(data_frame, options)
 	all_data$data_frame <- add_header_row_names(all_data$data_frame,
@@ -527,6 +529,38 @@ htmlReport$methods(get_data = function(options) {
 	return(all_data)				
 })
 
+#' Merge tables contained in hash_vars
+#'
+#' @name merge_tables
+#' @title Merge tables from multiple hash_vars ids
+#' @description Non-exported method that will be called by extract_data if
+#' it is provided with multiple ids.
+#'
+#' @param options A list containing options for data retrieval.
+#'
+#' @returns A merged data frame, minus specified fields and rows.
+
+htmlReport$methods(merge_tables = function(data_frame, options) {
+	fields <- options$fields
+	rows <- options$rows
+	ids <- strsplit(options$id, split = ",")[[1]]
+	data_files <- hash_vars[[ids[n]]]
+	if(!is.null(fields)) {
+		data_fields <- strsplit(fields, ";")[[1]]
+		for(n in seq(data_fields)[[1]]) {
+			data_files[[n]] <- data_files[[n]][, data_fields[n], drop = FALSE]
+		}
+	}
+	if(!is.null(rows)) {
+		data_rows <- strsplit(rows, ";")[[1]]
+		for(n in seq(data_rows)[[1]]) {
+			data_files[[n]] <- data_files[[n]][, data_rows[n], drop = FALSE]
+		}
+	}
+	data <- do.call(rbind, data_files)
+	return(data)
+})
+
 
 #' Retrieve Data from htmlReport Object
 #'
@@ -542,6 +576,18 @@ NULL
 htmlReport$methods(extract_data = function(data_frame, options) {	
 	smp_attr <- NULL
     var_attr <- NULL
+    ids <- options$id
+    if("," %in% ids) ids <- strsplit(ids, split = ",")[[1]]
+    fields <- options$fields
+    get_table_meth <- options$get_table_meth
+    if(length(ids) > 1){
+    	data <- merge_tables(options) ## UNTESTED
+    } else {
+    	data_frame <- hash_vars[[ids]]
+    	if(!is.null(get_table_meth)) {
+    		data_frame <- get_table_meth(data_frame)
+    	}
+    }
     if(length(options$var_attr) > 0){
     	var_attr <- data_frame[options$var_attr, , drop = FALSE]
     } 
@@ -692,61 +738,49 @@ htmlReport$methods(load_js = function(){
 
 ########  HTML TABLES ############################
 
+#' Table method for htmlReport class
+#'
+#' @name table
+#' @title Generate table from plotter object with specified options
+#' @description This method takes a list of options to build a table from a
+#' htmlReport object.
+#' 
+#' @param options list with options
+#' 
+#' @returns A string encoding a html table.
+#'
 
-
-htmlReport$methods(
-	table = function(id, 
-					 header = FALSE, 
-					 row_names = FALSE,
-					 transpose = FALSE,
-					 smp_attr = NULL,
-					 var_attr = NULL,
-					 fields = NULL,
-					 rows = NULL,
-					 func = NULL,
-					 text = TRUE,
-					 border = 1, 
-					 table_rownames = TRUE,
- 					 cell_align = c(), 
-					 attrib = list(),
-					 styled = "bs",
-					 buttons_custom = c('copyHtml5', 'excelHtml5', 'csvHtml5')){
-
-		options <- list(id = id,
-						header = header,
-						row_names = row_names,
-						transpose = transpose,
-						smp_attr = smp_attr,
-						var_attr = var_attr,
-						fields = fields,
-						rows = rows,
-						border = border, 
-						cell_align = cell_align,
-						table_rownames = table_rownames,
-						func = func,
-						text = text) 
-	
-		table_attr <- parse_table_attr(attrib)
-		## var_attr and smp_attr remove data from the data frame, it is not
-		## represented anywhere else. This behaviour needs to be documented
-		data_frame <- get_data(options)$data_frame
-		## col and rowspan
-		table_id <- paste0("table_", count_objects)
-		if (styled == "dt"){
-			if ('pdfHtml5' %in% buttons_custom) 
-				features['pdfHtml5'] <<- TRUE
-			embedded_buttons <- paste(sapply(buttons_custom, function(x) paste0("'", x,"'")), collapse = ",")
-        	features$dt_tables <<- TRUE
-        	dynamic_js <<- c(dynamic_js,
-	                    paste(c("$(document).ready(function () {",
-	                        paste0("\t$(", table_id,").DataTable({ dom:'Bfrtip', buttons: [", embedded_buttons, "], order: [] });"),
-	                    "});"), collapse = "\n"))    
+htmlReport$methods(table = function(user_options){
+	options <- list(id = NULL, header = FALSE, row_names = FALSE,
+					transpose = FALSE, smp_attr = NULL, var_attr = NULL,
+					fields = NULL, rows = NULL, func = NULL, text = TRUE,
+					border = 1, table_rownames = TRUE, cell_align = c(),
+					attrib = list(), styled = "bs",
+				 	buttons_custom = c('copyHtml5', 'excelHtml5', 'csvHtml5'))
+	options <- update_options(options, user_options)
+	table_attr <- parse_table_attr(options$attrib)
+	## var_attr and smp_attr remove data from the data frame, it is not
+	## represented anywhere else. This behaviour needs to be documented
+	data_frame <- get_data(options)$data_frame
+	## col and rowspan
+	table_id <- paste0("table_", count_objects)
+	if (options$styled == "dt"){
+		if ('pdfHtml5' %in% options$buttons_custom) {
+			features['pdfHtml5'] <<- TRUE
 		}
-		count_objects <<- count_objects + 1
-		parse_data_frame(data_frame = data_frame,
-						options = options, 
-						table_id = table_id,
-						table_attr = table_attr)
+		embedded_buttons <- paste(collapse = ",", sapply(options$buttons_custom,
+												function(x) paste0("'", x,"'")))
+    	features$dt_tables <<- TRUE
+    	dynamic_js <<- c(dynamic_js,
+                    paste(c("$(document).ready(function () {",
+                        paste0("\t$(", table_id,").DataTable({ dom:'Bfrtip', buttons: [", embedded_buttons, "], order: [] });"),
+                    "});"), collapse = "\n"))    
+	}
+	count_objects <<- count_objects + 1
+	parse_data_frame(data_frame = data_frame,
+					options = options, 
+					table_id = table_id,
+					table_attr = table_attr)
 
 	}
 )
