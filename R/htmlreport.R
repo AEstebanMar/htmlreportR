@@ -1039,10 +1039,13 @@ htmlReport$methods(
 	boxplot = function(opt) {
 		config_chart <- function(cvX, options){
 			cvX$config[['graphType']] <- 'Boxplot'
+			if(isTRUE(options$showBoxplotOriginalData)) {
+				c(cvX$config[['showBoxplotOriginalData']] <- TRUE)
+			}
 			series <- NULL
 			group <- NULL
 			segregate <- NULL
-			wide <- options$format == "wide"
+			wide <- isTRUE(options$format == "wide")
 			long_null_group <- options$format == "long" & is.null(options$group)
 			if(wide | long_null_group) {
 				reshaped <- cvX$reshape(samples = cvX$samples(), x = cvX$x(),
