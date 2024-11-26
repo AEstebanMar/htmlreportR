@@ -39,18 +39,18 @@ end.rcode-->
 <!--begin.rcode Static_baseplot
     cat(plotter$create_title("Static barplot example", "static_barplot", hlevel = 2, indexable = FALSE))
     # Make sure the plotting function does not automatically draw the plot, but rather returns
-    # the plot object
+    # the plot object. Default "plot_type" value is "plot", which calls base R plot function.
     cat(plotter$prettify_div(plotter$static_plot_main("barplot2.txt", resizable = FALSE, header = TRUE,
-                row_names = TRUE, transpose = TRUE,
-                plotting_function = function(plot_obj){barplot(as.matrix(plot_obj), plot = FALSE)}),
-                preset = "magic"))
+            row_names = TRUE, transpose = TRUE,
+            plotting_function = function(plot_obj){as.matrix(plot_obj)}),
+            preset = "magic"))
     # There is a way to use static_plot_main even if the plotting function always draws the plot,
     # but it is messy and perhaps a bit dangerous. Only use this if you absolutely need to. Pay attention
     # to how we define the plotting function: with no input, and plotting "data_frame"
     cat(plotter$prettify_div(plotter$static_plot_main("barplot2.txt", resizable = FALSE, header = TRUE,
-                row_names = TRUE, transpose = TRUE, plot_type = "autoplot",
-                plotting_function = function(){barplot(as.matrix(data_frame))}),
-                preset = "magic"))
+            row_names = TRUE, transpose = TRUE, plot_type = "autoplot",
+            plotting_function = function(){barplot(as.matrix(data_frame))}),
+            preset = "magic"))
 end.rcode-->
 
 <!--begin.rcode Resizable_ggplot_heatmap
