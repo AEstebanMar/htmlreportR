@@ -54,52 +54,59 @@ test_that("add_header_row_names, both set to TRUE", {
 
 test_that("extract_data properly handles a redundant \"fields\" argument", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
-						 var_attr = NULL, text = "dynamic", fields = 1:2)
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+						 smp_attr = NULL, var_attr = NULL, text = "dynamic",
+						 fields = 1:2)
 	input_df <- data.frame(values = 1:4, order = c("First", "Second",
 						   "Third", "Fourth"))
-	rownames(input_df) <- toupper(letters[1:4])
-	output_df <- plotter$extract_data(input_df, user_options)$data_frame
+	plotter$hash_vars$test_df <- input_df
+	rownames(input_df) <- 1:4
+	output_df <- plotter$extract_data(user_options)$data_frame
 	expect_equal(output_df, input_df)
 })
 
 test_that("fields can reverse order of data frame in extract_data", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
-						  var_attr = NULL, text = "dynamic", fields = 2:1)
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+						 smp_attr = NULL, var_attr = NULL, text = "dynamic",
+						 fields = 2:1)
 	input_df <- data.frame(values = 1:4,
 							  order = c("First", "Second", "Third", "Fourth"))
-	rownames(input_df) <- toupper(letters[1:4])
-	output_df <- plotter$extract_data(input_df, user_options)$data_frame
+	plotter$hash_vars$test_df <- input_df
+	rownames(input_df) <- 1:4
+	output_df <- plotter$extract_data(user_options)$data_frame
 	expect_equal(output_df, input_df[, 2:1])
 	})
 
 test_that("Complex case of extract_data with \"fields\" argument", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
-						  var_attr = NULL, text = "dynamic", fields = c(3, 1,
-						  2))
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+						 smp_attr = NULL, var_attr = NULL, text = "dynamic",
+						 fields = c(3, 1, 2))
 	input_df <- data.frame(c("row", "tissue", toupper(letters[1:3])),
 						   c("values", "connective", 1:3),
 						   c("order", "muscle", "First", "Second", "Third"))
 	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
-	output_df <- plotter$extract_data(input_df, user_options)$data_frame
+	plotter$hash_vars$test_df <- input_df
+	output_df <- plotter$extract_data(user_options)$data_frame
 	expected_df <- input_df[, user_options$fields]
 	expect_equal(output_df, expected_df)
 })
 
 test_that("extract_data \"fields\" argument works with var_attr", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
-						  var_attr = 1, text = "dynamic", fields = 2)
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+					 	 smp_attr = NULL, var_attr = 1, text = "dynamic",
+					 	 fields = 2)
 	input_df <- data.frame(1:5, c("First", "Second", "Third",
 								  "Fourth", "Fifth"))
 	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
+	plotter$hash_vars$test_df <- input_df
 	expected_df <- input_df[-1, 2, drop = FALSE]
 	expected_var_attr <- input_df[1, -1, drop = FALSE]
-	output <- plotter$extract_data(input_df, user_options)
+	output <- plotter$extract_data(user_options)
 	expect_equal(output$data_frame, expected_df)
 	expect_equal(output$var_attr, expected_var_attr)
 	expect_null(output$smp_attr)
@@ -107,14 +114,16 @@ test_that("extract_data \"fields\" argument works with var_attr", {
 
 test_that("extract_data \"fields\" argument works with smp_attr", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = 1,
-						 var_attr = NULL, text = "dynamic", fields = 2)
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+						 smp_attr = 1, var_attr = NULL, text = "dynamic",
+						 fields = 2)
 	input_df <- data.frame(1:5, c("First", "Second", "Third",
 								  "Fourth", "Fifth"))
 	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
-	output <- plotter$extract_data(input_df, user_options)
-	expected_df <- input_df[, 2, drop = FALSE]
+	plotter$hash_vars$test_df <- input_df
+	output <- plotter$extract_data(user_options)
+	expected_df <- input_df[, -1, drop = FALSE]
 	expected_smp_attr <- input_df[, 1, drop = FALSE]
 	expect_equal(output$data_frame, expected_df)
 	expect_equal(output$smp_attr, expected_smp_attr)
@@ -123,13 +132,15 @@ test_that("extract_data \"fields\" argument works with smp_attr", {
 
 test_that("extract_data \"fields\" argument works with var_attr and smp_attr", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = 1,
-						 var_attr = 3, text = "dynamic", fields = 2)
+	user_options <- list(id = "test_df", eader = FALSE, row_names = FALSE,
+						 smp_attr = 1, var_attr = 3, text = "dynamic",
+						 fields = 2)
 	input_df <- data.frame(toupper(letters[1:5]), 1:5, letters[1:5],
 					       c("First", "Second", "Third", "Fourth", "Fifth"))
 	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
-	output <- plotter$extract_data(input_df, user_options)
+	plotter$hash_vars$test_df <- input_df
+	output <- plotter$extract_data(user_options)
 	expected_df <- input_df[-3, 2, drop = FALSE]
 	expected_var_attr <- input_df[3, 2, drop = FALSE]
 	expected_smp_attr <- input_df[-3, 1, drop = FALSE]
@@ -140,50 +151,57 @@ test_that("extract_data \"fields\" argument works with var_attr and smp_attr", {
 
 test_that("extract_data properly handles a redundant \"rows\" argument", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
-						 var_attr = NULL, text = "dynamic", rows = 1:4)
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+						 smp_attr = NULL, var_attr = NULL, text = "dynamic",
+						 rows = 1:4)
 	input_df <- data.frame(values = 1:4, order = c("First", "Second",
 						   "Third", "Fourth"))
-	rownames(input_df) <- toupper(letters[1:4])
-	output_df <- plotter$extract_data(input_df, user_options)$data_frame
+	rownames(input_df) <- 1:4
+	plotter$hash_vars$test_df <- input_df
+	output_df <- plotter$extract_data(user_options)$data_frame
 	expect_equal(output_df, input_df)
 })
 
 test_that("rows can reverse order of data frame in extract_data", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
-						  var_attr = NULL, text = "dynamic", rows = 4:1)
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+						 smp_attr = NULL, var_attr = NULL, text = "dynamic",
+						 rows = 4:1)
 	input_df <- data.frame(values = 1:4,
 							  order = c("First", "Second", "Third", "Fourth"))
-	rownames(input_df) <- toupper(letters[1:4])
-	output_df <- plotter$extract_data(input_df, user_options)$data_frame
+	rownames(input_df) <- 1:4
+	plotter$hash_vars$test_df <- input_df
+	output_df <- plotter$extract_data(user_options)$data_frame
 	expect_equal(output_df, input_df[4:1, ])
 	})
 
 test_that("Complex case of extract_data with \"rows\" argument", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
-						  var_attr = NULL, text = "dynamic", rows = c(3, 4,
-						  2, 1))
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+						 smp_attr = NULL, var_attr = NULL, text = "dynamic",
+						 rows = c(3, 4, 2, 1))
 	input_df <- data.frame(c("row", "tissue", toupper(letters[1:3])),
 						   c("values", "connective", 1:3),
 						   c("order", "muscle", "First", "Second", "Third"))
 	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
-	output_df <- plotter$extract_data(input_df, user_options)$data_frame
+	plotter$hash_vars$test_df <- input_df
+	output_df <- plotter$extract_data(user_options)$data_frame
 	expected_df <- input_df[user_options$rows, ]
 	expect_equal(output_df, expected_df)
 })
 
 test_that("extract_data \"rows\" argument works with var_attr", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
-						  var_attr = 1, text = "dynamic", rows = 2)
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+						 smp_attr = NULL, var_attr = 1, text = "dynamic",
+						 rows = 2)
 	input_df <- data.frame(1:5, c("First", "Second", "Third",
 								  "Fourth", "Fifth"))
 	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
-	output <- plotter$extract_data(input_df, user_options)
+	plotter$hash_vars$test_df <- input_df
+	output <- plotter$extract_data(user_options)
 	expected_df <- input_df[2, , drop = FALSE]
 	expected_var_attr <- input_df[1, , drop = FALSE]
 	expect_equal(output$data_frame, expected_df)
@@ -193,13 +211,14 @@ test_that("extract_data \"rows\" argument works with var_attr", {
 
 test_that("extract_data \"rows\" argument works with smp_attr", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = 1,
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE, smp_attr = 1,
 						 var_attr = NULL, text = "dynamic", rows = 2)
 	input_df <- data.frame(1:5, c("First", "Second", "Third",
 								  "Fourth", "Fifth"))
 	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
-	output <- plotter$extract_data(input_df, user_options)
+	plotter$hash_vars$test_df <- input_df
+	output <- plotter$extract_data(user_options)
 	expected_df <- input_df[2, 2, drop = FALSE]
 	expected_smp_attr <- input_df[2, 1, drop = FALSE]
 	expect_equal(output$data_frame, expected_df)
@@ -209,16 +228,18 @@ test_that("extract_data \"rows\" argument works with smp_attr", {
 
 test_that("extract_data \"rows\" argument works with var_attr and smp_attr", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = 1,
-						 var_attr = 3, text = "dynamic", fields = 2)
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+						 smp_attr = 1, var_attr = 3, text = "dynamic",
+						 fields = 2)
 	input_df <- data.frame(toupper(letters[1:5]), 1:5, letters[1:5],
 					       c("First", "Second", "Third", "Fourth", "Fifth"))
 	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
-	output <- plotter$extract_data(input_df, user_options)
+	plotter$hash_vars$test_df <- input_df
+	output <- plotter$extract_data(user_options)
 	expected_df <- input_df[-3, 2, drop = FALSE]
-	expected_var_attr <- input_df[3, 2, drop = FALSE]
 	expected_smp_attr <- input_df[-3, 1, drop = FALSE]
+	expected_var_attr <- input_df[3, 2, drop = FALSE]
 	expect_equal(output$data_frame, expected_df)
 	expect_equal(output$var_attr, expected_var_attr)
 	expect_equal(output$smp_attr, expected_smp_attr)
@@ -228,13 +249,14 @@ test_that("extract_data \"rows\" argument works with var_attr and smp_attr", {
 test_that("extract_data works with var_attr and smp_attr with no \"rows\"
 		   nor \"fields\" argument", {
 	plotter <- htmlReport$new()
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = 1,
-						 var_attr = 3, text = "dynamic")
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+						 smp_attr = 1, var_attr = 3, text = "dynamic")
 	input_df <- data.frame(toupper(letters[1:5]), 1:5, letters[1:5],
 						   c("First", "Second", "Third", "Fourth", "Fifth"))
 	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
-	output <- plotter$extract_data(input_df, user_options)
+	plotter$hash_vars$test_df <- input_df
+	output <- plotter$extract_data(user_options)
 	expected_df <- input_df[-3, -1]
 	expected_var_attr <- input_df[3, -1, drop = FALSE]
 	expected_smp_attr <- input_df[-3, 1, drop = FALSE]
@@ -247,63 +269,64 @@ test_that("extract_data works with var_attr and smp_attr with no \"rows\"
 
 test_that("Simple case for extract_data", {
 	plotter <- htmlReport$new()
-	input_df <-data.frame("V1" = c("h0","r1", "r2"), "V2" = c("h1", 1,2), 
-						  "V3" = c("h2", 3,4), row.names = 1:3)
-	expected_df <- data.frame("V1" = c("h0","r1", "r2"), 
-							  "V2" = c("h1", "1", "2"),
-							  "V3" = c("h2", "3", "4"))
-   	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
-   						 var_attr = NULL, text = TRUE)
-    output <- plotter$extract_data(input_df, user_options)
+	input_df <- data.frame(V1 = c("h0","r1", "r2"), V2 = c("h1", 1,2), 
+						   V3 = c("h2", 3,4), row.names = 1:3)
+	plotter$hash_vars$test_df <- input_df
+	expected_df <- data.frame(V1 = c("h0","r1", "r2"), 
+							  V2 = c("h1", "1", "2"),
+							  V3 = c("h2", "3", "4"))
+   	user_options <- list(id = "test_df", header = NULL, row_names = NULL,
+   						 smp_attr = NULL, var_attr = NULL, text = TRUE)
+    output <- plotter$extract_data(user_options)
     expect_equal(output$data_frame, expected_df)
     expect_null(output$smp_attr)
     expect_null(output$var_attr)
 })
 
 test_that("extract_data with var_attr, text set to dynamic", {
-		plotter <- htmlReport$new()
-		input_df <-data.frame(V1 = c("h0", "r1", "r2"), V2 = c("h1", 1:2), 
-							  V3 = c("h2", 3:4))
-		expected_df <- data.frame(V1 = c("r1", "r2"),
-								  V2 = c("1", "2"), 
-								  V3 = c("3", "4"),
-								  row.names = 2:3)
-		expected_var_attr <- data.frame(V1 = "h0", V2 = "h1", V3 = "h2")
-	   	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = NULL,
-	   						 var_attr = 1, text = "dynamic")
-	    output <- plotter$extract_data(input_df, user_options)
-   	    expect_equal(output$data_frame, expected_df)
-	    expect_equal(output$var_attr, expected_var_attr)	
-	    expect_null(output$smp_attr)
+	plotter <- htmlReport$new()
+	input_df <- data.frame(V1 = c("h0", "r1", "r2"), V2 = c("h1", 1:2), 
+						   V3 = c("h2", 3:4))
+	plotter$hash_vars$test_df <- input_df
+	expected_df <- data.frame(V1 = c("r1", "r2"), V2 = c("1", "2"),
+							  V3 = c("3", "4"), row.names = 2:3)
+	expected_var_attr <- data.frame(V1 = "h0", V2 = "h1", V3 = "h2")
+   	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE, smp_attr = NULL,
+   						 var_attr = 1, text = "dynamic")
+    output <- plotter$extract_data(user_options)
+	expect_equal(output$data_frame, expected_df)
+    expect_equal(output$var_attr, expected_var_attr)	
+    expect_null(output$smp_attr)
 })
 
 test_that("extract_data with smp_attr, text set to TRUE", {
-		plotter <- htmlReport$new()
-		input_df <- data.frame(V1 = c("h0", "r1", "r2"), V2 = c("h1", 1:2), 
-							  V3 = c("h2", 3:4))
-		user_options <- list(header = FALSE, row_names = FALSE, smp_attr = 1,
-						     var_attr = NULL, text = TRUE)
-		expected_df <- data.frame(V2 = c("h1", "1", "2"), 
-								  V3 = c("h2", "3", "4"))
-		expected_smp_attr <- data.frame(V1 = c("h0", "r1", "r2"))
-	   	output <- plotter$extract_data(input_df, user_options)
-	    expect_equal(output$data_frame, expected_df)
-   	    expect_equal(output$smp_attr, expected_smp_attr)
-	    expect_null(output$var_attr)
+	plotter <- htmlReport$new()
+	input_df <- data.frame(V1 = c("h0", "r1", "r2"), V2 = c("h1", 1:2), 
+						   V3 = c("h2", 3:4))
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+						 smp_attr = 1, var_attr = NULL, text = TRUE)
+	plotter$hash_vars$test_df <- input_df
+	expected_df <- data.frame(V2 = c("h1", "1", "2"), 
+							  V3 = c("h2", "3", "4"))
+	expected_smp_attr <- data.frame(V1 = c("h0", "r1", "r2"))
+   	output <- plotter$extract_data(user_options)
+    expect_equal(output$data_frame, expected_df)
+	expect_equal(output$smp_attr, expected_smp_attr)
+    expect_null(output$var_attr)
 })
 
 test_that("extract_data with smp_attr and var_attr", {
 	plotter <- htmlReport$new()
-	input_df <- data.frame("V1" = c("h0","r1", "r2"), 
-						   "V2" = c("h1", 1, 2), 
-						   "V3" = c("h2", 3, 4))
-	user_options <- list(header = FALSE, row_names = FALSE, smp_attr = 1,
-						 var_attr = 1, text = FALSE)
-	expected_df <- data.frame(V2 = as.character(1:2),
-							  V3 = as.character(3:4), row.names = 2:3)
+	input_df <- data.frame(V1 = c("h0","r1", "r2"), V2 = c("h1", 1, 2), 
+						   V3 = c("h2", 3, 4))
+	plotter$hash_vars$test_df <- input_df
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+						 smp_attr = 1, var_attr = 1, text = FALSE)
+	expected_df <- data.frame(V2 = as.character(1:2), V3 = as.character(3:4),
+							  row.names = 2:3)
 	expected_var_attr <- data.frame(V2 = "h1", V3 = "h2")
 	expected_smp_attr <- data.frame(V1 = c("r1", "r2"), row.names = 2:3)
-    output <- plotter$extract_data(input_df, user_options)
+    output <- plotter$extract_data(user_options)
     expect_equal(output$data_frame, expected_df)
     expect_equal(output$smp_attr, expected_smp_attr)
     expect_equal(output$var_attr, expected_var_attr)
@@ -437,15 +460,16 @@ test_that("testing the full table formatting in the class htmlReport", {
 </tr>
 </tbody>
 </table>"
-	container <- list(test_data_frame = data.frame( "V1" = c("h0","r1", "r2", "r3"), 
-                                "V2" = c("h1", "-","smp_attr1", "smp_attr2"),
-                                "V3" = c("h2", "var_attr1", 1,2), 
-                                "V4" = c("h3", "var_attr2",3,4), 
-                                row.names = c(1,2,3,4)))
-	plotter <- htmlReport$new(container = container)
-	actual_output <- plotter$table("test_data_frame", header = TRUE,
-								   row_names = TRUE, smp_attr = 2, var_attr = 2)
-
+	input_df <- data.frame(V1 = c("h0","r1", "r2", "r3"), 
+                      	   V2 = c("h1", "-","smp_attr1", "smp_attr2"),
+                      	   V3 = c("h2", "var_attr1", 1, 2), 
+                      	   V4 = c("h3", "var_attr2", 3, 4), 
+                      	   row.names = 1:4)
+	plotter <- htmlReport$new()
+	plotter$hash_vars$test_df <- input_df
+	actual_output <- plotter$table(list(id = "test_df", header = TRUE,
+										row_names = TRUE, smp_attr = 2,
+										var_attr = 2))
 	testthat::expect_equal(actual_output, expected_output)
 })
 
@@ -500,7 +524,6 @@ test_that("testing the table formatting in the class htmlReport", {
 	options <- list(border = 1, table_rownames = TRUE)
 	actual_output <- plotter$parse_data_frame(test_data_frame, options,
 											  "Sample")
-
 	testthat::expect_equal(actual_output, expected_output)
 })
 ####### HTML REPORTING
@@ -608,8 +631,8 @@ test_that("testing barplot method of htmlReport class", {
 							  "canvas>")
 	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data =",
 								  " {\"y\":{\"vars\":[\"h0\",\"h1\",\"h2\",",
-								  "\"h3\"],\"smps\":[\"sample2\",\"sample3\",",
-								  "\"sample4\"],\"data\":[[\"s2\",\"s3\",\"s4",
+								  "\"h3\"],\"smps\":[\"2\",\"3\",",
+								  "\"4\"],\"data\":[[\"s2\",\"s3\",\"s4",
 								  "\"],[\"1\",\"2\",\"3\"],[\"4\",\"5\",\"6\"]",
 								  ",[\"7\",\"8\",\"9\"]]},\"x\":{\"x_axis\":[",
 								  "\"s2\",\"s3\",\"s4\"]},\"",
@@ -624,14 +647,13 @@ test_that("testing barplot method of htmlReport class", {
 								  "Cobj_0_ = new CanvasXpress(\"obj_0_\", ",
 								  "data, conf, events, info, afterRender);",
 								  "\n});\n")
-	container <- list(test_data_frame = data.frame(
-					  			"V1" = c("h0", "s2", "s3", "s4"),
-					  			"V2" = c("h1", 1, 2, 3),
-					  			"V3" = c("h2", 4, 5, 6),
-					  			"V4" = c("h3", 7, 8, 9),
-					  row.names = c(1, 2, 3, 4)))
+	input_df <- data.frame(V1 = c("h0", "s2", "s3", "s4"),
+						   V2 = c("h1", 1, 2, 3),
+					  	   V3 = c("h2", 4, 5, 6), V4 = c("h3", 7, 8, 9),
+					  	   row.names = c(1, 2, 3, 4))
+	container <- list(test_df = input_df)
 	plotter <- htmlReport$new(container = container, compress = FALSE)
-	output_string <- plotter$barplot(list(id = "test_data_frame", title = "A",
+	output_string <- plotter$barplot(list(id = "test_df", title = "A",
 										  row_names = FALSE, header = TRUE,
 										  text = "dynamic", height = 300,
 										  colorScale = TRUE,
@@ -650,8 +672,8 @@ test_that("testing line method of htmlReport class", {
 							  "responsive='true'></canvas>")
 	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data",
 								  " = {\"y\":{\"vars\":[\"h0\",\"h1\",\"h2\",",
-								  "\"h3\"],\"smps\":[\"sample2\",\"sample3\",",
-								  "\"sample4\"],\"data\":[[\"s2\",\"s3\",\"s4",
+								  "\"h3\"],\"smps\":[\"2\",\"3\",",
+								  "\"4\"],\"data\":[[\"s2\",\"s3\",\"s4",
 								  "\"],[\"1\",\"2\",\"3\"],[\"4\",\"5\",\"6\"]",
 								  ",[\"7\",\"8\",\"9\"]]},\"x\":[],\"z\":[]};",
 								  "\nvar conf = {\"toolbarType\":\"under\",\"",
