@@ -283,6 +283,11 @@ end.rcode-->
                                                   row_names = FALSE, text = "dynamic", format = "long",
                                                   smp_attr = 1:3, group = c("clust_method", "clust_status"),
                                                   height = 500, width= 900)), preset = "magic"))
+    cat(plotter$prettify_div(plotter$boxplot(list(id = 'rank_distribution.txt', title = "Split boxplot with original data in hover",
+                                                  header = TRUE, showBoxplotOriginalData = TRUE,
+                                                  row_names = FALSE, text = "dynamic", format = "long",
+                                                  smp_attr = 1:3, group = c("clust_method", "clust_status"),
+                                                  height = 500, width= 900)), preset = "magic"))
     cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot_grid.txt',
                                                   title = "Four-way split vertical boxplot",
                                                   header = TRUE, row_names = FALSE,
