@@ -490,7 +490,7 @@ htmlReport$methods(get_data = function(options) {
 			rownames(data_frame) <- paste0("sample", seq(nrow(data_frame)))
 		}
 	}
-	all_data <- extract_data(data_frame, options)
+	all_data <- extract_data(options)
 	all_data$data_frame <- add_header_row_names(all_data$data_frame,
 												options)
 	if(!is.null(all_data$smp_attr)) {
@@ -573,7 +573,7 @@ htmlReport$methods(merge_tables = function(data_frame, options) {
 #' @returns A list containing the retrieved data and additional information.
 #'
 NULL
-htmlReport$methods(extract_data = function(data_frame, options) {	
+htmlReport$methods(extract_data = function(options) {	
 	smp_attr <- NULL
     var_attr <- NULL
     ids <- options$id
@@ -581,7 +581,7 @@ htmlReport$methods(extract_data = function(data_frame, options) {
     fields <- options$fields
     get_table_meth <- options$get_table_meth
     if(length(ids) > 1){
-    	data <- merge_tables(options) ## UNTESTED
+    	data_frame <- merge_tables(options) ## UNTESTED
     } else {
     	data_frame <- hash_vars[[ids]]
     	if(!is.null(get_table_meth)) {
