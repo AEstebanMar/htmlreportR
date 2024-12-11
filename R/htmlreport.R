@@ -74,40 +74,27 @@ htmlReport$methods(
 #' function, and then adds the plot to the HTML report object.
 #' 
 NULL
-htmlReport$methods(static_plot_main = function(id, 
-											   header = NULL, 
+htmlReport$methods(static_plot_main = function(id, header = NULL, 
 											   row_names = NULL,
 											   transpose = FALSE,
-											   smp_attr = NULL,
-											   var_attr = NULL,
-											   fields = NULL,
-											   func = NULL,
+											   smp_attr = NULL, var_attr = NULL,
+											   fields = NULL, func = NULL,
 											   plotting_function = NULL,
 											   text = FALSE,
 											   custom_format = FALSE,
-											   width = NULL,
-											   height = NULL, 
+											   width = NULL, height = NULL, 
 											   size_unit = NULL, 
 											   img_properties = "",
 											   resizable = FALSE,
-											   plot_type = "plot"
-											   ) {
-
-	options <- list(id = id,
-					header = header,
-					row_names = row_names,
-					transpose = transpose,
-					smp_attr = smp_attr,
-					var_attr = var_attr,
-					fields = fields,
-					func = func,
-					text = text)
+											   plot_type = "plot") {
+	options <- list(id = id, header = header, row_names = row_names,
+					transpose = transpose, smp_attr = smp_attr, text = text,
+					var_attr = var_attr, fields = fields, func = func)
 	if (custom_format) {
 		data_frame <- hash_vars[[id]]
 	} else {
 		data_frame <- get_data_for_plot(options)$data_frame
 	}
-
 	if(is.null(plotting_function)) {
 		return(data_frame)
 	}else if (plot_type == "autoplot") {
@@ -161,46 +148,22 @@ htmlReport$methods(static_plot_main = function(id,
 #' @importFrom ggplot2 ggplot
 NULL
 htmlReport$methods(
-	static_ggplot_main = function(id, 
-								 header = NULL, 
-								 row_names = NULL,
-								 transpose = FALSE,
-								 smp_attr = NULL,
-								 var_attr = NULL,
-								 fields = NULL,
-								 func = NULL,
-								 plotting_function = NULL,
-								 text = TRUE,
-								 width = NULL,
-								 height = NULL, 
-								 size_unit = NULL,
-								 img_properties = "", 
-								 resizable = FALSE) {
+	static_ggplot_main = function(id, header = NULL, row_names = NULL,
+								 transpose = FALSE, smp_attr = NULL,
+								 var_attr = NULL, fields = NULL, func = NULL,
+								 plotting_function = NULL, text = TRUE,
+								 width = NULL, height = NULL, size_unit = NULL,
+								 img_properties = "", resizable = FALSE) {
 	ggplot_f <- function(data_frame, plotting_function_gg = plotting_function){
 				ggplot_obj <- ggplot2::ggplot(data_frame)
 				plotting_function_gg(ggplot_obj)
 	}
-
-	static_plot_main(id = id,
-					 header = header,
-					 row_names = row_names,
-					 transpose = transpose,
-					 smp_attr = smp_attr,
-					 var_attr = var_attr,
-					 fields = fields,
-					 func = func, 
-					 plotting_function = ggplot_f,
-					 text = text,
-					 width = width, 
-					 height = height, 
-					 size_unit = size_unit,
-					 img_properties = img_properties,
-					 resizable = resizable
-
-)
-})
-
-
+	static_plot_main(id = id, header = header, row_names = row_names,
+					 transpose = transpose, smp_attr = smp_attr,
+					 var_attr = var_attr, fields = fields, func = func, 
+					 plotting_function = ggplot_f, text = text, width = width, 
+					 height = height,  size_unit = size_unit,
+					 img_properties = img_properties, resizable = resizable)})
 
 #' Write HTML Report
 #'
@@ -420,12 +383,8 @@ htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL,
 	if (is.null(size_unit)) size_unit <- "in"
 	
 	file_png <- file.path(tmp_dir, "tmp_fig.png")
-  	grDevices::png(file_png, 
-		width = width,
-		height = height,
-		units = size_unit,
-		res = 200)
-
+  	grDevices::png(file_png, width = width, height = height, units = size_unit,
+  				   res = 200)
   	if(is.function(plot_obj) && plot_type == "autoplot"){
   		plot_obj()
   	} else if (plot_type == "plot"){
@@ -810,13 +769,10 @@ htmlReport$methods(
 #' @returns A table in html format.
 NULL
 htmlReport$methods(
-	parse_data_frame = function(data_frame, 
-								options, 
-								table_id,
-								table_attr = "" 
-								) {
+	parse_data_frame = function(data_frame, options, table_id, table_attr = ""){
 		html_data_frame <- paste0("<table id=", table_id,
-									  " border=", options$border, " ",table_attr," >")
+								   " border=", options$border, " ",
+								   table_attr, " >")
 		html_data_frame <- c(html_data_frame, "<thead>", "<tr>")
 		if (options$table_rownames == TRUE) {
 			html_data_frame <- c(html_data_frame, "<th> rownames </th>")
@@ -838,38 +794,17 @@ htmlReport$methods(
 		return(paste(html_data_frame, collapse="\n"))
 })
 
-
-
 htmlReport$methods(
 	canvasXpress_main = function(user_options){
-	options <- list(
-            'id'= NULL,
-            'func'= NULL,
-            'config_chart'= NULL,
-            'fields'= c(),
-            'smp_attr'= c(),
-            'var_attr'= c(),
-            'segregate'= c(),
-            'show_factors'= c(),
-            'data_format'= 'one_axis',
-            'responsive'= TRUE,
-            'height'= '600px',
-            'width'= '600px',
-            'header'= FALSE,
-            'row_names'= FALSE,
-            'add_header_row_names'= TRUE,
-            'transpose'= TRUE, 
-            'x_label'= 'x_axis',
-            'title'= 'Title',
-            'config'= list(),
-            'after_render'= c(),
-            'treeBy'= 'v',
-            'renamed_samples'= c(),
-            'renamed_variables'= c(),
-            'alpha'= 1,
-            'theme'= 'cx',
-            'color_scheme'= 'CanvasXpress',
-            "tree" = NULL)
+	options <- list(id = NULL, func = NULL, config_chart = NULL,
+		            fields= c(), smp_attr= c(), var_attr= c(), segregate= c(),
+		            show_factors= c(), data_format= "one_axis",
+		            responsive= TRUE, height= "600px", width= "600px",
+		            header= FALSE, row_names= FALSE, add_header_row_names= TRUE,
+		            transpose= TRUE,  x_label= "x_axis", title= "Title",
+		            config= list(), after_render= c(), treeBy= "v",
+		            renamed_samples= c(), renamed_variables= c(), alpha= 1,
+		            theme= "cx", color_scheme= "CanvasXpress", tree = NULL)
 
 	options <- update_options(options, user_options)
 	config <- list('toolbarType' = 'under',
@@ -895,19 +830,16 @@ htmlReport$methods(
 	variables <- plot_data$variables 
        
     if (is.null(values))
-     	return(paste0("<div width=\"",options$width, "\" height=\"",options$height, "\" > <p>NO DATA<p></div>"))
+     	return(paste0("<div width=\"",options$width, "\" height=\"",
+     		   options$height, "\" > <p>NO DATA<p></div>"))
 
 	object_id <- paste0("obj_", count_objects, "_")
     count_objects <<- count_objects + 1
     
-	canvasXpress <- canvasXpress_obj$new(obj_id = object_id,
-										  smp = samples, 
-										  vars = variables, 
-										  vals = values, 
-										  smp_att = smp_attr,
-										  var_att = var_attr, 
-										  opt = options,
-										  conf = config)
+	canvasXpress <- canvasXpress_obj$new(obj_id = object_id, smp = samples, 
+										 vars = variables, vals = values, 
+										 smp_att = smp_attr, var_att = var_attr, 
+										 opt = options, conf = config)
 	canvasXpress$run_config_chart(config_chart = options$config_chart,
 								  options = options)
 
@@ -1187,23 +1119,18 @@ htmlReport$methods(
 	 }else{
 	 	cvX$config[['yAxis']] <- options$yAxis
 	 }
-
 	 cvX$config[['yAxisTitle']] <- ifelse(is.null(options$y_label), "y_axis",
 	 														 options$y_label)
 	 if(!is.null(options$regressionLine)) {
-	 	if(options$regressionLine) {
-	 		cvX$config[["showRegressionFit"]]= TRUE
-            cvX$config[["showRegressionFullRange"]]= TRUE
-	 	}
+	 	cvX$config[["showRegressionFit"]] = TRUE
+        cvX$config[["showRegressionFullRange"]] = TRUE
 	 }
-
  	zmod <- cvX$z()
 	 if(!is.null(options$pointSize)) {
 	 	cvX$config[['sizeBy']] <- options$pointSize
 	 	sampleIndex <- grep(options$pointSize, cvX$samples())
 	 	zmod[[options$pointSize]] <- cvX$values()[, sampleIndex]
 	 }
-
 	 if(!is.null(options$colorScaleBy)) {
 	 	cvX$config[['colorBy']] <- options$colorScaleBy
 	 	sampleIndex <- grep(options$colorScaleBy, cvX$samples())
@@ -1223,7 +1150,6 @@ htmlReport$methods(
 	 	cvX$config[['yAxisHistogramShow']] <- TRUE
 	 }
 	}
-
     default_options = list('row_names' = FALSE, 'transpose' = FALSE,
     					   'config_chart' = config_chart)
     default_options <- update_options(default_options, opt)
