@@ -67,7 +67,7 @@ for(line in seq(length(file))) {
 	if(item_environment == "rcode" & grepl("\\\\n", current_line)) {
 		current_line <- gsub("\\\\n", "", current_line)
 	}
-	if(item_environment == "rcode" & grepl("cat\\(\"#+", current_line)) {
+	if(item_environment == "rcode" & (grepl("cat\\(\"#+", current_line)) | grepl("paste.?\\(\"#+", current_line)) {
 		text <- stringr::str_match(current_line, "(#+)(.*)")
 		level <- nchar(text[2])
 		replace_1 <- paste0("<h", level, ">")
@@ -77,15 +77,15 @@ for(line in seq(length(file))) {
 																			  replace = c(replace_1, replace_2))
 	}
 	current_line <- replace_paired_mark(string = current_line,
-																	pattern = paste0("(\\*\\*\\*+?)([-():; \\w]+)",
+																	pattern = paste0("(\\*\\*\\*+?)([-():;\\ \\w\",]+)",
 																		"(\\*\\*\\*+?)"),
 																	replace = c("<strong><em>", "</em></strong>"))
 	current_line <- replace_paired_mark(string = current_line,
-																	pattern = paste0("(\\*\\*+?)([-():; \\w]+)(\\*",
+																	pattern = paste0("(\\*\\*+?)([-():;\\ \\w\",]+)(\\*",
 																		"\\*+?)"),
 																	replace = c("<strong>", "</strong>"))
 	current_line <- replace_paired_mark(string = current_line,
-																	pattern = paste0("(\\*+?)([-():; \\w]+)(\\*\\*",
+																	pattern = paste0("(\\*+?)([-():;\\ \\w\",]+)(\\*\\*",
 																		"+?)"),
 																	replace = c("<em>", "</em>"))
 	output <- paste0(output, current_line, "\n")
