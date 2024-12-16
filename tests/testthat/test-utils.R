@@ -30,6 +30,36 @@ test_that("Test replace_paired_mark, worst case scenario", {
 	expect_equal(output_text, expected_text)
 	})
 
+test_that("Test replace_paired_mark, title inside cat call", {
+	string <- 'cat("### Title me this")'
+	detected <- grepl("cat\\(\"\\n*#+", string)
+	expect_true(detected)
+	expected_text <- paste0('cat("<h3> Title me this</h3>")')
+	text <- stringr::str_match(string, "(#+)(.*)")
+	level <- nchar(text[2])
+	replace_1 <- paste0("<h", level, ">")
+	replace_2 <- paste0("</h", level, ">\")")
+	output_text <- replace_paired_mark(string = string,
+									   pattern = "(\\n*#+)(.*)(\\n*\"\\))",
+									   replace = c(replace_1, replace_2))
+	expect_equal(output_text, expected_text)
+	})
+
+test_that("Test replace_paired_mark, title inside cat call with newlines", {
+	string <- 'cat("\\n### Title me this\\n")'
+	detected <- grepl("cat\\(\"\\\\n*#+", string)
+	expect_true(detected)
+	expected_text <- paste0('cat("<h3> Title me this</h3>")')
+	text <- stringr::str_match(string, "(#+)(.*)")
+	level <- nchar(text[2])
+	replace_1 <- paste0("<h", level, ">")
+	replace_2 <- paste0("</h", level, ">\")")
+	output_text <- replace_paired_mark(string = string,
+									   pattern = "(\\\\n*#+)(.*)(\\\\n*\"\\))",
+									   replace = c(replace_1, replace_2))
+	expect_equal(output_text, expected_text)
+	})
+
 test_that("Check_numeric_fields simple case", {
 	input_df <- data.frame(1:4, letters[1:4], toupper(letters[1:4]))
 	output <- check_numeric_fields(input_df)
