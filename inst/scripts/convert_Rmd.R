@@ -64,13 +64,16 @@ for(line in seq(length(file))) {
 																				pattern = "(#+)(.*)",
 																	  		replace = c(replace_1, replace_2))
 	}
-	if(grepl("cat\\(\"\\\\n*#+", current_line)) {
+	if(item_environment == "rcode" & grepl("\\\\n", current_line)) {
+		current_line <- gsub("\\\\n", "", current_line)
+	}
+	if(item_environment == "rcode" & grepl("cat\\(\"#+", current_line)) {
 		text <- stringr::str_match(current_line, "(#+)(.*)")
 		level <- nchar(text[2])
 		replace_1 <- paste0("<h", level, ">")
 		replace_2 <- paste0("</h", level, ">\")")
 		current_line <- replace_paired_mark(string = current_line,
-																			  pattern = "(\\\\n*#+)(.*)(\\\\n*\"\\))",
+																			  pattern = "(#+)(.*)(\"\\))",
 																			  replace = c(replace_1, replace_2))
 	}
 	current_line <- replace_paired_mark(string = current_line,
