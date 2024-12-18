@@ -77,17 +77,17 @@ for(line in seq(length(file))) {
 																			  replace = c(replace_1, replace_2))
 	}
 	current_line <- replace_paired_mark(string = current_line,
-																	pattern = paste0("(\\*\\*\\*+?)([-():;\\ \\w\",]+)",
-																		"(\\*\\*\\*+?)"),
-																	replace = c("<strong><em>", "</em></strong>"))
+																		  pattern = paste0("(\\*\\*\\*+?)([-():;\\ \\w\",]+)",
+																			"(\\*\\*\\*+?)"),
+																			replace = c("<strong><em>", "</em></strong>"))
 	current_line <- replace_paired_mark(string = current_line,
-																	pattern = paste0("(\\*\\*+?)([-():;\\ \\w\",]+)(\\*",
-																		"\\*+?)"),
-																	replace = c("<strong>", "</strong>"))
+																			pattern = paste0("(\\*\\*+?)([-():;\\ \\w\",]+)(\\*",
+																		  "\\*+?)"),
+																			replace = c("<strong>", "</strong>"))
 	current_line <- replace_paired_mark(string = current_line,
-																	pattern = paste0("(\\*+?)([-():;\\ \\w\",]+)(\\*\\*",
-																		"+?)"),
-																	replace = c("<em>", "</em>"))
+																			pattern = paste0("(\\*+?)([-():;\\ \\w\",]+)(\\*\\*",
+																			"+?)"),
+																			replace = c("<em>", "</em>"))
 	output <- paste0(output, current_line, "\n")
 }
 
