@@ -712,7 +712,7 @@ htmlReport$methods(load_js = function(){
 htmlReport$methods(table = function(user_options){
 	options <- list(id = NULL, header = FALSE, row_names = FALSE,
 					transpose = FALSE, smp_attr = NULL, var_attr = NULL,
-					fields = NULL, rows = NULL, func = NULL, text = TRUE,
+					fields = NULL, rows = NULL, func = NULL, text = FALSE,
 					border = 1, table_rownames = TRUE, cell_align = c(),
 					attrib = list(), styled = "bs",
 				 	buttons_custom = c('copyHtml5', 'excelHtml5', 'csvHtml5'))
