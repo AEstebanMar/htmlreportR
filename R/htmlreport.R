@@ -1238,32 +1238,3 @@ htmlReport$methods(
 		return(paste(div, code, "</div>", sep = "\n"))
 	}
 )
-
-#' make_html_list
-#'
-#' @name make_html_list-htmlReport-method
-#' @title Take an input vector or list and build an html list of specified type
-#' 
-#' @param id Hash vars ID from where input will be retrieved
-#' @param type Type of list to build
-#' @param func Optional function to apply to retrieved input before processing
-#'
-#' @returns Formatted html list
-#'
-#'
-
-htmlReport$methods(
-	make_html_list = function(id, type = "ul", func = NULL) {
-	  input <- hash_vars[[id]]
-	  if(!is.null(func)) {
-	  	input <- func(input)
-	  }
-	  head <- paste0("<", type, ">\n")
-	  body <- paste("<li>", input, "</li>\n")
-	  tail <- paste0("</", type, ">")
-	  output <- c(head, body, tail)
-	  return(output)
-	}
-)
-
-

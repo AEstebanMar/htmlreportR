@@ -74,3 +74,89 @@ replace_paired_mark <- function(string, pattern, replace) {
     }
     return(string)
 }
+
+#' make_html_list
+#'
+#' Take an input vector or list and use it to build an html list of specified
+#' type
+#' 
+#' @param list List with which
+#' @param type Type of list to build
+#' @param func Optional function to apply to retrieved input before processing
+#'
+#' @returns Formatted html list
+#'
+#'
+
+make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
+                           default_type = "ul") {
+    list_df <- .prepare_standard_triplet_df(list_content = list_content,
+                                            list_levels = list_levels,
+                                            list_types = list_types,
+                                            default_type = default_type)
+    top_level <- min(list_df$level)
+    nest_stack <- NULL
+    html_list <- vector(mode = "list", length = nrow(list_df))
+    for(row in seq(nrow(list_df))) {
+        current_row <- list_df[row, , drop = FALSE]
+        content <- current_row$content
+        level <- current_row$level
+        if(row != 1) {
+            last_level <- list_df[row - 1, ]$level
+        } else {
+            last_level <- 0
+        }
+        type <- current_row$type
+        if(level > last_level) {
+            nest_stack <- c(nest_stack, type)
+            open_reps <- level - last_level
+            html_open_tag <- rep(paste0("<", nest_stack[length(nest_stack)],
+                                 ">\n"), open_reps)
+        } else {
+            html_open_tag <- NULL
+        }
+        html_content <- paste0("<li>", content, "</li>")
+        if(level < last_level) {
+            close_reps <- last_level - level
+            html_open_tag <- c(rep(paste0("</", nest_stack[length(nest_stack)],
+                               ">\n"), close_reps), html_open_tag)
+            nest_stack <- nest_stack[-length(nest_stack)]
+            if(level == 1) {
+                html_close_tag <- paste0("</", rev(nest_stack), ">\n",
+                                         collapse = "")
+                html_content <- paste(html_content, html_close_tag, sep = "\n")
+            }
+        }
+        if(row == nrow(list_df)) {
+            html_close_tag <- paste0("</", rev(nest_stack), ">\n",
+                                         collapse = "")
+            html_content <- paste(html_content, html_close_tag, sep = "\n")
+        }
+        html_list[[row]] <- paste0(html_open_tag, html_content, collapse = "\n")
+    }
+    html_list <- paste0(html_list, collapse = "\n")
+    return(html_list)
+}
+
+#' .prepare_standard_triplet_df
+#'
+#' Build triplet data frame for make_html_list function from three vectors.
+#' User should NEVER have to worry about this function
+#'
+#' @inheritParams make_html_list
+#'
+#' @returns Data frame of contents, levels and types, ready for make_html_list.
+
+.prepare_standard_triplet_df <- function(list_content, list_levels = NULL,
+                                           list_types = NULL,
+                                           default_type = "ul") {
+    if(is.null(list_levels)) {
+        list_levels <- rep(1, length(list_content))
+    }
+    if(is.null(list_types)) {
+        list_types <- rep(default_type, length(list_content))
+    }
+    standard_triplet_df <- data.frame(content = list_content,
+                                      level = list_levels, type = list_types)
+    return(standard_triplet_df)
+}
