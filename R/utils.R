@@ -80,11 +80,15 @@ replace_paired_mark <- function(string, pattern, replace) {
 #' Take an input vector or list and use it to build an html list of specified
 #' type
 #' 
-#' @param list List with which
-#' @param type Type of list to build
-#' @param func Optional function to apply to retrieved input before processing
+#' @param list_content Vector or list of elements with which to build the list
+#' @param list_levels Vector or list defining nesting levels. Default NULL
+#' @param list_types Vector or list with types to assign to each element ("ul"
+#' for unordered or "ol" for ordered).' If not supplied, default_type will
+#' determine list type for each element. Default NULL
+#' @param default_type List type to default if list_types is undefined, "ul"
+#' for unordered or "ol" for ordered. Default "ul"
 #'
-#' @returns Formatted html list
+#' @returns Formatted html list ready to render.
 #'
 #'
 
