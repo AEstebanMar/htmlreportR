@@ -15,7 +15,7 @@ test_that("Test replace_paired_mark, simple case", {
 	output_text <- replace_paired_mark(string, pattern,
 									   c("<strong>", "</strong>"))
 	expect_equal(output_text, expected_text)
-	})
+})
 
 test_that("Test replace_paired_mark, worst case scenario", {
 	string <- paste0("### ***This is a worst-case scenario*** with some text in",
@@ -28,7 +28,7 @@ test_that("Test replace_paired_mark, worst case scenario", {
 	replace <- c("<strong><em>", "</em></strong>")
 	output_text <- replace_paired_mark(string, pattern, replace)
 	expect_equal(output_text, expected_text)
-	})
+})
 
 test_that("Test replace_paired_mark, title inside cat call", {
 	string <- 'cat("### Title me this")'
@@ -43,7 +43,7 @@ test_that("Test replace_paired_mark, title inside cat call", {
 									   pattern = "(\\n*#+)(.*)(\\n*\"\\))",
 									   replace = c(replace_1, replace_2))
 	expect_equal(output_text, expected_text)
-	})
+})
 
 test_that("Test replace_paired_mark, title inside cat call with newlines", {
 	string <- 'cat("\\n### Title me this\\n")'
@@ -58,7 +58,7 @@ test_that("Test replace_paired_mark, title inside cat call with newlines", {
 									   pattern = "(\\\\n*#+)(.*)(\\\\n*\"\\))",
 									   replace = c(replace_1, replace_2))
 	expect_equal(output_text, expected_text)
-	})
+})
 
 test_that("Check_numeric_fields simple case", {
 	input_df <- data.frame(1:4, letters[1:4], toupper(letters[1:4]))
@@ -72,3 +72,47 @@ test_that("Check_numeric_fields with mixed vectors", {
 	output <- check_numeric_fields(input_df)
 	expect_equal(output, c(FALSE, FALSE, TRUE))
 })
+
+## Defining vectors for html_list tests
+
+content <- c("A", "B", "C", "D", "E", "F", "G", "H")
+levels <- c(1, 2, 3, 3, 2, 1, 2, 3)
+types <- c("ul", "ol", "ul", "ul", "ol", "ul", "ul", "ul")
+
+test_that("make_html_list, only content supplied, unsorted", {
+	expected <- paste0("<ul>\n<li>A</li>\n<li>B</li>\n<li>C</li>\n<li>D</li>\n",
+					   "<li>E</li>\n</ul>\n")
+	output <- make_html_list(list_content = content)
+	expect_equal(output, expected)
+	})
+
+test_that("make_html_list, only content supplied, sorted", {
+	expected <- paste0("<ol>\n<li>A</li>\n<li>B</li>\n<li>C</li>\n<li>D</li>\n",
+					   "<li>E</li>\n</ol>\n")
+	output <- make_html_list(list_content = content, default_type = "ol")
+	expect_equal(output, expected)
+	})
+
+test_that("make_html_list, content and levels supplied, unsorted", {
+	expected <- paste0("<ul>\n<li>A</li>\n<ul>\n<li>B</li>\n<ul>\n<li>C</li>\n",
+					   "<li>D</li>\n</ul>\n<li>E</li>\n</ul>\n</ul>\n")
+	output <- make_html_list(list_content = content, list_levels = levels)
+	expect_equal(output, expected)
+	})
+
+test_that("make_html_list, content and levels supplied, sorted", {
+	expected <- paste0("<ol>\n<li>A</li>\n<ol>\n<li>B</li>\n<ol>\n<li>C</li>\n",
+					   "<li>D</li>\n</ol>\n<li>E</li>\n</ol>\n</ol>\n")
+	output <- make_html_list(list_content = content, list_levels = levels,
+							 default_type = "ol")
+	expect_equal(output, expected)
+	})
+
+test_that("make_html_list, all elements supplied", {
+	expected <- paste0("<ul>\n<li>A</li>\n<ol>\n<li>B</li>\n<ul>\n<li>C</li>\n",
+					   "<li>D</li>\n</ul>\n<li>E</li>\n</ol>\n</ul>\n")
+	output <- make_html_list(list_content = content, list_levels = levels,
+							 list_types = types)
+	expect_equal(output, expected)
+	})
+
