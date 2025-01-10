@@ -101,12 +101,12 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
         current_row <- list_df[row, , drop = FALSE]
         content <- current_row$content
         level <- current_row$level
+        type <- current_row$type
         if(row != 1) {
             last_level <- list_df[row - 1, ]$level
         } else {
             last_level <- 0
         }
-        type <- current_row$type
         if(level > last_level) {
             nest_stack <- c(nest_stack, type)
             open_reps <- level - last_level
@@ -121,20 +121,15 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
             html_open_tag <- c(rep(paste0("</", nest_stack[length(nest_stack)],
                                ">\n"), close_reps), html_open_tag)
             nest_stack <- nest_stack[-length(nest_stack)]
-            if(level == 1) {
-                html_close_tag <- paste0("</", rev(nest_stack), ">\n",
-                                         collapse = "")
-                html_content <- paste(html_content, html_close_tag, sep = "\n")
-            }
-        }
-        if(row == nrow(list_df)) {
-            html_close_tag <- paste0("</", rev(nest_stack), ">\n",
-                                         collapse = "")
-            html_content <- paste(html_content, html_close_tag, sep = "\n")
         }
         html_list[[row]] <- paste0(html_open_tag, html_content, collapse = "\n")
     }
     html_list <- paste0(html_list, collapse = "\n")
+    if(length(nest_stack) > 0) {
+        html_final_tag <- paste0("</", rev(nest_stack), ">\n",
+                                     collapse = "")
+        html_list <- paste(html_list, html_final_tag, sep = "\n")
+    }
     return(html_list)
 }
 
