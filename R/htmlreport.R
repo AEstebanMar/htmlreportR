@@ -312,7 +312,7 @@ htmlReport$methods(
 		list_content <- paste0("<a href = #", ids, ">", content, "</a>")
 		index <- make_html_list(list_content = list_content,
 								list_levels = list_levels)
-		index <- paste("<div>", index, "</div>", sep = "\n")
+		index <- paste0("<div>\n", index, "</div>")
 		concat(index)
 })
 
