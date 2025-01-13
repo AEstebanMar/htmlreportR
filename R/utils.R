@@ -98,7 +98,6 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
                                             list_levels = list_levels,
                                             list_types = list_types,
                                             default_type = default_type)
-    nest_stack <- NULL
     html_list <- vector(mode = "list", length = nrow(list_df))
     for(row in seq(nrow(list_df))) {
         current_row <- list_df[row, , drop = FALSE]
@@ -110,6 +109,7 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
             last_level <- list_df[row - 1, ]$level
         } else {
             last_level <- 0
+            nest_stack <- type
         }
         html_tag <- NULL
         if(level != last_level) {
