@@ -111,20 +111,23 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
         } else {
             last_level <- 0
         }
-        html_open_tag <- NULL
-        if(level > last_level) {
-            nest_stack <- c(nest_stack, type)
-            open_reps <- level - last_level
-            html_open_tag <- paste0("<", rep(nest_stack[length(nest_stack)],
-                                    open_reps), ">\n", collapse = "")
+        html_tag <- NULL
+        if(level != last_level) {
+            diff <- level - last_level
+            reps <- abs(diff)
+            if(diff > 0) {
+                nest_stack <- c(nest_stack, type)
+                slash <- NULL
+            }
+            html_tag <- paste0(rep(nest_stack[length(nest_stack)],
+                               reps), ">\n")
+            if(diff < 0) {
+                nest_stack <- head(nest_stack, -reps)
+                slash <- "/"
+            }
+            html_tag <- paste0("<", slash, html_tag, collapse = "")
         }
-        if(level < last_level) {
-            close_reps <- last_level - level
-            html_open_tag <- paste0("</", rep(nest_stack[length(nest_stack)],
-                                    close_reps), ">\n", collapse = "")
-            nest_stack <- head(nest_stack, -close_reps)
-        }
-        html_list[[row]] <- paste0(html_open_tag, html_content, collapse = "\n")
+        html_list[[row]] <- paste0(html_tag, html_content, collapse = "\n")
     }
     html_list <- paste0(html_list, collapse = "\n")
     if(length(nest_stack) > 0) {
