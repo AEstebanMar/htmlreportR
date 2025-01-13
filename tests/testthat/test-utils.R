@@ -82,7 +82,7 @@ types <- c("ul", "ol", "ul", "ul", "ol", "ul", "ul", "ul")
 test_that("make_html_list, only content supplied, unsorted", {
 	expected <- paste0("<ul>\n<li>A</li>\n<li>B</li>\n<li>C</li>\n<li>D</li>",
 					   "\n<li>E</li>\n<li>F</li>\n<li>G</li>\n<li>H</li>\n",
-					   "</ul>\n")
+					   "</ul>\n</ul>\n")
 	output <- make_html_list(list_content = content)
 	expect_equal(output, expected)
 })
@@ -90,7 +90,7 @@ test_that("make_html_list, only content supplied, unsorted", {
 test_that("make_html_list, only content supplied, sorted", {
 	expected <- paste0("<ol>\n<li>A</li>\n<li>B</li>\n<li>C</li>\n<li>D</li>",
 					   "\n<li>E</li>\n<li>F</li>\n<li>G</li>\n<li>H</li>\n",
-					   "</ol>\n")
+					   "</ol>\n</ol>\n")
 	output <- make_html_list(list_content = content, default_type = "ol")
 	expect_equal(output, expected)
 })
@@ -98,7 +98,8 @@ test_that("make_html_list, only content supplied, sorted", {
 test_that("make_html_list, content and levels supplied, unsorted", {
 	expected <- paste0("<ul>\n<li>A</li>\n<ul>\n<li>B</li>\n<ul>\n<li>C</li>\n",
 					   "<li>D</li>\n</ul>\n<li>E</li>\n</ul>\n<li>F</li>\n<ul>",
-					   "\n<li>G</li>\n<ul>\n<li>H</li>\n</ul>\n</ul>\n</ul>\n")
+					   "\n<li>G</li>\n<ul>\n<li>H</li>\n</ul>\n</ul>\n</ul>\n",
+					   "</ul>\n")
 	output <- make_html_list(list_content = content, list_levels = levels)
 	expect_equal(output, expected)
 })
@@ -106,7 +107,8 @@ test_that("make_html_list, content and levels supplied, unsorted", {
 test_that("make_html_list, content and levels supplied, sorted", {
 	expected <- paste0("<ol>\n<li>A</li>\n<ol>\n<li>B</li>\n<ol>\n<li>C</li>\n",
 					   "<li>D</li>\n</ol>\n<li>E</li>\n</ol>\n<li>F</li>\n<ol>",
-					   "\n<li>G</li>\n<ol>\n<li>H</li>\n</ol>\n</ol>\n</ol>\n")
+					   "\n<li>G</li>\n<ol>\n<li>H</li>\n</ol>\n</ol>\n</ol>\n",
+					   "</ol>\n")
 	output <- make_html_list(list_content = content, list_levels = levels,
 							 default_type = "ol")
 	expect_equal(output, expected)
@@ -115,9 +117,21 @@ test_that("make_html_list, content and levels supplied, sorted", {
 test_that("make_html_list, all elements supplied", {
 	expected <- paste0("<ul>\n<li>A</li>\n<ol>\n<li>B</li>\n<ul>\n<li>C</li>\n",
 					   "<li>D</li>\n</ul>\n<li>E</li>\n</ol>\n<li>F</li>\n<ul>",
-					   "\n<li>G</li>\n<ul>\n<li>H</li>\n</ul>\n</ul>\n</ul>\n")
+					   "\n<li>G</li>\n<ul>\n<li>H</li>\n</ul>\n</ul>\n</ul>\n",
+					   "</ul>\n")
 	output <- make_html_list(list_content = content, list_levels = levels,
 							 list_types = types)
+	expect_equal(output, expected)
+})
+
+test_that("make_html_list can skip nesting levels", {
+	content <- c("A", "B", "C", "D", "E", "F", "G", "H")
+	levels <- c(1, 2, 3, 1, 2, 3, 1, 3)
+	output <- make_html_list(list_content = content, list_levels = levels)
+	expected <- paste0("<ul>\n<li>A</li>\n<ul>\n<li>B</li>\n<ul>\n<li>C</li>",
+					   "\n</ul>\n</ul>\n<li>D</li>\n<ul>\n<li>E</li>\n<ul>\n",
+					   "<li>F</li>\n</ul>\n</ul>\n<li>G</li>\n<ul>\n<ul>\n<li>",
+					   "H</li>\n</ul>\n</ul>\n</ul>\n")
 	expect_equal(output, expected)
 })
 

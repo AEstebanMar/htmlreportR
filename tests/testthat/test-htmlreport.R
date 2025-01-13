@@ -470,7 +470,7 @@ test_that("testing the full table formatting in the class htmlReport", {
 	actual_output <- plotter$table(list(id = "test_df", header = TRUE,
 										row_names = TRUE, smp_attr = 2,
 										var_attr = 2))
-	testthat::expect_equal(actual_output, expected_output)
+	expect_equal(actual_output, expected_output)
 })
 
 test_that("testing the table formatting in the class htmlReport", {
@@ -524,7 +524,7 @@ test_that("testing the table formatting in the class htmlReport", {
 	options <- list(border = 1, table_rownames = TRUE)
 	actual_output <- plotter$parse_data_frame(test_data_frame, options,
 											  "Sample")
-	testthat::expect_equal(actual_output, expected_output)
+	expect_equal(actual_output, expected_output)
 })
 ####### HTML REPORTING
 #make_head
@@ -542,7 +542,7 @@ test_that("testing_img_embedding", {
 		file <- file.path(plotter$source_folder,"inst", "exData", "test.png")
 
 	res_img <- plotter$embed_img(file, attr)
-	testthat::expect_equal(res_img, exp_img)
+	expect_equal(res_img, exp_img)
 })
 
 test_that("testing density method of htmlReport class", {
@@ -577,9 +577,9 @@ test_that("testing density method of htmlReport class", {
 										  text = FALSE, row_names = TRUE,
 										  fillDensity = TRUE, median = TRUE))
 	output_dynamic_js <- plotter$dynamic_js
-	testthat::expect_equal(output_string, expected_string)
-	testthat::expect_equal(output_dynamic_js, expected_dynamic_js)
-	testthat::expect_true(plotter$features$canvasXpress)
+	expect_equal(output_string, expected_string)
+	expect_equal(output_dynamic_js, expected_dynamic_js)
+	expect_true(plotter$features$canvasXpress)
 })
 
 test_that("testing scatter2D method of htmlReport class", {
@@ -620,9 +620,9 @@ test_that("testing scatter2D method of htmlReport class", {
 										  	config = list(colorBy = "f1",
 										  				  shapeBy = "f2")))
 	output_dynamic_js <- plotter$dynamic_js
-	testthat::expect_equal(output_string, expected_string)
-	testthat::expect_equal(output_dynamic_js, expected_dynamic_js)
-	testthat::expect_true(plotter$features$canvasXpress)
+	expect_equal(output_string, expected_string)
+	expect_equal(output_dynamic_js, expected_dynamic_js)
+	expect_true(plotter$features$canvasXpress)
 })
 
 test_that("testing barplot method of htmlReport class", {
@@ -661,9 +661,9 @@ test_that("testing barplot method of htmlReport class", {
 										  	'graphOrientation' = 'vertical')
 										  ))
 	output_dynamic_js <- plotter$dynamic_js
-	testthat::expect_equal(output_string, expected_string)
-	testthat::expect_equal(output_dynamic_js, expected_dynamic_js)
-	testthat::expect_true(plotter$features$canvasXpress)
+	expect_equal(output_string, expected_string)
+	expect_equal(output_dynamic_js, expected_dynamic_js)
+	expect_true(plotter$features$canvasXpress)
 })
 
 test_that("testing line method of htmlReport class", {
@@ -696,9 +696,9 @@ test_that("testing line method of htmlReport class", {
 									   header = TRUE, row_names = FALSE,
 									   text = "dynamic"))
 	output_dynamic_js <- plotter$dynamic_js
-	testthat::expect_equal(output_string, expected_string)
-	testthat::expect_equal(output_dynamic_js, expected_dynamic_js)
-	testthat::expect_true(plotter$features$canvasXpress)
+	expect_equal(output_string, expected_string)
+	expect_equal(output_dynamic_js, expected_dynamic_js)
+	expect_true(plotter$features$canvasXpress)
 })
 
 test_that("testing boxplot method of htmlReport class", {
@@ -740,9 +740,9 @@ test_that("testing boxplot method of htmlReport class", {
 									 config=list(graphOrientation = "vertical",
 									 colorBy = "top")))
 	output_dynamic_js <- plotter$dynamic_js
-	testthat::expect_equal(output_string, expected_string)
-	testthat::expect_equal(output_dynamic_js, expected_dynamic_js)
-	testthat::expect_true(plotter$features$canvasXpress)
+	expect_equal(output_string, expected_string)
+	expect_equal(output_dynamic_js, expected_dynamic_js)
+	expect_true(plotter$features$canvasXpress)
 })
 
 test_that("test tree configuration", {
@@ -778,17 +778,17 @@ test_that("test tree configuration", {
                              			   "treeBy" = "v"))
 
     config <- plotter$set_tree(options, config)
-   	testthat::expect_true(!is.null(config$varDendrogramNewick))
-   	testthat::expect_true(length(config$varDendrogramNewick) > 0)
-   	testthat::expect_true(config$varDendrogramUseHeight)
-   	testthat::expect_false(config$varDendrogramHang)
+   	expect_true(!is.null(config$varDendrogramNewick))
+   	expect_true(length(config$varDendrogramNewick) > 0)
+   	expect_true(config$varDendrogramUseHeight)
+   	expect_false(config$varDendrogramHang)
 })
 
 test_that("Prettify_div works with default parameters", {
 	plotter <- htmlReport$new()
 	expected_string <- "<div>\nI am simple\n</div>"
 	output_string <- plotter$prettify_div("I am simple")
-	testthat::expect_equal(output_string, expected_string)
+	expect_equal(output_string, expected_string)
 })
 
 test_that("Prettify_div works with custom parameters", {
@@ -800,7 +800,7 @@ test_that("Prettify_div works with custom parameters", {
 										  display = "contract",
 										  direction = "column",
 										  justify = "left")
-	testthat::expect_equal(output_string, expected_string)
+	expect_equal(output_string, expected_string)
 })
 
 test_that("Prettify_div works with magic preset", {
@@ -809,5 +809,25 @@ test_that("Prettify_div works with magic preset", {
 							  "flex; flex-direction: row; ",
 							  "justify-content: center\">\nI am magic\n</div>")
 	output_string <- plotter$prettify_div("I am magic", preset = "magic")
-	testthat::expect_equal(output_string, expected_string)
+	expect_equal(output_string, expected_string)
+})
+
+# Create index list for index tests
+
+ids <- seq(5)
+names <- letters[seq(5)]
+hlevels <- c(1, 2, 3, 1, 3)
+index_items <- as.matrix(data.frame(ids, names, hlevels))
+dimnames(index_items) <- NULL
+
+test_that("Testing create_header_index method", {
+	plotter <- htmlReport$new()
+	plotter$index_items <- index_items
+	output <- plotter$create_header_index()
+	expected <- paste0("<div>\n<ul>\n<li><a href = #1>a</a></li>\n<ul>\n<li>",
+					   "<a href = #2>b</a></li>\n<ul>\n<li><a href = #3>c</a>",
+					   "</li>\n</ul>\n</ul>\n<li><a href = #4>d</a></li>\n<ul>",
+					   "\n<ul>\n<li><a href = #5>e</a></li>\n</ul>\n</ul>\n",
+					   "</ul>\n</div>")
+	expect_equal(output, expected)
 })
