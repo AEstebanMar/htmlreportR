@@ -306,20 +306,13 @@ htmlReport$methods(
 		}
 		index <- paste0("<div", div_id," >\n")
 
-		for (i in seq(nrow(index_items))) {
-			id <- index_items[i, 1]
-			text <- index_items[i, 2]
-			hlevel <- as.numeric(index_items[i, 3])
-			if (hlevel > last_level)
-				index <- paste0(index, "<ul>\n")
-			if (hlevel < last_level) {
-				diff_lv <- last_level - hlevel
-				index <- paste0(index, paste(rep("</ul>\n", diff_lv), collapse = "\n"), "\n")
-			}
-			index <- paste0(index, "<li><a href=#", id, ">", text, "</a></li>\n")
-			last_level <- hlevel
-		}
-		index <- paste0(index, paste(rep("</ul>\n", last_level-max_level+1), collapse = "\n"), "</div>\n")
+		ids <- index_items[, 1]
+		content <- index_items[, 2]
+		list_levels <- as.numeric(index_items[, 3])
+		list_content <- paste0("<a href = #", ids, ">", content, "</a>")
+		index <- make_html_list(list_content = list_content,
+								list_levels = list_levels)
+		index <- paste("<div>", index, "</div>", sep = "\n")
 		concat(index)
 })
 
