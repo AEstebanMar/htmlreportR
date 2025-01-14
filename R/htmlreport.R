@@ -294,25 +294,25 @@ htmlReport$methods(build_body = function(body_text) {
 htmlReport$methods(
 	create_header_index = function(){
 		last_level <- 0
-		class_ul <- ""
-		max_level <- min(as.numeric(index_items[,3]))
+		index_numbers <- as.numeric(index_items[, 3])
+		index_numbers <- index_numbers - (min(index_numbers) - 1)
+		top_level <- min(index_numbers)
 		if (index_type == "menu") {
-			index_items <<- index_items[as.numeric(index_items[,3]) == max_level, , drop = FALSE]
+			index_items <<- index_items[index_numbers == top_level, ,
+										drop = FALSE]
+			index_numbers <- NULL
 			div_id <- " id=\"floating-menu\""
-			index <- ""
+			index <- NULL
 		} else {
 			index <- "<h1>Table of contents</h1>"
-			div_id <- ""
+			div_id <- NULL
 		}
-		index <- paste0("<div", div_id," >\n")
-
 		ids <- index_items[, 1]
 		content <- index_items[, 2]
-		list_levels <- as.numeric(index_items[, 3])
 		list_content <- paste0("<a href = #", ids, ">", content, "</a>")
-		index <- make_html_list(list_content = list_content,
-								list_levels = list_levels)
-		index <- paste0("<div>\n", index, "</div>")
+		html_list <- make_html_list(list_content = list_content,
+									list_levels = index_numbers)
+		index <- paste0(index, "\n<div", div_id, ">\n", html_list, "</div>")
 		concat(index)
 })
 
