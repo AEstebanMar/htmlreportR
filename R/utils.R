@@ -79,7 +79,8 @@ replace_paired_mark <- function(string, pattern, replace) {
 #'
 #' Take an input vector or list and use it to build an html list of specified
 #' type
-#' 
+#'
+#' @importFrom utils head
 #' @param list_content Vector or list of elements with which to build the list
 #' @param list_levels Vector or list defining nesting levels. Default NULL
 #' @param list_types Vector or list with types to assign to each element ("ul"
