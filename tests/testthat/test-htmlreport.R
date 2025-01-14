@@ -823,11 +823,25 @@ dimnames(index_items) <- NULL
 test_that("Testing create_header_index method", {
 	plotter <- htmlReport$new()
 	plotter$index_items <- index_items
+	plotter$index_type <- "none"
 	output <- plotter$create_header_index()
-	expected <- paste0("<div>\n<ul>\n<li><a href = #1>a</a></li>\n<ul>\n<li>",
-					   "<a href = #2>b</a></li>\n<ul>\n<li><a href = #3>c</a>",
-					   "</li>\n</ul>\n</ul>\n<li><a href = #4>d</a></li>\n<ul>",
-					   "\n<ul>\n<li><a href = #5>e</a></li>\n</ul>\n</ul>\n",
-					   "</ul>\n</div>")
+	expected <- paste0("<h1>Table of contents</h1>\n<div>\n<ul>\n<li>",
+					   "<a href = #1>a</a></li>\n<ul>\n<li><a href = #2>",
+					   "b</a></li>\n<ul>\n<li><a href = #3>c</a></li>\n</ul>",
+					   "\n</ul>\n<li><a href = #4>d</a></li>\n<ul>\n<ul>\n<li>",
+					   "<a href = #5>e</a></li>\n</ul>\n</ul>\n</ul>\n</div>")
 	expect_equal(output, expected)
 })
+
+test_that("Testing create_header_index method, menu mode", {
+	plotter <- htmlReport$new()
+	plotter$index_items <- index_items
+	plotter$index_type <- "menu"
+	output <- plotter$create_header_index()
+	expected <- paste0("\n<div id=\"floating-menu\">\n<ul>\n<li><a href = #1>",
+					   "a</a></li>\n<li><a href = #4>d</a></li>\n</ul>\n</ul>",
+					   "\n</div>")
+	expect_equal(output, expected)
+})
+
+"<div id=\"floating-menu\" >\n<ul>\n<li><a href=#1>a</a></li>\n<li><a href=#4>d</a></li>\n</ul>\n</div>\n"
