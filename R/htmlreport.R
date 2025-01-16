@@ -450,7 +450,8 @@ htmlReport$methods(get_data = function(options) {
 										options = list(header = options$header))
 		all_data$smp_attr <- vector(mode = "list", length = ncol(smp_attr))
 		for(i in seq(ncol(smp_attr))) {
-			all_data$smp_attr[[i]] <- c(colnames(smp_attr)[i], smp_attr[, i])
+			all_data$smp_attr[[i]] <- c(colnames(smp_attr)[i],
+										as.character(smp_attr[, i]))
 		}
 	}
 	if(!is.null(all_data$var_attr)) {
@@ -458,7 +459,8 @@ htmlReport$methods(get_data = function(options) {
 								  options = list(row_names = options$row_names))
 		all_data$var_attr <- vector(mode = "list", length = nrow(var_attr))
 		for(i in seq(nrow(var_attr))) {
-			all_data$var_attr[[i]] <- c(rownames(var_attr)[i], paste(var_attr[i, ]))
+			all_data$var_attr[[i]] <- c(rownames(var_attr)[i],
+										paste(as.character(var_attr[i, ])))
 		}
 	}
 	if(options$transpose) {
