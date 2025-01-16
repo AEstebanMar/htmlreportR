@@ -460,7 +460,7 @@ htmlReport$methods(get_data = function(options) {
 		all_data$var_attr <- vector(mode = "list", length = nrow(var_attr))
 		for(i in seq(nrow(var_attr))) {
 			all_data$var_attr[[i]] <- c(rownames(var_attr)[i],
-										paste(as.character(var_attr[i, ])))
+										paste(var_attr[i, ]))
 		}
 	}
 	if(options$transpose) {
