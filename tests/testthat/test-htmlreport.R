@@ -412,6 +412,17 @@ test_that("get_data with smp_attr and var_attr. Transpose set to TRUE", {
     expect_equal(output$var_attr, expected_var_attr)
 })
 
+test_that("get_data, smp_attr is a factor", {
+	plotter <- htmlReport$new()
+	plotter$hash_vars$data_frame <- data.frame(value = 1:3,
+									 	    smp_attr = as.factor(letters[1:3]))
+	options <- list(id = "data_frame", header = NULL, row_names = NULL,
+					smp_attr = 2, text = "dynamic", transpose = FALSE)
+	all_data <- plotter$get_data(options)
+	expected <- c("smp_attr", "a", "b", "c")
+	expect_equal(all_data$smp_attr[[1]], expected)
+	})
+
 test_that("testing the table formatting in the class htmlReport",{
 	options <- list(id = "input_df",
 					transpose = FALSE,
@@ -843,5 +854,3 @@ test_that("Testing create_header_index method, menu mode", {
 					   "\n</div>")
 	expect_equal(output, expected)
 })
-
-"<div id=\"floating-menu\" >\n<ul>\n<li><a href=#1>a</a></li>\n<li><a href=#4>d</a></li>\n</ul>\n</div>\n"
