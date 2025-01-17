@@ -17,4 +17,4 @@
 * Update: "table" method now behaves like the rest, taking options list as argument instead. You will need to update old calls to this method (simply wrap arguments in a list).
 * Update: "extract\_data" method no longer takes data frame as input, accesses it through hash\_vars (reads ID from options list). This method is not public, so it should not have any repercussions in regular usage.
 * Update: added make\_html\_list to general functions. Takes three vectors: contents, levels (optional) and types (optional) and creates an html list with them.
-* TODO: add repercussions in templates in this field (changes in var\_attr and smp\_attr with header and row\_names set to TRUE)
+* Fix: plotting methods can now handle a smp\_attr field that is encoded in data frame as a factor
