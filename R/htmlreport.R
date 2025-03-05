@@ -450,8 +450,7 @@ htmlReport$methods(get_data = function(options) {
 										options = list(header = options$header))
 		all_data$smp_attr <- vector(mode = "list", length = ncol(smp_attr))
 		for(i in seq(ncol(smp_attr))) {
-			all_data$smp_attr[[i]] <- c(colnames(smp_attr)[i],
-										as.character(smp_attr[, i]))
+			all_data$smp_attr[[i]] <- c(colnames(smp_attr)[i], smp_attr[, i])
 		}
 	}
 	if(!is.null(all_data$var_attr)) {
@@ -901,7 +900,7 @@ htmlReport$methods(
 									 dataframe = "values")
 			buf <- memCompress(json, "gzip")
 			b64 <- xfun::base64_encode(buf)
-			# b64 encoding has a character limit. Binary trings larger than
+			# b64 encoding has a character limit. Binary strings larger than
 			# that are subdivided with \n. Removing them later is safe,
 			# makes the html code more readable. Thus, we remove them here.
 		    compressed_data <-  gsub("\n", "", b64)
@@ -950,12 +949,25 @@ htmlReport$methods(
         paste(readLines(file, warn = FALSE), collapse ="")
 })
 
-
 htmlReport$methods(
 	heatmap = function(opt) {
 	config_chart <- function(cvX, options){
-        cvX$config[['graphType']] <- 'Heatmap' 
-	}
+        cvX$config[['graphType']] <- 'Heatmap'
+        extra_data = options$extra_data
+        if(!is.null(extra_data)) {
+        	extra_opts <- list(id = NULL, func = NULL, fields = NULL,
+        					   smp_attr = NULL, var_attr = NULL, header = NULL,
+        					   row_names = NULL, show_factors = NULL,
+        					   segregate = NULL, transpose = TRUE)
+        	extra_opts <- update_options(extra_opts, extra_data)
+            values2 <- get_data_for_plot(extra_opts)$data_frame
+            cvX$data_structure$y$data2 <- values2
+            cvX$config$guidesShow <- TRUE
+            cvX$config$heatmapIndicatorPosition <- "top"
+            cvX$config$sizeBy <- "Size"
+            cvX$config$sizeByData <- "data2"
+            }
+        }
     default_options <- list('row_names' = TRUE, 'config_chart' = config_chart)
     default_options <- update_options(default_options, opt)
     html_string <- canvasXpress_main(default_options)
