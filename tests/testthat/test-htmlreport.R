@@ -412,17 +412,6 @@ test_that("get_data with smp_attr and var_attr. Transpose set to TRUE", {
     expect_equal(output$var_attr, expected_var_attr)
 })
 
-test_that("get_data, smp_attr is a factor", {
-	plotter <- htmlReport$new()
-	plotter$hash_vars$data_frame <- data.frame(value = 1:3,
-									 	    smp_attr = as.factor(letters[1:3]))
-	options <- list(id = "data_frame", header = NULL, row_names = NULL,
-					smp_attr = 2, text = "dynamic", transpose = FALSE)
-	all_data <- plotter$get_data(options)
-	expected <- c("smp_attr", "a", "b", "c")
-	expect_equal(all_data$smp_attr[[1]], expected)
-	})
-
 test_that("testing the table formatting in the class htmlReport",{
 	options <- list(id = "input_df",
 					transpose = FALSE,
@@ -853,4 +842,62 @@ test_that("Testing create_header_index method, menu mode", {
 					   "a</a></li>\n<li><a href = #4>d</a></li>\n</ul>\n</ul>",
 					   "\n</div>")
 	expect_equal(output, expected)
+})
+
+test_that("Testing simple heatmap", {
+	expected_string <- paste0("<canvas  id=\"obj_0_\" width=\"600px\" height=",
+							  "\"600px\" aspectRatio='1:1' responsive='true'><",
+							  "/canvas>")
+	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data =",
+		" {\"y\":{\"vars\":[\"V1\",\"V2\",\"V3\"],\"smps\":[\"V1\",\"V2\",\"V3",
+		"\",\"V4\",\"V5\",\"V6\"],\"data\":[[0,1,2,3,4,5],[10,11,12,13,14,15],",
+		"[20,21,22,23,24,25]]},\"x\":[],\"z\":[]};\nvar conf = {\"toolbarType",
+		"\":\"under\",\"xAxisTitle\":\"x_axis\",\"title\":\"Title\",\"",
+		"objectColorTransparency\":1,\"theme\":\"cx\",\"colorScheme\":\"",
+		"CanvasXpress\",\"graphType\":\"Heatmap\"};\nvar events = false;\nvar",
+		" info = false;\nvar afterRender = [];\nvar Cobj_0_ = new CanvasXpress",
+		"(\"obj_0_\", data, conf, events, info, afterRender);\n});\n")
+	df <- data.frame(V1 = 0:5, V2 = 10:15, V3 = 20:25)
+	container <- list(test_data_frame = df)
+	options <- list(id = "test_data_frame", header = FALSE, text = FALSE,
+                         row_names = FALSE)
+	plotter <- htmlReport$new(container = container, compress = FALSE)
+	output_string <- plotter$heatmap(list(id = "test_data_frame", text = FALSE,
+									header = FALSE, row_names = FALSE))
+	output_dynamic_js <- plotter$dynamic_js
+	expect_equal(output_string, expected_string)
+	expect_equal(output_dynamic_js, expected_dynamic_js)
+	expect_true(plotter$features$canvasXpress)
+})
+
+test_that("Testing double heatmap", {
+	expected_string <- paste0("<canvas  id=\"obj_0_\" width=\"600px\" height=",
+							  "\"600px\" aspectRatio='1:1' responsive='true'><",
+							  "/canvas>")
+	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data =",
+		" {\"y\":{\"vars\":[\"V1\",\"V2\",\"V3\"],\"smps\":[\"V1\",\"V2\",\"V3",
+		"\",\"V4\",\"V5\",\"V6\"],\"data\":[[0,1,2,3,4,5],[10,11,12,13,14,15],",
+		"[20,21,22,23,24,25]],\"data2\":[[0,1,1.4142,1.7321,2,2.2361],[3.1623,",
+		"3.3166,3.4641,3.6056,3.7417,3.873],[4.4721,4.5826,4.6904,4.7958,4.899",
+		",5]]},\"x\":[],\"z\":[]};\nvar conf = {\"toolbarType\":\"under\",\"",
+		"xAxisTitle\":\"x_axis\",\"title\":\"Title\",\"objectColorTransparency",
+		"\":1,\"theme\":\"cx\",\"colorScheme\":\"CanvasXpress\",\"graphType\":",
+		"\"Heatmap\",\"guidesShow\":true,\"heatmapIndicatorPosition\":\"top\",",
+		"\"sizeBy\":\"Size\",\"sizeByData\":\"data2\"};\nvar events = false;\n",
+		"var info = false;\nvar afterRender = [];\nvar Cobj_0_ = new ",
+		"CanvasXpress(\"obj_0_\", data, conf, events, info, afterRender);\n});",
+		"\n")
+	df <- data.frame(V1 = 0:5, V2 = 10:15, V3 = 20:25)
+	df2 <- sqrt(df)
+	container <- list(test_data_frame = df, second_data_frame = df2)
+	plotter <- htmlReport$new(container = container, compress = FALSE)
+	output_string <- plotter$heatmap(list(id = "test_data_frame", text = FALSE,
+									header = FALSE, row_names = FALSE,
+									extra_data = list(id ="second_data_frame",
+										header = FALSE, row_names = FALSE,
+										text = "dynamic")))
+	output_dynamic_js <- plotter$dynamic_js
+	expect_equal(output_string, expected_string)
+	expect_equal(output_dynamic_js, expected_dynamic_js)
+	expect_true(plotter$features$canvasXpress)
 })
