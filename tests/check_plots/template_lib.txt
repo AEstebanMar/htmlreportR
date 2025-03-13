@@ -30,3 +30,10 @@ cat(plotter$static_plot_main("plot_data", custom_format = TRUE, plotting_functio
     cat(plotter$prettify_div("This is a preset div", preset = "magic",
                              overflow = "preset will override other arguments"))
 end.rcode-->
+
+<!--begin.rcode double_heatmap
+cat(plotter$prettify_div(plotter$heatmap(list(id = "heatmap_colors", header = FALSE, row_names = FALSE, text = "dynamic",
+                                             extra_data = list(id ="heatmap_sizes", header = FALSE, row_names = FALSE, text = "dynamic"),
+                                             config = list(sizeLegendTitle = "Textual Similarity", sizes = c(3, 11, 15, 40)),
+                                             title = "double heatmap")), preset = "magic"))
+end.rcode-->
