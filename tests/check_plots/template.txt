@@ -182,7 +182,6 @@ end.rcode-->
 end.rcode-->
 
 <!--begin.rcode cvX_double_heatmap
-    saveRDS(plotter, "plotter.rds")
     cat(plotter$prettify_div(plotter$heatmap(list(id = "heatmap_colors.txt", header = FALSE, row_names = FALSE, text = "dynamic",
                                              extra_data = list(id ="heatmap_sizes.txt", header = FALSE, row_names = FALSE, text = "dynamic"),
                                              config = list(sizeLegendTitle = "Textual Similarity", sizes = c(3, 11, 15, 40)),
