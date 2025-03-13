@@ -795,7 +795,7 @@ htmlReport$methods(
 		            show_factors= c(), data_format= "one_axis",
 		            responsive= TRUE, height= "600px", width= "600px",
 		            header= FALSE, row_names= FALSE, add_header_row_names= TRUE,
-		            transpose= TRUE,  x_label= "x_axis", title= "Title",
+		            transpose= TRUE, x_label= "x_axis", title= "Title",
 		            config= list(), after_render= c(), treeBy= "v",
 		            renamed_samples= c(), renamed_variables= c(), alpha= 1,
 		            theme= "cx", color_scheme= "CanvasXpress", tree = NULL)
@@ -822,7 +822,7 @@ htmlReport$methods(
 	var_attr <- plot_data$var_attr
 	samples <- plot_data$samples
 	variables <- plot_data$variables 
-       
+
     if (is.null(values))
      	return(paste0("<div width=\"",options$width, "\" height=\"",
      		   options$height, "\" > <p>NO DATA<p></div>"))
@@ -953,8 +953,7 @@ htmlReport$methods(
 	heatmap = function(opt) {
 	config_chart <- function(cvX, options){
         cvX$config[['graphType']] <- 'Heatmap'
-        extra_data = options$extra_data
-        if(!is.null(extra_data)) {
+        if(!is.null(cvX$options$extra_data)) {
         	extra_opts <- list(id = NULL, func = NULL, fields = NULL,
         					   smp_attr = NULL, var_attr = NULL, header = NULL,
         					   row_names = NULL, show_factors = NULL,
@@ -966,8 +965,8 @@ htmlReport$methods(
             cvX$config$heatmapIndicatorPosition <- "top"
             cvX$config$sizeBy <- "Size"
             cvX$config$sizeByData <- "data2"
-            }
         }
+    }
     default_options <- list('row_names' = TRUE, 'config_chart' = config_chart)
     default_options <- update_options(default_options, opt)
     html_string <- canvasXpress_main(default_options)
