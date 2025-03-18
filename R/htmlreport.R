@@ -958,7 +958,7 @@ htmlReport$methods(
         					   smp_attr = NULL, var_attr = NULL, header = NULL,
         					   row_names = NULL, show_factors = NULL,
         					   segregate = NULL, transpose = TRUE)
-        	extra_opts <- update_options(extra_opts, extra_data)
+        	extra_opts <- update_options(extra_opts, cvX$options$extra_data)
             values2 <- get_data_for_plot(extra_opts)$data_frame
             cvX$data_structure$y$data2 <- values2
             cvX$config$guidesShow <- TRUE
