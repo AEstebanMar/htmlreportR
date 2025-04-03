@@ -836,9 +836,10 @@ htmlReport$methods(
 										 opt = options, conf = config)
 	canvasXpress$run_config_chart(config_chart = options$config_chart,
 								  options = options)
-
+	canvasXpress$inject_attributes(options, slot="x")
+	canvasXpress$inject_attributes(options, slot="z")
 	features[['canvasXpress']] <<- TRUE
-	plot_data <- get_plot_data(object_id, canvasXpress)       
+	plot_data <- get_plot_data(object_id, canvasXpress)
 	   
 	dynamic_js <<- c(dynamic_js, 
 					paste0("$(document).ready(function () {\n",
