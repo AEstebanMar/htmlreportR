@@ -3,7 +3,8 @@
 #'
 #' An htmlreporter reference class
 #' @exportClass htmlReport
-#' @export
+#' @export htmlReport
+
 htmlReport <- setRefClass("htmlReport",
     field = list(hash_vars = "list", all_report = "character", 
                  title = "character", tmp_dir = "character",
