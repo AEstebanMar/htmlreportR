@@ -829,7 +829,7 @@ test_that("Testing create_header_index method", {
 					   "<a href = #1>a</a></li>\n<ul>\n<li><a href = #2>",
 					   "b</a></li>\n<ul>\n<li><a href = #3>c</a></li>\n</ul>",
 					   "\n</ul>\n<li><a href = #4>d</a></li>\n<ul>\n<ul>\n<li>",
-					   "<a href = #5>e</a></li>\n</ul>\n</ul>\n</ul>\n</div>")
+					   "<a href = #5>e</a></li>\n</ul>\n</ul>\n</div>")
 	expect_equal(output, expected)
 })
 
@@ -839,7 +839,7 @@ test_that("Testing create_header_index method, menu mode", {
 	plotter$index_type <- "menu"
 	output <- plotter$create_header_index()
 	expected <- paste0("\n<div id=\"floating-menu\">\n<ul>\n<li><a href = #1>",
-					   "a</a></li>\n<li><a href = #4>d</a></li>\n</ul>\n</ul>",
+					   "a</a></li>\n<li><a href = #4>d</a></li>\n</ul>",
 					   "\n</div>")
 	expect_equal(output, expected)
 })
