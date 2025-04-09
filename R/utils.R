@@ -110,7 +110,7 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
             last_level <- list_df[row - 1, ]$level
         } else {
             last_level <- 0
-            nest_stack <- type
+            nest_stack <- NULL
         }
         html_tag <- NULL
         if(level != last_level) {
