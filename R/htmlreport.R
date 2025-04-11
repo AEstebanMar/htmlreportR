@@ -1164,6 +1164,51 @@ htmlReport$methods(
     return(html_string)
 })
 
+#' CanvasXpress scatter3D plot
+#'
+#' @name scatter3D-htmlReport-method
+#' @title Build CanvasXpress scatter3D plot from R data frame
+#' @description Loads data frame and CanvasXpress options for scatter3D plot,
+#' then calls canvasXpress_main to build it.
+#' @param options list with options.
+#' @returns HTML code for CanvasXpress scatter3D plot of data.
+
+htmlReport$methods(
+	scatter3D = function(opt) {
+		config_chart <- function(cvX, options) {
+			cvX$config$graphType <- "Scatter3D"
+			cvX$config$xAxis <- ifelse(is.null(options$xAxis),
+											cvX$samples()[1], options$xAxis)
+			cvX$config$yAxis <- ifelse(is.null(options$yAxis),
+											cvX$samples()[2], options$yAxis)
+			cvX$config$zAxis <- ifelse(is.null(options$zAxis),
+											cvX$samples()[3], options$zAxis)
+			cvX$config$yAxisTitle <- ifelse(is.null(options$yAxis),
+											"y_axis", options$y_label)
+			cvX$config$zAxisTitle <- ifelse(is.null(options$zAxis),
+											"z_axis", options$z_label)
+			## RegressionLine option from python removed, as #jesus is not even
+			## sure of what it does.
+			## pointSize option has been reduced from python method, since it
+			## can be handled as a sample attribute (as explained by #jesus).
+			## Same for colorScaleBy.
+			if(!is.null(options$pointSize)) {
+				cvX$config$sizeBy <- options$pointSize
+			}
+			if(!is.null(options$colorScaleBy)) {
+				cvX$config$colorBy <- options$colorScaleBy
+			}
+			if(!is.null(options$shapeBy)) {
+				cvX$config$shapeBy <- options$shapeBy
+			}
+		}
+		default_options <- list(row_names = FALSE, transpose = FALSE,
+								config_chart = config_chart)
+		default_options <- update_options(default_options, opt)
+		html_string <- canvasXpress_main(default_options)
+		return(html_string)
+	})
+
 #' CanvasXpress line plot
 #'
 #' @name line-htmlReport-method
