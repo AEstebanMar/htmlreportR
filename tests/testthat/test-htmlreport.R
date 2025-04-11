@@ -901,3 +901,46 @@ test_that("Testing double heatmap", {
 	expect_equal(output_dynamic_js, expected_dynamic_js)
 	expect_true(plotter$features$canvasXpress)
 })
+
+test_that("Test for scatter3D method", {
+	expected_string <- paste0("<canvas  id=\"obj_0_\" width=\"600px\"",
+							  " height=\"600px\" aspectRatio='1:1' ",
+							  "responsive='true'></canvas>")
+	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data =",
+								  " {\"y\":{\"vars\":[\"30\",\"40\"],\"smps\":",
+								  "[\"2\",\"25\",\"40\",\"30\"],\"data\":[[50,",
+								  "35,20,10],[15,50,10,5]]},\"x\":[],\"z\":{\"",
+								  "A\":[\"B\",\"A\"]}};\nvar conf = {\"toolbar",
+								  "Type\":\"under\",\"xAxisTitle\":\"Num genes",
+								  "\",\"title\":\"test_scatter3d_plot\",\"obje",
+								  "ctColorTransparency\":1,\"theme\":\"cx\",\"",
+								  "colorScheme\":\"CanvasXpress\",\"graphType",
+								  "\":\"Scatter3D\",\"xAxis\":\"liver\",\"yAx",
+								  "is\":\"brain\",\"zAxis\":\"lung\",\"yAxisT",
+								  "itle\":\"FPKM\",\"zAxisTitle\":\"3rdMetric",
+								  "\",\"sizeBy\":\"spleen\",\"colorBy\":\"kidn",
+								  "ey\",\"shapeBy\":\"pathway\"};\nvar events ",
+								  "= false;\nvar info = false;\nvar afterRende",
+								  "r = [];\nvar Cobj_0_ = new CanvasXpress(\"o",
+								  "bj_0_\", data, conf, events, info, afterRen",
+								  "der);\n});\n")
+	df <- data.frame(liver = c(20, 30, 40),
+					 brain = c(2, 50, 15),
+					 lung = c(25, 35, 50),
+					 kidney = c(40, 20, 10),
+					 spleen = c(30, 10, 5),
+					 pathway = c("A", "B", "A"))
+	rownames(df) <- c("gen1", "gen2", "gen3")
+	plotter <- htmlReport$new(container = list(test_data_frame = df),
+							  compress = FALSE)
+	output_string <- plotter$scatter3D(list(id = 'test_data_frame',
+		header = TRUE, row_names = TRUE, x_label = 'Num genes',
+		title = "test_scatter3d_plot", y_label = 'FPKM', z_label= "3rdMetric",
+		smp_attr = 6, xAxis = "liver", yAxis = "brain", zAxis = "lung",
+		pointSize = "spleen", colorScaleBy = "kidney", shapeBy = "pathway",
+		text = "dynamic"))
+	output_dynamic_js <- plotter$dynamic_js
+	expect_equal(output_string, expected_string)
+	expect_equal(output_dynamic_js, expected_dynamic_js)
+	expect_true(plotter$features$canvasXpress)
+})
