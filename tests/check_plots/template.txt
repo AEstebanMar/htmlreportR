@@ -208,21 +208,28 @@ end.rcode-->
 end.rcode-->
 
 <!--begin.rcode cvX_scatter2D
-    cat(plotter$scatter2D(list(id = "x_y.txt", title = "Simple Scatter", row_names = FALSE, header = TRUE,
+    cat(plotter$prettify_div(plotter$scatter2D(list(id = "x_y.txt", title = "Simple Scatter", row_names = FALSE, header = TRUE,
                                x_label = "Num genes", y_label = "FPKM", alpha = 0.3, theme = "tableau",
-                               text = FALSE)))
-    cat(plotter$scatter2D(list(id = "x_y.txt", title = "Scatter with densities", row_names = FALSE, header = TRUE,
-                               x_label = "Num genes", y_label = "FPKM", add_densities = TRUE, text = FALSE)))
-    cat(plotter$scatter2D(list(id = "x_y_factor.txt", title = "Scatter with factors", row_names = FALSE,
+                               text = FALSE)), preset = "magic"))
+    cat(plotter$prettify_div(plotter$scatter2D(list(id = "x_y.txt", title = "Scatter with densities", row_names = FALSE, header = TRUE,
+                               x_label = "Num genes", y_label = "FPKM", add_densities = TRUE, text = FALSE)), preset = "magic"))
+    cat(plotter$prettify_div(plotter$scatter2D(list(id = "x_y_factor.txt", title = "Scatter with factors", row_names = FALSE,
                                header = TRUE, x_label = "Num genes", y_label = "FPKM", text = "dynamic",
-                               smp_attr = 1:2, colorScaleBy = "patient", sizeBy = "group")))
-    cat(plotter$scatter2D(list(id = "barplot3.txt", title = "Scatter with custom point info", row_names = TRUE,
+                               smp_attr = 1:2, colorScaleBy = "patient", sizeBy = "group")), preset = "magic"))
+    cat(plotter$prettify_div(plotter$scatter2D(list(id = "barplot3.txt", title = "Scatter with custom point info", row_names = TRUE,
                                header = TRUE, text = "dynamic", height = 300, width = 300, var_attr = 2:3,
                                smp_attr = 2:3, xAxis = "brain", yAxis = "lung", x_label = "Brain", y_label = "Lung",
                                config = list("hoverTemplate" = "Type of gene: {type} <br>
                                                                 Other type of gene: {type2} <br>
                                                                 Lung Expr: {lung} <br>
-                                                                Brain Expr: {brain} "))))
+                                                                Brain Expr: {brain} "))), preset = "magic"))
+end.rcode-->
+
+<!--begin.rcode cvX_scatter3D
+    cat(plotter$prettify_div(plotter$scatter3D(list(id = 'scatter3dsizeAndColor.txt', header = TRUE, row_names = TRUE, x_label = 'Num genes', title = "Scatter3D plot",
+                                                    y_label = 'FPKM', z_label= "3rdMetric", smp_attr = 7, xAxis = "liver", yAxis = "brain",
+                                                    zAxis = "lung", pointSize = "spleen", colorScaleBy = "kidney", shapeBy = "pathway", text = "dynamic")),
+                                               preset = "magic"))
 end.rcode-->
 
 <!--begin.rcode cvX_barplot

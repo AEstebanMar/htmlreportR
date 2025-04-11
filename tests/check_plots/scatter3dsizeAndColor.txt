@@ -1,0 +1,8 @@
+tissue	liver	brain	lung	spleen	kidney	pathway
+gen1	20	13	60	30	40	A
+gen2	40	60	90	10	20	B
+gen3	100	85	10	5	10	B
+gen4	1	85	10	50	60	A
+gen5	40	15	14	10	40	A
+gen6	20	35	13	40	5	B
+gen7	10	10	12	80	80	B
