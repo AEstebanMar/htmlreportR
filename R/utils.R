@@ -168,6 +168,7 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
 #' column.
 #'
 #' @param id hash_vars ID of table to process
+#' @param hash_vars plotter hash_vars slot
 #' @inheritParams merge_hashed_tables-htmlReport-method
 
 .add_id_column <- function(id, hash_vars, from_id_name) {
