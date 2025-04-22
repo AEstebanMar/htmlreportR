@@ -1321,9 +1321,13 @@ htmlReport$methods(
 		}
 		bound_table <- do.call(rbind, tables)
 		if(!is.null(alt_ids)) {
-			bound_table[from_id_name] <- alt_ids
+			bound_table[, from_id_name] <- alt_ids
 		}
 		rownames(bound_table) <- NULL
-		return(bound_table)
+		if(is.null(target_id)) {
+			return(bound_table)
+		} else {
+			hash_vars[[target_id]] <<- bound_table
+		}	
 	}
 )
