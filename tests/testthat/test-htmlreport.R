@@ -944,3 +944,33 @@ test_that("Test for scatter3D method", {
 	expect_equal(output_dynamic_js, expected_dynamic_js)
 	expect_true(plotter$features$canvasXpress)
 })
+
+test_that("merge_hashed_tables, simple merge", {
+	container <- list(thisone = data.frame(val = 1),
+					  thisonetoo = data.frame(val = 0))
+	plotter <- htmlReport$new(container = container, compress = FALSE)
+	output <- plotter$merge_hashed_tables(ids = c("thisone", "thisonetoo"))
+	expected <- data.frame(val = 1:0)
+	expect_equal(output, expected)
+})
+
+test_that("merge_hashed_tables, add origin names", {
+	container <- list(thisone = data.frame(val = 1),
+					  thisonetoo = data.frame(val = 0))
+	plotter <- htmlReport$new(container = container, compress = FALSE)
+	output <- plotter$merge_hashed_tables(ids = c("thisone", "thisonetoo"),
+									      from_id_name = "origin") 
+	expected <- data.frame(val = 1:0, origin = c("thisone", "thisonetoo"))
+	expect_equal(output, expected)
+})
+
+test_that("merge_hashed_tables, rename origin names", {
+	container <- list(thisone = data.frame(val = 1),
+					  thisonetoo = data.frame(val = 0))
+	plotter <- htmlReport$new(container = container, compress = FALSE)
+	output <- plotter$merge_hashed_tables(ids = c("thisone", "thisonetoo"),
+									      from_id_name = "renamed_origin",
+									      alt_ids = c("hello", "world")) 
+	expected <- data.frame(val = 1:0, renamed_origin = c("hello", "world"))
+	expect_equal(output, expected)
+})
