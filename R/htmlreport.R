@@ -1290,3 +1290,40 @@ htmlReport$methods(
 		return(paste(div, code, "</div>", sep = "\n"))
 	}
 )
+
+#' merge_hashed_tables
+#'
+#' @name merge_hashed_tables-htmlReport-method
+#' @title binds tables contained in hash_vars by rows
+#' 
+#' @param ids Vector of hash_vars IDs to bind.
+#' @param from_id_name Name of column that contains original hash_vars IDs,
+#' to trace their origin. If NULL, this column will not be added.
+#' @param alt_ids New names for original IDs column, in case renaming them
+#' is needed for clarity, for example. If NULL (the default) they will not be
+#' renamed.
+#' @param target_id Hash_vars ID where output will be saved. If NULL (the
+#' default) it will be returned and NOT saved.
+#' 
+#' @returns Merged table
+#'
+
+NULL
+
+htmlReport$methods(
+	merge_hashed_tables = function(ids, from_id_name = NULL, alt_ids = NULL,
+								   target_id = NULL){
+		if(!is.null(from_id_name)) {
+			tables <- lapply(ids, .add_id_column, hash_vars = hash_vars,
+				 			 from_id_name = from_id_name)
+		} else {
+			tables <- hash_vars[ids]
+		}
+		bound_table <- do.call(rbind, tables)
+		if(!is.null(alt_ids)) {
+			bound_table[from_id_name] <- alt_ids
+		}
+		rownames(bound_table) <- NULL
+		return(bound_table)
+	}
+)
