@@ -132,8 +132,17 @@ test_that("make_html_list can skip nesting levels", {
 	expect_equal(output, expected)
 })
 
-test_that("make_html_listwith just one element", {
+test_that("make_html_list with just one element", {
 	expected <- paste0("<ul>\n<li>WT_1</li>\n</ul>\n")
 	output <- make_html_list(list_content = "WT_1")
+	expect_equal(output, expected)
+})
+
+test_that(".add_ID_column", {
+	hash_vars <- list(thisone = data.frame(val = 1),
+					  notthisone = data.frame(val = 0))
+	output <- .add_id_column(id = "thisone", hash_vars = hash_vars,
+		from_id_name = "itworks")
+	expected <- data.frame(val = 1, itworks = "thisone")
 	expect_equal(output, expected)
 })
