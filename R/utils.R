@@ -161,3 +161,17 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
                                       level = list_levels, type = list_types)
     return(standard_triplet_df)
 }
+
+#' .add_id_column
+#'
+#' takes hash_vars, looks for a specific table, and adds its ID in a new
+#' column.
+#'
+#' @param id hash_vars ID of table to process
+#' @inheritParams merge_hashed_tables-htmlReport-method
+
+.add_id_column <- function(id, hash_vars, from_id_name) {
+    table <- hash_vars[[id]]
+    table[from_id_name] <- id
+    return(table)
+}
