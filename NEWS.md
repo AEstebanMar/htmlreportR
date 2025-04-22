@@ -19,3 +19,6 @@
 * Update: added make\_html\_list to general functions. Takes three vectors: contents, levels (optional) and types (optional) and creates an html list with them.
 * Fix: plotting methods can now handle a smp\_attr field that is encoded in data frame as a factor
 * New: heatmap method can now handle two data frames and represent them in the same heatmap (second data frame must be an additional factor of the first, think of it as adding a third dimension to data). Will be represented by point sizes.
+* New: added scatter3D method.
+* New: added merge\_hashed\_tables method, takes a list of ids and some optional arguments and merges hash\_vars tables corresponding to those ids.
+
