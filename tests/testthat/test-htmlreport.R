@@ -945,7 +945,7 @@ test_that("Test for scatter3D method", {
 	expect_true(plotter$features$canvasXpress)
 })
 
-test_that("merge_hashed_tables, simple merge", {
+test_that("merge_hashed_tables, simple merge, returned table", {
 	container <- list(thisone = data.frame(val = 1),
 					  thisonetoo = data.frame(val = 0))
 	plotter <- htmlReport$new(container = container, compress = FALSE)
@@ -973,4 +973,14 @@ test_that("merge_hashed_tables, rename origin names", {
 									      alt_ids = c("hello", "world")) 
 	expected <- data.frame(val = 1:0, renamed_origin = c("hello", "world"))
 	expect_equal(output, expected)
+})
+
+test_that("merge_hashed_tables, simple merge, output to hash_vars", {
+	container <- list(thisone = data.frame(val = 1),
+					  thisonetoo = data.frame(val = 0))
+	plotter <- htmlReport$new(container = container, compress = FALSE)
+	plotter$merge_hashed_tables(ids = c("thisone", "thisonetoo"),
+							    target_id = "target")
+	expected <- data.frame(val = 1:0)
+	expect_equal(plotter$hash_vars$target, expected)
 })
