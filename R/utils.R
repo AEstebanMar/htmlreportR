@@ -176,3 +176,28 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
     table[from_id_name] <- id
     return(table)
 }
+
+#' parse_paths
+#'
+#' takes a vector of comma-separated paths and parses it so files can be loaded.
+#' If any of the paths contain wildcards, they will be expanded.
+#'
+#' @param string String containing paths to expand.
+#' @export
+
+parse_paths <- function(string) {
+    expanded_paths <- NULL
+    if(!is.null(string)) {
+        expanded_paths <- list()
+        for(path in strsplit(string, ",")[[1]]) {
+            if(grepl("\\*", path)) {
+                path <- Sys.glob(path)
+            }
+            expanded_paths <- c(expanded_paths, path)
+        }
+    }
+    if(length(expanded_paths) > 1) {
+        expanded_paths <- paste(expanded_paths, collapse = ",")
+    }
+    return(expanded_paths)
+}
