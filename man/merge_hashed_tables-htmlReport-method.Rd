@@ -6,6 +6,10 @@
 \arguments{
 \item{ids}{Vector of hash_vars IDs to bind.}
 
+\item{join_method}{Method by which tables will be joined, default "rbind".
+also admits "cbind", in which case from_id_name and alt_ids arguments will
+be ignored.}
+
 \item{from_id_name}{Name of column that contains original hash_vars IDs,
 to trace their origin. If NULL, this column will not be added.}
 
