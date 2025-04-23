@@ -8,8 +8,8 @@ if( Sys.getenv('HTMLREPORTER_MODE') == 'DEVELOPMENT' )
 	source_folder <- file.path(source_folder, "inst")
 	
 load("enrichments_mf.Rdata")
-heatmap_colors <- read.table('heatmap_colors.txt')
-heatmap_sizes <- read.table('heatmap_sizes.txt')
+heatmap_colors <- read.table('demo_files/heatmap_colors.txt')
+heatmap_sizes <- read.table('demo_files/heatmap_sizes.txt')
 
 plot_data <- data.frame(V1= 1:10, V2=c(10:5,1:4))
 
