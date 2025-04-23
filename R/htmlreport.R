@@ -1297,6 +1297,9 @@ htmlReport$methods(
 #' @title binds tables contained in hash_vars by rows
 #' 
 #' @param ids Vector of hash_vars IDs to bind.
+#' @param join_method Method by which tables will be joined, default "rbind".
+#' also admits "cbind", in which case from_id_name and alt_ids arguments will
+#' be ignored.
 #' @param from_id_name Name of column that contains original hash_vars IDs,
 #' to trace their origin. If NULL, this column will not be added.
 #' @param alt_ids New names for original IDs column, in case renaming them
@@ -1311,19 +1314,27 @@ htmlReport$methods(
 NULL
 
 htmlReport$methods(
-	merge_hashed_tables = function(ids, from_id_name = NULL, alt_ids = NULL,
+	merge_hashed_tables = function(ids, join_method = "rbind",
+								   from_id_name = NULL, alt_ids = NULL,
 								   target_id = NULL){
-		if(!is.null(from_id_name)) {
-			tables <- lapply(ids, .add_id_column, hash_vars = hash_vars,
-				 			 from_id_name = from_id_name)
-		} else {
+		bound_table <- NULL
+		if(join_method == "rbind") {
+			if(!is.null(from_id_name)) {
+				tables <- lapply(ids, .add_id_column, hash_vars = hash_vars,
+					 			 from_id_name = from_id_name)
+			} else {
+				tables <- hash_vars[ids]
+			}
+			bound_table <- do.call(rbind, tables)
+			if(!is.null(alt_ids)) {
+				bound_table[, from_id_name] <- alt_ids
+			}
+			rownames(bound_table) <- NULL
+		}
+		if(join_method == "cbind") {
 			tables <- hash_vars[ids]
+			bound_table <- do.call(cbind, tables)
 		}
-		bound_table <- do.call(rbind, tables)
-		if(!is.null(alt_ids)) {
-			bound_table[, from_id_name] <- alt_ids
-		}
-		rownames(bound_table) <- NULL
 		if(is.null(target_id)) {
 			return(bound_table)
 		} else {
