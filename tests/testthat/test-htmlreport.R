@@ -945,7 +945,7 @@ test_that("Test for scatter3D method", {
 	expect_true(plotter$features$canvasXpress)
 })
 
-test_that("merge_hashed_tables, simple merge, returned table", {
+test_that("merge_hashed_tables, rbind join, returned table", {
 	container <- list(thisone = data.frame(val = 1),
 					  thisonetoo = data.frame(val = 0))
 	plotter <- htmlReport$new(container = container, compress = FALSE)
@@ -954,7 +954,7 @@ test_that("merge_hashed_tables, simple merge, returned table", {
 	expect_equal(output, expected)
 })
 
-test_that("merge_hashed_tables, add origin names", {
+test_that("merge_hashed_tables, rbind join, add origin names", {
 	container <- list(thisone = data.frame(val = 1),
 					  thisonetoo = data.frame(val = 0))
 	plotter <- htmlReport$new(container = container, compress = FALSE)
@@ -964,7 +964,7 @@ test_that("merge_hashed_tables, add origin names", {
 	expect_equal(output, expected)
 })
 
-test_that("merge_hashed_tables, rename origin names", {
+test_that("merge_hashed_tables, rbind join, rename origin names", {
 	container <- list(thisone = data.frame(val = 1),
 					  thisonetoo = data.frame(val = 0))
 	plotter <- htmlReport$new(container = container, compress = FALSE)
@@ -975,12 +975,24 @@ test_that("merge_hashed_tables, rename origin names", {
 	expect_equal(output, expected)
 })
 
-test_that("merge_hashed_tables, simple merge, output to hash_vars", {
+test_that("merge_hashed_tables, rbind join, output to hash_vars", {
 	container <- list(thisone = data.frame(val = 1),
 					  thisonetoo = data.frame(val = 0))
 	plotter <- htmlReport$new(container = container, compress = FALSE)
 	plotter$merge_hashed_tables(ids = c("thisone", "thisonetoo"),
 							    target_id = "target")
 	expected <- data.frame(val = 1:0)
+	expect_equal(plotter$hash_vars$target, expected)
+})
+
+test_that("merge_hashed_tables, cbind join, ignores rbind arguments", {
+	container <- list(thisone = data.frame(val = 1),
+					  thisonetoo = data.frame(type = "A"))
+	plotter <- htmlReport$new(container = container, compress = FALSE)
+	plotter$merge_hashed_tables(ids = c("thisone", "thisonetoo"),
+								join_method = "cbind", target_id = "target",
+								from_id_name = "this_should_not_exist",
+								alt_ids = "this neither")
+	expected <- data.frame(val = 1, type = "A")
 	expect_equal(plotter$hash_vars$target, expected)
 })
