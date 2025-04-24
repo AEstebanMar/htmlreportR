@@ -191,13 +191,16 @@ parse_paths <- function(string) {
         expanded_paths <- list()
         for(path in strsplit(string, ",")[[1]]) {
             if(grepl("\\*", path)) {
-                path <- Sys.glob(path)
+                globbed_path <- Sys.glob(path)
+            } else {
+                globbed_path <- path
             }
-            expanded_paths <- c(expanded_paths, path)
+            if(length(globbed_path) < 1) {
+                warning("Expression \"", path, "\" expanded to 0 files.")
+            }
+            expanded_paths <- c(expanded_paths, globbed_path)
         }
     }
-    if(length(expanded_paths) > 1) {
-        expanded_paths <- paste(expanded_paths, collapse = ",")
-    }
+    expanded_paths <- paste(expanded_paths, collapse = ",")
     return(expanded_paths)
 }
