@@ -1342,3 +1342,43 @@ htmlReport$methods(
 		}	
 	}
 )
+
+#' get_col_n_row_span
+#'
+#' @name get_col_n_row_span-htmlReport-method
+#' @title converts span noted table into a span map.
+#' 
+#' @param table Colspan and rowspan maps.
+#' @details What we mean by "span map" is a table with the same dimensions
+#' as the input table, but with a number in each cell specifyin its column
+#' and row spans, respectively. A colspan of three means that it will merge with
+#' the two cells on its right into the same cell in the final table. Same logic
+#' for row span map, it will merge with the two cells below it.
+#' 
+#' @returns A list of two tables: colspans and rowspans.
+#'
+NULL
+
+htmlReport$methods(
+	get_col_n_row_span = function(table){
+		rowspan <- colspan <- data.frame(matrix(1, ncol = ncol(table),
+										 nrow = nrow(table)))
+        last_row <- 1
+        for(r in seq(nrow(table))) {
+        	last_col <- 1
+        	for(c in seq(length(table[r, ]))) {
+        		if(table[r, c] == "colspan") {
+        			colspan[r, last_col] <- colspan[r, last_col] + 1
+        		} else {
+        			last_col <- c
+        		}
+        		if(table[r, c] == "rowspan") {
+        			rowspan[last_row, c] <- rowspan[last_row, c] + 1
+        		} else {
+        			last_row <- r
+        		}
+        	}
+        }
+        return(list(rowspan = rowspan, colspan = colspan))
+	}
+)
