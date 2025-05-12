@@ -730,10 +730,8 @@ htmlReport$methods(table = function(user_options){
                     "});"), collapse = "\n"))    
 	}
 	count_objects <<- count_objects + 1
-	parse_data_frame(data_frame = data_frame,
-					options = options, 
-					table_id = table_id,
-					table_attr = table_attr)
+	parse_data_frame(data_frame = data_frame, options = options,
+					 table_id = table_id, table_attr = table_attr)
 
 	}
 )
@@ -767,8 +765,10 @@ htmlReport$methods(
 		html_data_frame <- paste0("<table id=", table_id,
 								   " border=", options$border, " ",
 								   table_attr, " >")
-		html_data_frame <- c(html_data_frame, "<thead>", "<tr>")
-		if (options$table_rownames == TRUE) {
+		if(isTRUE(options$header)) {
+			html_data_frame <- c(html_data_frame, "<thead>", "<tr>")
+		}
+		if(isTRUE(options$table_rownames)) {
 			html_data_frame <- c(html_data_frame, "<th> rownames </th>")
 		}
 		colnames_vector <- sapply(colnames(data_frame), paste_tag, tag = "th")
@@ -777,7 +777,7 @@ htmlReport$methods(
 										"</tr>", "</thead>", "<tbody>")
 		for(row_ind in seq(nrow(data_frame))) {
 			html_data_frame <- c(html_data_frame, "<tr>")
-			if(options$table_rownames == TRUE) {
+			if(isTRUE(options$table_rownames)) {
 				rownames_vector <- paste_tag(rownames(data_frame)[row_ind], "td")
 				html_data_frame <- c(html_data_frame, rownames_vector)
 			}
