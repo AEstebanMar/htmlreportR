@@ -1008,36 +1008,18 @@ test_that("test get_col_n_row_span, no span case", {
 })
 
 test_that("test get_col_n_row_span, table and row spans", {
-	span_table <- data.frame(c("title", "colspan", "colspan"),
-							 c("sample", "colspan", "expression"),
-							 c("nerv", "brain", 3),
-							 c("rowspan", "cerebellum", 4))
+	span_table <- data.frame(c("title", "sample", "nerv", "rowspan"),
+							 c("colspan", "colspan", "brain", "cerebellum"),
+							 c("colspan", "expression", 3, 4))
 	colnames(span_table) <- paste0("X", seq(ncol(span_table)))
-	exp_colspan <- exp_rowspan <- data.frame(matrix(1, ncol = 4, nrow = 3))
-	exp_rowspan[1, 3] <- 2
-	exp_colspan[1, 1] <- 3
-	exp_colspan[1, 2] <- 2
+	exp_colspan <- exp_rowspan <- data.frame(matrix(1, ncol = 3, nrow = 4))
+	exp_rowspan[c(1:2, 4), ] <- 1
+	exp_rowspan[3, ] <- c(2, 1, 1)
+	exp_colspan[1, ] <- c(3, 1, 1)
+	exp_colspan[2, ] <- c(2, 1, 1)
+	exp_colspan[3:4, ] <- 1
 	expected_list <- list(rowspan = exp_rowspan, colspan = exp_colspan)
 	plotter <- htmlReport$new()
 	output <- plotter$get_col_n_row_span(span_table)
 	expect_equal(output, expected_list)
 })
-
-table_with_row_and_col_span = [
-            ["title", "colspan", "colspan"], #A tittle spannin the three columns
-            ["sample", "colspan", "expresion"], #sample spanning 2 columns and expresion
-            ["nerv",    "brain",        3], # nerv spanning 2 rows, brain and value
-            ["rowspan", "cerebellum",   4], # space spanned, cerebellum and value
-        ]
-
-        expected_row_span = [
-            [1, 1, 1],
-            [1, 1, 1], 
-            [2, 1, 1], 
-            [1, 1, 1]]
-        
-        expected_col_span = [
-            [3, 1, 1],
-            [2, 1, 1], 
-            [1, 1, 1], 
-            [1, 1, 1]]
