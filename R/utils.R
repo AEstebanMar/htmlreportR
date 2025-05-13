@@ -186,7 +186,7 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
 #' @export
 
 parse_paths <- function(string) {
-    expanded_paths <- ""
+    expanded_paths <- NULL
     if(!is.null(string)) {
         expanded_paths <- list()
         for(path in strsplit(string, ",")[[1]]) {
