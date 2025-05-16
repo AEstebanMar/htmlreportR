@@ -765,9 +765,7 @@ htmlReport$methods(
 		html_data_frame <- paste0("<table id=", table_id,
 								   " border=", options$border, " ",
 								   table_attr, " >")
-		if(isTRUE(options$header)) {
-			html_data_frame <- c(html_data_frame, "<thead>", "<tr>")
-		}
+		html_data_frame <- c(html_data_frame, "<thead>", "<tr>")
 		if(isTRUE(options$table_rownames)) {
 			html_data_frame <- c(html_data_frame, "<th> rownames </th>")
 		}
