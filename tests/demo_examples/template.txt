@@ -152,6 +152,8 @@ end.rcode-->
                                 row.names = 1:4)
     cat(plotter$table(list(id = "test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2,
                       var_attr = 2, attrib = list('class' = 'table table-striped'))))
+        cat(plotter$table(list(id = "test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2,
+                      var_attr = 2, attrib = list('class' = 'table table-striped'), rownames_col = "renamed_rows")))
 end.rcode-->
 
 
