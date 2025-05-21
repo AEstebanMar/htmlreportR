@@ -90,8 +90,10 @@ replace_paired_mark <- function(string, pattern, replace) {
 #' for unordered or "ol" for ordered. Default "ul"
 #'
 #' @returns Formatted html list ready to render.
-#'
-#'
+#' @export
+#' @examples
+#' content <- c("One", "Two", "Three")
+#' make_html_list(list_content = content)
 
 make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
                            default_type = "ul") {

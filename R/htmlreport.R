@@ -708,7 +708,7 @@ htmlReport$methods(table = function(user_options){
 					transpose = FALSE, smp_attr = NULL, var_attr = NULL,
 					fields = NULL, rows = NULL, func = NULL, text = FALSE,
 					border = 1, table_rownames = TRUE, cell_align = c(),
-					attrib = list(), styled = "bs",
+					attrib = list(), styled = "bs", rownames_col = "rownames",
 				 	buttons_custom = c('copyHtml5', 'excelHtml5', 'csvHtml5'))
 	options <- update_options(options, user_options)
 	table_attr <- parse_table_attr(options$attrib)
@@ -726,7 +726,8 @@ htmlReport$methods(table = function(user_options){
     	features$dt_tables <<- TRUE
     	dynamic_js <<- c(dynamic_js,
                     paste(c("$(document).ready(function () {",
-                        paste0("\t$(", table_id,").DataTable({ dom:'Bfrtip', buttons: [", embedded_buttons, "], order: [] });"),
+                        paste0("\t$(", table_id,").DataTable({ dom:'Bfrtip', ",
+                        	"buttons: [", embedded_buttons, "], order: [] });"),
                     "});"), collapse = "\n"))    
 	}
 	count_objects <<- count_objects + 1
@@ -767,7 +768,8 @@ htmlReport$methods(
 								   table_attr, " >")
 		html_data_frame <- c(html_data_frame, "<thead>", "<tr>")
 		if(isTRUE(options$table_rownames)) {
-			html_data_frame <- c(html_data_frame, "<th> rownames </th>")
+			rownames_col <- paste_tag(options$rownames_col, tag = "th")
+			html_data_frame <- c(html_data_frame, rownames_col)
 		}
 		colnames_vector <- sapply(colnames(data_frame), paste_tag, tag = "th")
 		names(colnames_vector) <- NULL
