@@ -2,6 +2,7 @@
 
 export(htmlReport)
 export(main_htmlreportR)
+export(make_html_list)
 export(parse_paths)
 exportClasses(htmlReport)
 importFrom(ggplot2,ggplot)

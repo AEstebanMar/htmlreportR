@@ -21,4 +21,4 @@
 * New: heatmap method can now handle two data frames and represent them in the same heatmap (second data frame must be an additional factor of the first, think of it as adding a third dimension to data). Will be represented by point sizes.
 * New: added scatter3D method.
 * New: added merge\_hashed\_tables method, takes a list of ids and some optional arguments and merges hash\_vars tables corresponding to those ids.
-
+* Update: table method now admits rownames\_col argument in option list, renames rownames column.

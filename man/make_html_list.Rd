@@ -30,3 +30,7 @@ Formatted html list ready to render.
 Take an input vector or list and use it to build an html list of specified
 type
 }
+\examples{
+content <- c("One", "Two", "Three")
+make_html_list(list_content = content)
+}
