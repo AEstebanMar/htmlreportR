@@ -436,7 +436,6 @@ test_that("testing the table formatting in the class htmlReport",{
     expect_equal(output$var_attr, expected_var_attr)
 })
 
-
 test_that("testing the full table formatting in the class htmlReport", {
 
 	expected_output <-"<table id=table_0 border=1  >
@@ -470,6 +469,42 @@ test_that("testing the full table formatting in the class htmlReport", {
 	actual_output <- plotter$table(list(id = "test_df", header = TRUE,
 										row_names = TRUE, smp_attr = 2,
 										var_attr = 2))
+	expect_equal(actual_output, expected_output)
+})
+
+test_that("testing the full table formatting in the class htmlReport, renaming
+		   table rownames", {
+	expected_output <-"<table id=table_0 border=1  >
+<thead>
+<tr>
+<th> custom </th>
+<th> h2 </th>
+<th> h3 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> r2 </td>
+<td> 1 </td>
+<td> 3 </td>
+</tr>
+<tr>
+<td> r3 </td>
+<td> 2 </td>
+<td> 4 </td>
+</tr>
+</tbody>
+</table>"
+	input_df <- data.frame(V1 = c("h0","r1", "r2", "r3"), 
+                      	   V2 = c("h1", "-","smp_attr1", "smp_attr2"),
+                      	   V3 = c("h2", "var_attr1", 1, 2), 
+                      	   V4 = c("h3", "var_attr2", 3, 4), 
+                      	   row.names = 1:4)
+	plotter <- htmlReport$new()
+	plotter$hash_vars$test_df <- input_df
+	actual_output <- plotter$table(list(id = "test_df", header = TRUE,
+										row_names = TRUE, smp_attr = 2, table_rownames = TRUE,
+										var_attr = 2, rownames_col = "custom"))
 	expect_equal(actual_output, expected_output)
 })
 
@@ -521,7 +556,8 @@ test_that("testing the table formatting in the class htmlReport", {
                                 "V4" = c("h3", "var_attr2", 3, 4), 
                                 row.names = 1:4)
 	plotter <- htmlReport$new()
-	options <- list(border = 1, table_rownames = TRUE)
+	options <- list(border = 1, table_rownames = TRUE,
+		   			rownames_col = "rownames")
 	actual_output <- plotter$parse_data_frame(test_data_frame, options,
 											  "Sample")
 	expect_equal(actual_output, expected_output)
