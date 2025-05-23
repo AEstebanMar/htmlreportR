@@ -173,8 +173,11 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
 #' @param hash_vars plotter hash_vars slot
 #' @inheritParams merge_hashed_tables-htmlReport-method
 
-.add_id_column <- function(id, hash_vars, from_id_name) {
+.add_id_column <- function(id, hash_vars, from_id_name, add_colnames = FALSE) {
     table <- hash_vars[[id]]
+    if(add_colnames) {
+        table <- .row_to_header(table)
+    }
     table[from_id_name] <- id
     return(table)
 }
@@ -209,4 +212,16 @@ parse_paths <- function(string) {
         expanded_paths <- paste(expanded_paths, collapse = ",")
     }
     return(expanded_paths)
+}
+
+.row_to_header <- function(data_frame, row = 1) {
+    colnames(data_frame) <- data_frame[row, ]
+    data_frame <- data_frame[-row, , drop = FALSE]
+    return(data_frame)
+}
+
+.col_to_rownames <- function(data_frame, col = 1) {
+    rownames(data_frame) <- data_frame[, 1]
+    data_frame <- data_frame[, -1, drop = FALSE]
+    return(data_frame)
 }

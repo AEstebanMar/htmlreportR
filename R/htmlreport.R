@@ -600,17 +600,14 @@ NULL
 htmlReport$methods(add_header_row_names = function(data_frame, options) {
 	if(!is.null(options$header)) {
 		if(options$header) {
-			colnames(data_frame) <- data_frame[1, ]
-			data_frame <- data_frame[-1, , drop = FALSE]
+			data_frame <- .row_to_header(data_frame)
 		}
 	}
 	if(!is.null(options$row_names)) {
 		if(options$row_names) {
-			rownames(data_frame) <- data_frame[, 1]
-			data_frame <- data_frame[, -1, drop = FALSE]
+			data_frame <- .col_to_rownames(data_frame)
 		}
-	}
-		
+	}	
 	return(data_frame)	
 })
 
@@ -1300,9 +1297,9 @@ htmlReport$methods(
 #' @param join_method Method by which tables will be joined, default "rbind".
 #' also admits "cbind", in which case from_id_name and alt_ids arguments will
 #' be ignored.
-#' @param colnames A boolean. Controls colnames handling.
-#'   * `TRUE` (the default): tables' colnames are treated as such.
-#'   * `FALSE` : tables' first row is moved to colnames.
+#' @param add_colnames A boolean. Controls colnames handling.
+#'   * `TRUE`: tables' colnames are treated as such.
+#'   * `FALSE` (the default): tables' first row is moved to colnames.
 #' @param from_id_name Name of column that contains original hash_vars IDs,
 #' to trace their origin. If NULL, this column will not be added.
 #' @param alt_ids New names for original IDs column, in case renaming them
@@ -1317,20 +1314,20 @@ htmlReport$methods(
 NULL
 
 htmlReport$methods(
-	merge_hashed_tables = function(ids, join_method = "rbind", colnames = TRUE,
-								   from_id_name = NULL, alt_ids = NULL,
+	merge_hashed_tables = function(ids, join_method = "rbind", alt_ids = NULL,
+								   add_colnames = FALSE, from_id_name = NULL, 
 								   target_id = NULL){
 		bound_table <- NULL
-		if(!colnames) {
-			tables <- lapply(tables, plotter$add_header_row_names,
-							 options = list(colnames = colnames))
-		}
 		if(join_method == "rbind") {
 			if(!is.null(from_id_name)) {
 				tables <- lapply(ids, .add_id_column, hash_vars = hash_vars,
-					 			 from_id_name = from_id_name)
+					 			 from_id_name = from_id_name,
+					 			 add_colnames = add_colnames)
 			} else {
 				tables <- hash_vars[ids]
+				if(isTRUE(add_colnames)) {
+					tables <- lapply(tables, .row_to_header)
+				}
 			}
 			bound_table <- do.call(rbind, tables)
 			if(!is.null(alt_ids)) {
