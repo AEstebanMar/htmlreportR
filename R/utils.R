@@ -188,7 +188,7 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
 #' @examples
 #' dontrun{
 #'         parse_paths("./*/test*txt")
-#'        }'
+#'        }
 #' @export
 
 parse_paths <- function(string) {
