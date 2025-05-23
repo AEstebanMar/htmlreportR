@@ -4,7 +4,7 @@
 \alias{.add_id_column}
 \title{.add_id_column}
 \usage{
-.add_id_column(id, hash_vars, from_id_name)
+.add_id_column(id, hash_vars, from_id_name, add_colnames = FALSE)
 }
 \arguments{
 \item{id}{hash_vars ID of table to process}
@@ -13,6 +13,12 @@
 
 \item{from_id_name}{Name of column that contains original hash_vars IDs,
 to trace their origin. If NULL, this column will not be added.}
+
+\item{add_colnames}{A boolean. Controls colnames handling.
+\itemize{
+\item \code{TRUE}: tables' colnames are treated as such.
+\item \code{FALSE} (the default): tables' first row is moved to colnames.
+}}
 }
 \description{
 takes hash_vars, looks for a specific table, and adds its ID in a new

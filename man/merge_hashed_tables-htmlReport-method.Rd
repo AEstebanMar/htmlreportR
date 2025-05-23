@@ -10,6 +10,12 @@
 also admits "cbind", in which case from_id_name and alt_ids arguments will
 be ignored.}
 
+\item{add_colnames}{A boolean. Controls colnames handling.
+\itemize{
+\item \code{TRUE}: tables' colnames are treated as such.
+\item \code{FALSE} (the default): tables' first row is moved to colnames.
+}}
+
 \item{from_id_name}{Name of column that contains original hash_vars IDs,
 to trace their origin. If NULL, this column will not be added.}
 
