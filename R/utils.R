@@ -185,6 +185,10 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
 #' If any of the paths contain wildcards, they will be expanded.
 #'
 #' @param string String containing paths to expand.
+#' @examples
+#' dontrun{
+#'         parse_paths("./*/test*txt")
+#'        }'
 #' @export
 
 parse_paths <- function(string) {
