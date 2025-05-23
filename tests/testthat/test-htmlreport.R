@@ -1033,13 +1033,13 @@ test_that("merge_hashed_tables, cbind join, ignores rbind arguments", {
 	expect_equal(plotter$hash_vars$target, expected)
 })
 
-test_that("merge_hashed_tables, rbind join, returned table, colnames FALSE", {
-	container <- list(thisone = data.frame(V1 = c("thisone", 1)),
-					  thisonetoo = data.frame(V1 = c("thisonetoo", 0)))
+test_that("merge_hashed_tables, rbind join, returned table, add_colnames TRUE", {
+	container <- list(thisone = data.frame(V1 = c("val", 1)),
+					  thisonetoo = data.frame(V1 = c("val", 0)))
 	plotter <- htmlReport$new(container = container, compress = FALSE)
 	output <- plotter$merge_hashed_tables(ids = c("thisone", "thisonetoo"),
-										  colnames = FALSE)
-	expected <- data.frame(val = 1:0)
+										  add_colnames = TRUE)
+	expected <- data.frame(val = as.character(1:0))
 	expect_equal(output, expected)
 })
 
