@@ -16,7 +16,6 @@ if( Sys.getenv('HTMLREPORTER_MODE') == 'DEVELOPMENT' ){
   require('htmlreportR')
   root_path <- find.package('htmlreportR')
   source_folder <- file.path(root_path)
-
 }
 
 option_list <- list(
