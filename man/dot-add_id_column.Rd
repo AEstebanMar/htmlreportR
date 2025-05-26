@@ -22,5 +22,5 @@ to trace their origin. If NULL, this column will not be added.}
 }
 \description{
 takes hash_vars, looks for a specific table, and adds its ID in a new
-column.
+column. Private method, use at your own risk.
 }
