@@ -167,7 +167,7 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
 #' .add_id_column
 #'
 #' takes hash_vars, looks for a specific table, and adds its ID in a new
-#' column.
+#' column. Private method, use at your own risk.
 #'
 #' @param id hash_vars ID of table to process
 #' @param hash_vars plotter hash_vars slot
