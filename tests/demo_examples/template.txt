@@ -152,8 +152,20 @@ end.rcode-->
                                 row.names = 1:4)
     cat(plotter$table(list(id = "test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2,
                       var_attr = 2, attrib = list('class' = 'table table-striped'))))
-        cat(plotter$table(list(id = "test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2,
+    cat(plotter$table(list(id = "test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2,
                       var_attr = 2, attrib = list('class' = 'table table-striped'), rownames_col = "renamed_rows")))
+end.rcode-->
+
+<!--begin.rcode merge_hashed_tables
+
+    plotter$hash_vars$table1 <- data.frame(val1 = 1:5, val2 = 6:10)
+    plotter$hash_vars$table2 <- data.frame(val1 = 11:15, val2 = 16:20)
+    plotter$merge_hashed_tables(ids = c("table1", "table2"), from_id_name = "origin", target_id = "merged_table")
+    cat(plotter$prettify_div(plotter$barplot(list(id = "merged_table", title = "Merged table barplot", header = NULL, row_names = NULL,
+                                                  text = FALSE, text = FALSE, transpose = TRUE, xAxisTitle = "Cells", smp_attr = 3,
+                                                  colorBy = "origin", config = list(graphOrientation = "vertical", showLegend = TRUE,
+                                                  smpLabelImage = TRUE, xAxisTitle = "Values"))), preset = "magic"))
+
 end.rcode-->
 
 
