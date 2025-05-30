@@ -22,3 +22,4 @@
 * New: added scatter3D method.
 * New: added merge\_hashed\_tables method, takes a list of ids and some optional arguments and merges hash\_vars tables corresponding to those ids.
 * Update: table method now admits rownames\_col argument in option list, renames rownames column.
+* Update: barplot method now includes option to color series by a specified sample attribute.
