@@ -701,6 +701,38 @@ test_that("testing barplot method of htmlReport class", {
 	expect_true(plotter$features$canvasXpress)
 })
 
+test_that("testing barplot method of htmlReport class, colorBy", {
+	expected_string <- paste0("<canvas  id=\"obj_0_\" width=\"600px\" height=",
+							  "\"300\" aspectRatio='1:1' responsive='true'></",
+							  "canvas>")
+	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data =",
+		" {\"y\":{\"vars\":[\"h1\",\"h2\",\"h3\"],\"smps\":[\"2\",\"3\",\"4\"]",
+		",\"data\":[[1,2,3],[4,5,6],[7,8,9]]},\"x\":{\"h0\":[\"s2\",\"s3\",\"s",
+		"4\"]},\"z\":[]};\nvar conf = {\"toolbarType\":\"under\",\"xAxisTitle",
+		"\":\"x_axis\",\"title\":\"A\",\"objectColorTransparency\":1,\"theme\"",
+		":\"cx\",\"colorScheme\":\"CanvasXpress\",\"graphOrientation\":\"verti",
+		"cal\",\"graphType\":\"Bar\",\"colorBy\":\"V1\"};\nvar events = false;",
+		"\nvar info = false;\nvar afterRender = [];\nvar Cobj_0_ = new CanvasX",
+		"press(\"obj_0_\", data, conf, events, info, afterRender);\n});\n")
+	input_df <- data.frame(V1 = c("h0", "s2", "s3", "s4"),
+						   V2 = c("h1", 1, 2, 3),
+					  	   V3 = c("h2", 4, 5, 6), V4 = c("h3", 7, 8, 9),
+					  	   row.names = c(1, 2, 3, 4))
+	container <- list(test_df = input_df)
+	plotter <- htmlReport$new(container = container, compress = FALSE)
+	output_string <- plotter$barplot(list(id = "test_df", title = "A",
+										  row_names = FALSE, header = TRUE,
+										  text = "dynamic", height = 300,
+										  colorBy = "V1", smp_attr = 1,
+										  config = list(
+										  	'graphOrientation' = 'vertical')
+										  ))
+	output_dynamic_js <- plotter$dynamic_js
+	expect_equal(output_string, expected_string)
+	expect_equal(output_dynamic_js, expected_dynamic_js)
+	expect_true(plotter$features$canvasXpress)
+})
+
 test_that("testing line method of htmlReport class", {
 	expected_string <- paste0("<canvas  id=\"obj_0_\" width=\"600px\" ",
 							  "height=\"600px\" aspectRatio='1:1' ",
