@@ -1085,6 +1085,9 @@ htmlReport$methods(
 	config_chart <- function(cvX, options) {
 		cvX$config[['graphType']] <- 'Bar'
 		xmod <- cvX$x()
+		if(!is.null(options$colorBy)) {
+			cvX$config$colorBy <- options$colorBy
+		}
 		if(isTRUE(options$colorScale)) {
 			xmod[[options$x_label]] <- unlist(cvX$values()[1,])
 			#el unlist es para que el subset de 1 fila devuelva un vector
