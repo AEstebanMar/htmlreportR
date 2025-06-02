@@ -66,7 +66,7 @@ update_options <- function(ref, sub){
 #' @examples
 #' example_string <- "** This should be in bold **"
 #' pattern <- "(\\*\\*+?)([- \\w]+)(\\*\\*+?)"
-#' replace_paired_mark(string, pattern, c("<strong>", "</strong>"))
+#' replace_paired_mark(example_string, pattern, c("<strong>", "</strong>"))
 
 replace_paired_mark <- function(string, pattern, replace) {
     if(grepl(pattern, string, perl = TRUE)) {
@@ -194,7 +194,7 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
 #'
 #' @param string String containing paths to expand.
 #' @examples
-#' dontrun{
+#' \dontrun{
 #'         parse_paths("./*/test*txt")
 #'        }
 #' @export
