@@ -62,6 +62,11 @@ update_options <- function(ref, sub){
 #' the first paired element and the second paired element
 #'
 #' @return Modified string.
+#' @export
+#' @examples
+#' example_string <- "** This should be in bold **"
+#' pattern <- "(\\*\\*+?)([- \\w]+)(\\*\\*+?)"
+#' replace_paired_mark(string, pattern, c("<strong>", "</strong>"))
 
 replace_paired_mark <- function(string, pattern, replace) {
     if(grepl(pattern, string, perl = TRUE)) {
