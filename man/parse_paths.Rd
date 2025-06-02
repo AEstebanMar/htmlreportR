@@ -14,7 +14,7 @@ takes a vector of comma-separated paths and parses it so files can be loaded.
 If any of the paths contain wildcards, they will be expanded.
 }
 \examples{
-dontrun{
+\dontrun{
         parse_paths("./*/test*txt")
        }
 }

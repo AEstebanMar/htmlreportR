@@ -20,3 +20,8 @@ Modified string.
 \description{
 Recursively replaces paired marks in a string.
 }
+\examples{
+example_string <- "** This should be in bold **"
+pattern <- "(\\\\*\\\\*+?)([- \\\\w]+)(\\\\*\\\\*+?)"
+replace_paired_mark(example_string, pattern, c("<strong>", "</strong>"))
+}
