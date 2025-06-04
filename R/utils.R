@@ -226,7 +226,7 @@ parse_paths <- function(string) {
 }
 
 .col_to_rownames <- function(data_frame, col = 1) {
-    rownames(data_frame) <- data_frame[, 1]
-    data_frame <- data_frame[, -1, drop = FALSE]
+    rownames(data_frame) <- data_frame[, col]
+    data_frame <- data_frame[, -col, drop = FALSE]
     return(data_frame)
 }
