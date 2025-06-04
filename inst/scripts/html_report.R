@@ -10,7 +10,6 @@ if( Sys.getenv('HTMLREPORTER_MODE') == 'DEVELOPMENT' ){
   root_path <- file.path(main_path_script, '..', '..')
   # Load custom libraries
   devtools::load_all(file.path(root_path))
-
   source_folder <- file.path(root_path, 'inst')
 }else{
   require('htmlreportR')
