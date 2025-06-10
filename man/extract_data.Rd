@@ -10,7 +10,8 @@
 A list containing the retrieved data and additional information.
 }
 \description{
-This method retrieves data from an \code{htmlReport} object based on specified options.
+This method retrieves data from an \code{htmlReport} object
+based on specified options.
 }
 \details{
 Retrieve Data from htmlReport Object

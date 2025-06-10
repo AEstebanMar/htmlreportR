@@ -6,16 +6,24 @@
 \arguments{
 \item{data_frame}{The data frame to be modified.}
 
-\item{options}{A list of options controlling the modification of column and row names.}
+\item{options}{A list of options controlling the modification of column and
+row names.}
 }
 \value{
 The modified data frame with updated column and/or row names.
 }
 \description{
-This function modifies a data frame to include specific column and row names.
+This function modifies a data frame to include specific column
+and row names.
 }
 \details{
 Add Header and Row Names to Data Frame for HTML Report table
 
-This function checks the options provided and manipulates the column and row names of the input data frame accordingly. If the 'header' option is set to true, it assigns the first row of the data frame as column names and removes that row from the data frame. If the 'row_names' option is true, it assigns the first column of the data frame as row names and removes that column from the data frame. If either option is not true, it assigns sequential numbers as column or row names, respectively.
+This function checks the options provided and manipulates the column
+and row names of the input data frame accordingly. If the 'header' option is
+set to true, it assigns the first row of the data frame as column names and
+removes that row from the data frame. If the 'row_names' option is true, it
+assigns the first column of the data frame as row names and removes that
+column from the data frame. If either option is not true, it assigns
+sequential numbers as column or row names, respectively.
 }

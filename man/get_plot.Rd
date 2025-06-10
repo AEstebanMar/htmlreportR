@@ -20,7 +20,10 @@
 Displays the plot within the HTML report.
 }
 \description{
-This method generates and retrieves a plot from an \code{htmlReport} object. This code writes the plot to a temporal png, then it loads the png in base64 encoding and then displays the plot within the HTML report.
+This method generates and retrieves a plot from an
+\code{htmlReport} object. This code writes the plot to a temporal png, then
+it loads the png in base64 encoding and then displays the plot within the
+HTML report.
 }
 \details{
 Get Plot from htmlReport Object

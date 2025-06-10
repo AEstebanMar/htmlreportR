@@ -7,10 +7,12 @@
 \item{options}{A list containing options for data retrieval.}
 }
 \value{
-A list containing the retrieved data, attributes, samples, and variables.
+A list containing the retrieved data, attributes, samples, and
+variables.
 }
 \description{
-This method retrieves data suitable for plotting from an \code{htmlReport} object based on specified options.
+This method retrieves data suitable for plotting from an
+\code{htmlReport} object based on specified options.
 }
 \details{
 Get Data for Plotting from htmlReport Object
