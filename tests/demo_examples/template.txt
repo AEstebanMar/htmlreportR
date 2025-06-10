@@ -162,7 +162,7 @@ end.rcode-->
     plotter$hash_vars$table2 <- data.frame(val1 = 11:15, val2 = 16:20)
     plotter$merge_hashed_tables(ids = c("table1", "table2"), from_id_name = "origin", target_id = "merged_table")
     cat(plotter$prettify_div(plotter$barplot(list(id = "merged_table", title = "Merged table barplot", header = NULL, row_names = NULL,
-                                                  text = FALSE, text = FALSE, transpose = TRUE, xAxisTitle = "Cells", smp_attr = 3,
+                                                  text = FALSE, text = FALSE, transpose = TRUE, smp_attr = 3,
                                                   colorBy = "origin", config = list(graphOrientation = "vertical", showLegend = TRUE,
                                                   smpLabelImage = TRUE, xAxisTitle = "Values"))), preset = "magic"))
 
@@ -335,6 +335,22 @@ end.rcode-->
                                                   row_names = TRUE, smp_attr = 5:6, text = "dynamic",
                                                   group = c("pathway", "sequencing"), format = "wide",
                                                   add_violin = TRUE)), preset = "magic"))
+end.rcode-->
+
+<!--begin.rcode grid showcase
+    saveRDS(plotter, "plotter.rds")
+    cat(plotter$create_title("You can use our prettify_div method to plot figures in a grid", "grid_example", hlevel = 2, indexable = FALSE))
+    code <- list()
+    code[[1]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE,
+                                      row_names = TRUE, text = "dynamic", format = "wide"))
+    code[[2]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE,
+                                      row_names = TRUE,text = "dynamic", format = "wide"))
+    code[[3]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE,
+                                      row_names = TRUE, text = "dynamic", format = "wide"))
+    code[[4]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE,
+                                      row_names = TRUE, text = "dynamic", format = "wide"))
+    code <- paste(code, collapse = "\n\n")
+    cat(plotter$prettify_div(plotter$prettify_div(code, width = "1200px"), preset = "magic"))
 end.rcode-->
 
 <!--begin.rcode Custom_loading
