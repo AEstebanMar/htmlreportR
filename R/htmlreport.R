@@ -473,9 +473,9 @@ htmlReport$methods(get_data = function(options) {
 		all_data$smp_attr <- all_data$var_attr
 		all_data$var_attr <- backup
 	}
-	if("dynamic" %in% options$text) {
+	if(options$text == "dynamic") {
 		numeric_fields <- check_numeric_fields(all_data$data_frame)
-	} else if(all(options$text == FALSE)){
+	} else if(options$text == FALSE){
 		numeric_fields <- seq(ncol(all_data$data_frame))
 	} else {
 		numeric_fields <- c()
