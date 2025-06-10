@@ -4,11 +4,25 @@
 \alias{prettify_div-htmlReport-method}
 \title{Encapsulates input code in div of specified characteristics}
 \arguments{
-\item{data}{string indicating object id}
+\item{code}{Code to envelop in div}
+
+\item{overflow, display, direction, justify, height, width}{HTML div parameters.
+for height and width you should include the unit.}
+
+\item{preset}{Preset to inject. Currently only "magic" exists.}
+
+\item{inject_string}{Directly inject a custom string as div.}
 }
 \value{
-encoded and compressed json
+Customized div.
 }
 \description{
 pretiffy_div
+}
+\examples{
+text <- "I am a div"
+plotter <- htmlReport$new()
+pretty_div <- plotter$prettify_div(code = text, preset = "magic")
+
+
 }
