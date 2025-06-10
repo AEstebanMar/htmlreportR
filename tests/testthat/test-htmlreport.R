@@ -860,13 +860,14 @@ test_that("Prettify_div works with default parameters", {
 
 test_that("Prettify_div works with custom parameters", {
 	plotter <- htmlReport$new()
-	expected_string <- paste0("<div style =\"overflow: show; display: ",
-							  "contract; contract-direction: column; ",
-							  "justify-content: left\">\nI am complex\n</div>")
+	expected_string <- paste0("<div style =\"height:100px; width:100px; ",
+						      "overflow: show; contract-direction: column; ",
+						      "display: contract; justify-content: ",
+						      "left\">\nI am complex\n</div>")
 	output_string <- plotter$prettify_div("I am complex", overflow = "show",
-										  display = "contract",
-										  direction = "column",
-										  justify = "left")
+							display = "contract", width = "100px",
+							direction = "column", height = "100px",
+							justify = "left")
 	expect_equal(output_string, expected_string)
 })
 
@@ -876,6 +877,25 @@ test_that("Prettify_div works with magic preset", {
 							  "flex; flex-direction: row; ",
 							  "justify-content: center\">\nI am magic\n</div>")
 	output_string <- plotter$prettify_div("I am magic", preset = "magic")
+	expect_equal(output_string, expected_string)
+})
+
+test_that("Prettify_div is overriden by custom options", {
+	plotter <- htmlReport$new()
+	expected_string <- paste0("<div style =\"overflow: show; display: contract",
+							  "; flex-direction: row; justify-content: center;",
+							  " width:10px\">\nI am custom magic\n</div>")
+	output_string <- plotter$prettify_div("I am custom magic", preset = "magic",
+						overflow = "show", display = "contract", width = "10px")
+	expect_equal(output_string, expected_string)
+})
+
+test_that("Prettify_div admits injected strings", {
+	plotter <- htmlReport$new()
+	expected_string <- paste0("<div style =\"height:invalid; width:supervalid;",
+							  " absurd\">\nI am magic\n</div>")
+	output_string <- plotter$prettify_div("I am magic",
+					 inject_string = "height:invalid; width:supervalid; absurd")
 	expect_equal(output_string, expected_string)
 })
 
