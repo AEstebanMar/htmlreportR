@@ -795,15 +795,16 @@ htmlReport$methods(
 		            transpose= TRUE, x_label= "x_axis", title= "Title",
 		            config= list(), after_render= c(), treeBy= "v",
 		            renamed_samples= c(), renamed_variables= c(), alpha= 1,
-		            theme= "cx", color_scheme= "CanvasXpress", tree = NULL)
+		            theme= "cx2", tree = NULL)
+		            #theme= "cx2", color_scheme= "CanvasXpress", tree = NULL)
 
 	options <- update_options(options, user_options)
 	config <- list('toolbarType' = 'under',
 		           'xAxisTitle' = options$x_label,
 		           'title' = options$title,
 		           "objectColorTransparency"= options$alpha,
-		           "theme"= options$theme,
-		           "colorScheme"= options$color_scheme)
+		           "theme"= options$theme)
+		           #"colorScheme"= options$color_scheme)
 
 
 ## esto va dentro de la clase nueva
