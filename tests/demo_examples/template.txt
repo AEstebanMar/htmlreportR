@@ -338,7 +338,6 @@ end.rcode-->
 end.rcode-->
 
 <!--begin.rcode grid showcase
-    saveRDS(plotter, "plotter.rds")
     cat(plotter$create_title("You can use our prettify_div method to plot figures in a grid", "grid_example", hlevel = 2, indexable = FALSE))
     code <- list()
     code[[1]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE,
