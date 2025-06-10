@@ -567,7 +567,20 @@ test_that("testing the table formatting in the class htmlReport", {
 
 
 test_that("testing_img_embedding", {
-	img <- "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAMAAABHPGVmAAAAxlBMVEUEBAQFBQUHBwcICAgKCgoMDAwPDw8QEBATExMXFxcYGBgcHBwdHR0eHh4fHx8hISEmJiYpKSkvLy8zMzM8PDxAQEBDQ0NERERGRkZHR0dISEhJSUlKSkpOTk5PT09UVFRXV1dZWVlaWlpbW1tcXFyWlpaYmJiZmZmampqcnJyfn5+hoaGoqKiqqqqrq6usrKytra27u7u8vLy+vr7Ly8vm5ubt7e3u7u7v7+/09PT19fX29vb39/f4+Pj6+vr7+/v8/Pz////jxAlkAAABX0lEQVRoge3a6U6DQBQFYBTc0OJShdZWSle1LS61RStgnfd/KQEzaZwiQzreRs05P0guuelHhgnJzVRjG4gGBAgQIEBKIUdV1ZwdWBWzUohcKD9164mxBysXie/8LKeqRnSZXk9ykfnNdZYdVSRsfo/w7KkizJ0y9lj8TtSRmduoeefECGOvsbh/CBC2skmBAAEChAYJak4WnRLh+fvLBQQIECC5eVuQI4HnOO2AGGknM86kux4S3pabTxZOenVkK/YjyPtaCI90uTqTZMbpybpUX3zHtnvPxEiyYvRbuFyAAAECZCMIhiAgQIAAkSLhnBzZbdWbVzNiRE9mnKlLhPBDmu20aIQ0CD9uMtOiHtMgPNZ9MuN4qoYEOTT3tS3jS4TS0HVD0nBczT+dW2bcL34qNhxKGvpj8TeBAPmMPxBu2EI9GkkaBr4UicVvyotQR5GkIVz5YPzbfxYA+QXIB2tlntFVobcaAAAAAElFTkSuQmCC"
+	img <- paste0("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAMAA",
+			"ABHPGVmAAAAxlBMVEUEBAQFBQUHBwcICAgKCgoMDAwPDw8QEBATExMXFxcYGBgcHB",
+			"wdHR0eHh4fHx8hISEmJiYpKSkvLy8zMzM8PDxAQEBDQ0NERERGRkZHR0dISEhJSUl",
+			"KSkpOTk5PT09UVFRXV1dZWVlaWlpbW1tcXFyWlpaYmJiZmZmampqcnJyfn5+hoaGo",
+			"qKiqqqqrq6usrKytra27u7u8vLy+vr7Ly8vm5ubt7e3u7u7v7+/09PT19fX29vb39",
+			"/f4+Pj6+vr7+/v8/Pz////jxAlkAAABX0lEQVRoge3a6U6DQBQFYBTc0OJShdZWSl",
+			"e1LS61RStgnfd/KQEzaZwiQzreRs05P0guuelHhgnJzVRjG4gGBAgQIEBKIUdV1Zw",
+			"dWBWzUohcKD9164mxBysXie/8LKeqRnSZXk9ykfnNdZYdVSRsfo/w7KkizJ0y9lj8",
+			"TtSRmduoeefECGOvsbh/CBC2skmBAAEChAYJak4WnRLh+fvLBQQIECC5eVuQI4HnO",
+			"O2AGGknM86kux4S3pabTxZOenVkK/YjyPtaCI90uTqTZMbpybpUX3zHtnvPxEiyYv",
+			"RbuFyAAAECZCMIhiAgQIAAkSLhnBzZbdWbVzNiRE9mnKlLhPBDmu20aIQ0CD9uMtO",
+			"iHtMgPNZ9MuN4qoYEOTT3tS3jS4TS0HVD0nBczT+dW2bcL34qNhxKGvpj8TeBAPmM",
+			"PxBu2EI9GkkaBr4UicVvyotQR5GkIVz5YPzbfxYA+QXIB2tlntFVobcaAAAAAElFT",
+			"kSuQmCC")
 	attr <- "width='100' height='100'"
 	exp_img <- paste0("\n<img width='100' height='100' src=", img," />")
 	plotter <- htmlReport$new()
@@ -591,11 +604,10 @@ test_that("testing density method of htmlReport class", {
 								  "\":[]};\nvar conf = {\"toolbarType\":\"",
 								  "under\",\"xAxisTitle\":\"x_axis\",\"title\"",
 								  ":\"Title\",\"objectColorTransparency\":1,\"",
-								  "theme\":\"cx\",\"colorScheme\":\"",
-								  "CanvasXpress\",\"graphType\":\"Scatter2D\",",
-								  "\"hideHistogram\":true,\"showHistogram\":",
-								  "true,\"showFilledHistogramDensity\":true,\"",
-								  "showHistogramDensity\":true,\"",
+								  "theme\":\"cx2\",\"graphType\":\"Scatter2D",
+								  "\",\"hideHistogram\":true,\"showHistogram",
+								  "\":true,\"showFilledHistogramDensity\":",
+								  "true,\"showHistogramDensity\":true,\"",
 								  "showHistogramMedian\":true};\nvar events = ",
 								  "false;\nvar info = false;\nvar afterRender ",
 								  "= [];\nvar Cobj_0_ = new CanvasXpress(\"",
@@ -630,15 +642,15 @@ test_that("testing scatter2D method of htmlReport class", {
 								  "]},\"z\":[]};\nvar conf = {\"toolbarType\":",
 								  "\"under\",\"xAxisTitle\":\"x_axis\",\"title",
 								  "\":\"A\",\"objectColorTransparency\":1,\"",
-								  "theme\":\"cx\",\"colorScheme\":\"",
-								  "CanvasXpress\",\"colorBy\":\"f1\",\"shapeBy",
-								  "\":\"f2\",\"graphType\":\"Scatter2D\",\"",
-								  "xAxis\":\"f1\",\"yAxis\":[\"f2\",\"v1\",\"",
-								  "v2\",\"v3\"],\"yAxisTitle\":\"y_axis\"};\n",
-								  "var events = false;\nvar info = false;\nvar",
-								  " afterRender = [];\nvar Cobj_0_ = new ",
-								  "CanvasXpress(\"obj_0_\", data, conf, events,",
-								  " info, afterRender);\n});\n")
+								  "theme\":\"cx2\",\"colorBy\":\"f1\",\"",
+								  "shapeBy\":\"f2\",\"graphType\":\"Scatter2D",
+								  "\",\"xAxis\":\"f1\",\"yAxis\":[\"f2\",",
+								  "\"v1\",\"v2\",\"v3\"],\"yAxisTitle\":\"",
+								  "y_axis\"};\nvar events = false;\nvar info",
+								  " = false;\nvar afterRender = [];\n",
+								  "var Cobj_0_ = new CanvasXpress(\"obj_0_\", ",
+								  "data, conf, events, info, afterRender);\n})",
+								  ";\n")
 	container <- list(test_data_frame = data.frame(
 								"V1" = c("h0","s2", "s3", "s4"), 
                                 "V2" = c("f1", "high", "low", "average"),
@@ -674,8 +686,7 @@ test_that("testing barplot method of htmlReport class", {
 								  "z\":[]};\nvar conf = {\"toolbarType\":\"",
 								  "under\",\"xAxisTitle\":\"x_axis\",\"title\"",
 								  ":\"A\",\"objectColorTransparency\":1,\"",
-								  "theme\":\"cx\",\"colorScheme\":\"",
-								  "CanvasXpress\",\"graphOrientation\":\"",
+								  "theme\":\"cx2\",\"graphOrientation\":\"",
 								  "vertical\",\"graphType\":\"Bar\",\"colorBy",
 								  "\":\"x_axis\"};\nvar events = false;\nvar ",
 								  "info = false;\nvar afterRender = [];\nvar ",
@@ -710,10 +721,10 @@ test_that("testing barplot method of htmlReport class, colorBy", {
 		",\"data\":[[1,2,3],[4,5,6],[7,8,9]]},\"x\":{\"h0\":[\"s2\",\"s3\",\"s",
 		"4\"]},\"z\":[]};\nvar conf = {\"toolbarType\":\"under\",\"xAxisTitle",
 		"\":\"x_axis\",\"title\":\"A\",\"objectColorTransparency\":1,\"theme\"",
-		":\"cx\",\"colorScheme\":\"CanvasXpress\",\"graphOrientation\":\"verti",
-		"cal\",\"graphType\":\"Bar\",\"colorBy\":\"V1\"};\nvar events = false;",
-		"\nvar info = false;\nvar afterRender = [];\nvar Cobj_0_ = new CanvasX",
-		"press(\"obj_0_\", data, conf, events, info, afterRender);\n});\n")
+		":\"cx2\",\"graphOrientation\":\"vertical\",\"graphType\":\"Bar\",\"",
+		"colorBy\":\"V1\"};\nvar events = false;\nvar info = false;\nvar ",
+		"afterRender = [];\nvar Cobj_0_ = new CanvasXpress(\"obj_0_\", data, ",
+		"conf, events, info, afterRender);\n});\n")
 	input_df <- data.frame(V1 = c("h0", "s2", "s3", "s4"),
 						   V2 = c("h1", 1, 2, 3),
 					  	   V3 = c("h2", 4, 5, 6), V4 = c("h3", 7, 8, 9),
@@ -745,13 +756,12 @@ test_that("testing line method of htmlReport class", {
 								  ",[\"7\",\"8\",\"9\"]]},\"x\":[],\"z\":[]};",
 								  "\nvar conf = {\"toolbarType\":\"under\",\"",
 								  "xAxisTitle\":\"x_axis\",\"title\":\"A\",\"",
-								  "objectColorTransparency\":1,\"theme\":\"cx",
-								  "\",\"colorScheme\":\"CanvasXpress\",\"",
-								  "graphType\":\"Line\"};\nvar events = false;",
-								  "\nvar info = false;\nvar afterRender = [];",
-								  "\nvar Cobj_0_ = new CanvasXpress(\"obj_0_\"",
-								  ", data, conf, events, info, afterRender);\n",
-								  "});\n")
+								  "objectColorTransparency\":1,\"theme\":\"cx2",
+								  "\",\"graphType\":\"Line\"};\nvar events = ",
+								  "false;\nvar info = false;\nvar afterRender ",
+								  "= [];\nvar Cobj_0_ = new CanvasXpress(\"",
+								  "obj_0_\", data, conf, events, info, ",
+								  "afterRender);\n});\n")
 	container <- list(test_data_frame = data.frame(
 					  			"V1" = c("h0", "s2", "s3", "s4"),
 					  			"V2" = c("h1", 1, 2, 3),
@@ -782,8 +792,7 @@ test_that("testing boxplot method of htmlReport class", {
 								  "\":[]};\nvar conf = {\"toolbarType\":\"",
 								  "under\",\"xAxisTitle\":\"x_axis\",\"title\"",
 								  ":\"Title\",\"objectColorTransparency\":1,\"",
-								  "theme\":\"cx\",\"colorScheme\":\"",
-								  "CanvasXpress\",\"graphOrientation\":\"",
+								  "theme\":\"cx2\",\"graphOrientation\":\"",
 								  "vertical\",\"colorBy\":\"top\",\"graphType",
 								  "\":\"Boxplot\",\"groupingFactors\":[\"",
 								  "pathway\",\"dataset\"],\"segregateSamplesBy",
@@ -821,12 +830,14 @@ test_that("test tree configuration", {
             "smp_attr"= c(1,2), #Sample attributes
             "header"= TRUE, 
             "row_names"= TRUE, 
-            #"transpose"= False, We are not testing this option as most of the functions (table, and the different plot functions) already set the expected behaviour according to the needs 
+            #"transpose"= False, We are not testing this option as most of the
+            # functions (table, and the different plot functions) already set
+            # the expected behaviour according to the needs 
             "layout"= "forcedir", #Testing graph layout
             "x_label"= "x_axis", #Testing plots layout
             'title'= 'Title',
             'alpha'= 1,
-            'theme'= 'cx',
+            'theme'= 'cx2',
             'color_scheme'= 'CanvasXpress'
             )
 
@@ -834,12 +845,12 @@ test_that("test tree configuration", {
 		           'xAxisTitle' = options$x_label,
 		           'title' = options$title,
 		           "objectColorTransparency"= options$alpha,
-		           "theme"= options$theme,
-		           "colorScheme"= options$color_scheme)
+		           "theme"= options$theme)
 
 	tree_file <- file.path(plotter$source_folder, "exData", "test_tree.txt")
 	if (!file.exists(tree_file))
-		tree_file <- file.path(plotter$source_folder, "inst", "exData", "test_tree.txt")
+		tree_file <- file.path(plotter$source_folder, "inst", "exData",
+							   "test_tree.txt")
 
     options<- update_options(options, list("tree" = tree_file,
                              			   "treeBy" = "v"))
@@ -940,10 +951,10 @@ test_that("Testing simple heatmap", {
 		"\",\"V4\",\"V5\",\"V6\"],\"data\":[[0,1,2,3,4,5],[10,11,12,13,14,15],",
 		"[20,21,22,23,24,25]]},\"x\":[],\"z\":[]};\nvar conf = {\"toolbarType",
 		"\":\"under\",\"xAxisTitle\":\"x_axis\",\"title\":\"Title\",\"",
-		"objectColorTransparency\":1,\"theme\":\"cx\",\"colorScheme\":\"",
-		"CanvasXpress\",\"graphType\":\"Heatmap\"};\nvar events = false;\nvar",
-		" info = false;\nvar afterRender = [];\nvar Cobj_0_ = new CanvasXpress",
-		"(\"obj_0_\", data, conf, events, info, afterRender);\n});\n")
+		"objectColorTransparency\":1,\"theme\":\"cx2\",\"graphType\":\"Heatmap",
+		"\"};\nvar events = false;\nvar info = false;\nvar afterRender = [];",
+		"\nvar Cobj_0_ = new CanvasXpress(\"obj_0_\", data, conf, events, ",
+		"info, afterRender);\n});\n")
 	df <- data.frame(V1 = 0:5, V2 = 10:15, V3 = 20:25)
 	container <- list(test_data_frame = df)
 	options <- list(id = "test_data_frame", header = FALSE, text = FALSE,
@@ -968,12 +979,11 @@ test_that("Testing double heatmap", {
 		"3.3166,3.4641,3.6056,3.7417,3.873],[4.4721,4.5826,4.6904,4.7958,4.899",
 		",5]]},\"x\":[],\"z\":[]};\nvar conf = {\"toolbarType\":\"under\",\"",
 		"xAxisTitle\":\"x_axis\",\"title\":\"Title\",\"objectColorTransparency",
-		"\":1,\"theme\":\"cx\",\"colorScheme\":\"CanvasXpress\",\"graphType\":",
-		"\"Heatmap\",\"guidesShow\":true,\"heatmapIndicatorPosition\":\"top\",",
-		"\"sizeBy\":\"Size\",\"sizeByData\":\"data2\"};\nvar events = false;\n",
-		"var info = false;\nvar afterRender = [];\nvar Cobj_0_ = new ",
-		"CanvasXpress(\"obj_0_\", data, conf, events, info, afterRender);\n});",
-		"\n")
+		"\":1,\"theme\":\"cx2\",\"graphType\":\"Heatmap\",\"guidesShow\":true,",
+		"\"heatmapIndicatorPosition\":\"top\",\"sizeBy\":\"Size\",\"sizeByData",
+		"\":\"data2\"};\nvar events = false;\nvar info = false;\nvar ",
+		"afterRender = [];\nvar Cobj_0_ = new CanvasXpress(\"obj_0_\", data,",
+		" conf, events, info, afterRender);\n});\n")
 	df <- data.frame(V1 = 0:5, V2 = 10:15, V3 = 20:25)
 	df2 <- sqrt(df)
 	container <- list(test_data_frame = df, second_data_frame = df2)
@@ -1000,17 +1010,16 @@ test_that("Test for scatter3D method", {
 								  "A\":[\"B\",\"A\"]}};\nvar conf = {\"toolbar",
 								  "Type\":\"under\",\"xAxisTitle\":\"Num genes",
 								  "\",\"title\":\"test_scatter3d_plot\",\"obje",
-								  "ctColorTransparency\":1,\"theme\":\"cx\",\"",
-								  "colorScheme\":\"CanvasXpress\",\"graphType",
-								  "\":\"Scatter3D\",\"xAxis\":\"liver\",\"yAx",
-								  "is\":\"brain\",\"zAxis\":\"lung\",\"yAxisT",
-								  "itle\":\"FPKM\",\"zAxisTitle\":\"3rdMetric",
-								  "\",\"sizeBy\":\"spleen\",\"colorBy\":\"kidn",
-								  "ey\",\"shapeBy\":\"pathway\"};\nvar events ",
-								  "= false;\nvar info = false;\nvar afterRende",
-								  "r = [];\nvar Cobj_0_ = new CanvasXpress(\"o",
-								  "bj_0_\", data, conf, events, info, afterRen",
-								  "der);\n});\n")
+								  "ctColorTransparency\":1,\"theme\":\"cx2\",",
+								  "\"graphType\":\"Scatter3D\",\"xAxis\":\"",
+								  "liver\",\"yAxis\":\"brain\",\"zAxis\":\"",
+								  "lung\",\"yAxisTitle\":\"FPKM\",\"zAxisTitle",
+								  "\":\"3rdMetric\",\"sizeBy\":\"spleen\",\"",
+								  "colorBy\":\"kidney\",\"shapeBy\":\"pathway",
+								  "\"};\nvar events = false;\nvar info = false",
+								  ";\nvar afterRender = [];\nvar Cobj_0_ = new",
+								  " CanvasXpress(\"obj_0_\", data, conf, ",
+								  "events, info, afterRender);\n});\n")
 	df <- data.frame(liver = c(20, 30, 40),
 					 brain = c(2, 50, 15),
 					 lung = c(25, 35, 50),
