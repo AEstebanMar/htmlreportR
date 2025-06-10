@@ -281,7 +281,8 @@ htmlReport$methods(build_body = function(body_text) {
 	concat("<body>\n")
 	if (length(index_items) > 0){
 		if (index_type == "menu") {
-			add_index_item("top_skip", "Main", min(as.numeric(index_items[,3])), top = TRUE)
+			add_index_item("top_skip", "Main", min(as.numeric(index_items[,3])),
+				top = TRUE)
 			concat("<div id = 'top_skip'></div>")
 		}
 		create_header_index()
@@ -326,34 +327,36 @@ htmlReport$methods(add_index_item = function(id, text, hlevel, top = FALSE){
 	}
 })
 
-htmlReport$methods(create_title = function(text, id, hlevel = 1, indexable = FALSE, clickable = FALSE, t_id = NULL, clickable_text = "(Click me)"){
-
-	if (indexable) add_index_item(id, text, hlevel)
-
-    header <- paste0("<h", hlevel, " id=\"", id, "\">", text, "</h", hlevel, ">")
-
-    if (clickable && !is.null(t_id))
-        header <- paste0("<h", hlevel, " id=\"", id, "\" class=\"py_accordion\" onclick=\"hide_show_element('", t_id, "')\">", text, " ", clickable_text, "</h", hlevel, ">")
-    
+htmlReport$methods(create_title = function(text, id, hlevel = 1,
+						      indexable = FALSE, clickable = FALSE, t_id = NULL,
+							  clickable_text = "(Click me)"){
+	if(indexable) add_index_item(id, text, hlevel)
+    header <- paste0("<h", hlevel, " id=\"", id, "\">",
+    				 text, "</h", hlevel, ">")
+    if (clickable && !is.null(t_id)) {
+        header <- paste0("<h", hlevel, " id=\"", id, "\" class=\"py_accordion",
+        				 "\", onclick=\"hide_show_element('", t_id, "')\">",
+        				 text, " ", clickable_text, "</h", hlevel, ">")
+    }
     return(header)
 })
 
-
-
 htmlReport$methods(
 	create_collapsable_container = function(id, html_code, visibility='hidden'){
-		init_height <- ""
-		if(visibility == "hidden"){
-			init_height	<- "height:1px"
-		}
-        paste0("<div style=\"visibility:", visibility, "; ", init_height, "\" id=\"", id, "\">\n", html_code, "\n</div>")
+		visibility <- ifelse(test = display == "hidden", yes = "",
+							 no = "open=''")
+        paste0("<details ", visibility, "id=\"", id, "\">\n<summary style=\"",
+        	   "display: none;\"></summary>", html_code, "\n</details>")
 })
 
 #' Get Plot from htmlReport Object
 #'
 #' @name get_plot
 #' @title Get Plot from htmlReport Object
-#' @description This method generates and retrieves a plot from an \code{htmlReport} object. This code writes the plot to a temporal png, then it loads the png in base64 encoding and then displays the plot within the HTML report.
+#' @description This method generates and retrieves a plot from an
+#' \code{htmlReport} object. This code writes the plot to a temporal png, then
+#' it loads the png in base64 encoding and then displays the plot within the
+#' HTML report.
 #' 
 #' @param plot_obj A plot object like ggplot.
 #' @param width plot width
@@ -408,11 +411,13 @@ htmlReport$methods(
 #'
 #' @name get_data_for_plot
 #' @title Get Data for Plotting from htmlReport Object
-#' @description This method retrieves data suitable for plotting from an \code{htmlReport} object based on specified options.
+#' @description This method retrieves data suitable for plotting from an
+#' \code{htmlReport} object based on specified options.
 #' 
 #' @param options A list containing options for data retrieval.
 #'
-#' @returns A list containing the retrieved data, attributes, samples, and variables.
+#' @returns A list containing the retrieved data, attributes, samples, and
+#' variables.
 #' 
 NULL
 htmlReport$methods(get_data_for_plot = function(options) {
@@ -476,7 +481,7 @@ htmlReport$methods(get_data = function(options) {
 		numeric_fields <- c()
 	}
 	all_data$data_frame[, numeric_fields] <- as.data.frame(lapply(
-				all_data$data_frame[, numeric_fields, drop = FALSE], as.numeric))
+			all_data$data_frame[, numeric_fields, drop = FALSE], as.numeric))
 	if(!is.null(options$func)) 
 		all_data$data_frame <- options$func(all_data$data_frame)
 	return(all_data)				
@@ -519,7 +524,8 @@ htmlReport$methods(merge_tables = function(data_frame, options) {
 #'
 #' @name extract_data
 #' @title Retrieve Data from htmlReport Object
-#' @description This method retrieves data from an \code{htmlReport} object based on specified options.
+#' @description This method retrieves data from an \code{htmlReport} object
+#' based on specified options.
 #' 
 #' @param options A list containing options for data retrieval.
 #' 
@@ -587,12 +593,20 @@ htmlReport$methods(extract_data = function(options) {
 #'
 #' @name add_header_row_names
 #' @title Add Header and Row Names to Data Frame for HTML Report table
-#' @description This function modifies a data frame to include specific column and row names.
+#' @description This function modifies a data frame to include specific column
+#' and row names.
 #' 
 #' @param data_frame The data frame to be modified.
-#' @param options A list of options controlling the modification of column and row names.
+#' @param options A list of options controlling the modification of column and
+#' row names.
 #'
-#' @details This function checks the options provided and manipulates the column and row names of the input data frame accordingly. If the 'header' option is set to true, it assigns the first row of the data frame as column names and removes that row from the data frame. If the 'row_names' option is true, it assigns the first column of the data frame as row names and removes that column from the data frame. If either option is not true, it assigns sequential numbers as column or row names, respectively.
+#' @details This function checks the options provided and manipulates the column
+#' and row names of the input data frame accordingly. If the 'header' option is
+#' set to true, it assigns the first row of the data frame as column names and
+#' removes that row from the data frame. If the 'row_names' option is true, it
+#' assigns the first column of the data frame as row names and removes that
+#' column from the data frame. If either option is not true, it assigns
+#' sequential numbers as column or row names, respectively.
 #' 
 #' @returns The modified data frame with updated column and/or row names.
 #'
@@ -617,11 +631,13 @@ htmlReport$methods(add_header_row_names = function(data_frame, options) {
 #'
 #' @name concat
 #' @title Custom addition operator for combining htmlReport objects
-#' @description This function defines a custom addition operator for combining two strings.
+#' @description This function defines a custom addition operator for combining
+#' two strings.
 #' 
 #' @param value An object of any type that can be coerced to character.
 #' 
-#' @returns An object of class "htmlReport" with an updated @all_report which includes at the end the "value" string.
+#' @returns An object of class "htmlReport" with an updated @all_report which
+#' includes at the end the "value" string.
 #'
 NULL
 htmlReport$methods(concat = function(text_vec) {
@@ -637,7 +653,8 @@ htmlReport$methods(concat = function(text_vec) {
 htmlReport$methods(get_js_cdn= function() {
 	parsed_js_cdn <- sapply(js_cdn, function(jc) {
 		if (grepl("^http", jc)) {
-				return(paste0("<script type=\"text/javascript\" src=\"",jc,"\"></script>"))
+				return(paste0("<script type=\"text/javascript\" src=\"", jc,
+					          "\"></script>"))
 		}
 		return(jc)
 	})
@@ -648,7 +665,8 @@ htmlReport$methods(get_js_cdn= function() {
 htmlReport$methods(get_css_cdn= function() {
 	parsed_css_cdn <- sapply(css_cdn, function(cc) {
 		if (grepl("^http", cc)) {
-				return(paste0("<link rel=\"stylesheet\" type=\"text/css\" href=\"",cc,"\"/>"))
+				return(paste0("<link rel=\"stylesheet\" type=\"text/css\" ",
+					   "href=\"", cc, "\"/>"))
 		}
 		return(cc)
 	})
@@ -657,9 +675,9 @@ htmlReport$methods(get_css_cdn= function() {
 })
 
 
-htmlReport$methods(mermaid_chart = function(chart_sintaxis){
+htmlReport$methods(mermaid_chart = function(chart_syntax){
 	features$mermaid <<- TRUE
-	paste0("<pre class=\"mermaid\">\n", chart_sintaxis, "\n</pre>")
+	paste0("<pre class=\"mermaid\">\n", chart_syntax, "\n</pre>")
 })
 
 
@@ -682,7 +700,8 @@ htmlReport$methods(load_js = function(){
 
 		js_file <- embed_file(js_file_name)
 
-		concat(c("<script src=\"",js_file, "\" type=\"application/javascript\"></script>\n\n"))
+		concat(c("<script src=\"",js_file, "\" type=\"application/javascript\"",
+			     "></script>\n\n"))
 	}	
 })
 
@@ -775,7 +794,7 @@ htmlReport$methods(
 		for(row_ind in seq(nrow(data_frame))) {
 			html_data_frame <- c(html_data_frame, "<tr>")
 			if(isTRUE(options$table_rownames)) {
-				rownames_vector <- paste_tag(rownames(data_frame)[row_ind], "td")
+				rownames_vector <- paste_tag(rownames(data_frame)[row_ind],"td")
 				html_data_frame <- c(html_data_frame, rownames_vector)
 			}
 			col_vector <- sapply(data_frame[row_ind, ], paste_tag, "td")
@@ -846,7 +865,9 @@ htmlReport$methods(
     responsive <- ''
     if (options$responsive) responsive <- "responsive='true'" 
 
-    html <- paste0("<canvas  id=\"", object_id, "\" width=\"", options$width, "\" height=\"", options$height, "\" aspectRatio='1:1' ", responsive, "></canvas>")
+    html <- paste0("<canvas  id=\"", object_id, "\" width=\"", options$width,
+    			   "\" height=\"", options$height, "\" aspectRatio='1:1' ",
+    			   responsive, "></canvas>")
     return(html)
         
 })
@@ -871,12 +892,19 @@ htmlReport$methods(
 	get_plot_data = function(object_id, cvXpress){
 		afterRender = cvXpress$afterRender
 		if(is.null(afterRender)) afterRender = list()
-		paste0("var data = ",   decompress_code(compress_data(cvXpress$data_structure)), ";\n",
-		   "var conf = ",   jsonlite::toJSON(cvXpress$config, auto_unbox = TRUE), ";\n",
-		   "var events = ", jsonlite::toJSON(cvXpress$events, auto_unbox = TRUE), ";\n",
-           "var info = ",   jsonlite::toJSON(cvXpress$info, auto_unbox = TRUE), ";\n",
-           "var afterRender = ", jsonlite::toJSON(afterRender, auto_unbox = TRUE), ";\n",
-           "var C", object_id, " = new CanvasXpress(\"", object_id, "\", data, conf, events, info, afterRender);\n", cvXpress$extracode)
+		paste0(
+		 "var data = ", decompress_code(compress_data(cvXpress$data_structure)),
+		 ";\n",
+		 "var conf = ", jsonlite::toJSON(cvXpress$config, auto_unbox = TRUE),
+		 ";\n",
+		 "var events = ", jsonlite::toJSON(cvXpress$events, auto_unbox = TRUE),
+		 ";\n",
+         "var info = ", jsonlite::toJSON(cvXpress$info, auto_unbox = TRUE),
+         ";\n",
+         "var afterRender = ", jsonlite::toJSON(afterRender, auto_unbox = TRUE),
+         ";\n",
+         "var C", object_id, " = new CanvasXpress(\"", object_id,
+         "\", data, conf, events, info, afterRender);\n", cvXpress$extracode)
 	}
 )
 
@@ -918,7 +946,8 @@ htmlReport$methods(
 		string <- data
 		if (compress) {
 		   features[["pako"]] <<- TRUE
-		   string <- paste0("JSON.parse(pako.inflate(atob(\"", data, "\"), { to: 'string' }))")
+		   string <- paste0("JSON.parse(pako.inflate(atob(\"", data, "\"), { ",
+		   					"to: 'string' }))")
 		}
 		return(string)
 	}
@@ -1036,7 +1065,8 @@ htmlReport$methods(
 				cvX$config[['jitter']] <- TRUE
 			}
 		}
-		default_options <- list('row_names' = TRUE, 'header' = TRUE, 'config_chart' = config_chart)
+		default_options <- list('row_names' = TRUE, 'header' = TRUE,
+			'config_chart' = config_chart)
 		default_options <- update_options(default_options, opt)
 		html_string <- canvasXpress_main(default_options)
 		return(html_string)
@@ -1286,11 +1316,12 @@ htmlReport$methods(
 			}
 			if(!is.null(direction)) {
 				if(is.null(display)) {
-					warning("Specified direction with incompatible display argument.
-							Setting to \"flex\"")
+					warning("Specified direction with incompatible display
+						argument. Setting to \"flex\"")
 					div_params$display <- "flex"
 				} else {
-					div_params$direction <- paste0(display, "-direction: ", direction)
+					div_params$direction <- paste0(display, "-direction: ",
+												   direction)
 				}
 			}
 			if(!is.null(display)) {
