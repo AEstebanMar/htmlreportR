@@ -4,8 +4,8 @@
 
 # htmlreportR 1.0.1
 
-* New: Added prettify\_div method to htmlreportR class. Simplifies div style customisation, and comes with some pretty presets.
-* New: Added boxplot method to htmlreportR class.
+* New: Added prettify\_div method to htmlReport class. Simplifies div style customisation, and comes with some pretty presets.
+* New: Added boxplot method to htmlReport class.
 * New: Added reshape method to canvasXpress\_obj class. Reshapes canvas data structure to adapt to long and wide formats.
 * New: Added script to convert Rmd templates to html, making them compatible with htmlreportR. Relies on a new function (replace\_paired\_mark) under utils.R
 
@@ -23,3 +23,4 @@
 * New: added merge\_hashed\_tables method, takes a list of ids and some optional arguments and merges hash\_vars tables corresponding to those ids.
 * Update: table method now admits rownames\_col argument in option list, renames rownames column.
 * Update: barplot method now includes option to color series by a specified sample attribute.
+* Update: prettify\_div htmlReport method now admits height and width arguments. Custom arguments now take priority over preset. Added new inject\_string argument, allows to fully customise style.
