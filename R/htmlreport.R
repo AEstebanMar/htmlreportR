@@ -1245,49 +1245,68 @@ htmlReport$methods(
 #' @name prettify_div-htmlReport-method
 #' @title Encapsulates input code in div of specified characteristics
 #' 
-#' @param data string indicating object id
+#' @param code Code to envelop in div
+#' @param overflow,display,direction,justify,height,width HTML div parameters.
+#' for height and width you should include the unit.
+#' @param preset Preset to inject. Currently only "magic" exists.
+#' @param inject_string Directly inject a custom string as div.
 #' 
-#' @returns encoded and compressed json
+#' @returns Customized div.
+#' @examples
+#' text <- "I am a div"
+#' plotter <- htmlReport$new()
+#' pretty_div <- plotter$prettify_div(code = text, preset = "magic")
 #'
 #'
 NULL
 htmlReport$methods(
 	prettify_div = function(code, overflow = NULL, display = NULL,
-							direction = NULL, justify = NULL, preset = ""){
-		if(!is.null(overflow)) {
-			overflow <- paste0("overflow: ", overflow)
-		}
-		if(!is.null(direction)) {
-			if(is.null(display)) {
-				warning("Specified direction with incompatible display argument.
-						Setting to \"flex\"")
-				display <- "flex"
-			} else {
-				direction <- paste0(display, "-direction: ", direction)
+							direction = NULL, justify = NULL, preset = "",
+							inject_string = NULL, height = NULL, width = NULL){
+		div <- "<div>"
+		if(!is.null(inject_string)) {
+			div <- paste0("<div style =\"", inject_string, "\">")
+		} else {
+			div_params <- list()
+			if(preset == "magic") {
+				div_params$overflow <- "overflow: hidden"
+				div_params$display <- "display: flex"
+				div_params$direction <- "flex-direction: row"
+				div_params$justify <- "justify-content: center"
+			}
+			if(!is.null(height)) {
+				div_params$height <- paste0("height:", height)
+			}
+			if(!is.null(width)) {
+				div_params$width <- paste0("width:", width)
+			}
+			if(!is.null(overflow)) {
+				div_params$overflow <- paste0("overflow: ", overflow)
+			}
+			if(!is.null(direction)) {
+				if(is.null(display)) {
+					warning("Specified direction with incompatible display argument.
+							Setting to \"flex\"")
+					div_params$display <- "flex"
+				} else {
+					div_params$direction <- paste0(display, "-direction: ", direction)
+				}
+			}
+			if(!is.null(display)) {
+				div_params$display <- paste0("display: ", display)
+			}
+			if(!is.null(justify)) {
+				div_params$justify <- paste0("justify-content: ", justify)
+			}
+			div_params <- div_params[lengths(div_params) > 0]
+			if(any(unlist(lapply(div_params, function(x) !is.null(x))))) {
+				params <- paste(div_params, collapse = "; ")
+				div <- paste0("<div style =\"", params, "\">")
 			}
 		}
-		if(!is.null(display)) {
-			display <- paste0("display: ", display)
-		}
-		if(!is.null(justify)) {
-			justify <- paste0("justify-content: ", justify)
-		}
-		div_params <- list(overflow = overflow, display = display,
-						   direction = direction, justify = justify)
-		if(preset == "magic") {
-			div_params$overflow <- "overflow: hidden"
-			div_params$display <- "display: flex"
-			div_params$direction <- "flex-direction: row"
-			div_params$justify <- "justify-content: center"
-		}
-		div_params <- div_params[lengths(div_params) > 0]
-		if(any(unlist(lapply(div_params, function(x) !is.null(x))))) {
-			params <- paste(div_params, collapse = "; ")
-			div <- paste0("<div style =\"", params, "\">")
-		} else {
-			div <- "<div>"
-		}
-		return(paste(div, code, "</div>", sep = "\n"))
+		pretty_div <- paste(div, code, "</div>", sep = "\n")
+		if(!is.null(width)) writeLines(pretty_div, "test.txt")
+		return(pretty_div)
 	}
 )
 
