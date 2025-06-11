@@ -863,7 +863,7 @@ htmlReport$methods(
 						plot_data,
 						 "});\n"))
     responsive <- ''
-    if (options$responsive) responsive <- "responsive='true'" 
+    if (isFALSE(options$responsive)) responsive <- "responsive='false'" 
 
     html <- paste0("<canvas  id=\"", object_id, "\" width=\"", options$width,
     			   "\" height=\"", options$height, "\" aspectRatio='1:1' ",
