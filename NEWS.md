@@ -24,3 +24,4 @@
 * Update: table method now admits rownames\_col argument in option list, renames rownames column.
 * Update: barplot method now includes option to color series by a specified sample attribute.
 * Update: prettify\_div htmlReport method now admits height and width arguments. Custom arguments now take priority over preset. Added new inject\_string argument, allows to fully customise style.
+* Update: responsive parameter of CanvasXpress plotting methods in htmlReport class now actually usable.
