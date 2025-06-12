@@ -340,16 +340,24 @@ end.rcode-->
 <!--begin.rcode grid showcase
     cat(plotter$create_title("You can use our prettify_div method to plot figures in a grid", "grid_example", hlevel = 2, indexable = FALSE))
     code <- list()
-    code[[1]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE,
+    code[[1]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
                                       row_names = TRUE, text = "dynamic", format = "wide"))
-    code[[2]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE,
+    code[[2]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
                                       row_names = TRUE,text = "dynamic", format = "wide"))
-    code[[3]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE,
+    code[[3]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
                                       row_names = TRUE, text = "dynamic", format = "wide"))
-    code[[4]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE,
+    code[[4]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
                                       row_names = TRUE, text = "dynamic", format = "wide"))
     code <- paste(code, collapse = "\n\n")
-    cat(plotter$prettify_div(plotter$prettify_div(code, width = "1200px"), preset = "magic"))
+    cat(plotter$prettify_div(plotter$prettify_div(code, width = "1600px"), overflow = "hidden"))
+end.rcode-->
+
+<!--begin.rcode collapsable containers
+    cat(plotter$create_title("Collapsable demo", id = "click_demo", hlevel = 1, indexable = TRUE, clickable = TRUE, t_id = "clickme_id",
+                             clickable_text = "(Click me)"))
+    example_div <- plotter$table(list(id = "test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2,
+                      var_attr = 2, attrib = list('class' = 'table table-striped')))
+    cat(plotter$create_collapsable_container(id = "clickme_id", html_code = example_div))
 end.rcode-->
 
 <!--begin.rcode Custom_loading
