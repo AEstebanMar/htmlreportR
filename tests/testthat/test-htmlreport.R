@@ -672,9 +672,10 @@ test_that("testing scatter2D method of htmlReport class", {
 	expect_true(plotter$features$canvasXpress)
 })
 
-test_that("testing barplot method of htmlReport class", {
+test_that("testing barplot method of htmlReport class, responsive set to
+		   FALSE", {
 	expected_string <- paste0("<canvas  id=\"obj_0_\" width=\"600px\" height=",
-							  "\"300\" aspectRatio='1:1' responsive='true'></",
+							  "\"300\" aspectRatio='1:1' responsive='false'></",
 							  "canvas>")
 	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data =",
 								  " {\"y\":{\"vars\":[\"h0\",\"h1\",\"h2\",",
@@ -702,7 +703,7 @@ test_that("testing barplot method of htmlReport class", {
 	output_string <- plotter$barplot(list(id = "test_df", title = "A",
 										  row_names = FALSE, header = TRUE,
 										  text = "dynamic", height = 300,
-										  colorScale = TRUE,
+										  colorScale = TRUE, responsive = FALSE,
 										  config = list(
 										  	'graphOrientation' = 'vertical')
 										  ))
@@ -1128,4 +1129,13 @@ test_that("test get_col_n_row_span, table and row spans", {
 	plotter <- htmlReport$new()
 	output <- plotter$get_col_n_row_span(span_table)
 	expect_equal(output, expected_list)
+})
+
+test_that("test for create_collapsable_container method", {
+	string <- "hidden"
+	plotter <- htmlReport$new()
+	expected <- paste0("<details id=\"1\">\n<summary style=\"display: none;\">",
+					   "</summary>hidden\n</details>")
+	output <- plotter$create_collapsable_container(id = 1, html_code = "hidden")
+	expect_equal(output, expected)
 })
