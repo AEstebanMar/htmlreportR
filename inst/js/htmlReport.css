@@ -88,14 +88,14 @@
     margin-top: 100px; 
 }
 
-details {
+details.rep_html_det {
   display: block;
 }
 
-details::before {
+details.rep_html_det::before {
   display: none;
 }
 
-details summary {
+details.rep_html_det summary {
   display: none;
 }
