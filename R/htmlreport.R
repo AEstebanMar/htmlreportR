@@ -335,18 +335,18 @@ htmlReport$methods(create_title = function(text, id, hlevel = 1,
     				 text, "</h", hlevel, ">")
     if (clickable && !is.null(t_id)) {
         header <- paste0("<h", hlevel, " id=\"", id, "\" class=\"py_accordion",
-        				 "\", onclick=\"hide_show_element('", t_id, "')\">",
+        				 "\" onclick=\"hide_show_element('", t_id, "')\">",
         				 text, " ", clickable_text, "</h", hlevel, ">")
     }
     return(header)
 })
-
 htmlReport$methods(
-	create_collapsable_container = function(id, html_code, visibility='hidden'){
+	create_collapsable_container = function(id, html_code, display='hidden'){
 		visibility <- ifelse(test = display == "hidden", yes = "",
-							 no = "open=''")
-        paste0("<details ", visibility, "id=\"", id, "\">\n<summary style=\"",
-        	   "display: none;\"></summary>", html_code, "\n</details>")
+							 no = "open='' ")
+        return(paste0("<details ", visibility, "id=\"", id,
+        		"\">\n<summary style=\"display: none;\"></summary>", html_code,
+        		"\n</details>"))
 })
 
 #' Get Plot from htmlReport Object
@@ -862,7 +862,7 @@ htmlReport$methods(
 					paste0("$(document).ready(function () {\n",
 						plot_data,
 						 "});\n"))
-    responsive <- ''
+    responsive <- "responsive='true'"
     if (isFALSE(options$responsive)) responsive <- "responsive='false'" 
 
     html <- paste0("<canvas  id=\"", object_id, "\" width=\"", options$width,
