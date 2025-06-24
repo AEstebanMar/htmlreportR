@@ -731,6 +731,7 @@ htmlReport$methods(table = function(user_options){
 	## var_attr and smp_attr remove data from the data frame, it is not
 	## represented anywhere else. This behaviour needs to be documented
 	data_frame <- get_data(options)$data_frame
+	spans <- get_col_n_row_span(data_frame)
 	## col and rowspan
 	table_id <- paste0("table_", count_objects)
 	if (options$styled == "dt"){
@@ -748,7 +749,8 @@ htmlReport$methods(table = function(user_options){
 	}
 	count_objects <<- count_objects + 1
 	parse_data_frame(data_frame = data_frame, options = options,
-					 table_id = table_id, table_attr = table_attr)
+					 table_id = table_id, table_attr = table_attr,
+					 colspan = spans$colspan, rowspan = spans$rowspans)
 
 	}
 )
@@ -775,10 +777,12 @@ htmlReport$methods(
 #'   * `TRUE` (the default): Parse data frame row names as a column of
 #'   												 the HTML table.
 #'   * `FALSE` (the default): Do not parse data frame row names.
+#' @param colspan,rowspan Mirrors of input data_frame specifying spans.
 #' @returns A table in html format.
 NULL
 htmlReport$methods(
-	parse_data_frame = function(data_frame, options, table_id, table_attr = ""){
+	parse_data_frame = function(data_frame, options, table_id, table_attr = "",
+								colspan, rowspan){
 		html_data_frame <- paste0("<table id=", table_id,
 								   " border=", options$border, " ",
 								   table_attr, " >")
@@ -1440,3 +1444,27 @@ htmlReport$methods(
         return(list(rowspan = rowspan, colspan = colspan))
 	}
 )
+
+#' get_span
+#'
+#' @name get_span-htmlReport-method
+#' @title get col and rowspan for a table element specified by indices.
+#' 
+#' @param colspan,rowspan table of colspans and rowspans.
+#' @param row,col row and col indices of element whose spans to get.
+#'
+#' @returns appended HTML code specifying element spans.
+#'
+NULL
+
+htmlReport$methods(
+	get_span = function(colspan, rowspan, row, col){
+		span <- character(0)
+		colspan_value <- colspan[row, col]
+		rowspan_value <- rowspan[row, col]
+		if(colspan_value > 1) span <- paste0(span, "colspan=\"", colspan_value,
+											 "\"")
+		if(rowspan_value > 1) span <- paste0(span, "rowspan=\"", rowspan_value,
+											 "\"")
+ 	 	return(paste(span, collapse = " "))
+	})
