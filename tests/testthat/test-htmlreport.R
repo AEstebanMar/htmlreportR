@@ -1139,3 +1139,26 @@ test_that("test for create_collapsable_container method", {
 	output <- plotter$create_collapsable_container(id = 1, html_code = "hidden")
 	expect_equal(output, expected)
 })
+
+test_that("testing get_span method", {
+	colspan <- data.frame(c(3, 2, 1), rep(1, 3), rep(1, 3))
+	rowspan <- data.frame(rep(1, 3), rep(1, 3), c(1, 2, 1))
+	plotter <- htmlReport$new()
+	no_span <- plotter$get_span(colspan, rowspan, 1, 2)
+	colspan_2 <- plotter$get_span(colspan, rowspan, 2, 1)
+	colspan_3 <- plotter$get_span(colspan, rowspan, 1, 1)
+	rowspan_2 <- plotter$get_span(colspan, rowspan, 2, 3)
+	expect_equal("", no_span)
+	expect_equal("colspan=\"2\"", colspan_2)
+	expect_equal("colspan=\"3\"", colspan_3)
+	expect_equal("rowspan=\"2\"", rowspan_2)
+})
+
+test_that("testing table processing with spans", {
+    input_df <- data.frame(V1 = c("title", "sample", "nerv", "rowspan"),
+    					   V2 = c("colspan", "colspan", "brain", "cerebellum"),
+    					   V3 = c("colspan", "expression", 3, 4))
+    plotter <- htmlReport$new(container = list(test_data_frame = input_df))
+    output <- plotter$table(list(id = "test_data_frame", header = TRUE,
+								 row_names = FALSE, text = "dynamic"))
+	})
