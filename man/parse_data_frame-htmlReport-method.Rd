@@ -16,6 +16,8 @@
 the HTML table.
 \item \code{FALSE} (the default): Do not parse data frame row names.
 }}
+
+\item{colspan, rowspan}{Mirrors of input data_frame specifying spans.}
 }
 \value{
 A table in html format.
