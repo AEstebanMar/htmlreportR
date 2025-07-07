@@ -907,7 +907,7 @@ test_that("Prettify_div admits injected strings", {
 	expected_string <- paste0("<div style =\"height:invalid; width:supervalid;",
 							  " absurd\">\nI am magic\n</div>")
 	output_string <- plotter$prettify_div("I am magic",
-					 inject_string = "height:invalid; width:supervalid; absurd")
+					 inject_string = "style =\"height:invalid; width:supervalid; absurd")
 	expect_equal(output_string, expected_string)
 })
 
