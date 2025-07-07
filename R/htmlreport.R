@@ -751,7 +751,6 @@ htmlReport$methods(table = function(user_options){
 	parse_data_frame(data_frame = data_frame, options = options,
 					 table_id = table_id, table_attr = table_attr,
 					 colspan = spans$colspan, rowspan = spans$rowspans)
-
 	}
 )
 
@@ -791,6 +790,7 @@ htmlReport$methods(
 			rownames_col <- paste_tag(options$rownames_col, tag = "th")
 			html_data_frame <- c(html_data_frame, rownames_col)
 		}
+		colnames_vector <- character()
 		colnames_vector <- sapply(colnames(data_frame), paste_tag, tag = "th")
 		names(colnames_vector) <- NULL
 		html_data_frame <- c(html_data_frame, colnames_vector,
@@ -1300,7 +1300,7 @@ htmlReport$methods(
 							inject_string = NULL, height = NULL, width = NULL){
 		div <- "<div>"
 		if(!is.null(inject_string)) {
-			div <- paste0("<div style =\"", inject_string, "\">")
+			div <- paste0("<div ", inject_string, "\">")
 		} else {
 			div_params <- list()
 			if(preset == "magic") {
