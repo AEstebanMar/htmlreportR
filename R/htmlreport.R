@@ -731,7 +731,7 @@ htmlReport$methods(table = function(user_options){
 	## var_attr and smp_attr remove data from the data frame, it is not
 	## represented anywhere else. This behaviour needs to be documented
 	data_frame <- get_data(options)$data_frame
-	spans <- get_col_n_row_span(data_frame)
+	# spans <- get_col_n_row_span(data_frame)
 	## col and rowspan
 	table_id <- paste0("table_", count_objects)
 	if (options$styled == "dt"){
@@ -749,8 +749,8 @@ htmlReport$methods(table = function(user_options){
 	}
 	count_objects <<- count_objects + 1
 	parse_data_frame(data_frame = data_frame, options = options,
-					 table_id = table_id, table_attr = table_attr,
-					 colspan = spans$colspan, rowspan = spans$rowspans)
+					 table_id = table_id, table_attr = table_attr)
+					 # colspan = spans$colspan, rowspan = spans$rowspans)
 	}
 )
 
@@ -790,7 +790,10 @@ htmlReport$methods(
 			rownames_col <- paste_tag(options$rownames_col, tag = "th")
 			html_data_frame <- c(html_data_frame, rownames_col)
 		}
-		colnames_vector <- character()
+		# colnames_vector <- character()
+		# for(i in seq(ncol(data_frame))) {
+		# 	colnames_vector[i] <- get_span(colspan, rowspan, 1, i)
+		# }
 		colnames_vector <- sapply(colnames(data_frame), paste_tag, tag = "th")
 		names(colnames_vector) <- NULL
 		html_data_frame <- c(html_data_frame, colnames_vector,
