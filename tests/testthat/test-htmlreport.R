@@ -1162,3 +1162,21 @@ test_that("testing table processing with spans", {
     output <- plotter$table(list(id = "test_data_frame", header = TRUE,
 								 row_names = FALSE, text = "dynamic"))
 	})
+
+test_that("testing extract_data method with a list of ids", {
+	input_df_1 <- data.frame(A = 1:5, B= 6:10, attr = "potato")
+	input_df_2 <- data.frame(A = 11:15, B= 16:20, attr = "tomato")
+	input_df_3 <- data.frame(A = 21:25, B= 26:30, attr = "leek")
+	plotter <- htmlReport$new(container = list(df1 = input_df_1,
+							  df2 = input_df_2, df3 = input_df_3))
+	output <- plotter$extract_data(list(id = "df1,df2,df3", fields = 1,
+							  			rows = 5:10, smp_attr = 3,
+							  			text = "dynamic"))
+	expected_df <- data.frame(A = c(5, 11:15))
+	expected_smp_attr <- data.frame(attr = rep("tomato", 6))
+	expected_smp_attr[1, 1] <- "potato"
+	rownames(expected_smp_attr) <- rownames(expected_df) <- 5:10
+	expected <- list(data_frame = expected_df, smp_attr = expected_smp_attr,
+					 var_attr = NULL)
+	expect_equal(output, expected)
+	})
