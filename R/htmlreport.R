@@ -487,38 +487,6 @@ htmlReport$methods(get_data = function(options) {
 	return(all_data)				
 })
 
-#' Merge tables contained in hash_vars
-#'
-#' @name merge_tables
-#' @title Merge tables from multiple hash_vars ids
-#' @description Non-exported method that will be called by extract_data if
-#' it is provided with multiple ids.
-#'
-#' @param options A list containing options for data retrieval.
-#'
-#' @returns A merged data frame, minus specified fields and rows.
-
-htmlReport$methods(merge_tables = function(data_frame, options) {
-	fields <- options$fields
-	rows <- options$rows
-	ids <- strsplit(options$id, split = ",")[[1]]
-	data_files <- hash_vars[[ids[n]]]
-	if(!is.null(fields)) {
-		data_fields <- strsplit(fields, ";")[[1]]
-		for(n in seq(data_fields)[[1]]) {
-			data_files[[n]] <- data_files[[n]][, data_fields[n], drop = FALSE]
-		}
-	}
-	if(!is.null(rows)) {
-		data_rows <- strsplit(rows, ";")[[1]]
-		for(n in seq(data_rows)[[1]]) {
-			data_files[[n]] <- data_files[[n]][, data_rows[n], drop = FALSE]
-		}
-	}
-	data <- do.call(rbind, data_files)
-	return(data)
-})
-
 
 #' Retrieve Data from htmlReport Object
 #'
@@ -536,11 +504,11 @@ htmlReport$methods(extract_data = function(options) {
 	smp_attr <- NULL
     var_attr <- NULL
     ids <- options$id
-    if("," %in% ids) ids <- strsplit(ids, split = ",")[[1]]
+    if(grepl(",", ids)) ids <- strsplit(ids, split = ",")[[1]]
     fields <- options$fields
     get_table_meth <- options$get_table_meth
     if(length(ids) > 1){
-    	data_frame <- merge_tables(options) ## UNTESTED
+    	data_frame <- merge_hashed_tables(ids = ids, join_method = "rbind")
     } else {
     	data_frame <- hash_vars[[ids]]
     	if(!is.null(get_table_meth)) {
