@@ -1312,7 +1312,6 @@ htmlReport$methods(
 			}
 		}
 		pretty_div <- paste(div, code, "</div>", sep = "\n")
-		if(!is.null(width)) writeLines(pretty_div, "test.txt")
 		return(pretty_div)
 	}
 )
