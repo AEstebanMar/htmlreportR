@@ -156,8 +156,7 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
 #' @returns Data frame of contents, levels and types, ready for make_html_list.
 
 .prepare_standard_triplet_df <- function(list_content, list_levels = NULL,
-                                           list_types = NULL,
-                                           default_type = "ul") {
+                                         list_types = NULL,default_type = "ul"){
     if(is.null(list_levels)) {
         list_levels <- rep(1, length(list_content))
     }
