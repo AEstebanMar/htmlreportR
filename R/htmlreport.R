@@ -80,6 +80,7 @@ htmlReport$methods(static_plot_main = function(id, header = NULL,
 											   smp_attr = NULL, var_attr = NULL,
 											   fields = NULL, func = NULL,
 											   plotting_function = NULL,
+											   plotting_args = NULL,
 											   text = FALSE,
 											   custom_format = FALSE,
 											   width = NULL, height = NULL, 
@@ -106,7 +107,12 @@ htmlReport$methods(static_plot_main = function(id, header = NULL,
 					   collapse ="\n")))}
 		plot_obj <- aux_func(data_frame)
 	}else {
-		plot_obj <- plotting_function(data_frame)
+		if(is.null(plotting_args)) {
+			plot_obj <- plotting_function(data_frame)
+		} else {
+			arg_list <- c(data_frame, plotting_args)
+			plot_obj <- do.call(plotting_function, arg_list)
+		}
 	}
 	get_plot(plot_obj, width = width, height = height, size_unit = size_unit,
 			 img_properties = img_properties, resizable = resizable,
