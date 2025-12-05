@@ -49,45 +49,44 @@ htmlReport$methods(
 #' @description This function generates a static plot for inclusion in an HTML 
 #' report for an object of class "htmlReport".
 #' 
-#' @param id A character string specifying the identifier for the plot included in hash_vars.
+#' @param id A character string specifying the identifier for the plot included
+#' in hash_vars.
 #' @param header Logical, indicating whether the dataset has a header row.
 #' @param row_names Logical, indicating whether to include row names.
 #' @param transpose Logical, indicating whether to transpose the dataset.
 #' @param smp_attr A list of attributes for samples.
 #' @param var_attr A list of attributes for variables.
-#' @param fields A character vector specifying the fields to include in the plot.
+#' @param fields A character vector specifying the fields to include in the
+#' plot.
 #' @param func A function to preprocess data before plotting.
 #' @param plotting_function A function used for generating the plot.
-#' @param text Logical, indicating whether to convert table to text or a vector indicating the numeric fields.
-#' @param custom_format Logical, indicating if id correspond to a table or a custom object
+#' @param plotting_args Named list of arguments to pass to plotting function in
+#' addition to input data.
+#' @param text Logical, indicating whether to convert table to text or a vector
+#' indicating the numeric fields.
+#' @param custom_format Logical, indicating if id correspond to a table or a
+#' custom object
 #' @param width plot width
 #' @param height plot height
 #' @param size_unit units in plot size
 #' @param img_properties string including html properties of img
 #' @param resizable logical indicating if plot must be resizable
-#' @param classic_R_plot logical indicating if is using classic plot() R function
 #' 
 #' @details
-#' This function generates a static plot based on the provided data and plot specifications. 
-#' It first retrieves the data frame for plotting using the provided options, preprocesses the 
-#' data if a preprocessing function is specified, generates the plot using the provided plotting 
-#' function, and then adds the plot to the HTML report object.
+#' This function generates a static plot based on the provided data and plot
+#' specifications. 
+#' It first retrieves the data frame for plotting using the provided options,
+#' preprocesses the 
+#' data if a preprocessing function is specified, generates the plot using the
+#' provided plotting function, and then adds the plot to the HTML report object.
 #' 
 NULL
 htmlReport$methods(static_plot_main = function(id, header = NULL, 
-											   row_names = NULL,
-											   transpose = FALSE,
-											   smp_attr = NULL, var_attr = NULL,
-											   fields = NULL, func = NULL,
-											   plotting_function = NULL,
-											   plotting_args = NULL,
-											   text = FALSE,
-											   custom_format = FALSE,
-											   width = NULL, height = NULL, 
-											   size_unit = NULL, 
-											   img_properties = "",
-											   resizable = FALSE,
-											   plot_type = "plot") {
+	row_names = NULL, transpose = FALSE, smp_attr = NULL, var_attr = NULL,
+	fields = NULL, func = NULL, plotting_function = NULL, plotting_args = NULL,
+	text = FALSE, custom_format = FALSE, width = NULL, height = NULL,
+	size_unit = NULL, img_properties = "", resizable = FALSE,
+	plot_type = "plot") {
 	options <- list(id = id, header = header, row_names = row_names,
 					transpose = transpose, smp_attr = smp_attr, text = text,
 					var_attr = var_attr, fields = fields, func = func)

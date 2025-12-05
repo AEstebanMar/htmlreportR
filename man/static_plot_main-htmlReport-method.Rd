@@ -4,7 +4,8 @@
 \alias{static_plot_main-htmlReport-method}
 \title{Generate static plot for HTML report}
 \arguments{
-\item{id}{A character string specifying the identifier for the plot included in hash_vars.}
+\item{id}{A character string specifying the identifier for the plot included
+in hash_vars.}
 
 \item{header}{Logical, indicating whether the dataset has a header row.}
 
@@ -16,15 +17,21 @@
 
 \item{var_attr}{A list of attributes for variables.}
 
-\item{fields}{A character vector specifying the fields to include in the plot.}
+\item{fields}{A character vector specifying the fields to include in the
+plot.}
 
 \item{func}{A function to preprocess data before plotting.}
 
 \item{plotting_function}{A function used for generating the plot.}
 
-\item{text}{Logical, indicating whether to convert table to text or a vector indicating the numeric fields.}
+\item{plotting_args}{Named list of arguments to pass to plotting function in
+addition to input data.}
 
-\item{custom_format}{Logical, indicating if id correspond to a table or a custom object}
+\item{text}{Logical, indicating whether to convert table to text or a vector
+indicating the numeric fields.}
+
+\item{custom_format}{Logical, indicating if id correspond to a table or a
+custom object}
 
 \item{width}{plot width}
 
@@ -35,8 +42,6 @@
 \item{img_properties}{string including html properties of img}
 
 \item{resizable}{logical indicating if plot must be resizable}
-
-\item{classic_R_plot}{logical indicating if is using classic plot() R function}
 }
 \description{
 This function generates a static plot for inclusion in an HTML
@@ -45,8 +50,10 @@ report for an object of class "htmlReport".
 \details{
 Generate static plot for HTML report
 
-This function generates a static plot based on the provided data and plot specifications.
-It first retrieves the data frame for plotting using the provided options, preprocesses the
-data if a preprocessing function is specified, generates the plot using the provided plotting
-function, and then adds the plot to the HTML report object.
+This function generates a static plot based on the provided data and plot
+specifications.
+It first retrieves the data frame for plotting using the provided options,
+preprocesses the
+data if a preprocessing function is specified, generates the plot using the
+provided plotting function, and then adds the plot to the HTML report object.
 }
