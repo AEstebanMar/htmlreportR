@@ -109,7 +109,7 @@ htmlReport$methods(static_plot_main = function(id, header = NULL,
 		if(is.null(plotting_args)) {
 			plot_obj <- plotting_function(data_frame)
 		} else {
-			arg_list <- c(input_obj = data_frame, plotting_args)
+			arg_list <- c(list(data_frame), plotting_args)
 			plot_obj <- do.call(plotting_function, arg_list)
 		}
 	}
