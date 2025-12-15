@@ -1161,7 +1161,7 @@ test_that("testing table processing with spans", {
     plotter <- htmlReport$new(container = list(test_data_frame = input_df))
     output <- plotter$table(list(id = "test_data_frame", header = TRUE,
 								 row_names = FALSE, text = "dynamic"))
-	})
+})
 
 test_that("testing extract_data method with a list of ids", {
 	input_df_1 <- data.frame(A = 1:5, B= 6:10, attr = "potato")
@@ -1179,4 +1179,23 @@ test_that("testing extract_data method with a list of ids", {
 	expected <- list(data_frame = expected_df, smp_attr = expected_smp_attr,
 					 var_attr = NULL)
 	expect_equal(output, expected)
-	})
+})
+
+test_that("test plotting_args argument of static_plot_main function", {
+	test_func <- function(input_obj, columns) {
+		p <- input_obj[, columns, drop = FALSE]
+		print(p)
+		return(p)
+	}
+	input_df_1 <- data.frame(A = 1:5, B= 6:10, attr = "potato")
+	plotter <- htmlReport$new(container = list(df1 = input_df_1))
+	output_1 <- capture.output(plotter$static_plot_main(id = "df1",
+		text = "dynamic", plotting_function = test_func, plot_type = "plot",
+		plotting_args = list(columns = 1)))
+	output_2 <- capture.output(plotter$static_plot_main(id = "df1",
+		text = "dynamic", plotting_function = test_func, plot_type = "plot",
+		plotting_args = list(columns = 2)))
+	expect_equal(output_1[-7], c("  A", "1 1", "2 2", "3 3", "4 4", "5 5"))
+	expect_equal(output_2[-7], c("   B", "1  6", "2  7", "3  8", "4  9",
+								 "5 10"))
+})
