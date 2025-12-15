@@ -229,3 +229,8 @@ parse_paths <- function(string) {
     data_frame <- data_frame[, -col, drop = FALSE]
     return(data_frame)
 }
+
+.read_table <- function(file, header = FALSE, sep = "\t") {
+    message("Reading file ", file)
+    return(utils::read.table(file, header = header, sep = sep))
+}
