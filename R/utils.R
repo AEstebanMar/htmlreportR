@@ -180,7 +180,7 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
 .add_id_column <- function(id, hash_vars, from_id_name, add_colnames = FALSE) {
     table <- hash_vars[[id]]
     if(add_colnames) {
-        table <- .row_to_header(table)
+        table <- row_to_header(table)
     }
     table[from_id_name] <- id
     return(table)
@@ -218,13 +218,35 @@ parse_paths <- function(string) {
     return(expanded_paths)
 }
 
-.row_to_header <- function(data_frame, row = 1) {
+#' row_to_header
+#'
+#' turns a row of the input data frame and turns it into its colnames, and then
+#' removes the actual row.
+#'
+#' @param data_frame Data frame to manipulate.
+#' @param row An integer. Row to set as new columns and remove from data frame.
+#' @examples
+#' row_to_header(head(mtcars))
+#' @export
+
+row_to_header <- function(data_frame, row = 1) {
     colnames(data_frame) <- data_frame[row, ]
     data_frame <- data_frame[-row, , drop = FALSE]
     return(data_frame)
 }
 
-.col_to_rownames <- function(data_frame, col = 1) {
+#' col_to_rownames
+#'
+#' turns a column of the input data frame and turns it into its rownames, and
+#' then removes the actual column.
+#'
+#' @param data_frame Data frame to manipulate.
+#' @param col An integer. Col to set as new rowumns and remove from data frame.
+#' @examples
+#' col_to_rownames(tail(mtcars))
+#' @export
+
+col_to_rownames <- function(data_frame, col = 1) {
     rownames(data_frame) <- data_frame[, col]
     data_frame <- data_frame[, -col, drop = FALSE]
     return(data_frame)
