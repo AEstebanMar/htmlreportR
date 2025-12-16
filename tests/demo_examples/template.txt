@@ -214,10 +214,14 @@ end.rcode-->
 <br>
 <br>
 
-<!--begin.rcode cvX_datatable
+<!--begin.rcode plotter_datatable
     cat(plotter$create_title("DataTable type", "tables_dt", hlevel = 3, indexable = TRUE,
                               clickable = FALSE, t_id = NULL))
     cat(plotter$table(list(id = "test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2, var_attr = 2,
+                       styled = "dt")))
+    cat(plotter$create_title("Custom table attributes", "tables_dt", hlevel = 3, indexable = TRUE,
+                              clickable = FALSE, t_id = NULL))
+    cat(plotter$table(list(id = "test_data_frame", attrib = list(width = "100%"), header = TRUE, row_names = TRUE, smp_attr = 2, var_attr = 2,
                        styled = "dt")))
 end.rcode-->
 
