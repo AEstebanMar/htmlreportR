@@ -587,12 +587,12 @@ NULL
 htmlReport$methods(add_header_row_names = function(data_frame, options) {
 	if(!is.null(options$header)) {
 		if(options$header) {
-			data_frame <- .row_to_header(data_frame)
+			data_frame <- row_to_header(data_frame)
 		}
 	}
 	if(!is.null(options$row_names)) {
 		if(options$row_names) {
-			data_frame <- .col_to_rownames(data_frame)
+			data_frame <- col_to_rownames(data_frame)
 		}
 	}	
 	return(data_frame)	
@@ -1359,7 +1359,7 @@ htmlReport$methods(
 			} else {
 				tables <- hash_vars[ids]
 				if(isTRUE(add_colnames)) {
-					tables <- lapply(tables, .row_to_header)
+					tables <- lapply(tables, row_to_header)
 				}
 			}
 			bound_table <- do.call(rbind, tables)
