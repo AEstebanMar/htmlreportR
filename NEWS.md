@@ -25,3 +25,7 @@
 * Update: barplot method now includes option to color series by a specified sample attribute.
 * Update: prettify\_div htmlReport method now admits height and width arguments. Custom arguments now take priority over preset. Added new inject\_string argument, allows to fully customise style.
 * Update: responsive parameter of CanvasXpress plotting methods in htmlReport class now actually usable.
+* New: main reporting script now prints a message when reading files, so in case of error you know which file is the problematic one.
+* New: row\_to\_header and col\_to\_rownames now exported.
+* Update: showcase template now includes code in the rendered report.
+* Update: static\_plot\_ main now takes plotting\_args argument, allows you to pass arguments to plotting functions. See showcase report.
