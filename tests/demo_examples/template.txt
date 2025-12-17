@@ -1,3 +1,13 @@
+<style>
+.code {
+    background-color: #FADED9;
+    color: red;
+    font-family: courier;
+    border: 2px solid black;
+    margin: 20px;
+    padding: 20px;
+}
+</style>
 
 <!--begin.rcode Static_ggplot
 
@@ -13,7 +23,7 @@ cat(plotter$create_title("Heatmap example", "heatmap_t", hlevel = 3, indexable =
        mod_table[,n_columns] <- lapply(mod_table[,n_columns], 
         function(col) {
              if (!is.factor(col)){
-                as.numeric(col) 
+                as.numeric(col)
              } else {
                 col
              }
@@ -36,7 +46,7 @@ cat(plotter$create_title("Heatmap example", "heatmap_t", hlevel = 3, indexable =
 	}))
 end.rcode-->
 
-<!--begin.rcode Static_baseplot
+<!--begin.rcode Static_baseplot, echo = TRUE
     cat(plotter$create_title("Static barplot example", "static_barplot", hlevel = 2, indexable = FALSE))
     # Make sure the plotting function does not automatically draw the plot, but rather returns
     # the plot object. Default "plot_type" value is "plot", which calls base R plot function.
@@ -53,7 +63,7 @@ end.rcode-->
             preset = "magic"))
 end.rcode-->
 
-<!--begin.rcode Resizable_ggplot_heatmap
+<!--begin.rcode Resizable_ggplot_heatmap, echo = TRUE
     cat(plotter$create_title("Heatmap example resizable", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
 
     cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, smp_attr = 17, width = 1200, height = 500, size_unit = "px",
@@ -69,7 +79,7 @@ end.rcode-->
 end.rcode-->
 
 
-<!--begin.rcode Custom_size_ggplot_heatmap
+<!--begin.rcode Custom_size_ggplot_heatmap, echo = TRUE
     cat(plotter$create_title("Heatmap example custom size", "heatmap_t", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL, clickable_text = ""))
 
     cat(plotter$static_ggplot_main("data_toc_sample.txt", header = T, func = mod_func, smp_attr = 17, width = 1200, height = 500, size_unit = "px",
@@ -141,10 +151,9 @@ end.rcode-->
 end.rcode-->
 
 
-<!--begin.rcode table_bootstrap
+<!--begin.rcode table_bootstrap, echo = TRUE
     cat(plotter$create_title("Tables", "tables", hlevel = 2, indexable = TRUE, clickable = FALSE, t_id = NULL))
     cat(plotter$create_title("Bootstrap type", "tables_bs", hlevel = 3, indexable = TRUE, clickable = FALSE, t_id = NULL))
-    #plotter$add_menu_item("datatable",list(text="DataTable"))
     plotter$hash_vars[["test_data_frame"]] <- data.frame( "V1" = c("h0", "r1", "r2", "r3"), 
                                 "V2" = c("h1", "-","var_attr1", "var_attr2"),
                                 "V3" = c("h2", "smp_attr1", 1, 2), 
@@ -156,7 +165,7 @@ end.rcode-->
                       var_attr = 2, attrib = list('class' = 'table table-striped'), rownames_col = "renamed_rows")))
 end.rcode-->
 
-<!--begin.rcode merge_hashed_tables
+<!--begin.rcode merge_hashed_tables, echo = TRUE
 
     plotter$hash_vars$table1 <- data.frame(val1 = 1:5, val2 = 6:10)
     plotter$hash_vars$table2 <- data.frame(val1 = 11:15, val2 = 16:20)
@@ -169,13 +178,13 @@ end.rcode-->
 end.rcode-->
 
 
-<!--begin.rcode cvX_heatmap
+<!--begin.rcode cvX_heatmap, echo = TRUE
 cat(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header = TRUE, smp_attr = 17, text = FALSE,
                          row_names = FALSE, transpose = FALSE, config = list("varOverlays" = c("category")))))
 end.rcode-->
 
 
-<!--begin.rcode cvX_cluster_heatmap
+<!--begin.rcode cvX_cluster_heatmap, echo = TRUE
     cluster_table <- plotter$get_data(list(id = "data_toc_sample.txt", row_names = NULL, header = TRUE, transpose = FALSE,
                                       text = "dynamic"))$data_frame
     rownames(cluster_table) <- seq(0, nrow(cluster_table) -1)
@@ -184,25 +193,18 @@ end.rcode-->
     data_toc_sample_nw <- ape::write.tree(ape::as.phylo(test_tree))
     rownames(cluster_table) <- as.character(sample(100))
     plotter$hash_vars$cluster_table <- cluster_table
-    cat(plotter$heatmap(list(id = "cluster_table", 
-                             title = "Heatmap", 
-                             tree =data_toc_sample_nw, 
-                             header = NULL, 
-                             smp_attr = c(17, 18), 
-                             text = "dynamic", 
-                             row_names = NULL, 
-                             transpose = FALSE, 
-                             config = list("varOverlays" = c("category", "clust")))))
+    cat(plotter$heatmap(list(id = "cluster_table", title = "Heatmap", tree =data_toc_sample_nw, header = NULL, smp_attr = c(17, 18),
+                             text = "dynamic", row_names = NULL, transpose = FALSE, config = list("varOverlays" = c("category", "clust")))))
 end.rcode-->
 
-<!--begin.rcode cvX_double_heatmap
+<!--begin.rcode cvX_double_heatmap, echo = TRUE
     cat(plotter$prettify_div(plotter$heatmap(list(id = "heatmap_colors.txt", header = FALSE, row_names = FALSE, text = "dynamic",
                                              extra_data = list(id ="heatmap_sizes.txt", header = FALSE, row_names = FALSE, text = "dynamic"),
                                              config = list(sizeLegendTitle = "Textual Similarity", sizes = c(3, 11, 15, 40)),
                                              title = "double heatmap")), preset = "magic"))
 end.rcode-->
 
-<!--begin.rcode cvX_density
+<!--begin.rcode cvX_density, echo = TRUE
     cat(plotter$density(list(id = "density_ridgeline_example.txt", title = "Density plot", header = TRUE,
                         text = FALSE, row_names = TRUE, fillDensity = TRUE, median = TRUE)))
 end.rcode-->
@@ -214,7 +216,7 @@ end.rcode-->
 <br>
 <br>
 
-<!--begin.rcode plotter_datatable
+<!--begin.rcode plotter_datatable, echo = TRUE
     cat(plotter$create_title("DataTable type", "tables_dt", hlevel = 3, indexable = TRUE,
                               clickable = FALSE, t_id = NULL))
     cat(plotter$table(list(id = "test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2, var_attr = 2,
@@ -225,7 +227,7 @@ end.rcode-->
                        styled = "dt")))
 end.rcode-->
 
-<!--begin.rcode cvX_scatter2D
+<!--begin.rcode cvX_scatter2D, echo = TRUE
     cat(plotter$prettify_div(plotter$scatter2D(list(id = "x_y.txt", title = "Simple Scatter", row_names = FALSE, header = TRUE,
                                x_label = "Num genes", y_label = "FPKM", alpha = 0.3, theme = "tableau",
                                text = FALSE)), preset = "magic"))
@@ -243,14 +245,14 @@ end.rcode-->
                                                                 Brain Expr: {brain} "))), preset = "magic"))
 end.rcode-->
 
-<!--begin.rcode cvX_scatter3D
+<!--begin.rcode cvX_scatter3D, echo = TRUE
     cat(plotter$prettify_div(plotter$scatter3D(list(id = 'scatter3dsizeAndColor.txt', header = TRUE, row_names = TRUE, x_label = 'Num genes', title = "Scatter3D plot",
                                                     y_label = 'FPKM', z_label= "3rdMetric", smp_attr = 7, xAxis = "liver", yAxis = "brain",
                                                     zAxis = "lung", pointSize = "spleen", colorScaleBy = "kidney", shapeBy = "pathway", text = "dynamic")),
                                                preset = "magic"))
 end.rcode-->
 
-<!--begin.rcode cvX_barplot
+<!--begin.rcode cvX_barplot, echo = TRUE
     cat(plotter$prettify_div(plotter$barplot(list(id = "barplot1.txt", title = "Vertical barplot with multiple series", row_names = TRUE, header = TRUE,
                                                   text = FALSE, config = list('graphOrientation' = 'vertical', 'xAxisTitle' = 'Values'))), preset = "magic"))
     cat(plotter$prettify_div(plotter$barplot(list(id = "barplot2.txt", title = "Horizontal barplot", row_names = TRUE, header = TRUE,
@@ -264,7 +266,7 @@ end.rcode-->
 end.rcode-->
 
 <p>We can also define functions to transform data before plotting<p>
-<!--begin.rcode cvX_lineplot
+<!--begin.rcode cvX_lineplot, echo = TRUE
     mod_data <- function(df) {
         df[2,2] <- 1000
         return(df)
@@ -278,14 +280,15 @@ end.rcode-->
 end.rcode-->
 
 <h2> You can edit the properties of divs with an interface function <h2>
-<!--begin.rcode Pretty_divs
+<!--begin.rcode Pretty_divs, echo = TRUE
     cat(plotter$prettify_div("This is a simple div"))
     cat(plotter$prettify_div("This is a right-justified div", display = "flex", justify = "right"))
     cat(plotter$prettify_div("This is a preset div", preset = "magic",
                              overflow = "preset will override other arguments"))
 end.rcode-->
 
-<!--begin.rcode boxplots
+<!--begin.rcode boxplots, echo = TRUE
+
     cat(plotter$prettify_div(plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE,
                                                   row_names = TRUE,
                                                   text = "dynamic", format = "wide")), preset = "magic"))
@@ -341,7 +344,7 @@ end.rcode-->
                                                   add_violin = TRUE)), preset = "magic"))
 end.rcode-->
 
-<!--begin.rcode grid showcase
+<!--begin.rcode grid showcase, echo = TRUE
     cat(plotter$create_title("You can use our prettify_div method to plot figures in a grid", "grid_example", hlevel = 2, indexable = FALSE))
     code <- list()
     code[[1]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
@@ -356,7 +359,7 @@ end.rcode-->
     cat(plotter$prettify_div(plotter$prettify_div(code, width = "1600px"), overflow = "hidden"))
 end.rcode-->
 
-<!--begin.rcode collapsable containers
+<!--begin.rcode collapsable containers, echo = TRUE
     cat(plotter$create_title("Collapsable demo", id = "click_demo", hlevel = 1, indexable = TRUE, clickable = TRUE, t_id = "clickme_id",
                              clickable_text = "(Click me)"))
     example_div <- plotter$table(list(id = "test_data_frame", header = TRUE, row_names = TRUE, smp_attr = 2,
@@ -364,7 +367,7 @@ end.rcode-->
     cat(plotter$create_collapsable_container(id = "clickme_id", html_code = example_div))
 end.rcode-->
 
-<!--begin.rcode Custom_loading
+<!--begin.rcode Custom_loading, echo = TRUE
     cat(plotter$create_title("Generate table data using a custom object", "custom_loading", hlevel = 2, indexable = FALSE))
     plotter$hash_vars$ref_data <- 5
     generate_table <- function(n) {
