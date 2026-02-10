@@ -1283,7 +1283,7 @@ htmlReport$methods(
 				div_params$overflow <- "overflow: hidden"
 				div_params$display <- "display: flex"
 				div_params$direction <- "flex-direction: row"
-				div_params$justify <- "justify-content: center"
+				div_params$justify <- "justify-content: left"
 			}
 			if(!is.null(height)) {
 				div_params$height <- paste0("height:", height)
