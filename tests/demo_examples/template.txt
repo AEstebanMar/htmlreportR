@@ -356,7 +356,7 @@ end.rcode-->
     code[[4]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
                                       row_names = TRUE, text = "dynamic", format = "wide"))
     code <- paste(code, collapse = "\n\n")
-    cat(plotter$prettify_div(plotter$prettify_div(code, width = "1600px"), overflow = "hidden"))
+    cat(plotter$prettify_div(plotter$prettify_div(code, width = "400px", preset = "magic"), width = "1600px", preset = "magic"))
 end.rcode-->
 
 <!--begin.rcode collapsable containers, echo = TRUE
