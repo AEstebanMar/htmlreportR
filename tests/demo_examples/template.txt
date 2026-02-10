@@ -179,8 +179,8 @@ end.rcode-->
 
 
 <!--begin.rcode cvX_heatmap, echo = TRUE
-cat(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header = TRUE, smp_attr = 17, text = FALSE,
-                         row_names = FALSE, transpose = FALSE, config = list("varOverlays" = c("category")))))
+cat(plotter$prettify_div(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header = TRUE, smp_attr = 17, text = FALSE,
+                         row_names = FALSE, transpose = FALSE, config = list("varOverlays" = c("category")))), preset = "magic"))
 end.rcode-->
 
 
@@ -193,20 +193,20 @@ end.rcode-->
     data_toc_sample_nw <- ape::write.tree(ape::as.phylo(test_tree))
     rownames(cluster_table) <- as.character(sample(100))
     plotter$hash_vars$cluster_table <- cluster_table
-    cat(plotter$heatmap(list(id = "cluster_table", title = "Heatmap", tree =data_toc_sample_nw, header = NULL, smp_attr = c(17, 18),
-                             text = "dynamic", row_names = NULL, transpose = FALSE, config = list("varOverlays" = c("category", "clust")))))
+    cat(plotter$prettify_div(plotter$heatmap(list(id = "cluster_table", title = "Heatmap", tree =data_toc_sample_nw, header = NULL, smp_attr = c(17, 18),
+                             text = "dynamic", row_names = NULL, transpose = FALSE, config = list("varOverlays" = c("category", "clust")))), preset = "magic"))
 end.rcode-->
 
 <!--begin.rcode cvX_double_heatmap, echo = TRUE
-    cat(plotter$prettify_div(plotter$heatmap(list(id = "heatmap_colors.txt", header = FALSE, row_names = FALSE, text = "dynamic",
+    cat(plotter$prettify_div(plotter$heatmap(list(id = "heatmap_colors.txt", header = FALSE, row_names = FALSE, text = "dynamic", x_label = "Intensity",
                                              extra_data = list(id ="heatmap_sizes.txt", header = FALSE, row_names = FALSE, text = "dynamic"),
                                              config = list(sizeLegendTitle = "Textual Similarity", sizes = c(3, 11, 15, 40)),
                                              title = "double heatmap")), preset = "magic"))
 end.rcode-->
 
 <!--begin.rcode cvX_density, echo = TRUE
-    cat(plotter$density(list(id = "density_ridgeline_example.txt", title = "Density plot", header = TRUE,
-                        text = FALSE, row_names = TRUE, fillDensity = TRUE, median = TRUE)))
+    cat(plotter$prettify_div(plotter$density(list(id = "density_ridgeline_example.txt", title = "Density plot", header = TRUE,
+                        text = FALSE, row_names = TRUE, fillDensity = TRUE, median = TRUE)), preset = "magic"))
 end.rcode-->
 
 <br>
