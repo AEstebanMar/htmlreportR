@@ -375,3 +375,7 @@ end.rcode-->
     }
     cat(plotter$prettify_div(plotter$table(list(id = "ref_data", get_table_meth = generate_table)), preset = "magic"))
 end.rcode -->
+
+<!--begin.rcode embed_html, echo = TRUE
+    cat(plotter$embed_html("./demo_files/embed.html"))
+end.rcode -->

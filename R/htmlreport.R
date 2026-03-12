@@ -1443,3 +1443,28 @@ htmlReport$methods(
 											 "\"")
  	 	return(paste(span, collapse = " "))
 	})
+
+#' embed_html
+#'
+#' @name get_span-htmlReport-method
+#' @title get col and rowspan for a table element specified by indices.
+#' 
+#' @param colspan,rowspan table of colspans and rowspans.
+#' @param row,col row and col indices of element whose spans to get.
+#'
+#' @returns appended HTML code specifying element spans.
+#'
+NULL
+
+htmlReport$methods(
+	embed_html = function(html_file, width = 600, height = 600, border = TRUE, html_attribs = ""){
+		if(!border & "style" %in% html_attribs) {
+			html_attribs <- gsub("style=\"", "style=\"border:none;", html_attribs)
+		} else html_attribs <- paste0(html_attribs, " style=\"border:none;\"")
+		html_content <- readLines(html_file)
+		html_content <- paste0(html_content, collapse = "\n")
+		html_content <- gsub("\"", "'", html_content)
+		iframed_html <- paste0("<iframe width=", width, " height=", height, " ", html_attribs, " srcdoc=\"",
+											html_content, "\"></iframe>")
+		return(iframed_html)
+		})
