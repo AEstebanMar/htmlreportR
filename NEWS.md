@@ -29,5 +29,5 @@
 * New: row\_to\_header and col\_to\_rownames now exported.
 * Update: showcase template now includes code in the rendered report.
 * Update: static\_plot\_ main now takes plotting\_args argument, allows you to pass arguments to plotting functions. See showcase report.
-* New: added embed\_html method to htmlReport class, uses iframes to embed an html file
+* New: added embed\_html method to htmlReport class, uses iframes to embed an html file. It requires manual editing because of how pandoc enforces styles on embedded iframes (remove the style block inserted in the iframe). Will be fixed in htmlreportR overhaul.
 

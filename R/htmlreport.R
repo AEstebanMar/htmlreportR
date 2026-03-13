@@ -27,11 +27,7 @@ NULL
 htmlReport$methods(
 	build = function(template) {
 		templ <- paste(readLines(template, warn = FALSE), collapse="\n")
-		knitr::opts_chunk$set(echo = FALSE, 
-							  results="asis", 
-							  message=FALSE, 
-							  error = FALSE, 
-							  warning = FALSE)
+		knitr::opts_chunk$set(echo = FALSE, results="asis", message=FALSE, error = FALSE, warning = FALSE)
 		plotter <- .self
 		rendered_template <- knitr::knit(text = templ, quiet = TRUE)
 		concat("<HTML>\n")
@@ -1458,8 +1454,8 @@ NULL
 
 htmlReport$methods(
 	embed_html = function(html_file, width = 600, height = 600, border = TRUE, html_attribs = ""){
-		if(!border & "style" %in% html_attribs) {
-			html_attribs <- gsub("style=\"", "style=\"border:none;", html_attribs)
+		if(!border & grepl("style", html_attribs)) {
+			html_attribs <- gsub("style=\"", "style=\"border:none; ", html_attribs)
 		} else html_attribs <- paste0(html_attribs, " style=\"border:none;\"")
 		html_content <- readLines(html_file)
 		html_content <- paste0(html_content, collapse = "\n")
@@ -1467,4 +1463,4 @@ htmlReport$methods(
 		iframed_html <- paste0("<iframe width=", width, " height=", height, " ", html_attribs, " srcdoc=\"",
 											html_content, "\"></iframe>")
 		return(iframed_html)
-		})
+	})

@@ -376,6 +376,11 @@ end.rcode-->
     cat(plotter$prettify_div(plotter$table(list(id = "ref_data", get_table_meth = generate_table)), preset = "magic"))
 end.rcode -->
 
-<!--begin.rcode embed_html, echo = TRUE
-    cat(plotter$embed_html("./demo_files/embed.html"))
+<!--begin.rcode embed_html, class.output = NULL
+    cat(plotter$create_title("Embed other html files", "embed_html", hlevel = 1, indexable = TRUE))
+    cat(plotter$create_title("Embed a simple html file", "simple_embed", hlevel = 2, indexable = FALSE))
+    cat(plotter$embed_html("./demo_files/embed.html", border = FALSE, html_attribs = 'style="width: 100vw; height: 100vh;"'))
+    cat(plotter$create_title("Embed a complex html file", "complex_embed", hlevel = 2, indexable = FALSE))
+    cat(plotter$embed_html("./demo_files/html_to_embed.html", border = FALSE,
+        html_attribs = 'style="width: 100vw; height: 100vh;"'))
 end.rcode -->
