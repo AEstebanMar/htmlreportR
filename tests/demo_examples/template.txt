@@ -177,6 +177,10 @@ end.rcode-->
 
 end.rcode-->
 
+<!--begin.rcode filtering tables, echo = TRUE
+   cat(plotter$table(list(id = "table1_header.txt", header = TRUE, text = FALSE, row_names = FALSE, styled = "dt", custom_buttons = c('copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'), filt_cols = 1:2, filt_col_names = c("Log_FC", "Patients"))))
+end.rcode-->
+
 
 <!--begin.rcode cvX_heatmap, echo = TRUE
 cat(plotter$prettify_div(plotter$heatmap(list(id = "data_toc_sample.txt", title = "Heatmap", header = TRUE, smp_attr = 17, text = FALSE,

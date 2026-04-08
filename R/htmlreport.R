@@ -694,7 +694,8 @@ htmlReport$methods(table = function(user_options){
 					fields = NULL, rows = NULL, func = NULL, text = FALSE,
 					border = 1, table_rownames = TRUE, cell_align = c(),
 					attrib = list(), styled = "bs", rownames_col = "rownames",
-				 	buttons_custom = c('copyHtml5', 'excelHtml5', 'csvHtml5'))
+				 	buttons_custom = c('copyHtml5', 'excelHtml5', 'csvHtml5'),
+					filt_cols = NULL, filt_col_names = NULL, prefill = NULL)
 	options <- update_options(options, user_options)
 	table_attr <- parse_table_attr(options$attrib)
 	## var_attr and smp_attr remove data from the data frame, it is not
@@ -710,11 +711,44 @@ htmlReport$methods(table = function(user_options){
 		embedded_buttons <- paste(collapse = ",", sapply(options$buttons_custom,
 												function(x) paste0("'", x,"'")))
     	features$dt_tables <<- TRUE
+	numeric_filtering <- ""
+	if(length(options$filt_cols) > 0) {
+		numeric_filtering <- paste0("const table_", table_id, " = new DataTable('#", table_id, "');\n")
+		for(field in options$filt_cols) {
+			field_tag <- paste(table_id, field, sep = "_")
+			num_filt <- paste0(
+					"const minEl_", field_tag, " = document.querySelector('#min_", field_tag, "');\n",
+					"const maxEl_", field_tag, "  document.querySelector('#man_", field_tag, "');\n",
+					"$.fn.dataTable.ext.search.push(function( settings, data, dataIndex ) {\n",
+					"if ( settings.nTable.id !== '", table_id, "'){return true;}\n", #apply filtering only to current table, this filtering is global
+					"var min = parseInt(minEl_", field_tag, ".value, 10);\n",
+					"var max = parseInt(maxEl_", field_tag, ".value, 10);\n",
+					"var age = parseFloat(data[", field," ]) || 0;\n", # use data for the age column
+					"if (\n",
+						"(isNaN(min) && isNaN(max) ||\n",
+						"isNaN(min) && age <= max) ||\n",
+						"(min <= age && isNan(max)) ||\n",
+						"(min <= age && age <= max)\n",
+					") {\n",
+						"return true;\n",
+					"}\n",
+					"return false;\n",
+					"});\n",
+					"minEl_", field_tag, ".addEventListener('input', function () {\n", # Changes to the inputs will trigger a redraw to update the table
+						"table_", table_id, ".draw();\n",
+					"});\n",
+					"maxEl_", field_tag, ".addEventListener('input', function () {\n",
+						"table_", table_id, ".draw();\n",
+					"});\n"
+					   )
+			numeric_filtering <- paste0(numeric_filtering, num_filt)
+		}
+	}
     	dynamic_js <<- c(dynamic_js,
                     paste(c("$(document).ready(function () {",
                         paste0("\t$(", table_id,").DataTable({ dom:'Bfrtip', ",
                         	"buttons: [", embedded_buttons, "], order: [] });"),
-                    "});"), collapse = "\n"))    
+                    numeric_filtering, "});"), collapse = "\n"))    
 	}
 	count_objects <<- count_objects + 1
 	parse_data_frame(data_frame = data_frame, options = options,
@@ -751,10 +785,30 @@ NULL
 htmlReport$methods(
 	parse_data_frame = function(data_frame, options, table_id, table_attr = "",
 								colspan, rowspan){
+		filter_code <- NULL
+		if(length(options$filt_cols) > 0) {
+			for(field_index in seq(options$filt_cols)) {
+				field <- options$filt_cols[field_index]
+				field_name <- field
+				if(length(options$filt_col_names) > 0) {
+					field_name <- options$filt_col_names[field_index]
+				}
+			filter_code <- paste0(filter_code,
+				"<tr>
+					<td>
+						", field_name, "-min: <input type=\"text\" id=\"min_", table_id, "_", field, "\" name = \"min_", table_id, "_", field, "\">
+					</td>
+					<td>
+						", field_name,  "-max: <input type=\"text\" id=\"max_", table_id, "_",
+field, "\" name = \"max_", table_id, "_", field, "\">
+					</td>")
+			}
+		}
+		filter_code <- paste_tag(filter_code, "table")
 		html_data_frame <- paste0("<table id=", table_id,
 								   " border=", options$border, " ",
 								   table_attr, " >")
-		html_data_frame <- c(html_data_frame, "<thead>", "<tr>")
+		html_data_frame <- c(filter_code, html_data_frame, "<thead>", "<tr>")
 		if(isTRUE(options$table_rownames)) {
 			rownames_col <- paste_tag(options$rownames_col, tag = "th")
 			html_data_frame <- c(html_data_frame, rownames_col)
@@ -959,15 +1013,15 @@ htmlReport$methods(
         cvX$config[['graphType']] <- 'Heatmap'
         if(!is.null(cvX$options$extra_data)) {
         	extra_opts <- list(id = NULL, func = NULL, fields = NULL,
-        					   smp_attr = NULL, var_attr = NULL, header = NULL,
-        					   row_names = NULL, show_factors = NULL,
-        					   segregate = NULL, transpose = TRUE)
+        					smp_attr = NULL, var_attr = NULL, header = NULL,
+        					row_names = NULL, show_factors = NULL,
+        					segregate = NULL, transpose = TRUE, sizeBy = "Size")
         	extra_opts <- update_options(extra_opts, cvX$options$extra_data)
             values2 <- get_data_for_plot(extra_opts)$data_frame
             cvX$data_structure$y$data2 <- values2
             cvX$config$guidesShow <- TRUE
             cvX$config$heatmapIndicatorPosition <- "top"
-            cvX$config$sizeBy <- "Size"
+            cvX$config$sizeBy <- extra_opts$sizeBy
             cvX$config$sizeByData <- "data2"
         }
     }
