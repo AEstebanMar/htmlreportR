@@ -178,6 +178,7 @@ end.rcode-->
 end.rcode-->
 
 <!--begin.rcode filtering tables, echo = TRUE
+   cat(plotter$create_title("Table filtering", "table_filtering", hlevel = 2, indexable = TRUE, clickable = FALSE, t_id = NULL))
    cat(plotter$table(list(id = "table1_header.txt", header = TRUE, text = FALSE, row_names = FALSE, styled = "dt", custom_buttons = c('copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'), filt_cols = 1:2, filt_col_names = c("Log_FC", "Patients"))))
 end.rcode-->
 

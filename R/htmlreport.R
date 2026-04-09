@@ -718,16 +718,16 @@ htmlReport$methods(table = function(user_options){
 			field_tag <- paste(table_id, field, sep = "_")
 			num_filt <- paste0(
 					"const minEl_", field_tag, " = document.querySelector('#min_", field_tag, "');\n",
-					"const maxEl_", field_tag, "  document.querySelector('#man_", field_tag, "');\n",
+					"const maxEl_", field_tag, " = document.querySelector('#max_", field_tag, "');\n",
 					"$.fn.dataTable.ext.search.push(function( settings, data, dataIndex ) {\n",
 					"if ( settings.nTable.id !== '", table_id, "'){return true;}\n", #apply filtering only to current table, this filtering is global
 					"var min = parseInt(minEl_", field_tag, ".value, 10);\n",
 					"var max = parseInt(maxEl_", field_tag, ".value, 10);\n",
 					"var age = parseFloat(data[", field," ]) || 0;\n", # use data for the age column
 					"if (\n",
-						"(isNaN(min) && isNaN(max) ||\n",
-						"isNaN(min) && age <= max) ||\n",
-						"(min <= age && isNan(max)) ||\n",
+						"(isNaN(min) && isNaN(max)) ||\n",
+						"(isNaN(min) && age <= max) ||\n",
+						"(min <= age && isNaN(max)) ||\n",
 						"(min <= age && age <= max)\n",
 					") {\n",
 						"return true;\n",
@@ -746,7 +746,7 @@ htmlReport$methods(table = function(user_options){
 	}
     	dynamic_js <<- c(dynamic_js,
                     paste(c("$(document).ready(function () {",
-                        paste0("\t$(", table_id,").DataTable({ dom:'Bfrtip', ",
+                        paste0("\t$('#", table_id,"').DataTable({ dom:'Bfrtip', ",
                         	"buttons: [", embedded_buttons, "], order: [] });"),
                     numeric_filtering, "});"), collapse = "\n"))    
 	}
