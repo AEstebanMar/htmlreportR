@@ -714,15 +714,16 @@ htmlReport$methods(table = function(user_options){
 	numeric_filtering <- ""
 	if(length(options$filt_cols) > 0) {
 		numeric_filtering <- paste0("const table_", table_id, " = new DataTable('#", table_id, "');\n")
-		for(field in options$filt_cols) {
+		for(field_index in options$filt_cols) {
+			field <- field_index - 1 # R is 1-based while js is 0-based
 			field_tag <- paste(table_id, field, sep = "_")
 			num_filt <- paste0(
 					"const minEl_", field_tag, " = document.querySelector('#min_", field_tag, "');\n",
 					"const maxEl_", field_tag, " = document.querySelector('#max_", field_tag, "');\n",
 					"$.fn.dataTable.ext.search.push(function( settings, data, dataIndex ) {\n",
 					"if ( settings.nTable.id !== '", table_id, "'){return true;}\n", #apply filtering only to current table, this filtering is global
-					"var min = parseInt(minEl_", field_tag, ".value, 10);\n",
-					"var max = parseInt(maxEl_", field_tag, ".value, 10);\n",
+					"var min = parseFloat(minEl_", field_tag, ".value);\n",
+					"var max = parseFloat(maxEl_", field_tag, ".value);\n",
 					"var age = parseFloat(data[", field," ]) || 0;\n", # use data for the age column
 					"if (\n",
 						"(isNaN(min) && isNaN(max)) ||\n",
@@ -788,7 +789,7 @@ htmlReport$methods(
 		filter_code <- NULL
 		if(length(options$filt_cols) > 0) {
 			for(field_index in seq(options$filt_cols)) {
-				field <- options$filt_cols[field_index]
+				field <- options$filt_cols[field_index] - 1
 				field_name <- field
 				if(length(options$filt_col_names) > 0) {
 					field_name <- options$filt_col_names[field_index]
