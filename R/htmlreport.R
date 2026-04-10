@@ -724,12 +724,12 @@ htmlReport$methods(table = function(user_options){
 					"if ( settings.nTable.id !== '", table_id, "'){return true;}\n", #apply filtering only to current table, this filtering is global
 					"var min = parseFloat(minEl_", field_tag, ".value);\n",
 					"var max = parseFloat(maxEl_", field_tag, ".value);\n",
-					"var age = parseFloat(data[", field," ]) || 0;\n", # use data for the age column
+					"var column = parseFloat(data[", field," ]) || 0;\n", # use data for the selected column
 					"if (\n",
 						"(isNaN(min) && isNaN(max)) ||\n",
-						"(isNaN(min) && age <= max) ||\n",
-						"(min <= age && isNaN(max)) ||\n",
-						"(min <= age && age <= max)\n",
+						"(isNaN(min) && column <= max) ||\n",
+						"(min <= column && isNaN(max)) ||\n",
+						"(min <= column && column <= max)\n",
 					") {\n",
 						"return true;\n",
 					"}\n",
