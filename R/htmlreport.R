@@ -1372,6 +1372,29 @@ htmlReport$methods(
 	}
 )
 
+#' plot_grid
+#'
+#' @name plot_grid-htmlReport-method
+#' @title represents a list of plots in a grid
+#'
+#' @param plots List of plots to grid
+#' @param width Grid width
+#' @param height Grid height
+#'
+#' @returns Grid including every plot
+#'
+
+htmlReport$methods(
+	plot_grid = function(plots, width = 1600, height = NULL) {
+		all_plots <- paste(plots, collapse = "\n\n") # This will need a canvas mode that chucks a flex into every plot's div
+		grid_code <- prettify_div(all_plots, width = width,
+						height = height, preset = "magic")
+		return(grid_code)
+	}
+)
+
+
+
 #' merge_hashed_tables
 #'
 #' @name merge_hashed_tables-htmlReport-method

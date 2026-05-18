@@ -31,4 +31,5 @@
 * Update: static\_plot\_ main now takes plotting\_args argument, allows you to pass arguments to plotting functions. See showcase report.
 * New: added embed\_html method to htmlReport class, uses iframes to embed an html file. It requires manual editing because of how pandoc enforces styles on embedded iframes (remove the style block inserted in the iframe). Will be fixed in htmlreportR overhaul.
 * New: Added table filtering by column values. See examples in demo template and report.
+* New: plot\_grid method, which takes a list of plots and sets them in a grid structure.
 

@@ -351,19 +351,19 @@ end.rcode-->
 end.rcode-->
 
 <!--begin.rcode grid showcase, echo = TRUE
-    cat(plotter$create_title("You can use our prettify_div method to plot figures in a grid", "grid_example", hlevel = 2, indexable = FALSE))
-    code <- list()
-    code[[1]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
+    cat(plotter$create_title("You may use our plot_grid method to do what its name suggests", "grid_example", hlevel = 2, indexable = FALSE))
+    code_list <- list()
+    code_list[[1]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
                                       row_names = TRUE, text = "dynamic", format = "wide"))
-    code[[2]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
+    code_list[[2]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
                                       row_names = TRUE,text = "dynamic", format = "wide"))
-    code[[3]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
+    code_list[[3]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
                                       row_names = TRUE, text = "dynamic", format = "wide"))
-    code[[4]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
+    code_list[[4]] <- plotter$boxplot(list(id = 'boxplot.txt', title = "Simple boxplot", header = TRUE, width = "400px",
                                       row_names = TRUE, text = "dynamic", format = "wide"))
-    code <- paste(code, collapse = "\n\n")
-    cat(plotter$prettify_div(plotter$prettify_div(code, width = "400px", preset = "magic"), width = "1600px", preset = "magic"))
+    cat(plotter$plot_grid(code_list))
 end.rcode-->
+
 
 <!--begin.rcode collapsable containers, echo = TRUE
     cat(plotter$create_title("Collapsable demo", id = "click_demo", hlevel = 1, indexable = TRUE, clickable = TRUE, t_id = "clickme_id",
