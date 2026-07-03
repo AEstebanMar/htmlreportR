@@ -191,6 +191,7 @@ end.rcode-->
 
 
 <!--begin.rcode cvX_cluster_heatmap, echo = TRUE
+    plotter$create_title("Heatmaps with trees", "tree_heatmaps", hlevel = 2, indexable = FALSE)
     cluster_table <- plotter$get_data(list(id = "data_toc_sample.txt", row_names = NULL, header = TRUE, transpose = FALSE,
                                       text = "dynamic"))$data_frame
     rownames(cluster_table) <- seq(0, nrow(cluster_table) -1)
@@ -199,7 +200,7 @@ end.rcode-->
     data_toc_sample_nw <- ape::write.tree(ape::as.phylo(test_tree))
     rownames(cluster_table) <- as.character(sample(100))
     plotter$hash_vars$cluster_table <- cluster_table
-    cat(plotter$prettify_div(plotter$heatmap(list(id = "cluster_table", title = "Heatmap", tree =data_toc_sample_nw, header = NULL, smp_attr = c(17, 18),
+    cat(plotter$prettify_div(plotter$heatmap(list(id = "cluster_table", title = "Heatmap", tree = data_toc_sample_nw, header = NULL, smp_attr = c(17, 18),
                              text = "dynamic", row_names = NULL, transpose = FALSE, config = list("varOverlays" = c("category", "clust")))), preset = "magic"))
 end.rcode-->
 

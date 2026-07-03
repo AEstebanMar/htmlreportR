@@ -837,15 +837,15 @@ field, "\" name = \"max_", table_id, "_", field, "\">
 
 htmlReport$methods(
 	canvasXpress_main = function(user_options){
-	options <- list(id = NULL, func = NULL, config_chart = NULL,
-		            fields= c(), smp_attr= c(), var_attr= c(), segregate= c(),
-		            show_factors= c(), data_format= "one_axis",
-		            responsive= TRUE, height= "600px", width= "600px",
-		            header= FALSE, row_names= FALSE, add_header_row_names= TRUE,
-		            transpose= TRUE, x_label= "x_axis", title= "Title",
-		            config= list(), after_render= c(), treeBy= "v",
-		            renamed_samples= c(), renamed_variables= c(), alpha= 1,
-		            theme= "cx2", tree = NULL)
+	options <- list(sanity_check = FALSE, id = NULL, func = NULL,
+				config_chart = NULL, fields = c(), smp_attr = c(),
+				var_attr = c(), segregate = c(), show_factors = c(),
+				data_format = "one_axis", responsive = TRUE, height = "600px",
+				width = "600px", header = FALSE, row_names = FALSE,
+				add_header_row_names = TRUE, transpose = TRUE,
+				x_label = "x_axis", title = "Title", config = list(),
+				after_render = c(), treeBy = "v", renamed_samples = c(),
+				renamed_variables = c(), alpha = 1, theme = "cx2", tree = NULL)
 		            #theme= "cx2", color_scheme= "CanvasXpress", tree = NULL)
 
 	options <- update_options(options, user_options)
@@ -855,9 +855,7 @@ htmlReport$methods(
 		           "objectColorTransparency"= options$alpha,
 		           "theme"= options$theme)
 		           #"colorScheme"= options$color_scheme)
-
-
-## esto va dentro de la clase nueva
+		           
 	if (!is.null(options$tree)) {
 		config <- set_tree(options, config)
 	}
@@ -986,10 +984,11 @@ htmlReport$methods(
 
 htmlReport$methods(
 	set_tree = function(options, config){
-		tree <- options$tree
 		if(file.exists(options$tree))
         	tree <- tree_from_file(options$tree)
-        
+        else {
+            tree <- options$tree
+        }
         if (options$treeBy == 's'){
             config[['smpDendrogramNewick']] <- tree
             config[['smpDendrogramUseHeight']] <- TRUE
@@ -1000,7 +999,7 @@ htmlReport$methods(
             config[['varDendrogramHang']] <- FALSE
 
         }
-        config
+        return(config)
 })
 
 htmlReport$methods(
@@ -1392,8 +1391,6 @@ htmlReport$methods(
 		return(grid_code)
 	}
 )
-
-
 
 #' merge_hashed_tables
 #'
