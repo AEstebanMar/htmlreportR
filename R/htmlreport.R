@@ -984,9 +984,13 @@ htmlReport$methods(
 
 htmlReport$methods(
 	set_tree = function(options, config){
-		if(file.exists(options$tree))
-        	tree <- tree_from_file(options$tree)
-        else {
+		if(!is.character(options$tree)) {
+			warning("Tree must be a string, either a file or the output of ",
+					"ape::write_tree")
+		}
+		if(file.exists(options$tree)) {
+			tree <- tree_from_file(options$tree)
+		} else {
             tree <- options$tree
         }
         if (options$treeBy == 's'){
