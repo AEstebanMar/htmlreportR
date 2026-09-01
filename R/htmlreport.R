@@ -752,8 +752,9 @@ htmlReport$methods(table = function(user_options){
                     numeric_filtering, "});"), collapse = "\n"))    
 	}
 	count_objects <<- count_objects + 1
-	parse_data_frame(data_frame = data_frame, options = options,
+	res <- parse_data_frame(data_frame = data_frame, options = options,
 					 table_id = table_id, table_attr = table_attr)
+	return(res)
 					 # colspan = spans$colspan, rowspan = spans$rowspans)
 	}
 )
@@ -804,8 +805,8 @@ htmlReport$methods(
 field, "\" name = \"max_", table_id, "_", field, "\">
 					</td>")
 			}
+			filter_code <- paste_tag(filter_code, "table")
 		}
-		filter_code <- paste_tag(filter_code, "table")
 		html_data_frame <- paste0("<table id=", table_id,
 								   " border=", options$border, " ",
 								   table_attr, " >")
