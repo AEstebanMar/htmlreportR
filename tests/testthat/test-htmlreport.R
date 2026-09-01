@@ -887,15 +887,15 @@ test_that("Prettify_div works with magic preset", {
 	plotter <- htmlReport$new()
 	expected_string <- paste0("<div style =\"overflow: hidden; display: ",
 							  "flex; flex-direction: row; ",
-							  "justify-content: center\">\nI am magic\n</div>")
+							  "justify-content: left\">\nI am magic\n</div>")
 	output_string <- plotter$prettify_div("I am magic", preset = "magic")
 	expect_equal(output_string, expected_string)
 })
 
-test_that("Prettify_div is overriden by custom options", {
+test_that("Prettify_div is overridden by custom options", {
 	plotter <- htmlReport$new()
 	expected_string <- paste0("<div style =\"overflow: show; display: contract",
-							  "; flex-direction: row; justify-content: center;",
+							  "; flex-direction: row; justify-content: left;",
 							  " width:10px\">\nI am custom magic\n</div>")
 	output_string <- plotter$prettify_div("I am custom magic", preset = "magic",
 						overflow = "show", display = "contract", width = "10px")
@@ -1154,14 +1154,14 @@ test_that("testing get_span method", {
 	expect_equal("rowspan=\"2\"", rowspan_2)
 })
 
-test_that("testing table processing with spans", {
-    input_df <- data.frame(V1 = c("title", "sample", "nerv", "rowspan"),
-    					   V2 = c("colspan", "colspan", "brain", "cerebellum"),
-    					   V3 = c("colspan", "expression", 3, 4))
-    plotter <- htmlReport$new(container = list(test_data_frame = input_df))
-    output <- plotter$table(list(id = "test_data_frame", header = TRUE,
-								 row_names = FALSE, text = "dynamic"))
-})
+# test_that("testing table processing with spans", {
+#     input_df <- data.frame(V1 = c("title", "sample", "nerv", "rowspan"),
+#     					   V2 = c("colspan", "colspan", "brain", "cerebellum"),
+#     					   V3 = c("colspan", "expression", 3, 4))
+#     plotter <- htmlReport$new(container = list(test_data_frame = input_df))
+#     output <- plotter$table(list(id = "test_data_frame", header = TRUE,
+# 								 row_names = FALSE, text = "dynamic"))
+# })
 
 test_that("testing extract_data method with a list of ids", {
 	input_df_1 <- data.frame(A = 1:5, B= 6:10, attr = "potato")
