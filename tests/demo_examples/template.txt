@@ -148,6 +148,29 @@ end.rcode-->
         L --> M      
         
         ')))
+
+    cat(plotter$mermaid_chart('
+        venn-beta
+        title Venn diagram
+        
+        set A
+            text A_1[600]
+        set B
+            text B_1[200]
+        set C
+            text C_1[300]
+        set D
+            text D_1[2]
+        set E
+            text E_1[8]
+
+        union A,B[140]
+        union A,B,C[446]
+        union A,B,D[26]
+        union A,B,C,E[49]
+        union A,B,C,D[10]
+        union A,B,C,E,D[39]
+        '))
 end.rcode-->
 
 

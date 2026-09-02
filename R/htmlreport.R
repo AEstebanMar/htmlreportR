@@ -232,7 +232,7 @@ htmlReport$methods(make_head = function() {
 
 	if (features$mermaid) 
 		js_cdn <<- c(js_cdn,
-		"<script type=\"module\"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; </script>")
+		"<script type=\"module\"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; </script>")
 
 	css_files <<- c(css_files, "htmlReport.css")
 	js_files <<- c(js_files, "htmlReport.js")
