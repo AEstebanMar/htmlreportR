@@ -10,7 +10,7 @@
 
 htmlreportR has not been built from scratch. It is based on its Python
 equivalent and sister project, available at
-<https://pypi.org/project/py-report-html/>.
+<https://pypi.org/project/py-report-html/> for a Python equivalent.
 
 ## Installation
 
@@ -34,9 +34,9 @@ There are two use cases for htmlreportR: script mode and package mode.
 
 ### Script mode
 
-Simply call the html\_report.R script, distributed with this package.
-Provide a comma-separated list of files and a template to render,
-and you’re done\!
+Simply call the html_report.R script, distributed with this package.
+Simply provide a comma-separated list of files and a template to render,
+and you’re done!
 
 ``` bash
 ./scripts/html_report.R -d data1.txt,data2.txt -t template.txt
@@ -44,7 +44,7 @@ and you’re done\!
 
 ### Library mode
 
-If you wish to use htmlreportR directly from R, you can\! Here’s how:
+If you wish to use htmlreportR directly from R, you can! Here’s how:
 
 ``` r
 library(htmlreportR)
