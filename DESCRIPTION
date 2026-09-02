@@ -1,6 +1,6 @@
 Package: htmlreportR
 Title: 'HTML' Reporting Made Simple(R)
-Version: 1.1.0
+Version: 2.0.0
 Authors@R: 
     c(person(given = "Álvaro", family = "Esteban Martos", email = "alvaroesteban@uma.es", role = c("aut", "cph", "cre"),
              comment = c(ORCID = "0000-0001-9791-7779")),
@@ -18,7 +18,6 @@ Description: Create compressed, interactive 'HTML' (Hypertext Markup Language) r
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Depends: R (>= 3.5.0)
 Imports: 
     methods,
@@ -45,3 +44,4 @@ Author: Álvaro Esteban Martos [aut, cph, cre]
     (<https://orcid.org/0000-0002-3020-1415>),
   Jesús Pérez García [aut, cph] (<https://orcid.org/0009-0006-9388-7465>)
 Maintainer: Álvaro Esteban Martos <alvaroesteban@uma.es>
+Config/roxygen2/version: 8.1.0

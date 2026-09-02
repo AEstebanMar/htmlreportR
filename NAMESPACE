@@ -9,17 +9,27 @@ export(replace_paired_mark)
 export(row_to_header)
 exportClasses(htmlReport)
 importFrom(ggplot2,ggplot)
-importFrom(grDevices,dev.off)
-importFrom(grDevices,png)
-importFrom(jsonlite,as_gzjson_b64)
-importFrom(jsonlite,toJSON)
-importFrom(knitr,knit)
-importFrom(knitr,opts_chunk)
-importFrom(knitr,opts_current)
+importFrom(grDevices,
+  dev.off,
+  png
+)
+importFrom(jsonlite,
+  as_gzjson_b64,
+  toJSON
+)
+importFrom(knitr,
+  knit,
+  opts_chunk,
+  opts_current
+)
 importFrom(methods,new)
 importFrom(mime,guess_type)
-importFrom(stringr,str_escape)
-importFrom(stringr,str_match_all)
-importFrom(utils,head)
-importFrom(utils,read.table)
+importFrom(stringr,
+  str_escape,
+  str_match_all
+)
+importFrom(utils,
+  head,
+  read.table
+)
 importFrom(xfun,base64_uri)

@@ -10,7 +10,11 @@
 }
 \value{
 appended HTML code specifying element spans.
+
+appended HTML code specifying element spans.
 }
 \description{
 get_span
+
+embed_html
 }
