@@ -93,15 +93,15 @@ htmlReport$methods(static_plot_main = function(id, header = NULL,
 	}
 	if(is.null(plotting_function)) {
 		return(data_frame)
-	}else if (plot_type == "autoplot") {
-		# This next line allows the "data_frame" object to exist inside
-		# the scope of the evaluated function, and plot_obj to be a function
-		# instead of the result of calling the plotting function.
-		aux_func <- function(data_frame){
-			eval(parse(text = paste(deparse(plotting_function),
-					   collapse ="\n")))}
-		plot_obj <- aux_func(data_frame)
-	}else {
+	} else {
+		if(plot_type == "autoplot") {
+			# This next line allows the "data_frame" object to exist inside
+			# the scope of the evaluated function, and plot_obj to be a function
+			# instead of the result of calling the plotting function.
+			plotting_function <- function(data_frame){
+				eval(parse(text = paste(deparse(plotting_function),
+						   collapse ="\n")))}
+		}
 		if(is.null(plotting_args)) {
 			plot_obj <- plotting_function(data_frame)
 		} else {
@@ -1543,4 +1543,6 @@ htmlReport$methods(
 		iframed_html <- paste0("<iframe width=", width, " height=", height, " ", html_attribs, " srcdoc=\"",
 											html_content, "\"></iframe>")
 		return(iframed_html)
+	})
+rn(iframed_html)
 	})
