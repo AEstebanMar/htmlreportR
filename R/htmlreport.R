@@ -609,7 +609,7 @@ htmlReport$methods(add_header_row_names = function(data_frame, options) {
 #' includes at the end the "value" string.
 #'
 NULL
-htmlReport$methods(concat = function(text_vec) {
+htmlReport$methods(concat = function(text_vec) { # This is made obsolete by package glue
 	all_report <<- paste(c(all_report, text_vec), collapse = "")
 })
 
@@ -1543,6 +1543,4 @@ htmlReport$methods(
 		iframed_html <- paste0("<iframe width=", width, " height=", height, " ", html_attribs, " srcdoc=\"",
 											html_content, "\"></iframe>")
 		return(iframed_html)
-	})
-rn(iframed_html)
 	})
