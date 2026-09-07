@@ -251,7 +251,6 @@ htmlReport$methods(make_head = function() {
 
 	concat(get_css_cdn())
 	concat(get_js_cdn())
-
 	load_js()
 	load_css()
 
@@ -657,9 +656,10 @@ htmlReport$methods(mermaid_chart = function(chart_syntax){
 
 
 htmlReport$methods(load_css = function(){
+	default_css_dir <- system.file("js", package = "htmlreportR")
 	for (css_file_name in css_files){
 		if (!file.exists(css_file_name))
-			css_file_name <- file.path(source_folder, "js", css_file_name)
+			css_file_name <- file.path(default_css_dir, css_file_name)
 
 		css_file <- paste(readLines(css_file_name, warn = FALSE), collapse="\n")
 		concat(c("<style type=\"text/css\">\n",css_file, "\n</style>\n\n"))
@@ -668,9 +668,10 @@ htmlReport$methods(load_css = function(){
 
 
 htmlReport$methods(load_js = function(){
+	default_js_dir <- system.file("js", package = "htmlreportR")
 	for (js_file_name in js_files){
 		if (!file.exists(js_file_name))
-			js_file_name <- file.path(source_folder, "js", js_file_name)
+			js_file_name <- file.path(default_js_dir, js_file_name)
 
 		js_file <- embed_file(js_file_name)
 
