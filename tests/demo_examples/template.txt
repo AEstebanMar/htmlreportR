@@ -61,6 +61,11 @@ end.rcode-->
             row_names = TRUE, transpose = TRUE, plot_type = "autoplot",
             plotting_function = function(){barplot(as.matrix(data_frame))}),
             preset = "magic"))
+    # Autoplot can also receive plotting args
+    cat(plotter$prettify_div(plotter$static_plot_main("barplot2.txt", resizable = FALSE, header = TRUE,
+            row_names = TRUE, transpose = TRUE, plot_type = "autoplot",
+            plotting_function = function(){barplot(as.matrix(data_frame^test_arg))}, plotting_args = list(test_arg = 90)),
+            preset = "magic"))
 end.rcode-->
 
 <!--begin.rcode Resizable_ggplot_heatmap, echo = TRUE
