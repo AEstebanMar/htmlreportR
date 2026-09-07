@@ -98,15 +98,20 @@ htmlReport$methods(static_plot_main = function(id, header = NULL,
 			# This next line allows the "data_frame" object to exist inside
 			# the scope of the evaluated function, and plot_obj to be a function
 			# instead of the result of calling the plotting function.
-			plotting_function <- function(data_frame){
+			aux_func <- function(data_frame, plotting_args){
+				if(!is.null(plotting_args)) {
+					list2env(plotting_args, envir = environment())
+				}
 				eval(parse(text = paste(deparse(plotting_function),
 						   collapse ="\n")))}
-		}
-		if(is.null(plotting_args)) {
-			plot_obj <- plotting_function(data_frame)
+			plot_obj <- aux_func(data_frame, plotting_args)
 		} else {
-			arg_list <- c(list(data_frame), plotting_args)
-			plot_obj <- do.call(plotting_function, arg_list)
+			if(is.null(plotting_args)) {
+				plot_obj <- plotting_function(data_frame)
+			} else {
+				arg_list <- c(list(data_frame), plotting_args)
+				plot_obj <- do.call(plotting_function, arg_list)
+			}
 		}
 	}
 	get_plot(plot_obj, width = width, height = height, size_unit = size_unit,
