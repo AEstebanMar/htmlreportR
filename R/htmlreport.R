@@ -213,6 +213,8 @@ htmlReport$methods(
 #' 	 plotter <- htmlReport$new(tmp_folder = tempdir())
 #' 	 plotter$write_report(stdout())
 #' }
+#' plotter <- htmlReport$new()
+#' plotter$write_report(stdout())
 NULL
 htmlReport$methods(write_report = function(output_path) {
 	writeLines(all_report, output_path)
