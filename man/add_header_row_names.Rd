@@ -2,7 +2,7 @@
 % Please edit documentation in R/htmlreport.R
 \name{add_header_row_names}
 \alias{add_header_row_names}
-\title{Add Header and Row Names to Data Frame for HTML Report table}
+\title{Add header and row names to data frame for HTML report table}
 \arguments{
 \item{data_frame}{The data frame to be modified.}
 
@@ -17,7 +17,7 @@ This function modifies a data frame to include specific column
 and row names.
 }
 \details{
-Add Header and Row Names to Data Frame for HTML Report table
+Add header and row names to data frame for HTML report table
 
 This function checks the options provided and manipulates the column
 and row names of the input data frame accordingly. If the 'header' option is
@@ -26,4 +26,11 @@ removes that row from the data frame. If the 'row_names' option is true, it
 assigns the first column of the data frame as row names and removes that
 column from the data frame. If either option is not true, it assigns
 sequential numbers as column or row names, respectively.
+}
+\examples{
+test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+test_df[1, ] <- letters[1:5]
+test_df[, 1] <- letters[1:5]
+plotter <- htmlReport$new(container = list(test_df = test_df))
+plotter$add_header_row_names(data_frame = test_df, options = list(header = TRUE, row_names = TRUE))
 }

@@ -16,3 +16,13 @@ Grid including every plot
 \description{
 plot_grid
 }
+\examples{
+test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+test_df[1, ] <- letters[1:5]
+test_df[, 1] <- letters[1:5]
+plotter <- htmlReport$new(container = list(test_df = test_df))
+plots_list_test <- list()
+plots_list_test[[1]] <- plotter$barplot(list(id = "test_df", text = "dynamic"))
+plots_list_test[[2]] <- plotter$density(list(id = "test_df", text = "dynamic"))
+plotter$plot_grid(plots_list_test)
+}

@@ -22,3 +22,8 @@ renders the template using Knitr, and constructs
 the HTML report by combining the rendered
 template with the existing report content in the "htmlReport" object.
 }
+\examples{
+\dontrun{
+	  plotter$build(template = "template/dir/template.txt")
+}
+}

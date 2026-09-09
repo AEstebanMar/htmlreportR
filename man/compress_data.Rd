@@ -4,11 +4,16 @@
 \alias{compress_data}
 \title{encode and compress data json}
 \arguments{
-\item{data}{string indicating object id}
+\item{data}{data to compress}
 }
 \value{
 encoded and compressed json
 }
 \description{
 compress_data
+}
+\examples{
+test_data <- "testdatatestdatatestdata"
+plotter <- htmlReport$new()
+plotter$compress_data(list(data = test_data))
 }

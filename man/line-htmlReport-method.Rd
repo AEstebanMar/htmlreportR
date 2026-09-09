@@ -16,3 +16,10 @@ then calls canvasXpress_main to build it.
 \details{
 CanvasXpress line plot
 }
+\examples{
+test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+test_df[1, ] <- letters[1:5]
+test_df[, 1] <- letters[1:5]
+plotter <- htmlReport$new(container = list(test_df = test_df))
+plotter$line(list(id = "test_df", text = "dynamic"))
+}

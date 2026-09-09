@@ -2,7 +2,7 @@
 % Please edit documentation in R/htmlreport.R
 \name{get_plot_data}
 \alias{get_plot_data}
-\title{Get js Plot from canvasxpress_obj Object}
+\title{Get js plot from canvasxpress_obj object}
 \arguments{
 \item{object_id}{string indicating object id}
 
@@ -13,4 +13,9 @@ Displays the js code for plot.
 }
 \description{
 get_plot_data
+}
+\examples{
+canvasXpress_obj_test <- htmlreportR:::canvasXpress_obj$new(obj_id = "1")
+plotter <- htmlReport$new()
+plotter$get_plot_data(object_id = "1", cvXpress = canvasXpress_obj_test)
 }

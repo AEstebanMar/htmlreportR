@@ -2,7 +2,7 @@
 % Please edit documentation in R/htmlreport.R
 \name{get_data_for_plot}
 \alias{get_data_for_plot}
-\title{Get Data for Plotting from htmlReport Object}
+\title{Get data for plotting from htmlReport object}
 \arguments{
 \item{options}{A list containing options for data retrieval.}
 }
@@ -15,5 +15,12 @@ This method retrieves data suitable for plotting from an
 \code{htmlReport} object based on specified options.
 }
 \details{
-Get Data for Plotting from htmlReport Object
+Get data for plotting from htmlReport object
+}
+\examples{
+test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+test_df[1, ] <- letters[1:5]
+test_df[, 1] <- letters[1:5]
+plotter <- htmlReport$new(container = list(test_df = test_df))
+plotter$get_data_for_plot(options = list(id = "test_df", transpose = FALSE, text = "dynamic"))
 }

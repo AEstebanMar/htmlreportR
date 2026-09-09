@@ -19,3 +19,8 @@ and row spans, respectively. A colspan of three means that it will merge with
 the two cells on its right into the same cell in the final table. Same logic
 for row span map, it will merge with the two cells below it.
 }
+\examples{
+test_table <- data.frame(c("A", "B", "C"), c("colspan", "E", "F"))
+plotter <- htmlReport$new()
+plotter$get_col_n_row_span(test_table)
+}

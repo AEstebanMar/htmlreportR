@@ -29,3 +29,11 @@ and HTML table to include it in htmlreportR
 \details{
 Parse data frame to HTML
 }
+\examples{
+test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+test_df[1, ] <- letters[1:5]
+test_df[, 1] <- letters[1:5]
+plotter <- htmlReport$new()
+options <- list(border = 1, table_rownames = TRUE, rownames_col = "rownames")
+plotter$parse_data_frame(test_df, options, "Sample")
+}

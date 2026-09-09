@@ -18,3 +18,9 @@ get_span
 
 embed_html
 }
+\examples{
+colspan_test <- data.frame(c(3, 2, 1), rep(1, 3), rep(1, 3))
+rowspan_test <- data.frame(rep(1, 3), rep(1, 3), c(1, 2, 1))
+plotter <- htmlReport$new()
+plotter$get_span(colspan_test, rowspan_test, 1, 2)
+}
