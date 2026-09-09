@@ -22,6 +22,10 @@
 #' @returns A new instance of the htmlreportR class
 #' @importFrom knitr knit opts_chunk
 #'
+#' @examples 
+#' \dontrun{
+#' 	  plotter$build(template = "template/dir/template.txt")
+#' }
 
 NULL
 htmlReport$methods(
@@ -76,6 +80,18 @@ htmlReport$methods(
 #' data if a preprocessing function is specified, generates the plot using the
 #' provided plotting function, and then adds the plot to the HTML report object.
 #' 
+#' @examples
+#' test_func <- function(input_obj, columns) {
+#' 	p <- input_obj[, columns, drop = FALSE]
+#' 	print(p)
+#' 	return(p)
+#' }
+#' test_df <- data.frame(A = 1:5, B= 6:10, attr = "potato")
+#' plotter <- htmlReport$new(container = list(df1 = test_df))
+#' output <- plotter$static_plot_main(id = "df1",
+#' 	text = "dynamic", plotting_function = test_func, plot_type = "plot",
+#' 	plotting_args = list(columns = 1))
+
 NULL
 htmlReport$methods(static_plot_main = function(id, header = NULL, 
 	row_names = NULL, transpose = FALSE, smp_attr = NULL, var_attr = NULL,
@@ -152,6 +168,7 @@ htmlReport$methods(static_plot_main = function(id, header = NULL,
 #' plot and include it in the HTML report object.
 #' 
 #' @importFrom ggplot2 ggplot
+
 NULL
 htmlReport$methods(
 	static_ggplot_main = function(id, header = NULL, row_names = NULL,
@@ -180,7 +197,9 @@ htmlReport$methods(
 #' @param output_path A character string specifying the output file path for the HTML report.
 #' 
 #' @returns Writes the HTML report to the specified output file path and removes temporary files.
-#'
+#' @examples
+#' plotter <- htmlReport$new()
+#' plotter$write_report(stdout())
 NULL
 htmlReport$methods(write_report = function(output_path) {
 	writeLines(all_report, output_path)
@@ -280,7 +299,12 @@ htmlReport$methods(add_dynamic_js = function(){
 #'
 #' @returns An updated \code{htmlReport} object with the specified 
 #' body text appended to its body.
-#' 
+#'
+#' @examples
+#' \dontrun{
+#' 	  plotter$build_body(body_text = "Some html code")
+#' }
+
 NULL
 htmlReport$methods(build_body = function(body_text) {
 	concat("<body>\n")
@@ -354,10 +378,10 @@ htmlReport$methods(
         		"\n</details>"))
 })
 
-#' Get Plot from htmlReport Object
+#' Get plot from htmlReport object
 #'
 #' @name get_plot
-#' @title Get Plot from htmlReport Object
+#' @title Get plot from htmlReport object
 #' @description This method generates and retrieves a plot from an
 #' \code{htmlReport} object. This code writes the plot to a temporal png, then
 #' it loads the png in base64 encoding and then displays the plot within the
@@ -374,6 +398,13 @@ htmlReport$methods(
 #' 
 #' @importFrom knitr opts_current
 #' @importFrom grDevices png dev.off
+#'
+#' @examples
+#' \dontrun{
+#' 	  test_plot <- plot(head(mtcars))
+#' 	  plotter$get_plot(plot_obj = test_plot)
+#' }
+
 NULL
 htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL,
 				   size_unit = NULL, img_properties = "", resizable = FALSE,
@@ -412,10 +443,10 @@ htmlReport$methods(
 })
 
 
-#' Get Data for Plotting from htmlReport Object
+#' Get data for plotting from htmlReport object
 #'
 #' @name get_data_for_plot
-#' @title Get Data for Plotting from htmlReport Object
+#' @title Get data for plotting from htmlReport object
 #' @description This method retrieves data suitable for plotting from an
 #' \code{htmlReport} object based on specified options.
 #' 
@@ -424,6 +455,13 @@ htmlReport$methods(
 #' @returns A list containing the retrieved data, attributes, samples, and
 #' variables.
 #' 
+#' @examples
+#' test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+#' test_df[1, ] <- letters[1:5]
+#' test_df[, 1] <- letters[1:5]
+#' plotter <- htmlReport$new(container = list(test_df = test_df))
+#' plotter$get_data_for_plot(options = list(id = "test_df", transpose = FALSE, text = "dynamic"))
+
 NULL
 htmlReport$methods(get_data_for_plot = function(options) {
 		all_data <- get_data(options)
@@ -441,6 +479,13 @@ htmlReport$methods(get_data_for_plot = function(options) {
 #'
 #' @returns A list containing the retrieved data and additional information.
 #'
+#' @examples
+#' test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+#' test_df[1, ] <- letters[1:5]
+#' test_df[, 1] <- letters[1:5]
+#' plotter <- htmlReport$new(container = list(test_df = test_df))
+#' plotter$get_data(options = list(id = "test_df", transpose = FALSE, text = "dynamic"))
+
 NULL
 htmlReport$methods(get_data = function(options) {
 	data_frame <- hash_vars[[options$id]]
@@ -504,6 +549,13 @@ htmlReport$methods(get_data = function(options) {
 #' 
 #' @returns A list containing the retrieved data and additional information.
 #'
+#' @examples 
+#' test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+#' test_df[1, ] <- letters[1:5]
+#' test_df[, 1] <- letters[1:5]
+#' plotter <- htmlReport$new(container = list(test_df = test_df))
+#' plotter$extract_data(options = list(id = "test_df"))
+
 NULL
 htmlReport$methods(extract_data = function(options) {	
 	smp_attr <- NULL
@@ -562,10 +614,10 @@ htmlReport$methods(extract_data = function(options) {
 			    var_attr = var_attr))
 })
 
-#' Add Header and Row Names to Data Frame for HTML Report table
+#' Add header and row names to data frame for HTML report table
 #'
 #' @name add_header_row_names
-#' @title Add Header and Row Names to Data Frame for HTML Report table
+#' @title Add header and row names to data frame for HTML report table
 #' @description This function modifies a data frame to include specific column
 #' and row names.
 #' 
@@ -580,9 +632,16 @@ htmlReport$methods(extract_data = function(options) {
 #' assigns the first column of the data frame as row names and removes that
 #' column from the data frame. If either option is not true, it assigns
 #' sequential numbers as column or row names, respectively.
-#' 
+#'
 #' @returns The modified data frame with updated column and/or row names.
 #'
+#' @examples
+#' test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+#' test_df[1, ] <- letters[1:5]
+#' test_df[, 1] <- letters[1:5]
+#' plotter <- htmlReport$new(container = list(test_df = test_df))
+#' plotter$add_header_row_names(data_frame = test_df, options = list(header = TRUE, row_names = TRUE))
+
 NULL
 htmlReport$methods(add_header_row_names = function(data_frame, options) {
 	if(!is.null(options$header)) {
@@ -612,6 +671,11 @@ htmlReport$methods(add_header_row_names = function(data_frame, options) {
 #' @returns An object of class "htmlReport" with an updated @all_report which
 #' includes at the end the "value" string.
 #'
+#' @examples
+#' test_text_vec <- "test" 
+#' plotter <- htmlReport$new()
+#' plotter$concat(list(text_vec = test_text_vec))
+
 NULL
 htmlReport$methods(concat = function(text_vec) { # This is made obsolete by package glue
 	all_report <<- paste(c(all_report, text_vec), collapse = "")
@@ -693,6 +757,14 @@ htmlReport$methods(load_js = function(){
 #' 
 #' @returns A string encoding a html table.
 #'
+#' @examples
+#' test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+#' test_df[1, ] <- letters[1:5]
+#' test_df[, 1] <- letters[1:5]
+#' plotter <- htmlReport$new(container = list(test_df = test_df))
+#' plotter$table(list(id = "test_df", header = TRUE,
+#' 									row_names = TRUE, smp_attr = 2,
+#' 									var_attr = 2))
 
 htmlReport$methods(table = function(user_options){
 	options <- list(id = NULL, header = FALSE, row_names = FALSE,
@@ -789,6 +861,15 @@ htmlReport$methods(
 #'   * `FALSE` (the default): Do not parse data frame row names.
 #' @param colspan,rowspan Mirrors of input data_frame specifying spans.
 #' @returns A table in html format.
+#'
+#' @examples
+#' test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+#' test_df[1, ] <- letters[1:5]
+#' test_df[, 1] <- letters[1:5]
+#' plotter <- htmlReport$new()
+#' options <- list(border = 1, table_rownames = TRUE, rownames_col = "rownames")
+#' plotter$parse_data_frame(test_df, options, "Sample")
+
 NULL
 htmlReport$methods(
 	parse_data_frame = function(data_frame, options, table_id, table_attr = "",
@@ -914,15 +995,20 @@ htmlReport$methods(
 #' get_plot_data
 #'
 #' @name get_plot_data
-#' @title Get js Plot from canvasxpress_obj Object
+#' @title Get js plot from canvasxpress_obj object
 #' 
 #' @param object_id string indicating object id
 #' @param cvXpress vanvasXpress_obj object
 #' 
 #' @returns Displays the js code for plot.
 #'
-#' 
 #' @importFrom jsonlite toJSON
+#'
+#' @examples
+#' canvasXpress_obj_test <- htmlreportR:::canvasXpress_obj$new(obj_id = "1")
+#' plotter <- htmlReport$new()
+#' plotter$get_plot_data(object_id = "1", cvXpress = canvasXpress_obj_test)
+
 NULL
 htmlReport$methods(
 	get_plot_data = function(object_id, cvXpress){
@@ -949,12 +1035,17 @@ htmlReport$methods(
 #' @name compress_data
 #' @title encode and compress data json
 #' 
-#' @param data string indicating object id
+#' @param data data to compress
 #' 
 #' @returns encoded and compressed json
-#'
 #' 
 #' @importFrom jsonlite as_gzjson_b64 toJSON
+#'
+#' @examples 
+#' test_data <- "testdatatestdatatestdata"
+#' plotter <- htmlReport$new()
+#' plotter$compress_data(list(data = test_data))
+
 NULL
 htmlReport$methods(
 	compress_data = function(data){
@@ -1121,6 +1212,13 @@ htmlReport$methods(
 #' then calls canvasXpress_main to build it.
 #' @param options list with options.
 #' @returns HTML code for CanvasXpress density plot of data.
+#'
+#' @examples
+#' test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+#' test_df[1, ] <- letters[1:5]
+#' test_df[, 1] <- letters[1:5]
+#' plotter <- htmlReport$new(container = list(test_df = test_df))
+#' plotter$density(list(id = "test_df", text = "dynamic"))
 
 NULL
 htmlReport$methods(
@@ -1150,6 +1248,13 @@ htmlReport$methods(
 #' then calls canvasXpress_main to build it.
 #' @param options list with options.
 #' @returns HTML code for CanvasXpress bar plot of data.
+#'
+#' @examples
+#' test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+#' test_df[1, ] <- letters[1:5]
+#' test_df[, 1] <- letters[1:5]
+#' plotter <- htmlReport$new(container = list(test_df = test_df))
+#' plotter$barplot(list(id = "test_df", text = "dynamic"))
 
 NULL
 htmlReport$methods(
@@ -1183,6 +1288,13 @@ htmlReport$methods(
 #' then calls canvasXpress_main to build it.
 #' @param options list with options.
 #' @returns HTML code for CanvasXpress scatter2D plot of data.
+#' 
+#' @examples
+#' test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+#' test_df[1, ] <- letters[1:5]
+#' test_df[, 1] <- letters[1:5]
+#' plotter <- htmlReport$new(container = list(test_df = test_df))
+#' plotter$scatter2D(list(id = "test_df", text = "dynamic"))
 
 NULL
 htmlReport$methods(
@@ -1244,6 +1356,13 @@ htmlReport$methods(
 #' then calls canvasXpress_main to build it.
 #' @param options list with options.
 #' @returns HTML code for CanvasXpress scatter3D plot of data.
+#'
+#' @examples
+#' test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+#' test_df[1, ] <- letters[1:5]
+#' test_df[, 1] <- letters[1:5]
+#' plotter <- htmlReport$new(container = list(test_df = test_df))
+#' plotter$scatter3D(list(id = "test_df", text = "dynamic"))
 
 htmlReport$methods(
 	scatter3D = function(opt) {
@@ -1289,6 +1408,13 @@ htmlReport$methods(
 #' then calls canvasXpress_main to build it.
 #' @param options list with options.
 #' @returns HTML code for CanvasXpress line plot of data.
+#'
+#' @examples
+#' test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+#' test_df[1, ] <- letters[1:5]
+#' test_df[, 1] <- letters[1:5]
+#' plotter <- htmlReport$new(container = list(test_df = test_df))
+#' plotter$line(list(id = "test_df", text = "dynamic"))
 
 NULL
 htmlReport$methods(
@@ -1324,12 +1450,12 @@ htmlReport$methods(
 #' @param inject_string Directly inject a custom string as div.
 #' 
 #' @returns Customized div.
+#'
 #' @examples
 #' text <- "I am a div"
 #' plotter <- htmlReport$new()
-#' pretty_div <- plotter$prettify_div(code = text, preset = "magic")
-#'
-#'
+#' plotter$prettify_div(code = text, preset = "magic")
+
 NULL
 htmlReport$methods(
 	prettify_div = function(code, overflow = NULL, display = NULL,
@@ -1393,6 +1519,15 @@ htmlReport$methods(
 #'
 #' @returns Grid including every plot
 #'
+#' @examples
+#' test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+#' test_df[1, ] <- letters[1:5]
+#' test_df[, 1] <- letters[1:5]
+#' plotter <- htmlReport$new(container = list(test_df = test_df))
+#' plots_list_test <- list()
+#' plots_list_test[[1]] <- plotter$barplot(list(id = "test_df", text = "dynamic"))
+#' plots_list_test[[2]] <- plotter$density(list(id = "test_df", text = "dynamic"))
+#' plotter$plot_grid(plots_list_test)
 
 htmlReport$methods(
 	plot_grid = function(plots, width = 1600, height = NULL) {
@@ -1425,9 +1560,12 @@ htmlReport$methods(
 #' 
 #' @returns Merged table
 #'
+#' @examples
+#' container_test <- list(df_1 = data.frame(val = 1), df_2 = data.frame(val = 0))
+#' plotter <- htmlReport$new(container = container_test, compress = FALSE)
+#' plotter$merge_hashed_tables(ids = c("df_1", "df_2"))
 
 NULL
-
 htmlReport$methods(
 	merge_hashed_tables = function(ids, join_method = "rbind", alt_ids = NULL,
 								   add_colnames = FALSE, from_id_name = NULL, 
@@ -1476,8 +1614,12 @@ htmlReport$methods(
 #' 
 #' @returns A list of two tables: colspans and rowspans.
 #'
-NULL
+#' @examples
+#' test_table <- data.frame(c("A", "B", "C"), c("colspan", "E", "F"))
+#' plotter <- htmlReport$new()
+#' plotter$get_col_n_row_span(test_table)
 
+NULL
 htmlReport$methods(
 	get_col_n_row_span = function(table){
 		rowspan <- colspan <- data.frame(matrix(1, ncol = ncol(table),
@@ -1512,8 +1654,13 @@ htmlReport$methods(
 #'
 #' @returns appended HTML code specifying element spans.
 #'
-NULL
+#' @examples
+#' colspan_test <- data.frame(c(3, 2, 1), rep(1, 3), rep(1, 3))
+#' rowspan_test <- data.frame(rep(1, 3), rep(1, 3), c(1, 2, 1))
+#' plotter <- htmlReport$new()
+#' plotter$get_span(colspan_test, rowspan_test, 1, 2)
 
+NULL
 htmlReport$methods(
 	get_span = function(colspan, rowspan, row, col){
 		span <- character(0)

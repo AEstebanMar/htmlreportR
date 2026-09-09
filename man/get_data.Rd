@@ -13,3 +13,10 @@ A list containing the retrieved data and additional information.
 This method retrieves data from an
 \code{htmlReport} object based on specified options.
 }
+\examples{
+test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+test_df[1, ] <- letters[1:5]
+test_df[, 1] <- letters[1:5]
+plotter <- htmlReport$new(container = list(test_df = test_df))
+plotter$get_data(options = list(id = "test_df", transpose = FALSE, text = "dynamic"))
+}

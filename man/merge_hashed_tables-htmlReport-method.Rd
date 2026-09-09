@@ -32,3 +32,8 @@ Merged table
 \description{
 merge_hashed_tables
 }
+\examples{
+container_test <- list(df_1 = data.frame(val = 1), df_2 = data.frame(val = 0))
+plotter <- htmlReport$new(container = container_test, compress = FALSE)
+plotter$merge_hashed_tables(ids = c("df_1", "df_2"))
+}

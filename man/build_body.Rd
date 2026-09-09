@@ -18,3 +18,8 @@ by appending the specified body text to an \code{htmlReport} object.
 \details{
 Build HTML Report Body
 }
+\examples{
+\dontrun{
+	  plotter$build_body(body_text = "Some html code")
+}
+}

@@ -22,7 +22,5 @@ pretiffy_div
 \examples{
 text <- "I am a div"
 plotter <- htmlReport$new()
-pretty_div <- plotter$prettify_div(code = text, preset = "magic")
-
-
+plotter$prettify_div(code = text, preset = "magic")
 }

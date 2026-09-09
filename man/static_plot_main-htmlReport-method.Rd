@@ -57,3 +57,15 @@ preprocesses the
 data if a preprocessing function is specified, generates the plot using the
 provided plotting function, and then adds the plot to the HTML report object.
 }
+\examples{
+test_func <- function(input_obj, columns) {
+	p <- input_obj[, columns, drop = FALSE]
+	print(p)
+	return(p)
+}
+test_df <- data.frame(A = 1:5, B= 6:10, attr = "potato")
+plotter <- htmlReport$new(container = list(df1 = test_df))
+output <- plotter$static_plot_main(id = "df1",
+	text = "dynamic", plotting_function = test_func, plot_type = "plot",
+	plotting_args = list(columns = 1))
+}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/htmlreport.R
 \name{get_plot}
 \alias{get_plot}
-\title{Get Plot from htmlReport Object}
+\title{Get plot from htmlReport object}
 \arguments{
 \item{plot_obj}{A plot object like ggplot.}
 
@@ -26,5 +26,11 @@ it loads the png in base64 encoding and then displays the plot within the
 HTML report.
 }
 \details{
-Get Plot from htmlReport Object
+Get plot from htmlReport object
+}
+\examples{
+\dontrun{
+	  test_plot <- plot(head(mtcars))
+	  plotter$get_plot(plot_obj = test_plot)
+}
 }

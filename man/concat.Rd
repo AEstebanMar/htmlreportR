@@ -17,3 +17,8 @@ two strings.
 \details{
 Custom addition operator for combining htmlReport objects
 }
+\examples{
+test_text_vec <- "test" 
+plotter <- htmlReport$new()
+plotter$concat(list(text_vec = test_text_vec))
+}

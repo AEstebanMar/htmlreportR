@@ -16,3 +16,10 @@ based on specified options.
 \details{
 Retrieve Data from htmlReport Object
 }
+\examples{
+test_df <- data.frame(matrix(1, nrow = 5, ncol = 5))
+test_df[1, ] <- letters[1:5]
+test_df[, 1] <- letters[1:5]
+plotter <- htmlReport$new(container = list(test_df = test_df))
+plotter$extract_data(options = list(id = "test_df"))
+}
