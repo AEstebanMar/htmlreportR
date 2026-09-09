@@ -198,8 +198,10 @@ htmlReport$methods(
 #' 
 #' @returns Writes the HTML report to the specified output file path and removes temporary files.
 #' @examples
-#' plotter <- htmlReport$new()
-#' plotter$write_report(stdout())
+#' \dontrun{
+#' 	 plotter <- htmlReport$new(tmp_folder = tempdir())
+#' 	 plotter$write_report(stdout())
+#' }
 NULL
 htmlReport$methods(write_report = function(output_path) {
 	writeLines(all_report, output_path)
