@@ -22,9 +22,12 @@
 #' @returns A new instance of the htmlreportR class
 #' @importFrom knitr knit opts_chunk
 #'
-#' @usage
-#' plotter$build(template = "template/path/template.txt")
+#' @examples 
+#' \dontrun{
+#' 	  plotter$build(template = "template/dir/template.txt")
+#' }
 #'
+#' @noRd
 
 NULL
 htmlReport$methods(
@@ -90,10 +93,8 @@ htmlReport$methods(
 #' output <- plotter$static_plot_main(id = "df1",
 #' 	text = "dynamic", plotting_function = test_func, plot_type = "plot",
 #' 	plotting_args = list(columns = 1))
-#' @usage
-#' plotter$static_plot_main(id = "df1", text = "dynamic",
-#' 							plotting_function = test_func, plot_type = "plot",
-#' 							plotting_args = list(columns = 1))
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(static_plot_main = function(id, header = NULL, 
@@ -182,6 +183,8 @@ htmlReport$methods(static_plot_main = function(id, header = NULL,
 #' test_df <- data.frame(A = 1:5, B= 6:10, attr = "potato")
 #' plotter <- htmlReport$new(container = list(df1 = test_df))
 #' output <- plotter$static_ggplot_main(id = "df1", plotting_function = test_func)
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(
@@ -216,6 +219,9 @@ htmlReport$methods(
 #' 	 plotter <- htmlReport$new(tmp_folder = tempdir())
 #' 	 plotter$write_report(stdout())
 #' }
+#'
+#' @noRd
+
 NULL
 htmlReport$methods(write_report = function(output_path) {
 	writeLines(all_report, output_path)
@@ -320,6 +326,8 @@ htmlReport$methods(add_dynamic_js = function(){
 #' \dontrun{
 #' 	  plotter$build_body(body_text = "Some html code")
 #' }
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(build_body = function(body_text) {
@@ -420,6 +428,8 @@ htmlReport$methods(
 #' 	  test_plot <- plot(head(mtcars))
 #' 	  plotter$get_plot(plot_obj = test_plot)
 #' }
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(get_plot = function(plot_obj, width = NULL, height = NULL,
@@ -477,6 +487,8 @@ htmlReport$methods(
 #' test_df[, 1] <- letters[1:5]
 #' plotter <- htmlReport$new(container = list(test_df = test_df))
 #' plotter$get_data_for_plot(options = list(id = "test_df", transpose = FALSE, text = "dynamic"))
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(get_data_for_plot = function(options) {
@@ -501,6 +513,8 @@ htmlReport$methods(get_data_for_plot = function(options) {
 #' test_df[, 1] <- letters[1:5]
 #' plotter <- htmlReport$new(container = list(test_df = test_df))
 #' plotter$get_data(options = list(id = "test_df", transpose = FALSE, text = "dynamic"))
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(get_data = function(options) {
@@ -571,6 +585,8 @@ htmlReport$methods(get_data = function(options) {
 #' test_df[, 1] <- letters[1:5]
 #' plotter <- htmlReport$new(container = list(test_df = test_df))
 #' plotter$extract_data(options = list(id = "test_df"))
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(extract_data = function(options) {	
@@ -657,6 +673,8 @@ htmlReport$methods(extract_data = function(options) {
 #' test_df[, 1] <- letters[1:5]
 #' plotter <- htmlReport$new(container = list(test_df = test_df))
 #' plotter$add_header_row_names(data_frame = test_df, options = list(header = TRUE, row_names = TRUE))
+#' 
+#' @noRd
 
 NULL
 htmlReport$methods(add_header_row_names = function(data_frame, options) {
@@ -691,6 +709,8 @@ htmlReport$methods(add_header_row_names = function(data_frame, options) {
 #' test_text_vec <- "test" 
 #' plotter <- htmlReport$new()
 #' plotter$concat(list(text_vec = test_text_vec))
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(concat = function(text_vec) { # This is made obsolete by package glue
@@ -781,6 +801,8 @@ htmlReport$methods(load_js = function(){
 #' plotter$table(list(id = "test_df", header = TRUE,
 #' 					  row_names = TRUE, smp_attr = 2,
 #' 					  var_attr = 2))
+#'
+#' @noRd
 
 htmlReport$methods(table = function(user_options){
 	options <- list(id = NULL, header = FALSE, row_names = FALSE,
@@ -885,6 +907,8 @@ htmlReport$methods(
 #' plotter <- htmlReport$new()
 #' options <- list(border = 1, table_rownames = TRUE, rownames_col = "rownames")
 #' plotter$parse_data_frame(test_df, options, "Sample")
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(
@@ -1024,6 +1048,8 @@ htmlReport$methods(
 #' canvasXpress_obj_test <- htmlreportR:::canvasXpress_obj$new(obj_id = "1")
 #' plotter <- htmlReport$new()
 #' plotter$get_plot_data(object_id = "1", cvXpress = canvasXpress_obj_test)
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(
@@ -1061,6 +1087,8 @@ htmlReport$methods(
 #' test_data <- "testdatatestdatatestdata"
 #' plotter <- htmlReport$new()
 #' plotter$compress_data(list(data = test_data))
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(
@@ -1235,6 +1263,8 @@ htmlReport$methods(
 #' test_df[, 1] <- letters[1:5]
 #' plotter <- htmlReport$new(container = list(test_df = test_df))
 #' plotter$density(list(id = "test_df", text = "dynamic"))
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(
@@ -1271,6 +1301,8 @@ htmlReport$methods(
 #' test_df[, 1] <- letters[1:5]
 #' plotter <- htmlReport$new(container = list(test_df = test_df))
 #' plotter$barplot(list(id = "test_df", text = "dynamic"))
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(
@@ -1311,6 +1343,8 @@ htmlReport$methods(
 #' test_df[, 1] <- letters[1:5]
 #' plotter <- htmlReport$new(container = list(test_df = test_df))
 #' plotter$scatter2D(list(id = "test_df", text = "dynamic"))
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(
@@ -1379,6 +1413,8 @@ htmlReport$methods(
 #' test_df[, 1] <- letters[1:5]
 #' plotter <- htmlReport$new(container = list(test_df = test_df))
 #' plotter$scatter3D(list(id = "test_df", text = "dynamic"))
+#'
+#' @noRd
 
 htmlReport$methods(
 	scatter3D = function(opt) {
@@ -1431,6 +1467,8 @@ htmlReport$methods(
 #' test_df[, 1] <- letters[1:5]
 #' plotter <- htmlReport$new(container = list(test_df = test_df))
 #' plotter$line(list(id = "test_df", text = "dynamic"))
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(
@@ -1471,6 +1509,8 @@ htmlReport$methods(
 #' text <- "I am a div"
 #' plotter <- htmlReport$new()
 #' plotter$prettify_div(code = text, preset = "magic")
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(
@@ -1544,6 +1584,8 @@ htmlReport$methods(
 #' plots_list_test[[1]] <- plotter$barplot(list(id = "test_df", text = "dynamic"))
 #' plots_list_test[[2]] <- plotter$density(list(id = "test_df", text = "dynamic"))
 #' plotter$plot_grid(plots_list_test)
+#'
+#' @noRd
 
 htmlReport$methods(
 	plot_grid = function(plots, width = 1600, height = NULL) {
@@ -1580,6 +1622,8 @@ htmlReport$methods(
 #' container_test <- list(df_1 = data.frame(val = 1), df_2 = data.frame(val = 0))
 #' plotter <- htmlReport$new(container = container_test, compress = FALSE)
 #' plotter$merge_hashed_tables(ids = c("df_1", "df_2"))
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(
@@ -1634,6 +1678,8 @@ htmlReport$methods(
 #' test_table <- data.frame(c("A", "B", "C"), c("colspan", "E", "F"))
 #' plotter <- htmlReport$new()
 #' plotter$get_col_n_row_span(test_table)
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(
@@ -1675,6 +1721,8 @@ htmlReport$methods(
 #' rowspan_test <- data.frame(rep(1, 3), rep(1, 3), c(1, 2, 1))
 #' plotter <- htmlReport$new()
 #' plotter$get_span(colspan_test, rowspan_test, 1, 2)
+#'
+#' @noRd
 
 NULL
 htmlReport$methods(

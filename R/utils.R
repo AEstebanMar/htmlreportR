@@ -175,7 +175,11 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
 #'
 #' @param id hash_vars ID of table to process
 #' @param hash_vars plotter hash_vars slot
-#' @inheritParams merge_hashed_tables-htmlReport-method
+#' @param add_colnames A boolean. Controls colnames handling.
+#'   * `TRUE`: tables' colnames are treated as such.
+#'   * `FALSE` (the default): tables' first row is moved to colnames.
+#' @param from_id_name Name of column that contains original hash_vars IDs,
+#' to trace their origin. If NULL, this column will not be added.
 
 .add_id_column <- function(id, hash_vars, from_id_name, add_colnames = FALSE) {
     table <- hash_vars[[id]]
