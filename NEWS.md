@@ -9,7 +9,7 @@
 * New: Added reshape method to canvasXpress\_obj class. Reshapes canvas data structure to adapt to long and wide formats.
 * New: Added script to convert Rmd templates to html, making them compatible with htmlreportR. Relies on a new function (replace\_paired\_mark) under utils.R
 
-# htmlreportR 2.0
+# htmlreportR 2.0.0
 
 * New: Overhauled whole basic structure, now more closely matches python version. Usage has changed slightly, now rows and columns meant to be names now should also be counted when specifying indices in templates, as they are now treated as regular fields and rows up until drawing the plot. Allowed implementation of the following feature.
 * New: "fields" and "rows" arguments may now be added to calls of plotting methods in templates. They allow to reorder and subset data before plotting without altering the original data.
@@ -32,4 +32,5 @@
 * New: added embed\_html method to htmlReport class, uses iframes to embed an html file. It requires manual editing because of how pandoc enforces styles on embedded iframes (remove the style block inserted in the iframe). Will be fixed in htmlreportR overhaul.
 * New: Added table filtering by column values. See examples in demo template and report.
 * New: plot\_grid method, which takes a list of plots and sets them in a grid structure.
+* Fix: static_plot_main can now use plotting_args when in autoplot mode.
 

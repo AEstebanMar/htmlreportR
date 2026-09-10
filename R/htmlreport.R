@@ -168,6 +168,17 @@ htmlReport$methods(static_plot_main = function(id, header = NULL,
 #' plot and include it in the HTML report object.
 #' 
 #' @importFrom ggplot2 ggplot
+#'
+#' @examples
+#' test_func <- function(p) {
+#' 	p +
+#' 	ggplot2::geom_point(
+#' 	ggplot2::aes(x = A, y = B)
+#' 	)
+#' }
+#' test_df <- data.frame(A = 1:5, B= 6:10, attr = "potato")
+#' plotter <- htmlReport$new(container = list(df1 = test_df))
+#' output <- plotter$static_ggplot_main(id = "df1", plotting_function = test_func)
 
 NULL
 htmlReport$methods(
@@ -765,8 +776,8 @@ htmlReport$methods(load_js = function(){
 #' test_df[, 1] <- letters[1:5]
 #' plotter <- htmlReport$new(container = list(test_df = test_df))
 #' plotter$table(list(id = "test_df", header = TRUE,
-#' 									row_names = TRUE, smp_attr = 2,
-#' 									var_attr = 2))
+#' 					  row_names = TRUE, smp_attr = 2,
+#' 					  var_attr = 2))
 
 htmlReport$methods(table = function(user_options){
 	options <- list(id = NULL, header = FALSE, row_names = FALSE,
