@@ -24,3 +24,4 @@ plotter <- htmlReport$new(container = list(test_df = test_df))
 plotter$table(list(id = "test_df", header = TRUE,
 					  row_names = TRUE, smp_attr = 2,
 					  var_attr = 2))
+}
