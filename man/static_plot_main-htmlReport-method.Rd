@@ -3,6 +3,11 @@
 \name{static_plot_main-htmlReport-method}
 \alias{static_plot_main-htmlReport-method}
 \title{Generate static plot for HTML report}
+\usage{
+plotter$static_plot_main(id = "df1", text = "dynamic",
+							plotting_function = test_func, plot_type = "plot",
+							plotting_args = list(columns = 1))
+}
 \arguments{
 \item{id}{A character string specifying the identifier for the plot included
 in hash_vars.}

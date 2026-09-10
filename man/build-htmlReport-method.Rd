@@ -3,6 +3,9 @@
 \name{build-htmlReport-method}
 \alias{build-htmlReport-method}
 \title{Build HTML report from template}
+\usage{
+plotter$build(template = "template/path/template.txt")
+}
 \arguments{
 \item{template}{A character string specifying the file path of the template.}
 }
@@ -21,9 +24,4 @@ sets up Knitr options for rendering,
 renders the template using Knitr, and constructs
 the HTML report by combining the rendered
 template with the existing report content in the "htmlReport" object.
-}
-\examples{
-\dontrun{
-	  plotter$build(template = "template/dir/template.txt")
-}
 }

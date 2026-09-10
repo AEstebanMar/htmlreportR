@@ -22,10 +22,9 @@
 #' @returns A new instance of the htmlreportR class
 #' @importFrom knitr knit opts_chunk
 #'
-#' @examples 
-#' \dontrun{
-#' 	  plotter$build(template = "template/dir/template.txt")
-#' }
+#' @usage
+#' plotter$build(template = "template/path/template.txt")
+#'
 
 NULL
 htmlReport$methods(
@@ -91,6 +90,10 @@ htmlReport$methods(
 #' output <- plotter$static_plot_main(id = "df1",
 #' 	text = "dynamic", plotting_function = test_func, plot_type = "plot",
 #' 	plotting_args = list(columns = 1))
+#' @usage
+#' plotter$static_plot_main(id = "df1", text = "dynamic",
+#' 							plotting_function = test_func, plot_type = "plot",
+#' 							plotting_args = list(columns = 1))
 
 NULL
 htmlReport$methods(static_plot_main = function(id, header = NULL, 
