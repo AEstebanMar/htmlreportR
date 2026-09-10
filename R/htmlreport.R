@@ -893,10 +893,6 @@ htmlReport$methods(
 #' @param data_frame Data frame to parse
 #' @param options list with options
 #' @param table_id An integer. Table id in report
-#' @param row_names A boolean.
-#'   * `TRUE` (the default): Parse data frame row names as a column of
-#'   												 the HTML table.
-#'   * `FALSE` (the default): Do not parse data frame row names.
 #' @param colspan,rowspan Mirrors of input data_frame specifying spans.
 #' @returns A table in html format.
 #'
@@ -1739,14 +1735,18 @@ htmlReport$methods(
 
 #' embed_html
 #'
-#' @name get_span-htmlReport-method
-#' @title get col and rowspan for a table element specified by indices.
+#' @name embed_html-htmlReport-method
+#' @title build an iframe out of an html file
 #' 
-#' @param colspan,rowspan table of colspans and rowspans.
-#' @param row,col row and col indices of element whose spans to get.
-#'
+#' @param html_file path to file to embed
+#' @param width,height dimensions of iframe div
+#' @param border A boolean.
+#'   * `TRUE` (the default): Keep border in div style
+#'   * `FALSE`: Remove border from div style. 
+#' @param html_atribs Additional attributes to pass to iframe definition
 #' @returns appended HTML code specifying element spans.
 #'
+#' @noRd
 NULL
 
 htmlReport$methods(
