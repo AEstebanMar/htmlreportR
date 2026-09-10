@@ -47,3 +47,14 @@ and plot specifications. It first defines a wrapper function for ggplot
 generation, then calls the \code{static_plot_main} function to generate the
 plot and include it in the HTML report object.
 }
+\examples{
+test_func <- function(p) {
+	p +
+	ggplot2::geom_point(
+	ggplot2::aes(x = A, y = B)
+	)
+}
+test_df <- data.frame(A = 1:5, B= 6:10, attr = "potato")
+plotter <- htmlReport$new(container = list(df1 = test_df))
+output <- plotter$static_ggplot_main(id = "df1", plotting_function = test_func)
+}
