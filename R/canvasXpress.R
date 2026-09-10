@@ -1,8 +1,9 @@
-
+#' @noRd
 canvasXpress_obj$methods(run_config_chart = function(config_chart, options){
 					config_chart(.self, options)
 })
 
+#' @noRd
 canvasXpress_obj$methods(
 	inject_attributes = function(options, slot){
       	attributes <- list()
@@ -15,6 +16,7 @@ canvasXpress_obj$methods(
         }
 })
 
+#' @noRd
 canvasXpress_obj$methods(
     add_canvas_attributes = function(attr2add){
         hash_attr <- vector(mode = "list", length = length(attr2add))
@@ -27,6 +29,7 @@ canvasXpress_obj$methods(
         return(hash_attr)
 })
 
+#' @noRd
 canvasXpress_obj$methods(
 	initialize_extracode = function(options){
 		extracode <<- ""
@@ -34,6 +37,7 @@ canvasXpress_obj$methods(
         	add_ext_code(extcode)
 })
 
+#' @noRd
 canvasXpress_obj$methods(
 	segregate_data = function(obj_id, segregate){
         string  <- ""
@@ -49,6 +53,7 @@ canvasXpress_obj$methods(
         }
  })
 
+#' @noRd
 canvasXpress_obj$methods(
 	add_ext_code = function(ext_code){
 		extracode <<- paste0(extracode, ext_code, "\n")
@@ -64,6 +69,7 @@ canvasXpress_obj$methods(
     #                         'x' = x,
     #                         'z' = z)
 
+#' @noRd
 canvasXpress_obj$methods(
     variables = function (content = NULL) {
         if (is.null(content)) {
@@ -74,6 +80,7 @@ canvasXpress_obj$methods(
         invisible(return(NULL))
 })
 
+#' @noRd
 canvasXpress_obj$methods(
     samples = function (content = NULL) {
         if (is.null(content)) {
@@ -84,6 +91,7 @@ canvasXpress_obj$methods(
         invisible(return(NULL))
 })
 
+#' @noRd
 canvasXpress_obj$methods(
     values = function (content = NULL) {
         if (is.null(content)) {
@@ -94,6 +102,7 @@ canvasXpress_obj$methods(
         invisible(return(NULL))
 })
 
+#' @noRd
 canvasXpress_obj$methods(
     x = function (content = NULL) {
         if (is.null(content)) {
@@ -104,6 +113,7 @@ canvasXpress_obj$methods(
         invisible(return(NULL))
 })
 
+#' @noRd
 canvasXpress_obj$methods(
     z = function (content = NULL) {
         if (is.null(content)) {
@@ -114,6 +124,7 @@ canvasXpress_obj$methods(
         invisible(return(NULL))
 })
 
+#' @noRd
 canvasXpress_obj$methods(
     reshape = function(samples, variables, x, values) {
         new_samples <- vector(mode = "list", length = length(variables))

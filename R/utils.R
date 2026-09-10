@@ -154,6 +154,7 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
 #' @inheritParams make_html_list
 #'
 #' @returns Data frame of contents, levels and types, ready for make_html_list.
+#' @noRd
 
 .prepare_standard_triplet_df <- function(list_content, list_levels = NULL,
                                          list_types = NULL,default_type = "ul"){
@@ -180,6 +181,7 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
 #'   * `FALSE` (the default): tables' first row is moved to colnames.
 #' @param from_id_name Name of column that contains original hash_vars IDs,
 #' to trace their origin. If NULL, this column will not be added.
+#' @noRd
 
 .add_id_column <- function(id, hash_vars, from_id_name, add_colnames = FALSE) {
     table <- hash_vars[[id]]
@@ -256,6 +258,7 @@ col_to_rownames <- function(data_frame, col = 1) {
     return(data_frame)
 }
 
+#' @noRd
 .read_table <- function(file, header = FALSE, sep = "\t") {
     message("Reading file ", file)
     return(utils::read.table(file, header = header, sep = sep))
