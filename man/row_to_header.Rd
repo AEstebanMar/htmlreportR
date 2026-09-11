@@ -11,6 +11,9 @@ row_to_header(data_frame, row = 1)
 
 \item{row}{An integer. Row to set as new columns and remove from data frame.}
 }
+\value{
+The modified data frame.
+}
 \description{
 turns a row of the input data frame and turns it into its colnames, and then
 removes the actual row.

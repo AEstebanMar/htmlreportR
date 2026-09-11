@@ -11,6 +11,9 @@ col_to_rownames(data_frame, col = 1)
 
 \item{col}{An integer. Col to set as new rowumns and remove from data frame.}
 }
+\value{
+The modified data frame.
+}
 \description{
 turns a column of the input data frame and turns it into its rownames, and
 then removes the actual column.

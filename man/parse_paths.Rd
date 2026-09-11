@@ -9,12 +9,14 @@ parse_paths(string)
 \arguments{
 \item{string}{String containing paths to expand.}
 }
+\value{
+Every path found with provided expression.
+}
 \description{
 takes a vector of comma-separated paths and parses it so files can be loaded.
 If any of the paths contain wildcards, they will be expanded.
 }
 \examples{
-\dontrun{
-        parse_paths("./*/test*txt")
-       }
+dir <- file.path(find.package("htmlreportR"), "tests/*")
+parse_paths(dir)
 }
