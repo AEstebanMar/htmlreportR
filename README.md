@@ -10,7 +10,7 @@
 
 htmlreportR has not been built from scratch. It is based on its Python
 equivalent and sister project, available at
-<https://pypi.org/project/py-report-html/> for a Python equivalent.
+<https://pypi.org/project/py-report-html/>.
 
 ## Installation
 

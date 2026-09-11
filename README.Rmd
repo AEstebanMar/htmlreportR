@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/AEstebanMar/htmlreportR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AEstebanMar/htmlreportR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-htmlreportR has not been built from scratch. It is based on its Python equivalent and sister project, available at <https://pypi.org/project/py-report-html/> for a Python equivalent.
+htmlreportR has not been built from scratch. It is based on its Python equivalent and sister project, available at <https://pypi.org/project/py-report-html/>.
 
 ## Installation
 
