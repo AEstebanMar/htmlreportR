@@ -58,8 +58,16 @@ plotter <- htmlReport$new(title_doc = "Your report title",
 
 ### Tutorial
 
-In tests/demo\_examples you will find the launch.sh script. Execute it and it will generate three html files with examples on how to use our package. report.html and report\_compressed.html are the exact same, only that the second was compressed using our package's functionality. report\_lib.html is a showcase on how our package may be used in what we call "library" mode, which allows software developers to directly call htmlreportR functions instead of relying on our script.
+In tests/demo_examples you will find the launch.sh script. Execute it
+and it will generate three html files with examples on how to use our
+package. report.html and report_compressed.html are the exact same, only
+that the second was compressed using our package’s functionality.
+report_lib.html is a showcase on how our package may be used in what we
+call “library” mode, which allows software developers to directly call
+htmlreportR functions instead of relying on our script.
 
-The templates used to render these reports may be found in that same directory. They are template.txt for script mode and template\_lib.txt for library mode.
+The templates used to render these reports may be found in that same
+directory. They are template.txt for script mode and template_lib.txt
+for library mode.
 
 Happy reporting!

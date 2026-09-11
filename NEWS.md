@@ -34,3 +34,7 @@
 * New: plot\_grid method, which takes a list of plots and sets them in a grid structure.
 * Fix: static_plot_main can now use plotting_args when in autoplot mode.
 
+# htmlreportR 2.0.1
+
+* Update: example reports are no longer distributed with the package. Generate them by running the launch.sh script under tests/demo\_examples!
+
