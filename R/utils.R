@@ -198,10 +198,10 @@ make_html_list <- function(list_content, list_levels = NULL, list_types = NULL,
 #' If any of the paths contain wildcards, they will be expanded.
 #'
 #' @param string String containing paths to expand.
+#' @returns Every path found with provided expression.
 #' @examples
-#' \dontrun{
-#'         parse_paths("./*/test*txt")
-#'        }
+#' dir <- file.path(find.package("htmlreportR"), "tests/*")
+#' parse_paths(dir)
 #' @export
 
 parse_paths <- function(string) {
@@ -231,6 +231,7 @@ parse_paths <- function(string) {
 #'
 #' @param data_frame Data frame to manipulate.
 #' @param row An integer. Row to set as new columns and remove from data frame.
+#' @returns The modified data frame.
 #' @examples
 #' row_to_header(head(mtcars))
 #' @export
@@ -248,6 +249,7 @@ row_to_header <- function(data_frame, row = 1) {
 #'
 #' @param data_frame Data frame to manipulate.
 #' @param col An integer. Col to set as new rowumns and remove from data frame.
+#' @returns The modified data frame.
 #' @examples
 #' col_to_rownames(tail(mtcars))
 #' @export
