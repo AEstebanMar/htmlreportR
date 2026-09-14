@@ -38,3 +38,7 @@
 
 * Update: example reports are no longer distributed with the package. Generate them by running the launch.sh script under tests/demo\_examples!
 
+# htmlreportR 2.0.2
+
+* New: added sankey method, which takes a data frame and builds a CanvasXpress sankey diagram.
+

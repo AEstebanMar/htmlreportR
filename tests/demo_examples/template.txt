@@ -110,7 +110,7 @@ end.rcode-->
     flowchart LR
         1A[Option Parsing]
         1B[/opt/]
-        subgraph Input preparison
+        subgraph Input preparation
             A[Target generation] 
             B[Read count table]
             C[Read External DE data]
@@ -119,7 +119,7 @@ end.rcode-->
         E["`**main_degenes_Hunter**`"]
         EE[/final_results/]
         LL[main_report.Rmd]
-        subgraph Writting
+        subgraph Writing
             F[write.table]
             H>filtered_count_data.txt]
             G>control_treatment.txt]
@@ -142,7 +142,7 @@ end.rcode-->
         1B --> E
         A & B & C & D --> E
         E  ==> EE
-        1B -- output_files --> Writting
+        1B -- output_files --> Writing
         EE --> F 
         EE --all_data_normalized---> J
         EE --"all_counts_for_plotting"---> K
@@ -176,6 +176,19 @@ end.rcode-->
         union A,B,C,D[10]
         union A,B,C,E,D[39]
         '))
+
+    sankey <- data.frame(Id = paste0("smp", seq(28)),
+                         Weight = c(5, 1, 1, 1, 1, 5, 1, 1, 1, 5, 1, 1, 1, 1, 5, 2, 1, 1, 3, 1, 3, 3, 3, 1, 1, 3, 1, 1),
+                         Source = c("Brazil", "Brazil", "Brazil", "Brazil", "Canada", "Canada","Canada", "Mexico", "Mexico",
+                                    "Mexico", "Mexico", "USA", "USA", "USA", "USA", "Portugal", "Portugal", "Portugal", "Portugal",
+                                    "France", "France", "France", "France", "France", "Spain", "Spain", "Spain", "England"),
+                         Target = c("Portugal", "France", "Spain", "England", "Portugal", "France", "England", "Portugal",
+                                    "France", "Spain", "England", "Portugal", "France", "Spain", "England", "Angola", "Senegal",
+                                    "Morocco", "SouthAfrica", "Angola", "Senegal", "Mali", "Morocco", "SouthAfrica", "Senegal",
+                                    "Morocco", "SouthAfrica", "Angola"),
+                         Weight = c(1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 5, 5, 5, 5, 5, 6, 6, 6, 7))
+    plotter$hash_vars$sankey_graph <- sankey
+    cat(plotter$prettify_div(plotter$sankey(list(id = "sankey_graph", header = NULL, row_names = NULL, title = "Sankey diagram example"))))
 end.rcode-->
 
 

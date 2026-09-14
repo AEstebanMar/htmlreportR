@@ -1324,6 +1324,37 @@ htmlReport$methods(
 	return(html_string)
 })
 
+#' CanvasXpress sankey
+#'
+#' @name sankey-htmlReport-method
+#' @title Build CanvasXpress sankey diagram from R data frame
+#' @description Loads data frame and CanvasXpress options for sankey diagram,
+#' then calls canvasXpress_main to build it.
+#' @param options list with options.
+#' @returns HTML code for CanvasXpress sankey diagram of data.
+#'
+#' @examples
+#'
+#' @noRd
+NULL
+htmlReport$methods(
+	sankey = function(opt) {
+	config_chart <- function(cvX, options) {
+		cvX$config$graphType <- 'Sankey'
+		cvX$config$colorBy <- 'Weight'
+        cvX$config$graphOrientation <- 'vertical'
+        cvX$config$sankeySource <- 'Source'
+        cvX$config$sankeyTarget <- 'Target'
+        cvX$config$xAxis <- list("Weight")
+	}
+	default_options <- list('row_names' = TRUE, 'config_chart' = config_chart,
+							'text' = TRUE, 'transpose' = TRUE, 'header' = TRUE,
+							'smp_attr' = seq(3, 5))
+	default_options <- update_options(default_options, opt)
+	html_string <- canvasXpress_main(default_options)
+	return(html_string)
+})
+
 #' CanvasXpress scatter2D plot
 #'
 #' @name scatter2D-htmlReport-method
