@@ -1034,7 +1034,7 @@ htmlReport$methods(
 #' @title Get js plot from canvasxpress_obj object
 #' 
 #' @param object_id string indicating object id
-#' @param cvXpress vanvasXpress_obj object
+#' @param cvXpress CanvasXpress_obj object
 #' 
 #' @returns Displays the js code for plot.
 #'

@@ -177,18 +177,18 @@ end.rcode-->
         union A,B,C,E,D[39]
         '))
 
-    sankey <- data.frame(Id = paste0("smp", seq(28)),
-                         Weight = c(5, 1, 1, 1, 1, 5, 1, 1, 1, 5, 1, 1, 1, 1, 5, 2, 1, 1, 3, 1, 3, 3, 3, 1, 1, 3, 1, 1),
-                         Source = c("Brazil", "Brazil", "Brazil", "Brazil", "Canada", "Canada","Canada", "Mexico", "Mexico",
-                                    "Mexico", "Mexico", "USA", "USA", "USA", "USA", "Portugal", "Portugal", "Portugal", "Portugal",
-                                    "France", "France", "France", "France", "France", "Spain", "Spain", "Spain", "England"),
-                         Target = c("Portugal", "France", "Spain", "England", "Portugal", "France", "England", "Portugal",
-                                    "France", "Spain", "England", "Portugal", "France", "Spain", "England", "Angola", "Senegal",
-                                    "Morocco", "SouthAfrica", "Angola", "Senegal", "Mali", "Morocco", "SouthAfrica", "Senegal",
-                                    "Morocco", "SouthAfrica", "Angola"),
-                         Weight = c(1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 5, 5, 5, 5, 5, 6, 6, 6, 7))
+    sankey <- data.frame(c("Id", paste0("smp", seq(28))),
+                         c("Weight", 5, 1, 1, 1, 1, 5, 1, 1, 1, 5, 1, 1, 1, 1, 5, 2, 1, 1, 3, 1, 3, 3, 3, 1, 1, 3, 1, 1),
+                         c("Source", "Brazil", "Brazil", "Brazil", "Brazil", "Canada", "Canada","Canada", "Mexico", "Mexico",
+                           "Mexico", "Mexico", "USA", "USA", "USA", "USA", "Portugal", "Portugal", "Portugal", "Portugal",
+                           "France", "France", "France", "France", "France", "Spain", "Spain", "Spain", "England"),
+                         c("Target", "Portugal", "France", "Spain", "England", "Portugal", "France", "England", "Portugal",
+                           "France", "Spain", "England", "Portugal", "France", "Spain", "England", "Angola", "Senegal",
+                           "Morocco", "SouthAfrica", "Angola", "Senegal", "Mali", "Morocco", "SouthAfrica", "Senegal",
+                           "Morocco", "SouthAfrica", "Angola"),
+                         c("Weight", 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 13, 13, 13, 13, 5, 5, 5, 5, 5, 6, 6, 6, 7))
     plotter$hash_vars$sankey_graph <- sankey
-    cat(plotter$prettify_div(plotter$sankey(list(id = "sankey_graph", header = NULL, row_names = NULL, title = "Sankey diagram example"))))
+    cat(plotter$prettify_div(plotter$sankey(list(id = "sankey_graph", title = "Sankey diagram example"))))
 end.rcode-->
 
 
