@@ -518,52 +518,56 @@ htmlReport$methods(get_data_for_plot = function(options) {
 
 NULL
 htmlReport$methods(get_data = function(options) {
-	data_frame <- hash_vars[[options$id]]
-	if(is.null(options$get_table_meth)) {
-		if(!is.null(options$header)){
-			colnames(data_frame) <- paste0("var", seq(ncol(data_frame)))
-		}
-		if(!is.null(options$row_names)) {
-			rownames(data_frame) <- paste0("sample", seq(nrow(data_frame)))
-		}
-	}
-	all_data <- extract_data(options)
-	all_data$data_frame <- add_header_row_names(all_data$data_frame,
-												options)
-	if(!is.null(all_data$smp_attr)) {
-		smp_attr <- add_header_row_names(all_data$smp_attr,
-										options = list(header = options$header))
-		all_data$smp_attr <- vector(mode = "list", length = ncol(smp_attr))
-		for(i in seq(ncol(smp_attr))) {
-			all_data$smp_attr[[i]] <- c(colnames(smp_attr)[i], smp_attr[, i])
-		}
-	}
-	if(!is.null(all_data$var_attr)) {
-		var_attr <- add_header_row_names(all_data$var_attr,
-								  options = list(row_names = options$row_names))
-		all_data$var_attr <- vector(mode = "list", length = nrow(var_attr))
-		for(i in seq(nrow(var_attr))) {
-			all_data$var_attr[[i]] <- c(rownames(var_attr)[i],
-										paste(var_attr[i, ]))
-		}
-	}
-	if(options$transpose) {
-		all_data$data_frame <- as.data.frame(t(all_data$data_frame))
-		backup <- all_data$smp_attr
-		all_data$smp_attr <- all_data$var_attr
-		all_data$var_attr <- backup
-	}
-	if(options$text == "dynamic") {
-		numeric_fields <- check_numeric_fields(all_data$data_frame)
-	} else if(options$text == FALSE){
-		numeric_fields <- seq(ncol(all_data$data_frame))
+	if (is.null(hash_vars[[options$id]])) {
+		stop(paste0("ID ", options$id, " does not exist in hash vars"))
 	} else {
-		numeric_fields <- c()
+		data_frame <- hash_vars[[options$id]]
+		if(is.null(options$get_table_meth)) {
+			if(!is.null(options$header)){
+				colnames(data_frame) <- paste0("var", seq(ncol(data_frame)))
+			}
+			if(!is.null(options$row_names)) {
+				rownames(data_frame) <- paste0("sample", seq(nrow(data_frame)))
+			}
+		}
+		all_data <- extract_data(options)
+		all_data$data_frame <- add_header_row_names(all_data$data_frame,
+													options)
+		if(!is.null(all_data$smp_attr)) {
+			smp_attr <- add_header_row_names(all_data$smp_attr,
+											options = list(header = options$header))
+			all_data$smp_attr <- vector(mode = "list", length = ncol(smp_attr))
+			for(i in seq(ncol(smp_attr))) {
+				all_data$smp_attr[[i]] <- c(colnames(smp_attr)[i], smp_attr[, i])
+			}
+		}
+		if(!is.null(all_data$var_attr)) {
+			var_attr <- add_header_row_names(all_data$var_attr,
+									  options = list(row_names = options$row_names))
+			all_data$var_attr <- vector(mode = "list", length = nrow(var_attr))
+			for(i in seq(nrow(var_attr))) {
+				all_data$var_attr[[i]] <- c(rownames(var_attr)[i],
+											paste(var_attr[i, ]))
+			}
+		}
+		if(options$transpose) {
+			all_data$data_frame <- as.data.frame(t(all_data$data_frame))
+			backup <- all_data$smp_attr
+			all_data$smp_attr <- all_data$var_attr
+			all_data$var_attr <- backup
+		}
+		if(options$text == "dynamic") {
+			numeric_fields <- check_numeric_fields(all_data$data_frame)
+		} else if(options$text == FALSE){
+			numeric_fields <- seq(ncol(all_data$data_frame))
+		} else {
+			numeric_fields <- c()
+		}
+		all_data$data_frame[, numeric_fields] <- as.data.frame(lapply(
+				all_data$data_frame[, numeric_fields, drop = FALSE], as.numeric))
+		if(!is.null(options$func)) 
+			all_data$data_frame <- options$func(all_data$data_frame)
 	}
-	all_data$data_frame[, numeric_fields] <- as.data.frame(lapply(
-			all_data$data_frame[, numeric_fields, drop = FALSE], as.numeric))
-	if(!is.null(options$func)) 
-		all_data$data_frame <- options$func(all_data$data_frame)
 	return(all_data)				
 })
 
