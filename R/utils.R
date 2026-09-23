@@ -261,7 +261,15 @@ col_to_rownames <- function(data_frame, col = 1) {
 }
 
 #' @noRd
-.read_table <- function(file, header = FALSE, sep = "\t") {
+.read_table <- function(file, header, sep, quote) {
     message("Reading file ", file)
-    return(utils::read.table(file, header = header, sep = sep))
+    res <- NULL
+    if (!file.exists(file)) {
+        warning(sprintf("The file %s does not exist", file))
+    } else if (file.size(file) == 0) {
+        warning(sprintf("The file %s is empty", file))
+    } else {
+        res <- utils::read.table(file, header = header, sep = sep, quote = quote)
+    }
+    return(res)
 }

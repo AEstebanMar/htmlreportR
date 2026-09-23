@@ -28,8 +28,8 @@ main_htmlreportR <- function(options){
 	data_files <- list()
 	if (!is.null(options$data_files)){
 		table_list <- strsplit(options$data_files, ",")[[1]]
-		data_files <- lapply(table_list, .read_table, header = FALSE,
-							 sep = "\t")
+		data_files <- lapply(table_list, .read_table, header = options$header,
+							 sep = options$sep, quote = options$quote) 
 		names(data_files) <- sapply(table_list, basename)
 	}
 

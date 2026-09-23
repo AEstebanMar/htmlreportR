@@ -37,7 +37,13 @@ option_list <- list(
   optparse::make_option(c("-J", "--js_cnd"), type = "character", default=NULL,
     help = "Comma-separated URLs to javascript CDNs to include"),
   optparse::make_option(c("-m", "--menu"), type = "character", default="contents_list",
-    help = "Type of index content. Values: \"contents_list\" (the default) or \"menu\"")
+    help = "Type of index content. Values: \"contents_list\" (the default) or \"menu\""),
+  optparse::make_option(c("--header"), type = "logical", default = FALSE,
+    help = "A logical value indicating whether the file contains the names of the variables as its first line"),
+  optparse::make_option(c("--sep"), type = "character", default = "\t",
+    help = "The field separator character"),
+  optparse::make_option(c("--quote"), type = "character", default = "\"\'",
+    help = "The set of quoting characters")
   )
 
 opt <- optparse::parse_args(optparse::OptionParser(option_list=option_list))
