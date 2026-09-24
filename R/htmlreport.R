@@ -1345,15 +1345,19 @@ htmlReport$methods(
 	sankey = function(opt) {
 	config_chart <- function(cvX, options) {
 		cvX$config$graphType <- 'Sankey'
-		cvX$config$colorBy <- 'Weight'
         cvX$config$graphOrientation <- 'vertical'
         cvX$config$sankeySource <- 'Source'
         cvX$config$sankeyTarget <- 'Target'
         cvX$config$xAxis <- list("Weight")
+        if(!is.null(options$colorBy)) {
+			cvX$config$colorBy <- options$colorBy
+		}
 	}
+	smp_attr <- 3:4
+	if(!is.null(opt$colorBy)) smp_attr <- 3:5
 	default_options <- list('row_names' = TRUE, 'config_chart' = config_chart,
 							'text' = TRUE, 'transpose' = TRUE, 'header' = TRUE,
-							'smp_attr' = seq(3, 5))
+							'smp_attr' = smp_attr)
 	default_options <- update_options(default_options, opt)
 	html_string <- canvasXpress_main(default_options)
 	return(html_string)

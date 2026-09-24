@@ -176,7 +176,9 @@ end.rcode-->
         union A,B,C,D[10]
         union A,B,C,E,D[39]
         '))
+end.rcode-->
 
+<!--begin.rcode Sankey diagrams
     sankey <- data.frame(c("Id", paste0("smp", seq(28))),
                          c("Weight", 5, 1, 1, 1, 1, 5, 1, 1, 1, 5, 1, 1, 1, 1, 5, 2, 1, 1, 3, 1, 3, 3, 3, 1, 1, 3, 1, 1),
                          c("Source", "Brazil", "Brazil", "Brazil", "Brazil", "Canada", "Canada","Canada", "Mexico", "Mexico",
@@ -185,10 +187,12 @@ end.rcode-->
                          c("Target", "Portugal", "France", "Spain", "England", "Portugal", "France", "England", "Portugal",
                            "France", "Spain", "England", "Portugal", "France", "Spain", "England", "Angola", "Senegal",
                            "Morocco", "SouthAfrica", "Angola", "Senegal", "Mali", "Morocco", "SouthAfrica", "Senegal",
-                           "Morocco", "SouthAfrica", "Angola"),
-                         c("Weight", 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 13, 13, 13, 13, 5, 5, 5, 5, 5, 6, 6, 6, 7))
+                           "Morocco", "SouthAfrica", "Angola"))
     plotter$hash_vars$sankey_graph <- sankey
+    sankey2 <- cbind(sankey, c("Group", 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 13, 13, 13, 13, 5, 5, 5, 5, 5, 6, 6, 6, 7))
     cat(plotter$prettify_div(plotter$sankey(list(id = "sankey_graph", title = "Sankey diagram example"))))
+    plotter$hash_vars$sankey_graph_2 <- sankey2
+    cat(plotter$prettify_div(plotter$sankey(list(id = "sankey_graph_2", title = "Sankey with colors", colorBy = "Group"))))
 end.rcode-->
 
 
