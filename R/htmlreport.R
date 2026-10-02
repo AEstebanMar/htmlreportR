@@ -242,69 +242,137 @@ htmlReport$methods(write_report = function(output_path) {
 #' 
 NULL
 htmlReport$methods(make_head = function() {
-	concat(c("\t<title>", title, "</title>",
-			"\n<head>\n", 
-			"<meta charset=\"utf-8\">\n",
-			"<meta http-equiv=\"CACHE-CONTROL\" CONTENT=\"NO-CACHE\">\n",
-            "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n",
-            "<meta http-equiv=\"Content-Language\" content=\"en-us\" />\n",
-            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n\n"))
-	
-	css_cdn <<- c(css_cdn, 
+	concat(get_head_meta(title))
+
+	# CDN LOAD
+	cdn_list <- get_3rd_party_cdn(features)
+	third_party_css_cdn <- cdn_list$css
+	third_party_js_cdn <- cdn_list$js
+	css_cdn <<- c(css_cdn, third_party_css_cdn)
+	js_cdn <<- c(js_cdn, third_party_js_cdn)
+	## creemos que no tenemos que usar la función merge_custom_cdn()
+	concat(get_css_cdn(css_cdn))
+	concat(get_js_cdn(js_cdn))
+
+	# JS AND CSS FILE LOAD
+	files_list <- get_local_jsNcss_files(features)
+	local_css_files <- files_list$css
+	local_js_files <- files_list$js
+	css_files <<- c(css_files, local_css_files)
+	js_files <<- c(js_files, local_js_files)
+	## creemos que no tenemos que usar la función merge_custom_files()
+
+	for(css in load_css(css_files)) {
+		concat(c("<style type=\"text/css\">\n{css}\n</style>\n\n"))
+	}
+
+	for(lib in load_js(js_files)) {
+		concat(c("<script src=\"data:application/javascript;base64,{lib}\" type=\"application/javascript\"></script>\n\n"))
+	}
+
+	concat(add_dynamic_js(dynamic_js))
+	concat(c("</head>\n"))
+})
+
+
+htmlReport$methods(get_head_meta = function(title){
+	meta <- paste0(c("\t<title>", title, "</title>",
+					"\n<head>\n", 
+					"<meta charset=\"utf-8\">\n",
+					"<meta http-equiv=\"CACHE-CONTROL\" CONTENT=\"NO-CACHE\">\n",
+					"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n",
+					"<meta http-equiv=\"Content-Language\" content=\"en-us\" />\n",
+					"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n\n"))
+	return(meta)
+})
+
+htmlReport$methods(get_3rd_party_cdn = function(features){
+	third_party_css_cdn <- c()
+	third_party_js_cdn <- c()
+
+	third_party_css_cdn <- c(third_party_css_cdn, 
 		'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
 	
-	js_cdn <<- c(js_cdn,
+	third_party_js_cdn <- c(third_party_js_cdn,
             'https://code.jquery.com/jquery-3.7.1.js')
 	
 	if (features$dt_tables){ # CDN load, this library is difficult to embed in html file
 
-        css_cdn <<- c(css_cdn, 
+        third_party_css_cdn <- c(third_party_css_cdn, 
             'https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css',
             'https://cdn.datatables.net/buttons/3.0.0/css/buttons.dataTables.css')
-        js_cdn <<- c(js_cdn,
+        third_party_js_cdn <- c(third_party_js_cdn,
             'https://cdn.datatables.net/2.0.0/js/dataTables.js',
             'https://cdn.datatables.net/buttons/3.0.0/js/dataTables.buttons.js',
-            'https://cdn.datatables.net/buttons/3.0.0/js/buttons.dataTables.js',
+            # 'https://cdn.datatables.net/buttons/3.0.0/js/buttons.dataTables.js',
             'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
             'https://cdn.datatables.net/buttons/3.0.0/js/buttons.html5.min.js')
 
         if (features$pdfHtml5){
 
-            js_cdn <<- c(js_cdn,
+            third_party_js_cdn <- c(third_party_js_cdn,
                 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js',
                 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js')
         }
 	} 
 
 	if (features$mermaid) 
-		js_cdn <<- c(js_cdn,
+		third_party_js_cdn <- c(third_party_js_cdn,
 		"<script type=\"module\"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; </script>")
 
-	css_files <<- c(css_files, "htmlReport.css")
-	js_files <<- c(js_files, "htmlReport.js")
-	
-	if (features$pako) js_files <<- c(js_files, 'pako.min.js')
-
-	if (features$canvasXpress){
-		js_files <<- c(js_files, 'canvasXpress.min.js.gz')
-        css_files <<- c(css_files, 'canvasXpress.css')
-	}
-
-	concat(get_css_cdn())
-	concat(get_js_cdn())
-	load_js()
-	load_css()
-
-
-    add_dynamic_js()
-
-	concat("</head>\n")
+	return(list(css = third_party_css_cdn, js = third_party_js_cdn))
 })
 
+htmlReport$methods(get_local_jsNcss_files = function(features){
+	local_css_files <- c()
+	local_js_files <- c()
 
+	local_css_files <- c(local_css_files, "htmlReport.css")
+	local_js_files <- c(local_js_files, "htmlReport.js")
 
+	if (features$pako) local_js_files <- c(local_js_files, 'pako.min.js')
 
-htmlReport$methods(add_dynamic_js = function(){
+	if (features$canvasXpress){
+		local_js_files <- c(local_js_files, 'canvasXpress.min.js.gz')
+        local_css_files <- c(local_css_files, 'canvasXpress.css')
+	}
+
+	return(list(css = local_css_files, js = local_js_files))
+})
+
+htmlReport$methods(get_local_report = function(string, features = list(), tittle = "report", dynamic_js = c()){
+	features[["pako"]] <<- TRUE # add de JS compresion library by default
+	local_report <- c("<HTML>\n")
+	local_report <- paste0(local_report, get_head_meta(title))
+
+	cdn_list <- get_3rd_party_cdn(features)
+	local_css_cdn <- cdn_list$css
+	local_js_cdn <- cdn_list$js
+
+	local_report <- paste0(local_report, get_css_cdn(local_css_cdn))
+	local_report <- paste0(local_report, get_js_cdn(local_js_cdn))
+
+	files_list <- get_local_jsNcss_files(features)
+	local_css_files <- files_list$css
+	local_js_files <- files_list$js
+
+	for(css in load_css(local_css_files)) {
+		local_report <- paste0(local_report, "<style type=\"text/css\">\n{css}\n</style>\n\n")
+	}
+
+	for(lib in load_js(local_js_files)) {
+		local_report <- paste0(local_report, "<script src=\"data:application/javascript;base64,{lib}\" type=\"application/javascript\"></script>\n\n")
+	}
+
+	local_report <- paste0(local_report, add_dynamic_js(dynamic_js))
+	local_report <- paste0(local_report, "</head>\n")
+	local_report <- paste0(local_report, "<body>\n{string}\n</body>\n")
+	local_report <- paste0(local_report, "\n</HTML")
+
+	return(local_report)
+})
+
+htmlReport$methods(add_dynamic_js = function(dynamic_js){
 	string_chunks <- paste(dynamic_js, collapse = "\n")
 	concat(paste(c("<script>", string_chunks, "</script>",""), collapse = "\n"))
 })
@@ -704,7 +772,7 @@ htmlReport$methods(add_header_row_names = function(data_frame, options) {
 #' @description This function defines a custom addition operator for combining
 #' two strings.
 #' 
-#' @param value An object of any type that can be coerced to character.
+#' @param text_vec An object of any type that can be coerced to character.
 #' 
 #' @returns An object of class "htmlReport" with an updated @all_report which
 #' includes at the end the "value" string.
@@ -727,7 +795,7 @@ htmlReport$methods(concat = function(text_vec) { # This is made obsolete by pack
 ## JAVASCRIPT AND CSS METHODS
 ########################################################
 
-htmlReport$methods(get_js_cdn= function() {
+htmlReport$methods(get_js_cdn= function(js_cdn) {
 	parsed_js_cdn <- sapply(js_cdn, function(jc) {
 		if (grepl("^http", jc)) {
 				return(paste0("<script type=\"text/javascript\" src=\"", jc,
@@ -739,7 +807,7 @@ htmlReport$methods(get_js_cdn= function() {
 	paste(parsed_js_cdn, collapse = "\n")
 })
 
-htmlReport$methods(get_css_cdn= function() {
+htmlReport$methods(get_css_cdn = function(css_cdn) {
 	parsed_css_cdn <- sapply(css_cdn, function(cc) {
 		if (grepl("^http", cc)) {
 				return(paste0("<link rel=\"stylesheet\" type=\"text/css\" ",
@@ -759,7 +827,7 @@ htmlReport$methods(mermaid_chart = function(chart_syntax){
 
 
 
-htmlReport$methods(load_css = function(){
+htmlReport$methods(load_css = function(css_files){
 	default_css_dir <- system.file("js", package = "htmlreportR")
 	for (css_file_name in css_files){
 		if (!file.exists(css_file_name))
@@ -771,7 +839,7 @@ htmlReport$methods(load_css = function(){
 })
 
 
-htmlReport$methods(load_js = function(){
+htmlReport$methods(load_js = function(js_files){
 	default_js_dir <- system.file("js", package = "htmlreportR")
 	for (js_file_name in js_files){
 		if (!file.exists(js_file_name))
@@ -815,7 +883,8 @@ htmlReport$methods(table = function(user_options){
 					border = 1, table_rownames = TRUE, cell_align = c(),
 					attrib = list(), styled = "bs", rownames_col = "rownames",
 				 	buttons_custom = c('copyHtml5', 'excelHtml5', 'csvHtml5'),
-					filt_cols = NULL, filt_col_names = NULL, prefill = NULL)
+					filt_cols = NULL, filt_col_names = NULL, prefill = NULL,
+					lazy_load = FALSE)
 	options <- update_options(options, user_options)
 	table_attr <- parse_table_attr(options$attrib)
 	## var_attr and smp_attr remove data from the data frame, it is not
@@ -824,60 +893,73 @@ htmlReport$methods(table = function(user_options){
 	# spans <- get_col_n_row_span(data_frame)
 	## col and rowspan
 	table_id <- paste0("table_", count_objects)
+
+	local_features <- c()
+	local_dynamic_js <- c()
 	if (options$styled == "dt"){
 		if ('pdfHtml5' %in% options$buttons_custom) {
-			features['pdfHtml5'] <<- TRUE
+			local_features['pdfHtml5'] <- TRUE
 		}
 		embedded_buttons <- paste(collapse = ",", sapply(options$buttons_custom,
 												function(x) paste0("'", x,"'")))
-    	features$dt_tables <<- TRUE
-	numeric_filtering <- ""
-	if(length(options$filt_cols) > 0) {
-		numeric_filtering <- paste0("const table_", table_id, " = new DataTable('#", table_id, "');\n")
-		for(field_index in options$filt_cols) {
-			field <- field_index - 1 # R is 1-based while js is 0-based
-			field_tag <- paste(table_id, field, sep = "_")
-			num_filt <- paste0(
-					"const minEl_", field_tag, " = document.querySelector('#min_", field_tag, "');\n",
-					"const maxEl_", field_tag, " = document.querySelector('#max_", field_tag, "');\n",
-					"$.fn.dataTable.ext.search.push(function( settings, data, dataIndex ) {\n",
-					"if ( settings.nTable.id !== '", table_id, "'){return true;}\n", #apply filtering only to current table, this filtering is global
-					"var min = parseFloat(minEl_", field_tag, ".value);\n",
-					"var max = parseFloat(maxEl_", field_tag, ".value);\n",
-					"var column = parseFloat(data[", field," ]) || 0;\n", # use data for the selected column
-					"if (\n",
-						"(isNaN(min) && isNaN(max)) ||\n",
-						"(isNaN(min) && column <= max) ||\n",
-						"(min <= column && isNaN(max)) ||\n",
-						"(min <= column && column <= max)\n",
-					") {\n",
-						"return true;\n",
-					"}\n",
-					"return false;\n",
-					"});\n",
-					"minEl_", field_tag, ".addEventListener('input', function () {\n", # Changes to the inputs will trigger a redraw to update the table
-						"table_", table_id, ".draw();\n",
-					"});\n",
-					"maxEl_", field_tag, ".addEventListener('input', function () {\n",
-						"table_", table_id, ".draw();\n",
-					"});\n"
-					   )
-			numeric_filtering <- paste0(numeric_filtering, num_filt)
+    	local_features$dt_tables <- TRUE
+		numeric_filtering <- ""
+		if(length(options$filt_cols) > 0) {
+			numeric_filtering <- paste0("const table_", table_id, " = new DataTable('#", table_id, "');\n")
+			for(field_index in options$filt_cols) {
+				field <- field_index - 1 # R is 1-based while js is 0-based
+				field_tag <- paste(table_id, field, sep = "_")
+				num_filt <- paste0(
+						"const minEl_", field_tag, " = document.querySelector('#min_", field_tag, "');\n",
+						"const maxEl_", field_tag, " = document.querySelector('#max_", field_tag, "');\n",
+						"$.fn.dataTable.ext.search.push(function( settings, data, dataIndex ) {\n",
+						"if ( settings.nTable.id !== '", table_id, "'){return true;}\n", #apply filtering only to current table, this filtering is global
+						"var min = parseFloat(minEl_", field_tag, ".value);\n",
+						"var max = parseFloat(maxEl_", field_tag, ".value);\n",
+						"var column = parseFloat(data[", field," ]) || 0;\n", # use data for the selected column
+						"if (\n",
+							"(isNaN(min) && isNaN(max)) ||\n",
+							"(isNaN(min) && column <= max) ||\n",
+							"(min <= column && isNaN(max)) ||\n",
+							"(min <= column && column <= max)\n",
+						") {\n",
+							"return true;\n",
+						"}\n",
+						"return false;\n",
+						"});\n",
+						"minEl_", field_tag, ".addEventListener('input', function () {\n", # Changes to the inputs will trigger a redraw to update the table
+							"table_", table_id, ".draw();\n",
+						"});\n",
+						"maxEl_", field_tag, ".addEventListener('input', function () {\n",
+							"table_", table_id, ".draw();\n",
+						"});\n"
+						   )
+				numeric_filtering <- paste0(numeric_filtering, num_filt)
+			}
 		}
+		dynamic_js_string <- paste(c("$(document).ready(function () {",
+							        paste0("\t$('#", table_id, "').DataTable({ dom:'Bfrtip', ",
+							            "buttons: [", embedded_buttons, "], order: [] });"),
+							        numeric_filtering, "});"), collapse = "\n")
+		local_dynamic_js <- c(local_dynamic_js, dynamic_js_string)
 	}
-    	dynamic_js <<- c(dynamic_js,
-                    paste(c("$(document).ready(function () {",
-                        paste0("\t$('#", table_id,"').DataTable({ dom:'Bfrtip', ",
-                        	"buttons: [", embedded_buttons, "], order: [] });"),
-                    numeric_filtering, "});"), collapse = "\n"))    
-	}
-	count_objects <<- count_objects + 1
+
 	res <- parse_data_frame(data_frame = data_frame, options = options,
 					 table_id = table_id, table_attr = table_attr)
-	return(res)
 					 # colspan = spans$colspan, rowspan = spans$rowspans)
+	
+	if (options$lazy_load == TRUE) {
+		local_report <- get_local_report(res, features = local_features, dynamic_js = local_dynamic_js)
+		width <- gsub("px", "", options$width)
+		height <- gsub("px", "", options$height)
+		res <- embed_html(local_report, string = TRUE, html_attribs = 'loading="lazy"', width = width, height = heigth)
+	} else {
+		dynamic_js <<- c(dynamic_js, local_dynamic_js)
+		features <<- c(features, local_features)
 	}
-)
+	count_objects <<- count_objects + 1
+	return(res)
+})
 
 htmlReport$methods(
 	parse_table_attr = function(attrib){
@@ -973,7 +1055,8 @@ htmlReport$methods(
 				add_header_row_names = TRUE, transpose = TRUE,
 				x_label = "x_axis", title = "Title", config = list(),
 				after_render = c(), treeBy = "v", renamed_samples = c(),
-				renamed_variables = c(), alpha = 1, theme = "cx2", tree = NULL)
+				renamed_variables = c(), alpha = 1, theme = "cx2", tree = NULL,
+				lazy_load = FALSE)
 		            #theme= "cx2", color_scheme= "CanvasXpress", tree = NULL)
 
 	options <- update_options(options, user_options)
@@ -989,6 +1072,9 @@ htmlReport$methods(
 	}
 
 	config <- update_options(config, options$config)
+
+	local_features <- c()
+	local_dynamic_js <- c()
 
 	plot_data <- get_data_for_plot(options)
 	values <- plot_data$data_frame
@@ -1012,10 +1098,10 @@ htmlReport$methods(
 								  options = options)
 	canvasXpress$inject_attributes(options, slot="x")
 	canvasXpress$inject_attributes(options, slot="z")
-	features[['canvasXpress']] <<- TRUE
+	local_features[['canvasXpress']] <- TRUE
 	plot_data <- get_plot_data(object_id, canvasXpress)
 	   
-	dynamic_js <<- c(dynamic_js, 
+	local_dynamic_js <<- c(local_dynamic_js, 
 					paste0("$(document).ready(function () {\n",
 						plot_data,
 						 "});\n"))
@@ -1025,8 +1111,17 @@ htmlReport$methods(
     html <- paste0("<canvas  id=\"", object_id, "\" width=\"", options$width,
     			   "\" height=\"", options$height, "\" aspectRatio='1:1' ",
     			   responsive, "></canvas>")
+
+	if (options$lazy_load == TRUE) {
+		local_report <- get_local_report(html, features = local_features, dynamic_js = local_dynamic_js)
+		width <- gsub("px", "", options$width)
+		height <- gsub("px", "", options$height)
+		html <- embed_html(local_report, string = TRUE, html_attribs = 'loading="lazy"', width = width, height = heigth)
+	} else {
+		dynamic_js <<- c(dynamic_js, local_dynamic_js)
+		features <<- c(features, local_features)
+	}
     return(html)
-        
 })
 
 
