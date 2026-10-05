@@ -193,6 +193,7 @@ end.rcode-->
     cat(plotter$prettify_div(plotter$sankey(list(id = "sankey_graph", title = "Sankey diagram example"))))
     plotter$hash_vars$sankey_graph_2 <- sankey2
     cat(plotter$prettify_div(plotter$sankey(list(id = "sankey_graph_2", title = "Sankey with colors", colorBy = "Group"))))
+    cat(plotter$prettify_div(plotter$sankey(list(id = "sankey_graph_2", title = "Sankey lazy_load", lazy_load = TRUE, colorBy = "Group"))))
 end.rcode-->
 
 
@@ -221,6 +222,13 @@ end.rcode-->
                                                   smpLabelImage = TRUE, xAxisTitle = "Values"))), preset = "magic"))
 
 end.rcode-->
+
+<!--begin.rcode lazy loading, echo = TRUE
+   cat(plotter$create_title("Data table - Lazy loading", "lazy_loading", hlevel = 2, indexable = TRUE, clickable = FALSE, t_id = NULL))
+   cat(plotter$table(list(id = "table1_header.txt", header = TRUE, lazy_load = TRUE, width = 800, styled = 'dt', 
+                          attrib <- list("class" = "table"), custom_buttons = c('copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'))))
+end.rcode-->
+
 
 <!--begin.rcode filtering tables, echo = TRUE
    cat(plotter$create_title("Table filtering", "table_filtering", hlevel = 2, indexable = TRUE, clickable = FALSE, t_id = NULL))

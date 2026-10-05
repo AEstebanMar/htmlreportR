@@ -296,7 +296,7 @@ htmlReport$methods(get_3rd_party_cdn = function(features){
 	third_party_js_cdn <- c(third_party_js_cdn,
             'https://code.jquery.com/jquery-3.7.1.js')
 	
-	if (features$dt_tables){ # CDN load, this library is difficult to embed in html file
+	if(features$dt_tables){ # CDN load, this library is difficult to embed in html file
 
         third_party_css_cdn <- c(third_party_css_cdn, 
             'https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css',
@@ -308,17 +308,17 @@ htmlReport$methods(get_3rd_party_cdn = function(features){
             'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
             'https://cdn.datatables.net/buttons/3.0.0/js/buttons.html5.min.js')
 
-        if (features$pdfHtml5){
-
+        if(isTRUE(features$pdfHtml5)){
             third_party_js_cdn <- c(third_party_js_cdn,
                 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js',
                 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js')
         }
 	} 
 
-	if (features$mermaid) 
+	if(isTRUE(features$mermaid)){
 		third_party_js_cdn <- c(third_party_js_cdn,
 		"<script type=\"module\"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; </script>")
+	} 
 
 	return(list(css = third_party_css_cdn, js = third_party_js_cdn))
 })
@@ -330,9 +330,9 @@ htmlReport$methods(get_local_jsNcss_files = function(features){
 	local_css_files <- c(local_css_files, "htmlReport.css")
 	local_js_files <- c(local_js_files, "htmlReport.js")
 
-	if (features$pako) local_js_files <- c(local_js_files, 'pako.min.js')
+	if(isTRUE(features$pako)) local_js_files <- c(local_js_files, 'pako.min.js')
 
-	if (features$canvasXpress){
+	if(isTRUE(features$canvasXpress)){
 		local_js_files <- c(local_js_files, 'canvasXpress.min.js.gz')
         local_css_files <- c(local_css_files, 'canvasXpress.css')
 	}
@@ -366,7 +366,7 @@ htmlReport$methods(get_local_report = function(string, features = list(), tittle
 
 	local_report <- paste0(local_report, add_dynamic_js(dynamic_js))
 	local_report <- paste0(local_report, "</head>\n")
-	local_report <- paste0(local_report, "<body>\n{string}\n</body>\n")
+	local_report <- paste0(local_report, "<body>\n", string, "\n</body>\n")
 	local_report <- paste0(local_report, "\n</HTML")
 
 	return(local_report)
@@ -944,21 +944,21 @@ htmlReport$methods(table = function(user_options){
 		local_dynamic_js <- c(local_dynamic_js, dynamic_js_string)
 	}
 
-	res <- parse_data_frame(data_frame = data_frame, options = options,
+	html_string <- parse_data_frame(data_frame = data_frame, options = options,
 					 table_id = table_id, table_attr = table_attr)
 					 # colspan = spans$colspan, rowspan = spans$rowspans)
 	
 	if (options$lazy_load == TRUE) {
-		local_report <- get_local_report(res, features = local_features, dynamic_js = local_dynamic_js)
+		local_report <- get_local_report(html_string, features = local_features, dynamic_js = local_dynamic_js)
 		width <- gsub("px", "", options$width)
 		height <- gsub("px", "", options$height)
-		res <- embed_html(local_report, string = TRUE, html_attribs = 'loading="lazy"', width = width, height = heigth)
+		html_string <- embed_html(local_report, string = TRUE, html_attribs = 'loading="lazy"', width = width, height = height)
 	} else {
 		dynamic_js <<- c(dynamic_js, local_dynamic_js)
 		features <<- c(features, local_features)
 	}
 	count_objects <<- count_objects + 1
-	return(res)
+	return(html_string)
 })
 
 htmlReport$methods(
@@ -1101,7 +1101,7 @@ htmlReport$methods(
 	local_features[['canvasXpress']] <- TRUE
 	plot_data <- get_plot_data(object_id, canvasXpress)
 	   
-	local_dynamic_js <<- c(local_dynamic_js, 
+	local_dynamic_js <- c(local_dynamic_js, 
 					paste0("$(document).ready(function () {\n",
 						plot_data,
 						 "});\n"))
@@ -1884,13 +1884,23 @@ htmlReport$methods(
 NULL
 
 htmlReport$methods(
-	embed_html = function(html_file, width = 600, height = 600, border = TRUE, html_attribs = ""){
+	embed_html = function(html_file, width = 600, height = 600, border = TRUE, html_attribs = "", string = FALSE){
+		if(is.null(width)) { # Some methods could pass to this method this parameter as None, check to avoid this
+  			width <- 600
+		}
+		if(is.null(height)) { 
+  			width <- 600
+		}
 		if(!border & grepl("style", html_attribs)) {
 			html_attribs <- gsub("style=\"", "style=\"border:none; ", html_attribs)
 		} else html_attribs <- paste0(html_attribs, " style=\"border:none;\"")
-		html_content <- readLines(html_file)
-		html_content <- paste0(html_content, collapse = "\n")
-		html_content <- gsub("\"", "'", html_content)
+		if(string) {
+			html_string <- html_file
+		} else {
+			html_string  <- readLines(html_file)
+			html_string  <- paste0(html_string, collapse = "\n")
+		}
+		html_content <- gsub("\"", "'", html_string) # Replace double quotes with single quotes to avoid problems with HTML attributes
 		iframed_html <- paste0("<iframe width=", width, " height=", height, " ", html_attribs, " srcdoc=\"",
 											html_content, "\"></iframe>")
 		return(iframed_html)
