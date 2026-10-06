@@ -36,11 +36,11 @@ htmlReport$methods(
 		knitr::opts_chunk$set(echo = FALSE, results="asis", message=FALSE, error = FALSE, warning = FALSE)
 		plotter <- .self
 		rendered_template <- knitr::knit(text = templ, quiet = TRUE)
-		concat("<HTML>\n")
+		all_report <<- paste0(all_report, "<HTML>\n")
 		make_head()
 		build_body(rendered_template)
-
-	 	concat("\n</HTML>")
+		all_report <<- paste0(all_report, "\n</HTML>")
+		return(NULL)
 	}
 )
 
@@ -243,7 +243,6 @@ htmlReport$methods(write_report = function(output_path) {
 NULL
 htmlReport$methods(make_head = function() {
 	all_report <<- paste0(all_report, get_head_meta(title))
-	writeLines(all_report, con = "/mnt/home/users/bio_267_uma/vcarayol/dev_R/htmlreportR/tests/demo_examples/all_report.log")
 	# CDN LOAD
 	cdn_list <- get_3rd_party_cdn(features)
 	third_party_css_cdn <- cdn_list$css
@@ -251,8 +250,8 @@ htmlReport$methods(make_head = function() {
 	css_cdn <<- c(css_cdn, third_party_css_cdn)
 	js_cdn <<- c(js_cdn, third_party_js_cdn)
 	## creemos que no tenemos que usar la función merge_custom_cdn()
-	concat(get_css_cdn(css_cdn))
-	concat(get_js_cdn(js_cdn))
+	all_report <<- paste0(all_report, get_css_cdn(css_cdn))
+	all_report <<- paste0(all_report, get_js_cdn(js_cdn))
 
 	# JS AND CSS FILE LOAD
 	files_list <- get_local_jsNcss_files(features)
@@ -272,17 +271,18 @@ htmlReport$methods(make_head = function() {
 	}
 
 	all_report <<- paste0(all_report, add_dynamic_js(dynamic_js), "</head>\n")
+	return(NULL)
 })
 
 
 htmlReport$methods(get_head_meta = function(title){
-	meta <- paste0(c("\t<title>", title, "</title>",
+	meta <- paste0("\t<title>", title, "</title>",
 					"\n<head>\n", 
 					"<meta charset=\"utf-8\">\n",
 					"<meta http-equiv=\"CACHE-CONTROL\" CONTENT=\"NO-CACHE\">\n",
 					"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n",
 					"<meta http-equiv=\"Content-Language\" content=\"en-us\" />\n",
-					"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n\n"))
+					"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n\n")
 	return(meta)
 })
 
@@ -399,18 +399,17 @@ htmlReport$methods(add_dynamic_js = function(dynamic_js){
 
 NULL
 htmlReport$methods(build_body = function(body_text) {
-	concat("<body>\n")
+	all_report <<- paste0(all_report, "<body>\n")
 	if (length(index_items) > 0){
 		if (index_type == "menu") {
 			add_index_item("top_skip", "Main", min(as.numeric(index_items[,3])),
 				top = TRUE)
-			concat("<div id = 'top_skip'></div>")
+			all_report <<- paste0(all_report, "<div id = 'top_skip'></div>")
 		}
 		create_header_index()
 	}
-	concat(body_text)
-	concat("</body>\n")
-
+	all_report <<- paste0(all_report, body_text, "</body>\n")
+	return(NULL)
 })
 
 htmlReport$methods(
@@ -435,7 +434,8 @@ htmlReport$methods(
 		html_list <- make_html_list(list_content = list_content,
 									list_levels = index_numbers)
 		index <- paste0(index, "\n<div", div_id, ">\n", html_list, "</div>")
-		concat(index)
+		all_report <<- paste0(all_report, index)
+		return(NULL)
 })
 
 htmlReport$methods(add_index_item = function(id, text, hlevel, top = FALSE){
@@ -1108,13 +1108,13 @@ htmlReport$methods(
 						plot_data,
 						 "});\n"))
     responsive <- "responsive='true'"
-    if (isFALSE(options$responsive)) responsive <- "responsive='false'" 
+    if(isFALSE(options$responsive)) responsive <- "responsive='false'" 
 
     html <- paste0("<canvas  id=\"", object_id, "\" width=\"", options$width,
     			   "\" height=\"", options$height, "\" aspectRatio='1:1' ",
     			   responsive, "></canvas>")
 
-	if (options$lazy_load == TRUE) {
+	if(isTRUE(options$lazy_load)) {
 		local_report <- get_local_report(html, features = local_features, dynamic_js = local_dynamic_js)
 		width <- gsub("px", "", options$width)
 		height <- gsub("px", "", options$height)
