@@ -193,7 +193,7 @@ end.rcode-->
     cat(plotter$prettify_div(plotter$sankey(list(id = "sankey_graph", title = "Sankey diagram example"))))
     plotter$hash_vars$sankey_graph_2 <- sankey2
     cat(plotter$prettify_div(plotter$sankey(list(id = "sankey_graph_2", title = "Sankey with colors", colorBy = "Group"))))
-    cat(plotter$prettify_div(plotter$sankey(list(id = "sankey_graph_2", title = "Sankey lazy_load", lazy_load = TRUE, colorBy = "Group"))))
+    #cat(plotter$prettify_div(plotter$sankey(list(id = "sankey_graph_2", title = "Sankey lazy_load", lazy_load = TRUE, colorBy = "Group"))))
 end.rcode-->
 
 

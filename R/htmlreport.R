@@ -239,11 +239,11 @@ htmlReport$methods(write_report = function(output_path) {
 #' @description This method generates the head section of an HTML report by adding the title to an \code{htmlReport} object.
 #' 
 #' @returns An updated \code{htmlReport} object with the title added to its head section.
-#' 
+#'
 NULL
 htmlReport$methods(make_head = function() {
-	concat(get_head_meta(title))
-
+	all_report <<- paste0(all_report, get_head_meta(title))
+	writeLines(all_report, con = "/mnt/home/users/bio_267_uma/vcarayol/dev_R/htmlreportR/tests/demo_examples/all_report.log")
 	# CDN LOAD
 	cdn_list <- get_3rd_party_cdn(features)
 	third_party_css_cdn <- cdn_list$css
@@ -263,15 +263,15 @@ htmlReport$methods(make_head = function() {
 	## creemos que no tenemos que usar la función merge_custom_files()
 
 	for(css in load_css(css_files)) {
-		concat(c("<style type=\"text/css\">\n{css}\n</style>\n\n"))
+		all_report <<- paste0(all_report, "<style type=\"text/css\">\n", css, "\n</style>\n\n")
 	}
 
 	for(lib in load_js(js_files)) {
-		concat(c("<script src=\"data:application/javascript;base64,{lib}\" type=\"application/javascript\"></script>\n\n"))
+		all_report <<- paste0(all_report, "<script src=\"data:application/javascript;base64,", lib,
+							  "\" type=\"application/javascript\"></script>\n\n")
 	}
 
-	concat(add_dynamic_js(dynamic_js))
-	concat(c("</head>\n"))
+	all_report <<- paste0(all_report, add_dynamic_js(dynamic_js), "</head>\n")
 })
 
 
@@ -296,7 +296,7 @@ htmlReport$methods(get_3rd_party_cdn = function(features){
 	third_party_js_cdn <- c(third_party_js_cdn,
             'https://code.jquery.com/jquery-3.7.1.js')
 	
-	if(features$dt_tables){ # CDN load, this library is difficult to embed in html file
+	if(isTRUE(features$dt_tables)){ # CDN load, this library is difficult to embed in html file
 
         third_party_css_cdn <- c(third_party_css_cdn, 
             'https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css',
@@ -357,11 +357,11 @@ htmlReport$methods(get_local_report = function(string, features = list(), tittle
 	local_js_files <- files_list$js
 
 	for(css in load_css(local_css_files)) {
-		local_report <- paste0(local_report, "<style type=\"text/css\">\n{css}\n</style>\n\n")
+		local_report <- paste0(local_report, "<style type=\"text/css\">\n", css, "\n</style>\n\n")
 	}
 
 	for(lib in load_js(local_js_files)) {
-		local_report <- paste0(local_report, "<script src=\"data:application/javascript;base64,{lib}\" type=\"application/javascript\"></script>\n\n")
+		local_report <- paste0(local_report, "<script src=\"data:application/javascript;base64,", lib, "\" type=\"application/javascript\"></script>\n\n")
 	}
 
 	local_report <- paste0(local_report, add_dynamic_js(dynamic_js))
@@ -374,7 +374,7 @@ htmlReport$methods(get_local_report = function(string, features = list(), tittle
 
 htmlReport$methods(add_dynamic_js = function(dynamic_js){
 	string_chunks <- paste(dynamic_js, collapse = "\n")
-	concat(paste(c("<script>", string_chunks, "</script>",""), collapse = "\n"))
+	return(paste(c("<script>", string_chunks, "</script>",""), collapse = "\n"))
 })
 
 #' Build HTML Report Body
@@ -829,27 +829,29 @@ htmlReport$methods(mermaid_chart = function(chart_syntax){
 
 htmlReport$methods(load_css = function(css_files){
 	default_css_dir <- system.file("js", package = "htmlreportR")
+	loaded_css <- character(0)
 	for (css_file_name in css_files){
 		if (!file.exists(css_file_name))
 			css_file_name <- file.path(default_css_dir, css_file_name)
 
 		css_file <- paste(readLines(css_file_name, warn = FALSE), collapse="\n")
-		concat(c("<style type=\"text/css\">\n",css_file, "\n</style>\n\n"))
-	}	
+		loaded_css <- c(loaded_css, css_file)
+	}
+	return(loaded_css)
 })
 
 
 htmlReport$methods(load_js = function(js_files){
 	default_js_dir <- system.file("js", package = "htmlreportR")
+	loaded_libraries <- character(0)
 	for (js_file_name in js_files){
-		if (!file.exists(js_file_name))
+		if (!file.exists(js_file_name)) {
 			js_file_name <- file.path(default_js_dir, js_file_name)
-
+		}
 		js_file <- embed_file(js_file_name)
-
-		concat(c("<script src=\"",js_file, "\" type=\"application/javascript\"",
-			     "></script>\n\n"))
-	}	
+		loaded_libraries <- c(loaded_libraries, js_file)
+	}
+	return(loaded_libraries)
 })
 
 ########  HTML TABLES ############################
@@ -1116,7 +1118,7 @@ htmlReport$methods(
 		local_report <- get_local_report(html, features = local_features, dynamic_js = local_dynamic_js)
 		width <- gsub("px", "", options$width)
 		height <- gsub("px", "", options$height)
-		html <- embed_html(local_report, string = TRUE, html_attribs = 'loading="lazy"', width = width, height = heigth)
+		html <- embed_html(local_report, string = TRUE, html_attribs = 'loading="lazy"', width = width, height = height)
 	} else {
 		dynamic_js <<- c(dynamic_js, local_dynamic_js)
 		features <<- c(features, local_features)
