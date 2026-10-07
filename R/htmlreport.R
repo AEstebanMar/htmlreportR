@@ -1116,7 +1116,7 @@ htmlReport$methods(
 		html <- embed_html(local_report, string = TRUE, html_attribs = 'loading="lazy"', width = width, height = height)
 	} else {
 		dynamic_js <<- c(dynamic_js, local_dynamic_js)
-		features <<- c(features, local_features)
+		features <<- update_options(features, local_features)
 	}
     return(html)
 })

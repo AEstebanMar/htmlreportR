@@ -19,12 +19,12 @@ htmlReport <- setRefClass("htmlReport",
     methods = list(initialize = function(container = list(), title_doc = "",
               type_index = "contents_list", tmp_folder = tempdir(check = TRUE),
               src = find.package('htmlreportR'), compress_obj = TRUE,
-              files_css = NULL, files_js = NULL,cdn_js = NULL, cdn_css = NULL ){
+              files_css = NULL, files_js = NULL, cdn_js = NULL, cdn_css = NULL){
           hash_vars <<- container
           title <<- title_doc
-          all_report <<- NULL
-          js_cdn <<- NULL
-          css_cdn <<- NULL
+          all_report <<- character(0)
+          js_cdn <<- character(0)
+          css_cdn <<- character(0)
           mermaid <<- FALSE
           count_objects <<- 0
           index_type <<- type_index
