@@ -22,9 +22,9 @@ htmlReport <- setRefClass("htmlReport",
               files_css = NULL, files_js = NULL,cdn_js = NULL, cdn_css = NULL ){
           hash_vars <<- container
           title <<- title_doc
-          all_report <<- ""
-          js_cdn <<- ""
-          css_cdn <<- ""
+          all_report <<- NULL
+          js_cdn <<- NULL
+          css_cdn <<- NULL
           mermaid <<- FALSE
           count_objects <<- 0
           index_type <<- type_index

@@ -249,7 +249,6 @@ htmlReport$methods(make_head = function() {
 	third_party_js_cdn <- cdn_list$js
 	css_cdn <<- c(css_cdn, third_party_css_cdn)
 	js_cdn <<- c(js_cdn, third_party_js_cdn)
-	## creemos que no tenemos que usar la función merge_custom_cdn()
 	all_report <<- paste0(all_report, get_css_cdn(css_cdn))
 	all_report <<- paste0(all_report, get_js_cdn(js_cdn))
 
@@ -259,18 +258,16 @@ htmlReport$methods(make_head = function() {
 	local_js_files <- files_list$js
 	css_files <<- c(css_files, local_css_files)
 	js_files <<- c(js_files, local_js_files)
-	## creemos que no tenemos que usar la función merge_custom_files()
 
-	for(css in load_css(css_files)) {
-		all_report <<- paste0(all_report, "<style type=\"text/css\">\n", css, "\n</style>\n\n")
+	for(css in css_files) {
+		all_report <<- paste0(all_report, "<style type=\"text/css\">\n", load_css(css), "\n</style>\n\n")
 	}
 
-	for(lib in load_js(js_files)) {
-		all_report <<- paste0(all_report, "<script src=\"data:application/javascript;base64,", lib,
+	for(lib in js_files) {
+		all_report <<- paste0(all_report, "<script src=\"", load_js(lib),
 							  "\" type=\"application/javascript\"></script>\n\n")
 	}
-
-	all_report <<- paste0(all_report, add_dynamic_js(dynamic_js), "</head>\n")
+	all_report <<- paste0(all_report, add_dynamic_js(dynamic_js), "</head>\n", collapse = "\n")
 	return(NULL)
 })
 
@@ -329,9 +326,7 @@ htmlReport$methods(get_local_jsNcss_files = function(features){
 
 	local_css_files <- c(local_css_files, "htmlReport.css")
 	local_js_files <- c(local_js_files, "htmlReport.js")
-
 	if(isTRUE(features$pako)) local_js_files <- c(local_js_files, 'pako.min.js')
-
 	if(isTRUE(features$canvasXpress)){
 		local_js_files <- c(local_js_files, 'canvasXpress.min.js.gz')
         local_css_files <- c(local_css_files, 'canvasXpress.css')
@@ -374,7 +369,7 @@ htmlReport$methods(get_local_report = function(string, features = list(), tittle
 
 htmlReport$methods(add_dynamic_js = function(dynamic_js){
 	string_chunks <- paste(dynamic_js, collapse = "\n")
-	return(paste(c("<script>", string_chunks, "</script>",""), collapse = "\n"))
+	return(paste0("<script>\n", string_chunks, "\n</script>\n"))
 })
 
 #' Build HTML Report Body
@@ -400,15 +395,16 @@ htmlReport$methods(add_dynamic_js = function(dynamic_js){
 NULL
 htmlReport$methods(build_body = function(body_text) {
 	all_report <<- paste0(all_report, "<body>\n")
+	index <- NULL
 	if (length(index_items) > 0){
 		if (index_type == "menu") {
 			add_index_item("top_skip", "Main", min(as.numeric(index_items[,3])),
 				top = TRUE)
 			all_report <<- paste0(all_report, "<div id = 'top_skip'></div>")
 		}
-		create_header_index()
+		index <- create_header_index()
 	}
-	all_report <<- paste0(all_report, body_text, "</body>\n")
+	all_report <<- paste0(all_report, index, body_text, "</body>\n")
 	return(NULL)
 })
 
@@ -434,8 +430,7 @@ htmlReport$methods(
 		html_list <- make_html_list(list_content = list_content,
 									list_levels = index_numbers)
 		index <- paste0(index, "\n<div", div_id, ">\n", html_list, "</div>")
-		all_report <<- paste0(all_report, index)
-		return(NULL)
+		return(index)
 })
 
 htmlReport$methods(add_index_item = function(id, text, hlevel, top = FALSE){
@@ -804,7 +799,7 @@ htmlReport$methods(get_js_cdn= function(js_cdn) {
 		return(jc)
 	})
 	parsed_js_cdn <- c(parsed_js_cdn, "\n")
-	paste(parsed_js_cdn, collapse = "\n")
+	return(paste(parsed_js_cdn, collapse = "\n"))
 })
 
 htmlReport$methods(get_css_cdn = function(css_cdn) {
@@ -816,13 +811,13 @@ htmlReport$methods(get_css_cdn = function(css_cdn) {
 		return(cc)
 	})
 	parsed_css_cdn <- c(parsed_css_cdn, "\n")
-	paste(parsed_css_cdn, collapse = "\n")
+	return(paste(parsed_css_cdn, collapse = "\n"))
 })
 
 
 htmlReport$methods(mermaid_chart = function(chart_syntax){
 	features$mermaid <<- TRUE
-	paste0("<pre class=\"mermaid\">\n", chart_syntax, "\n</pre>")
+	return(paste0("<pre class=\"mermaid\">\n", chart_syntax, "\n</pre>"))
 })
 
 
@@ -834,7 +829,7 @@ htmlReport$methods(load_css = function(css_files){
 		if (!file.exists(css_file_name))
 			css_file_name <- file.path(default_css_dir, css_file_name)
 
-		css_file <- paste(readLines(css_file_name, warn = FALSE), collapse="\n")
+		css_file <- paste0(readLines(css_file_name, warn = FALSE), collapse="\n")
 		loaded_css <- c(loaded_css, css_file)
 	}
 	return(loaded_css)

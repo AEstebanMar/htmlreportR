@@ -11,7 +11,7 @@ embed_file <- function(input) {
             type <- mime::guess_type(input)
             b64_uri <- paste0("data:", type, ";base64,", b64)
         }else{
-            b64_uri <- xfun::base64_uri(input)
+            b64_uri <- paste0("data:application/javascript;base64,", xfun::base64_uri(input))
         }
     } else {
         b64_uri <- xfun::base64_encode(input)
