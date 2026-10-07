@@ -356,7 +356,7 @@ htmlReport$methods(get_local_report = function(string, features = list(), tittle
 	}
 
 	for(lib in load_js(local_js_files)) {
-		local_report <- paste0(local_report, "<script src=\"data:application/javascript;base64,", lib, "\" type=\"application/javascript\"></script>\n\n")
+		local_report <- paste0(local_report, "<script src=\"", lib, "\" type=\"application/javascript\"></script>\n\n")
 	}
 
 	local_report <- paste0(local_report, add_dynamic_js(dynamic_js))
@@ -952,7 +952,7 @@ htmlReport$methods(table = function(user_options){
 		html_string <- embed_html(local_report, string = TRUE, html_attribs = 'loading="lazy"', width = width, height = height)
 	} else {
 		dynamic_js <<- c(dynamic_js, local_dynamic_js)
-		features <<- c(features, local_features)
+		features <<- update_options(features, local_features)
 	}
 	count_objects <<- count_objects + 1
 	return(html_string)
@@ -1891,7 +1891,7 @@ htmlReport$methods(
 		if(!border & grepl("style", html_attribs)) {
 			html_attribs <- gsub("style=\"", "style=\"border:none; ", html_attribs)
 		} else html_attribs <- paste0(html_attribs, " style=\"border:none;\"")
-		if(string) {
+		if(isTRUE(string)) {
 			html_string <- html_file
 		} else {
 			html_string  <- readLines(html_file)
