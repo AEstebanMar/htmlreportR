@@ -32,7 +32,7 @@
 * New: added embed\_html method to htmlReport class, uses iframes to embed an html file. It requires manual editing because of how pandoc enforces styles on embedded iframes (remove the style block inserted in the iframe). Will be fixed in htmlreportR overhaul.
 * New: Added table filtering by column values. See examples in demo template and report.
 * New: plot\_grid method, which takes a list of plots and sets them in a grid structure.
-* Fix: static_plot_main can now use plotting_args when in autoplot mode.
+* Fix: static\_plot\_main can now use plotting\_args when in autoplot mode.
 
 # htmlreportR 2.0.1
 
@@ -41,4 +41,5 @@
 # htmlreportR 2.0.2
 
 * New: added sankey method, which takes a data frame and builds a CanvasXpress sankey diagram.
+* Fix: iframes now work properly, they no longer require being passed through iframe script.
 
