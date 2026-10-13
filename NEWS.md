@@ -42,4 +42,4 @@
 
 * New: added sankey method, which takes a data frame and builds a CanvasXpress sankey diagram.
 * Fix: iframes now work properly, they no longer require being passed through iframe script.
-
+* New: created new write\_standard\_json function, which is a wrapper for 'jsonlite''s write\_json that actually follows JSON format instead of an R-exclusive format.

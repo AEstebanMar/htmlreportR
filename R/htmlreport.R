@@ -1430,6 +1430,7 @@ htmlReport$methods(
 #' @returns HTML code for CanvasXpress sankey diagram of data.
 #'
 #' @examples
+#' print("You should never see this")
 #'
 #' @noRd
 NULL

@@ -7,6 +7,7 @@ export(make_html_list)
 export(parse_paths)
 export(replace_paired_mark)
 export(row_to_header)
+export(write_standard_json)
 exportClasses(htmlReport)
 importFrom(ggplot2,ggplot)
 importFrom(grDevices,
@@ -15,7 +16,8 @@ importFrom(grDevices,
 )
 importFrom(jsonlite,
   as_gzjson_b64,
-  toJSON
+  toJSON,
+  write_json
 )
 importFrom(knitr,
   knit,

@@ -273,3 +273,31 @@ col_to_rownames <- function(data_frame, col = 1) {
     }
     return(res)
 }
+
+#' write_standard_json
+#'
+#' is a wrapper for 'jsonlite''s write_json that follows the JSON format
+#'
+#' @importFrom jsonlite write_json
+#' @param x Object to encode in standard JSON format and write to disk.
+#' @param path Path where object will be written.
+#' @param null How null values will be encoded. 'jsonlite' encodes them as
+#' R lists by default.
+#' @param ... Other arguments passed to write_json (which are in turn passed to
+#' toJSON).
+#' @returns NULL
+#' @examples
+#' tmp <- tempfile()
+#' object <- list(key = "value")
+#' write_standard_json(object, tmp)
+#' unlink(tmp)
+#' @export
+#' @details
+#' 'jsonlite' is the most commonly used R library to manipulate json objects.
+#' However, its default arguments when transforming an object to JSON format
+#' do not follow the standard. This function makes it easier to write JSON
+#' files that do.
+
+write_standard_json <- function(x, path, null = "null", ...) {
+    write_json(x = x, path = path, null = null, ...)
+}
