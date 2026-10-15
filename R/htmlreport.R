@@ -584,18 +584,10 @@ htmlReport$methods(get_data = function(options) {
 	if (is.null(hash_vars[[options$id]])) {
 		stop(paste0("ID ", options$id, " does not exist in hash vars"))
 	} else {
-		data_frame <- hash_vars[[options$id]]
-		if(is.null(options$get_table_meth)) {
-			if(!is.null(options$header)){
-				colnames(data_frame) <- paste0("var", seq(ncol(data_frame)))
-			}
-			if(!is.null(options$row_names)) {
-				rownames(data_frame) <- paste0("sample", seq(nrow(data_frame)))
-			}
-		}
 		all_data <- extract_data(options)
 		all_data$data_frame <- add_header_row_names(all_data$data_frame,
 													options)
+
 		if(!is.null(all_data$smp_attr)) {
 			smp_attr <- add_header_row_names(all_data$smp_attr,
 											options = list(header = options$header))
@@ -631,7 +623,7 @@ htmlReport$methods(get_data = function(options) {
 		if(!is.null(options$func)) 
 			all_data$data_frame <- options$func(all_data$data_frame)
 	}
-	return(all_data)				
+	return(all_data)
 })
 
 
@@ -670,6 +662,12 @@ htmlReport$methods(extract_data = function(options) {
     	if(!is.null(get_table_meth)) {
     		data_frame <- get_table_meth(data_frame)
     	}
+    	if(!is.null(options$header)){
+			colnames(data_frame) <- paste0("var", seq(ncol(data_frame)))
+		}
+		if(!is.null(options$row_names)) {
+			rownames(data_frame) <- paste0("smp", seq(nrow(data_frame)))
+		}
     }
     if(length(options$var_attr) > 0){
     	var_attr <- data_frame[options$var_attr, , drop = FALSE]
@@ -881,7 +879,7 @@ htmlReport$methods(table = function(user_options){
 					attrib = list(), styled = "bs", rownames_col = "rownames",
 				 	buttons_custom = c('copyHtml5', 'excelHtml5', 'csvHtml5'),
 					filt_cols = NULL, filt_col_names = NULL, prefill = NULL,
-					lazy_load = FALSE)
+					lazy_load = FALSE, text = "dynamic")
 	options <- update_options(options, user_options)
 	table_attr <- parse_table_attr(options$attrib)
 	## var_attr and smp_attr remove data from the data frame, it is not
@@ -1049,7 +1047,7 @@ htmlReport$methods(
 				var_attr = c(), segregate = c(), show_factors = c(),
 				data_format = "one_axis", responsive = TRUE, height = "600px",
 				width = "600px", header = FALSE, row_names = FALSE,
-				add_header_row_names = TRUE, transpose = TRUE,
+				add_header_row_names = TRUE, transpose = TRUE, text = "dynamic",
 				x_label = "x_axis", title = "Title", config = list(),
 				after_render = c(), treeBy = "v", renamed_samples = c(),
 				renamed_variables = c(), alpha = 1, theme = "cx2", tree = NULL,
