@@ -1217,8 +1217,13 @@ htmlReport$methods(
 htmlReport$methods(
 	set_tree = function(options, config){
 		if(!is.character(options$tree)) {
-			warning("Tree must be a string, either a file or the output of ",
-					"ape::write_tree")
+			withCallingHandlers(
+				warning("Tree must be a string, either a file or the output of ",
+					"ape::write_tree"),
+				warning = function(w) {
+					cat(conditionMessage(w), "\n", file = stderr())
+				}
+			)
 		}
 		if(file.exists(options$tree)) {
 			tree <- tree_from_file(options$tree)
@@ -1665,8 +1670,13 @@ htmlReport$methods(
 			}
 			if(!is.null(direction)) {
 				if(is.null(display)) {
-					warning("Specified direction with incompatible display
-						argument. Setting to \"flex\"")
+					withCallingHandlers(
+						warning("Specified direction with incompatible display
+						argument. Setting to \"flex\""),
+						warning = function(w) {
+							cat(conditionMessage(w), "\n", file = stderr())
+						}
+					)
 					div_params$display <- "flex"
 				} else {
 					div_params$direction <- paste0(display, "-direction: ",
