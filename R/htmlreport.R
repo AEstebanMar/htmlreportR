@@ -33,7 +33,7 @@ NULL
 htmlReport$methods(
 	build = function(template) {
 		templ <- paste(readLines(template, warn = FALSE), collapse="\n")
-		knitr::opts_chunk$set(echo = FALSE, results="asis", message=FALSE, error = FALSE, warning = FALSE)
+		knitr::opts_chunk$set(echo = FALSE, results="asis", message=FALSE, error = FALSE, warning = TRUE)
 		plotter <- .self
 		rendered_template <- knitr::knit(text = templ, quiet = TRUE)
 		all_report <<- paste0(all_report, "<HTML>\n")
@@ -1889,12 +1889,24 @@ htmlReport$methods(
 		}
 		if(!border & grepl("style", html_attribs)) {
 			html_attribs <- gsub("style=\"", "style=\"border:none; ", html_attribs)
-		} else html_attribs <- paste0(html_attribs, " style=\"border:none;\"")
+		} else {
+			html_attribs <- paste0(html_attribs, " style=\"border:none;\"")
+		}
 		if(isTRUE(string)) {
 			html_string <- html_file
 		} else {
-			html_string  <- readLines(html_file)
-			html_string  <- paste0(html_string, collapse = "\n")
+			if(file.exists(html_file)) {
+				html_string  <- readLines(html_file)
+				html_string  <- paste0(html_string, collapse = "\n")
+			} else {
+				withCallingHandlers(
+					warning(paste0("The html file ", html_file, " does not exist and will not be included in the report")),
+					warning = function(w) {
+						cat(conditionMessage(w), "\n", file = stderr())
+					}
+				)
+				html_string <- ""
+			}
 		}
 		html_content <- gsub("\"", "'", html_string) # Replace double quotes with single quotes to avoid problems with HTML attributes
 		iframed_html <- paste0("<iframe width=", width, " height=", height, " ", html_attribs, " srcdoc=\"",
