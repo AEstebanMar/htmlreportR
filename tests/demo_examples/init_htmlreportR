@@ -1,3 +1,0 @@
-export HTMLREPORTER_MODE="DEVELOPMENT"
-source ~soft_bio_267/initializes/init_R
-export PATH=`pwd`/../../inst/scripts:$PATH
