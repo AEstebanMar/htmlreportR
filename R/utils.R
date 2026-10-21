@@ -297,8 +297,9 @@ col_to_rownames <- function(data_frame, col = 1) {
 #' @details
 #' 'jsonlite' is the most commonly used R library to manipulate json objects.
 #' However, its default arguments when transforming an object to JSON format
-#' do not follow the standard. This function makes it easier to write JSON
-#' files that do.
+#' assume some R-specific transformations need to be done. This wrapper
+#' updates those arguments so the json is not modified in unexpected ways by
+#' default, but still allows the user to customise them.
 
 write_standard_json <- function(x, path, auto_unbox = TRUE, null = "null", ...) {
     write_json(x = x, path = path, auto_unbox = TRUE, null = null, ...)

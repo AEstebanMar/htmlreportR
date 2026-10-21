@@ -26,8 +26,9 @@ is a wrapper for 'jsonlite''s write_json that follows the JSON format
 \details{
 'jsonlite' is the most commonly used R library to manipulate json objects.
 However, its default arguments when transforming an object to JSON format
-do not follow the standard. This function makes it easier to write JSON
-files that do.
+assume some R-specific transformations need to be done. This wrapper
+updates those arguments so the json is not modified in unexpected ways by
+default, but still allows the user to customise them.
 }
 \examples{
 tmp <- tempfile()
