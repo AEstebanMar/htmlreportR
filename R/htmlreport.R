@@ -587,7 +587,6 @@ htmlReport$methods(get_data = function(options) {
 		all_data <- extract_data(options)
 		all_data$data_frame <- add_header_row_names(all_data$data_frame,
 													options)
-
 		if(!is.null(all_data$smp_attr)) {
 			smp_attr <- add_header_row_names(all_data$smp_attr,
 											options = list(header = options$header))
