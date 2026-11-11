@@ -336,18 +336,19 @@ htmlReport$methods(get_local_jsNcss_files = function(features){
 })
 
 htmlReport$methods(get_local_report = function(string, features = list(), tittle = "report", dynamic_js = c()){
-	features[["pako"]] <<- TRUE # add de JS compresion library by default
+	local_features <- features
+	local_features[["pako"]] <- TRUE # add de JS compresion library by default
 	local_report <- c("<HTML>\n")
 	local_report <- paste0(local_report, get_head_meta(title))
 
-	cdn_list <- get_3rd_party_cdn(features)
+	cdn_list <- get_3rd_party_cdn(local_features)
 	local_css_cdn <- cdn_list$css
 	local_js_cdn <- cdn_list$js
 
 	local_report <- paste0(local_report, get_css_cdn(local_css_cdn))
 	local_report <- paste0(local_report, get_js_cdn(local_js_cdn))
 
-	files_list <- get_local_jsNcss_files(features)
+	files_list <- get_local_jsNcss_files(local_features)
 	local_css_files <- files_list$css
 	local_js_files <- files_list$js
 
@@ -1894,7 +1895,7 @@ htmlReport$methods(
   			width <- 600
 		}
 		if(is.null(height)) { 
-  			width <- 600
+  			height <- 600
 		}
 		if(!border & grepl("style", html_attribs)) {
 			html_attribs <- gsub("style=\"", "style=\"border:none; ", html_attribs)
