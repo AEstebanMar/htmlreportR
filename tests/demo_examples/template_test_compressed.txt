@@ -1,0 +1,13 @@
+<!--begin.rcode Sankey diagrams, echo = TRUE
+    sankey <- data.frame(c("Id", paste0("smp", seq(28))),
+                         c("Weight", 5, 1, 1, 1, 1, 5, 1, 1, 1, 5, 1, 1, 1, 1, 5, 2, 1, 1, 3, 1, 3, 3, 3, 1, 1, 3, 1, 1),
+                         c("Source", "Brazil", "Brazil", "Brazil", "Brazil", "Canada", "Canada","Canada", "Mexico", "Mexico",
+                           "Mexico", "Mexico", "USA", "USA", "USA", "USA", "Portugal", "Portugal", "Portugal", "Portugal",
+                           "France", "France", "France", "France", "France", "Spain", "Spain", "Spain", "England"),
+                         c("Target", "Portugal", "France", "Spain", "England", "Portugal", "France", "England", "Portugal",
+                           "France", "Spain", "England", "Portugal", "France", "Spain", "England", "Angola", "Senegal",
+                           "Morocco", "SouthAfrica", "Angola", "Senegal", "Mali", "Morocco", "SouthAfrica", "Senegal",
+                           "Morocco", "SouthAfrica", "Angola"))
+    plotter$hash_vars$sankey_graph <- sankey
+    cat(plotter$prettify_div(plotter$sankey(list(id = "sankey_graph", title = "Sankey diagram example"))))
+end.rcode-->
