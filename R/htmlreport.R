@@ -363,7 +363,7 @@ htmlReport$methods(get_local_report = function(string, features = list(), tittle
 	local_report <- paste0(local_report, add_dynamic_js(dynamic_js))
 	local_report <- paste0(local_report, "</head>\n")
 	local_report <- paste0(local_report, "<body>\n", string, "\n</body>\n")
-	local_report <- paste0(local_report, "\n</HTML")
+	local_report <- paste0(local_report, "\n</HTML>")
 
 	return(local_report)
 })
@@ -1404,6 +1404,7 @@ htmlReport$methods(
 	barplot = function(opt) {
 	config_chart <- function(cvX, options) {
 		cvX$config[['graphType']] <- 'Bar'
+        cvX$config[['graphOrientation']] <- 'horizontal'
 		xmod <- cvX$x()
 		if(!is.null(options$colorBy)) {
 			cvX$config$colorBy <- options$colorBy
