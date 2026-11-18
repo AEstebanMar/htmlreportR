@@ -1410,21 +1410,20 @@ htmlReport$methods(
 	barplot = function(opt) {
 	config_chart <- function(cvX, options) {
 		cvX$config[['graphType']] <- 'Bar'
-        cvX$config[['graphOrientation']] <- 'horizontal'
+		if(is.null(options$config$graphOrientation)){
+        	cvX$config[['graphOrientation']] <- 'horizontal'
+		}
 		xmod <- cvX$x()
 		if(!is.null(options$colorBy)) {
 			cvX$config$colorBy <- options$colorBy
 		}
 		if(isTRUE(options$colorScale)) {
 			xmod[[options$x_label]] <- unlist(cvX$values()[1,])
-			#el unlist es para que el subset de 1 fila devuelva un vector
 			cvX$config[['colorBy']] <- options$x_label
 		}
 		cvX$x(xmod)
 	}
-
-	default_options <- list('row_names' = TRUE,
-							'config_chart' = config_chart)
+	default_options <- list('row_names' = TRUE, 'config_chart' = config_chart)
 	default_options <- update_options(default_options, opt)
 	html_string <- canvasXpress_main(default_options)
 	return(html_string)

@@ -48,3 +48,8 @@
 
 * Fix: default sample and variable names now working properly within extract\_data
 
+# htmlreportR 2.0.4
+
+* New: barplot method has horizontal graph orientation by default (it has changed in CanvasXpress)
+* New: auxiliary functions passed to static plots and table method now admit arguments, controlled by func\_args argument
+

@@ -428,8 +428,8 @@ test_that("get_data with a transform function and arguments", {
 				    transpose = FALSE, func = add_func,
 				    func_args = 3)
 	output <- plotter$get_data(options)
-	expected_df <- data.frame(h1 = c(2.0, 2.5, 3), h2 = c(100, 200, 300),
-							  h3 = c(8, 5, 2))
+	expected_df <- data.frame(h1 = c(5.0, 5.5, 6), h2 = c(103, 203, 303),
+							  h3 = c(11, 8, 5))
 	rownames(expected_df) <- c("s2", "s3", "s4")
 	expect_equal(output$data_frame, expected_df)
 	expect_null(output$smp_attr)
@@ -726,12 +726,10 @@ test_that("testing barplot method of htmlReport class, responsive set to
 	container <- list(test_df = input_df)
 	plotter <- htmlReport$new(container = container, compress = FALSE)
 	output_string <- plotter$barplot(list(id = "test_df", title = "A",
-										  row_names = FALSE, header = TRUE,
-										  text = "dynamic", height = 300,
-										  colorScale = TRUE, responsive = FALSE,
-										  config = list(
-										  	'graphOrientation' = 'vertical')
-										  ))
+							  row_names = FALSE, header = TRUE,
+							  text = "dynamic", height = 300,
+							  colorScale = TRUE, responsive = FALSE,
+							  config = list(graphOrientation = 'vertical')))
 	output_dynamic_js <- plotter$dynamic_js
 	expect_equal(output_string, expected_string)
 	expect_equal(output_dynamic_js, expected_dynamic_js)

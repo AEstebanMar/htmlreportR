@@ -45,10 +45,10 @@ paste_tag <- function(vec, tag) {
 
 #' @noRd
 update_options <- function(ref, sub){
-        for (opt in names(sub)) {
-            ref[opt] <- sub[opt]    
-        }
-        ref
+    for(opt in names(sub)) {
+        ref[opt] <- sub[opt]    
+    }
+    return(ref)
 }
 
 #' replace_paired_mark
