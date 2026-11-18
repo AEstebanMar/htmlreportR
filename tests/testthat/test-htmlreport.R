@@ -417,6 +417,25 @@ test_that("get_data with smp_attr and var_attr. Transpose set to TRUE", {
     expect_equal(output$var_attr, expected_var_attr)
 })
 
+test_that("get_data with a transform function and arguments", {
+	add_func <- function(data_frame, value) return(data_frame + value)
+	test_data_frame = data.frame(c("h0","s2", "s3", "s4"), 
+                                 c("h1", 2, 2.5, 3),
+                                 c("h2", 100, 200, 300), 
+                                 c("h3", 8,5,2))
+	plotter <- htmlReport$new(container = list(test = test_data_frame))
+	options <- list(id = "test", header = TRUE, text = FALSE, row_names = TRUE,
+				    transpose = FALSE, func = add_func,
+				    func_args = 3)
+	output <- plotter$get_data(options)
+	expected_df <- data.frame(h1 = c(2.0, 2.5, 3), h2 = c(100, 200, 300),
+							  h3 = c(8, 5, 2))
+	rownames(expected_df) <- c("s2", "s3", "s4")
+	expect_equal(output$data_frame, expected_df)
+	expect_null(output$smp_attr)
+	expect_null(output$var_attr)
+})
+
 test_that("testing the table formatting in the class htmlReport",{
 	options <- list(id = "input_df",
 					transpose = FALSE,

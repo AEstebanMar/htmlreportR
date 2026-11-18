@@ -620,8 +620,14 @@ htmlReport$methods(get_data = function(options) {
 		}
 		all_data$data_frame[, numeric_fields] <- as.data.frame(lapply(
 				all_data$data_frame[, numeric_fields, drop = FALSE], as.numeric))
-		if(!is.null(options$func)) 
-			all_data$data_frame <- options$func(all_data$data_frame)
+		if(!is.null(options$func)) {
+			if(is.null(options$func_args)) {
+				all_data$data_frame <- options$func(all_data$data_frame)
+			} else {
+				arg_list <- c(list(all_data$data_frame), options$func_args)
+				all_data$data_frame <- do.call(options$func, arg_list)
+			}
+		}
 	}
 	return(all_data)
 })
