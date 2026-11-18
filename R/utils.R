@@ -304,3 +304,23 @@ col_to_rownames <- function(data_frame, col = 1) {
 write_standard_json <- function(x, path, auto_unbox = TRUE, null = "null", ...) {
     write_json(x = x, path = path, auto_unbox = TRUE, null = null, ...)
 }
+
+#' Function to get top N expressed features in dataset, and then calculate
+#' percentage of reads for that feature that correspond to each sample.
+#' taking into account the variablity between them
+#' @param count_data Expression data
+#' @param n Top genes to select
+#' @return Table with percentages of top N of features that belong to each
+#' sample
+#' @export
+#'  \dontrun{
+#'    make_top_n_expression_table(count_data, 5)
+#'  }
+
+make_top_n_expression_table <- function(count_data, n = 5) { # Receives samples as rows and features as columns
+    top_n_index <- order(colSums(count_data), decreasing = TRUE)[1:n]
+    top_n_count <- count_data[, top_n_index] # subsets top N features
+    sample_totals <- rowSums(count_data)
+    top_n_perc <- apply(top_n_count, 2, function(x) round(x / sample_totals * 100, 3))
+    return(top_n_perc)
+}
