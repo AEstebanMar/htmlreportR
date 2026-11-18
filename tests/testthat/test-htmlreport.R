@@ -53,7 +53,7 @@ test_that("add_header_row_names, both set to TRUE", {
 
 test_that("extract_data properly handles a redundant \"fields\" argument", {
 	plotter <- htmlReport$new()
-	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+	user_options <- list(id = "test_df", header = NULL, row_names = NULL,
 						 smp_attr = NULL, var_attr = NULL, text = "dynamic",
 						 fields = 1:2)
 	input_df <- data.frame(values = 1:4, order = c("First", "Second",
@@ -66,13 +66,13 @@ test_that("extract_data properly handles a redundant \"fields\" argument", {
 
 test_that("fields can reverse order of data frame in extract_data", {
 	plotter <- htmlReport$new()
-	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+	user_options <- list(id = "test_df", header = NULL, row_names = NULL,
 						 smp_attr = NULL, var_attr = NULL, text = "dynamic",
 						 fields = 2:1)
 	input_df <- data.frame(values = 1:4,
-							  order = c("First", "Second", "Third", "Fourth"))
-	plotter$hash_vars$test_df <- input_df
+						   order = c("First", "Second", "Third", "Fourth"))
 	rownames(input_df) <- 1:4
+	plotter$hash_vars$test_df <- input_df
 	output_df <- plotter$extract_data(user_options)$data_frame
 	expect_equal(output_df, input_df[, 2:1])
 	})
@@ -85,7 +85,7 @@ test_that("Complex case of extract_data with \"fields\" argument", {
 	input_df <- data.frame(c("row", "tissue", toupper(letters[1:3])),
 						   c("values", "connective", 1:3),
 						   c("order", "muscle", "First", "Second", "Third"))
-	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
+	rownames(input_df) <- paste0("smp", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
 	plotter$hash_vars$test_df <- input_df
 	output_df <- plotter$extract_data(user_options)$data_frame
@@ -100,7 +100,7 @@ test_that("extract_data \"fields\" argument works with var_attr", {
 					 	 fields = 2)
 	input_df <- data.frame(1:5, c("First", "Second", "Third",
 								  "Fourth", "Fifth"))
-	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
+	rownames(input_df) <- paste0("smp", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
 	plotter$hash_vars$test_df <- input_df
 	expected_df <- input_df[-1, 2, drop = FALSE]
@@ -118,7 +118,7 @@ test_that("extract_data \"fields\" argument works with smp_attr", {
 						 fields = 2)
 	input_df <- data.frame(1:5, c("First", "Second", "Third",
 								  "Fourth", "Fifth"))
-	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
+	rownames(input_df) <- paste0("smp", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
 	plotter$hash_vars$test_df <- input_df
 	output <- plotter$extract_data(user_options)
@@ -131,12 +131,12 @@ test_that("extract_data \"fields\" argument works with smp_attr", {
 
 test_that("extract_data \"fields\" argument works with var_attr and smp_attr", {
 	plotter <- htmlReport$new()
-	user_options <- list(id = "test_df", eader = FALSE, row_names = FALSE,
+	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
 						 smp_attr = 1, var_attr = 3, text = "dynamic",
 						 fields = 2)
 	input_df <- data.frame(toupper(letters[1:5]), 1:5, letters[1:5],
 					       c("First", "Second", "Third", "Fourth", "Fifth"))
-	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
+	rownames(input_df) <- paste0("smp", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
 	plotter$hash_vars$test_df <- input_df
 	output <- plotter$extract_data(user_options)
@@ -150,7 +150,7 @@ test_that("extract_data \"fields\" argument works with var_attr and smp_attr", {
 
 test_that("extract_data properly handles a redundant \"rows\" argument", {
 	plotter <- htmlReport$new()
-	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+	user_options <- list(id = "test_df", header = NULL, row_names = NULL,
 						 smp_attr = NULL, var_attr = NULL, text = "dynamic",
 						 rows = 1:4)
 	input_df <- data.frame(values = 1:4, order = c("First", "Second",
@@ -163,11 +163,11 @@ test_that("extract_data properly handles a redundant \"rows\" argument", {
 
 test_that("rows can reverse order of data frame in extract_data", {
 	plotter <- htmlReport$new()
-	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
+	user_options <- list(id = "test_df", header = NULL, row_names = NULL,
 						 smp_attr = NULL, var_attr = NULL, text = "dynamic",
 						 rows = 4:1)
 	input_df <- data.frame(values = 1:4,
-							  order = c("First", "Second", "Third", "Fourth"))
+						   order = c("First", "Second", "Third", "Fourth"))
 	rownames(input_df) <- 1:4
 	plotter$hash_vars$test_df <- input_df
 	output_df <- plotter$extract_data(user_options)$data_frame
@@ -182,7 +182,7 @@ test_that("Complex case of extract_data with \"rows\" argument", {
 	input_df <- data.frame(c("row", "tissue", toupper(letters[1:3])),
 						   c("values", "connective", 1:3),
 						   c("order", "muscle", "First", "Second", "Third"))
-	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
+	rownames(input_df) <- paste0("smp", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
 	plotter$hash_vars$test_df <- input_df
 	output_df <- plotter$extract_data(user_options)$data_frame
@@ -197,7 +197,7 @@ test_that("extract_data \"rows\" argument works with var_attr", {
 						 rows = 2)
 	input_df <- data.frame(1:5, c("First", "Second", "Third",
 								  "Fourth", "Fifth"))
-	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
+	rownames(input_df) <- paste0("smp", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
 	plotter$hash_vars$test_df <- input_df
 	output <- plotter$extract_data(user_options)
@@ -214,7 +214,7 @@ test_that("extract_data \"rows\" argument works with smp_attr", {
 						 var_attr = NULL, text = "dynamic", rows = 2)
 	input_df <- data.frame(1:5, c("First", "Second", "Third",
 								  "Fourth", "Fifth"))
-	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
+	rownames(input_df) <- paste0("smp", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
 	plotter$hash_vars$test_df <- input_df
 	output <- plotter$extract_data(user_options)
@@ -232,7 +232,7 @@ test_that("extract_data \"rows\" argument works with var_attr and smp_attr", {
 						 fields = 2)
 	input_df <- data.frame(toupper(letters[1:5]), 1:5, letters[1:5],
 					       c("First", "Second", "Third", "Fourth", "Fifth"))
-	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
+	rownames(input_df) <- paste0("smp", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
 	plotter$hash_vars$test_df <- input_df
 	output <- plotter$extract_data(user_options)
@@ -252,7 +252,7 @@ test_that("extract_data works with var_attr and smp_attr with no \"rows\"
 						 smp_attr = 1, var_attr = 3, text = "dynamic")
 	input_df <- data.frame(toupper(letters[1:5]), 1:5, letters[1:5],
 						   c("First", "Second", "Third", "Fourth", "Fifth"))
-	rownames(input_df) <- paste0("sample", seq(nrow(input_df)))
+	rownames(input_df) <- paste0("smp", seq(nrow(input_df)))
 	colnames(input_df) <- paste0("var", seq(ncol(input_df)))
 	plotter$hash_vars$test_df <- input_df
 	output <- plotter$extract_data(user_options)
@@ -273,7 +273,8 @@ test_that("Simple case for extract_data", {
 	plotter$hash_vars$test_df <- input_df
 	expected_df <- data.frame(V1 = c("h0","r1", "r2"), 
 							  V2 = c("h1", "1", "2"),
-							  V3 = c("h2", "3", "4"))
+							  V3 = c("h2", "3", "4"),
+							  row.names =1:3)
    	user_options <- list(id = "test_df", header = NULL, row_names = NULL,
    						 smp_attr = NULL, var_attr = NULL, text = TRUE)
     output <- plotter$extract_data(user_options)
@@ -287,9 +288,10 @@ test_that("extract_data with var_attr, text set to dynamic", {
 	input_df <- data.frame(V1 = c("h0", "r1", "r2"), V2 = c("h1", 1:2), 
 						   V3 = c("h2", 3:4))
 	plotter$hash_vars$test_df <- input_df
-	expected_df <- data.frame(V1 = c("r1", "r2"), V2 = c("1", "2"),
-							  V3 = c("3", "4"), row.names = 2:3)
-	expected_var_attr <- data.frame(V1 = "h0", V2 = "h1", V3 = "h2")
+	expected_df <- data.frame(var1 = c("r1", "r2"), var2 = c("1", "2"),
+							  var3 = c("3", "4"), row.names = paste0("smp", 2:3))
+	expected_var_attr <- data.frame(var1 = "h0", var2 = "h1", var3 = "h2",
+									row.names = "smp1")
    	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE, smp_attr = NULL,
    						 var_attr = 1, text = "dynamic")
     output <- plotter$extract_data(user_options)
@@ -305,9 +307,11 @@ test_that("extract_data with smp_attr, text set to TRUE", {
 	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
 						 smp_attr = 1, var_attr = NULL, text = TRUE)
 	plotter$hash_vars$test_df <- input_df
-	expected_df <- data.frame(V2 = c("h1", "1", "2"), 
-							  V3 = c("h2", "3", "4"))
-	expected_smp_attr <- data.frame(V1 = c("h0", "r1", "r2"))
+	expected_df <- data.frame(var2 = c("h1", "1", "2"), 
+							  var3 = c("h2", "3", "4"),
+							  row.names = paste0("smp", 1:3))
+	expected_smp_attr <- data.frame(var1 = c("h0", "r1", "r2"),
+									row.names = paste0("smp", 1:3))
    	output <- plotter$extract_data(user_options)
     expect_equal(output$data_frame, expected_df)
 	expect_equal(output$smp_attr, expected_smp_attr)
@@ -321,10 +325,12 @@ test_that("extract_data with smp_attr and var_attr", {
 	plotter$hash_vars$test_df <- input_df
 	user_options <- list(id = "test_df", header = FALSE, row_names = FALSE,
 						 smp_attr = 1, var_attr = 1, text = FALSE)
-	expected_df <- data.frame(V2 = as.character(1:2), V3 = as.character(3:4),
-							  row.names = 2:3)
-	expected_var_attr <- data.frame(V2 = "h1", V3 = "h2")
-	expected_smp_attr <- data.frame(V1 = c("r1", "r2"), row.names = 2:3)
+	expected_df <- data.frame(var2 = as.character(1:2), var3 = as.character(3:4),
+							  row.names = paste0("smp", 2:3))
+	expected_var_attr <- data.frame(var2 = "h1", var3 = "h2",
+									row.names = "smp1")
+	expected_smp_attr <- data.frame(var1 = c("r1", "r2"),
+									row.names = paste0("smp", 2:3))
     output <- plotter$extract_data(user_options)
     expect_equal(output$data_frame, expected_df)
     expect_equal(output$smp_attr, expected_smp_attr)
@@ -652,12 +658,12 @@ test_that("testing scatter2D method of htmlReport class", {
 								  "data, conf, events, info, afterRender);\n})",
 								  ";\n")
 	container <- list(test_data_frame = data.frame(
-								"V1" = c("h0","s2", "s3", "s4"), 
-                                "V2" = c("f1", "high", "low", "average"),
-                                "V3" = c("f2", "big", "small", "medium"), 
-                                "V4" = c("v1", 10, 5, 9),
-                                "V5" = c("v2", 15, 6, 10),
-                                "V6" = c("v3", 12, 8, 11), 
+								"var1" = c("h0","s2", "s3", "s4"), 
+                                "var2" = c("f1", "high", "low", "average"),
+                                "var3" = c("f2", "big", "small", "medium"), 
+                                "var4" = c("v1", 10, 5, 9),
+                                "var5" = c("v2", 15, 6, 10),
+                                "var6" = c("v3", 12, 8, 11), 
                       row.names = c(1, 2, 3, 4)))
 	plotter <- htmlReport$new(container = container, compress = FALSE)
 	output_string <- plotter$scatter2D(list(id = "test_data_frame", title = "A",
@@ -679,8 +685,8 @@ test_that("testing barplot method of htmlReport class, responsive set to
 							  "canvas>")
 	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data =",
 								  " {\"y\":{\"vars\":[\"h0\",\"h1\",\"h2\",",
-								  "\"h3\"],\"smps\":[\"2\",\"3\",",
-								  "\"4\"],\"data\":[[\"s2\",\"s3\",\"s4",
+								  "\"h3\"],\"smps\":[\"smp2\",\"smp3\",",
+								  "\"smp4\"],\"data\":[[\"s2\",\"s3\",\"s4",
 								  "\"],[\"1\",\"2\",\"3\"],[\"4\",\"5\",\"6\"]",
 								  ",[\"7\",\"8\",\"9\"]]},\"x\":{\"x_axis\":[",
 								  "\"s2\",\"s3\",\"s4\"]},\"",
@@ -718,14 +724,14 @@ test_that("testing barplot method of htmlReport class, colorBy", {
 							  "\"300\" aspectRatio='1:1' responsive='true'></",
 							  "canvas>")
 	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data =",
-		" {\"y\":{\"vars\":[\"h1\",\"h2\",\"h3\"],\"smps\":[\"2\",\"3\",\"4\"]",
-		",\"data\":[[1,2,3],[4,5,6],[7,8,9]]},\"x\":{\"h0\":[\"s2\",\"s3\",\"s",
-		"4\"]},\"z\":[]};\nvar conf = {\"toolbarType\":\"under\",\"xAxisTitle",
-		"\":\"x_axis\",\"title\":\"A\",\"objectColorTransparency\":1,\"theme\"",
-		":\"cx2\",\"graphOrientation\":\"vertical\",\"graphType\":\"Bar\",\"",
-		"colorBy\":\"V1\"};\nvar events = false;\nvar info = false;\nvar ",
-		"afterRender = [];\nvar Cobj_0_ = new CanvasXpress(\"obj_0_\", data, ",
-		"conf, events, info, afterRender);\n});\n")
+		" {\"y\":{\"vars\":[\"h1\",\"h2\",\"h3\"],\"smps\":[\"smp2\",\"smp3\",",
+		"\"smp4\"],\"data\":[[1,2,3],[4,5,6],[7,8,9]]},\"x\":{\"h0\":[\"s2\",",
+		"\"s3\",\"s4\"]},\"z\":[]};\nvar conf = {\"toolbarType\":\"under\",\"",
+		"xAxisTitle\":\"x_axis\",\"title\":\"A\",\"objectColorTransparency\":1",
+		",\"theme\":\"cx2\",\"graphOrientation\":\"vertical\",\"graphType\":",
+		"\"Bar\",\"colorBy\":\"V1\"};\nvar events = false;\nvar info = false;",
+		"\nvar afterRender = [];\nvar Cobj_0_ = new CanvasXpress(\"obj_0_\", ",
+		"data, conf, events, info, afterRender);\n});\n")
 	input_df <- data.frame(V1 = c("h0", "s2", "s3", "s4"),
 						   V2 = c("h1", 1, 2, 3),
 					  	   V3 = c("h2", 4, 5, 6), V4 = c("h3", 7, 8, 9),
@@ -751,8 +757,8 @@ test_that("testing line method of htmlReport class", {
 							  "responsive='true'></canvas>")
 	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data",
 								  " = {\"y\":{\"vars\":[\"h0\",\"h1\",\"h2\",",
-								  "\"h3\"],\"smps\":[\"2\",\"3\",",
-								  "\"4\"],\"data\":[[\"s2\",\"s3\",\"s4",
+								  "\"h3\"],\"smps\":[\"smp2\",\"smp3\",",
+								  "\"smp4\"],\"data\":[[\"s2\",\"s3\",\"s4",
 								  "\"],[\"1\",\"2\",\"3\"],[\"4\",\"5\",\"6\"]",
 								  ",[\"7\",\"8\",\"9\"]]},\"x\":[],\"z\":[]};",
 								  "\nvar conf = {\"toolbarType\":\"under\",\"",
@@ -948,14 +954,14 @@ test_that("Testing simple heatmap", {
 							  "\"600px\" aspectRatio='1:1' responsive='true'><",
 							  "/canvas>")
 	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data =",
-		" {\"y\":{\"vars\":[\"V1\",\"V2\",\"V3\"],\"smps\":[\"V1\",\"V2\",\"V3",
-		"\",\"V4\",\"V5\",\"V6\"],\"data\":[[0,1,2,3,4,5],[10,11,12,13,14,15],",
-		"[20,21,22,23,24,25]]},\"x\":[],\"z\":[]};\nvar conf = {\"toolbarType",
-		"\":\"under\",\"xAxisTitle\":\"x_axis\",\"title\":\"Title\",\"",
-		"objectColorTransparency\":1,\"theme\":\"cx2\",\"graphType\":\"Heatmap",
-		"\"};\nvar events = false;\nvar info = false;\nvar afterRender = [];",
-		"\nvar Cobj_0_ = new CanvasXpress(\"obj_0_\", data, conf, events, ",
-		"info, afterRender);\n});\n")
+		" {\"y\":{\"vars\":[\"var1\",\"var2\",\"var3\"],\"smps\":[\"smp1\",",
+		"\"smp2\",\"smp3\",\"smp4\",\"smp5\",\"smp6\"],\"data\":[[0,1,2,3,4,5]",
+		",[10,11,12,13,14,15],[20,21,22,23,24,25]]},\"x\":[],\"z\":[]};\nvar",
+		" conf = {\"toolbarType\":\"under\",\"xAxisTitle\":\"x_axis\",\"title",
+		"\":\"Title\",\"objectColorTransparency\":1,\"theme\":\"cx2\",\"",
+		"graphType\":\"Heatmap\"};\nvar events = false;\nvar info = false;\n",
+		"var afterRender = [];\nvar Cobj_0_ = new CanvasXpress(\"obj_0_\",",
+		" data, conf, events, info, afterRender);\n});\n")
 	df <- data.frame(V1 = 0:5, V2 = 10:15, V3 = 20:25)
 	container <- list(test_data_frame = df)
 	options <- list(id = "test_data_frame", header = FALSE, text = FALSE,
@@ -974,14 +980,15 @@ test_that("Testing double heatmap", {
 							  "\"600px\" aspectRatio='1:1' responsive='true'><",
 							  "/canvas>")
 	expected_dynamic_js <- paste0("$(document).ready(function () {\nvar data =",
-		" {\"y\":{\"vars\":[\"V1\",\"V2\",\"V3\"],\"smps\":[\"V1\",\"V2\",\"V3",
-		"\",\"V4\",\"V5\",\"V6\"],\"data\":[[0,1,2,3,4,5],[10,11,12,13,14,15],",
-		"[20,21,22,23,24,25]],\"data2\":[[0,1,1.4142,1.7321,2,2.2361],[3.1623,",
-		"3.3166,3.4641,3.6056,3.7417,3.873],[4.4721,4.5826,4.6904,4.7958,4.899",
-		",5]]},\"x\":[],\"z\":[]};\nvar conf = {\"toolbarType\":\"under\",\"",
-		"xAxisTitle\":\"x_axis\",\"title\":\"Title\",\"objectColorTransparency",
-		"\":1,\"theme\":\"cx2\",\"graphType\":\"Heatmap\",\"guidesShow\":true,",
-		"\"heatmapIndicatorPosition\":\"top\",\"sizeBy\":\"Size\",\"sizeByData",
+		" {\"y\":{\"vars\":[\"var1\",\"var2\",\"var3\"],\"smps\":[\"smp1\",",
+		"\"smp2\",\"smp3\",\"smp4\",\"smp5\",\"smp6\"],\"data\":",
+		"[[0,1,2,3,4,5],[10,11,12,13,14,15],[20,21,22,23,24,25]],\"data2\"",
+		":[[0,1,1.4142,1.7321,2,2.2361],[3.1623,3.3166,3.4641,3.6056,3.7417,",
+		"3.873],[4.4721,4.5826,4.6904,4.7958,4.899,5]]},\"x\":[],\"z\":[]};\n",
+		"var conf = {\"toolbarType\":\"under\",\"xAxisTitle\":\"x_axis\",\"",
+		"title\":\"Title\",\"objectColorTransparency\":1,\"theme\":\"cx2\",",
+		"\"graphType\":\"Heatmap\",\"guidesShow\":true,\"",
+		"heatmapIndicatorPosition\":\"top\",\"sizeBy\":\"Size\",\"sizeByData",
 		"\":\"data2\"};\nvar events = false;\nvar info = false;\nvar ",
 		"afterRender = [];\nvar Cobj_0_ = new CanvasXpress(\"obj_0_\", data,",
 		" conf, events, info, afterRender);\n});\n")
